@@ -28,7 +28,7 @@ public class SQLlite_constants {
         }
        
        Statement state = con.createStatement();
-       ResultSet res = state.executeQuery("SELECT Freq,Mu0,Epsi0,Mu1,Epsi1 FROM constants");
+       ResultSet res = state.executeQuery("SELECT Freq,Mu0,Epsi0,Mu1,Epsi1,AkcneB,AkcneE FROM constants");
        return res;
     }
 
@@ -49,15 +49,17 @@ public class SQLlite_constants {
                  // Postavime tabulku
                  Statement state2 = con.createStatement();
                  state2.execute("CREATE TABLE constants(id integer,"
-                                + "Freq varchar(60)," + "Mu0 varchar(60)," + "Epsi0 varchar(60),"+ "Mu1 varchar(60)," + "Epsi1 varchar(60),"+ "primary key(id));");
+                                + "Freq varchar(60)," + "Mu0 varchar(60)," + "Epsi0 varchar(60),"+ "Mu1 varchar(60)," + "Epsi1 varchar(60),"+ "AkcneB varchar(60),"+"AkcneE varchar(60),"+"primary key(id));");
                  
                  // vlozime data
-                 PreparedStatement prep = con.prepareStatement("INSERT INTO constants values( ?,?,?,?,?,?   );");
+                 PreparedStatement prep = con.prepareStatement("INSERT INTO constants values( ?,?,?,?,?,?,?,?   );");
                   prep.setString(2,"50");
                   prep.setString(3,"0.000001");
                   prep.setString(4,"0.000002");
                   prep.setString(5,"0.000002");
                   prep.setString(6,"0.000002");
+                  prep.setString(7,"0.000001");
+                  prep.setString(8,"5000");
                   prep.execute();
                   
 
@@ -100,7 +102,7 @@ public class SQLlite_constants {
          stmt = con.createStatement();
         String sql = "UPDATE constants set "+name+" = "+String.valueOf(value)+" where ID="+String.valueOf(ID)+";";
         stmt.executeUpdate(sql);
-        //con.commit();
+        
     }
     
 }
