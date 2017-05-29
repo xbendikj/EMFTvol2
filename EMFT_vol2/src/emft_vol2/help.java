@@ -5,7 +5,12 @@
  */
 package emft_vol2;
 
+import Databazes.SQLlite_constants;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  *
@@ -29,7 +34,7 @@ public class help {
      * @param output ak je Y kokoina tak vyhodi tuto hodnotu
      * @return 
      */
-    public static double doubleCheck(javax.swing.JTextField Y,double output){
+    public static double ReadCheckDouble(javax.swing.JTextField Y,double output){
     String hodnota1 =Y.getText();
         hodnota1=hodnota1.replace(" ", "");
         String hodnota2=hodnota1.replace(",", ".");
@@ -44,6 +49,43 @@ public class help {
         return value = output;            
         }
      }
+    /**
+     * vlozi hodnotu to text fildu a upravi jej pocet des miest
+     * @param Y text field vstup
+     * @param input value ktoru chem zobrazit v textfielde
+     * @param pocetDesMiest pocet desatinnich miest na ktore bude zaukruhlovat cislo
+     */
+    public static void DisplayDouble(javax.swing.JTextField Y,double input,int pocetDesMiest){
+         
+         String symbol="###.";
+         for(int cl0 =0 ; cl0<=pocetDesMiest;cl0++){
+           symbol=symbol+"#";  
+         }
+         
+         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+         otherSymbols.setDecimalSeparator('.');
+         DecimalFormat df = new DecimalFormat(symbol,otherSymbols);  // definovany počet desatinnych miest
+         Y.setText(df.format(input));  
+         
+         
+     }
+    /**
+     * zobrazi hodnotu z databazy do konzoly
+     * @param name nazov premennje ako sa vola v databaze
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public static void ConstantDatabazeDisplay(String name) throws ClassNotFoundException, SQLException{
+        SQLlite_constants test = new SQLlite_constants();
+        ResultSet rs;
+        
+        rs = test.displayConstants();
+        
+        while(rs.next()){
+            
+            System.out.println(rs.getString(name));
+        }
+    }
     
     
 }

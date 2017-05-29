@@ -8,7 +8,12 @@ package emft_vol2;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,10 +30,9 @@ public class constants_Jframe extends javax.swing.JFrame {
     public constants_Jframe() {
         initComponents();
         seticon();
-        setLocationRelativeTo(null);
-        constants_JframeIsOpen= true;
-        
-        addWindowListener(new WindowAdapter()
+        setLocationRelativeTo(null); // poloha okna na stred
+        constants_JframeIsOpen= true; // ak je otvorene okno da sa true ak nie da sa false je to kontrola pre vyvolavaci Jframe
+        addWindowListener(new WindowAdapter() // listener na krizik zabretie okna
         {
             @Override
             public void windowClosing(WindowEvent e)
@@ -37,6 +41,18 @@ public class constants_Jframe extends javax.swing.JFrame {
                 e.getWindow().dispose();
             }
         });
+        
+        //inicializacia default hodnot
+        help.DisplayDouble(jTextField_Freq, constants.getFrequency(), 2);
+        help.DisplayDouble(jTextField_epsi1, constants.getEpsi1(), 2);
+        help.DisplayDouble(jTextField_mu1, constants.getMu1(), 2);
+        help.DisplayDouble(jTextField_Brms, constants.getAkcneB()*1000000, 2);
+        help.DisplayDouble(jTextField_erms, constants.getAkcneE(), 2);
+        help.DisplayDouble(jTextField_DN, constants.getDN(), 2);
+        help.DisplayDouble(jTextField_GCX, constants.getGCcoordinates()[0], 2);
+        help.DisplayDouble(jTextField_GCZ, constants.getGCcoordinates()[2], 2);
+        
+        
     }
       
     
@@ -76,6 +92,17 @@ public class constants_Jframe extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel_DN = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField_DN = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel_GCX = new javax.swing.JLabel();
+        jTextField_GCX = new javax.swing.JTextField();
+        jLabel_GCZ = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField_GCZ = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -84,6 +111,11 @@ public class constants_Jframe extends javax.swing.JFrame {
         jTextField_Freq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_FreqActionPerformed(evt);
+            }
+        });
+        jTextField_Freq.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_FreqKeyReleased(evt);
             }
         });
 
@@ -108,6 +140,11 @@ public class constants_Jframe extends javax.swing.JFrame {
                 jTextField_mu1ActionPerformed(evt);
             }
         });
+        jTextField_mu1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_mu1KeyReleased(evt);
+            }
+        });
 
         jLabel_mu1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel_mu1.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),1) );
@@ -118,16 +155,26 @@ public class constants_Jframe extends javax.swing.JFrame {
                 jTextField_epsi1ActionPerformed(evt);
             }
         });
+        jTextField_epsi1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_epsi1KeyReleased(evt);
+            }
+        });
 
         jLabel_epsi1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel_epsi1.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),2) );
 
-        jLabel3.setText("T");
+        jLabel3.setText("muT");
 
         jTextField_Brms.setText("jTextField1");
         jTextField_Brms.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_BrmsActionPerformed(evt);
+            }
+        });
+        jTextField_Brms.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_BrmsKeyReleased(evt);
             }
         });
 
@@ -143,14 +190,34 @@ public class constants_Jframe extends javax.swing.JFrame {
                 jTextField_ermsActionPerformed(evt);
             }
         });
+        jTextField_erms.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_ermsKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("V/m");
 
         jButton_saveupdateDAT.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),5) );
+        jButton_saveupdateDAT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_saveupdateDATActionPerformed(evt);
+            }
+        });
 
         jButton_cancel.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),7) );
+        jButton_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_cancelActionPerformed(evt);
+            }
+        });
 
         jButton_save.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),6) );
+        jButton_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_saveActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("=");
 
@@ -162,13 +229,64 @@ public class constants_Jframe extends javax.swing.JFrame {
 
         jLabel9.setText("=");
 
+        jLabel_DN.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel_DN.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),8) );
+
+        jLabel10.setText("=");
+
+        jTextField_DN.setText("jTextField1");
+        jTextField_DN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_DNActionPerformed(evt);
+            }
+        });
+        jTextField_DN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_DNKeyReleased(evt);
+            }
+        });
+
+        jLabel11.setText("m");
+
+        jLabel_GCX.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel_GCX.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),9) );
+
+        jTextField_GCX.setText("jTextField1");
+        jTextField_GCX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_GCXActionPerformed(evt);
+            }
+        });
+        jTextField_GCX.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_GCXKeyReleased(evt);
+            }
+        });
+
+        jLabel_GCZ.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel_GCZ.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),10) );
+
+        jLabel12.setText("=");
+
+        jLabel13.setText("=");
+
+        jTextField_GCZ.setText("jTextField1");
+        jTextField_GCZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_GCZActionPerformed(evt);
+            }
+        });
+        jTextField_GCZ.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_GCZKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,32 +294,32 @@ public class constants_Jframe extends javax.swing.JFrame {
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel_freq, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel_mu1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel_Brms, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel_freq, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel_mu1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel_Brms, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField_Brms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel3))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel6)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jTextField_mu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(20, 20, 20))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel5)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jTextField_Freq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel2))))
+                                .addComponent(jTextField_Brms, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField_mu1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(20, 20, 20))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField_Freq, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel2))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(13, 13, 13)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -209,22 +327,47 @@ public class constants_Jframe extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField_epsi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jTextField_epsi1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel_erms, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField_erms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField_erms, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel4))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton_save, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel_DN, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_saveupdateDAT, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jTextField_DN, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel11)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton_save, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_saveupdateDAT, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel_GCX, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_GCX, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel_GCZ, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel13)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField_GCZ, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -232,18 +375,24 @@ public class constants_Jframe extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_freq, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Freq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField_Freq, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel_freq, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel_DN, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField_DN, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_mu1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_mu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_epsi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_mu1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_epsi1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_epsi1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -256,13 +405,23 @@ public class constants_Jframe extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_Brms, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Brms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_Brms, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_erms, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_erms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_erms, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_GCX, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_GCX, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_GCZ, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_GCZ, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_saveupdateDAT)
                     .addComponent(jButton_save)
@@ -292,6 +451,87 @@ public class constants_Jframe extends javax.swing.JFrame {
     private void jTextField_ermsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_ermsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_ermsActionPerformed
+
+    private void jTextField_FreqKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_FreqKeyReleased
+        help.ReadCheckDouble(jTextField_Freq, -1);
+        
+    }//GEN-LAST:event_jTextField_FreqKeyReleased
+
+    private void jTextField_mu1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_mu1KeyReleased
+        help.ReadCheckDouble(jTextField_mu1, -1);
+    }//GEN-LAST:event_jTextField_mu1KeyReleased
+
+    private void jTextField_BrmsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BrmsKeyReleased
+        help.ReadCheckDouble(jTextField_Brms, -1);
+    }//GEN-LAST:event_jTextField_BrmsKeyReleased
+
+    private void jTextField_epsi1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_epsi1KeyReleased
+        help.ReadCheckDouble(jTextField_epsi1, -1);
+    }//GEN-LAST:event_jTextField_epsi1KeyReleased
+
+    private void jTextField_ermsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ermsKeyReleased
+        help.ReadCheckDouble(jTextField_erms, -1);
+    }//GEN-LAST:event_jTextField_ermsKeyReleased
+
+    private void jButton_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveActionPerformed
+        saveToConstants();
+        constants_JframeIsOpen=false;
+        dispose();
+    }//GEN-LAST:event_jButton_saveActionPerformed
+
+    private void jButton_saveupdateDATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveupdateDATActionPerformed
+        saveToConstants();
+        try { // update in databaze
+            
+           
+            
+            constants.UpdateConstant("Freq", 1, constants.getFrequency());
+            constants.UpdateConstant("Mu1", 1, constants.getMu1());
+            constants.UpdateConstant("Epsi1", 1, constants.getEpsi1());
+            constants.UpdateConstant("AkcneE", 1, constants.getAkcneE());
+            constants.UpdateConstant("AkcneB", 1, constants.getAkcneB());
+            constants.UpdateConstant("DN", 1, constants.getDN());
+            constants.UpdateConstant("GC_X", 1, constants.getGCcoordinates()[0]);
+            constants.UpdateConstant("GC_Z", 1, constants.getGCcoordinates()[2]);
+         
+          
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(constants_Jframe.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        constants_JframeIsOpen=false;
+        
+        dispose();
+    }//GEN-LAST:event_jButton_saveupdateDATActionPerformed
+
+    private void jButton_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelActionPerformed
+       constants_JframeIsOpen=false;
+       dispose();
+    }//GEN-LAST:event_jButton_cancelActionPerformed
+
+    private void jTextField_DNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_DNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_DNActionPerformed
+
+    private void jTextField_DNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_DNKeyReleased
+        help.ReadCheckDouble(jTextField_DN, -1);
+    }//GEN-LAST:event_jTextField_DNKeyReleased
+
+    private void jTextField_GCXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_GCXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_GCXActionPerformed
+
+    private void jTextField_GCXKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_GCXKeyReleased
+        help.ReadCheckDouble(jTextField_GCX, -1);
+    }//GEN-LAST:event_jTextField_GCXKeyReleased
+
+    private void jTextField_GCZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_GCZActionPerformed
+        help.ReadCheckDouble(jTextField_GCZ, -1);
+    }//GEN-LAST:event_jTextField_GCZActionPerformed
+
+    private void jTextField_GCZKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_GCZKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_GCZKeyReleased
 
     /**
      * @param args the command line arguments
@@ -335,12 +575,29 @@ public class constants_Jframe extends javax.swing.JFrame {
     private void seticon() {
      setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/graphics/" + "icon.png")));
     }
+    private void saveToConstants(){
+        constants.setFrequency(help.ReadCheckDouble(jTextField_Freq, -1));
+        constants.setMu1(help.ReadCheckDouble(jTextField_mu1, -1));
+        constants.setEpsi1(help.ReadCheckDouble(jTextField_epsi1, -1));
+        constants.setAkcneB(help.ReadCheckDouble(jTextField_Brms, -1)/1000000);
+        constants.setAkcneE(help.ReadCheckDouble(jTextField_erms, -1));
+        constants.setDN(help.ReadCheckDouble(jTextField_DN, -1));
+        constants.setGCcoordinates(help.ReadCheckDouble(jTextField_GCX, -1),0);
+        constants.setGCcoordinates(help.ReadCheckDouble(jTextField_GCZ, -1),2);
+        
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_cancel;
     private javax.swing.JButton jButton_save;
     private javax.swing.JButton jButton_saveupdateDAT;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -350,19 +607,27 @@ public class constants_Jframe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_Brms;
+    private javax.swing.JLabel jLabel_DN;
+    private javax.swing.JLabel jLabel_GCX;
+    private javax.swing.JLabel jLabel_GCZ;
     private javax.swing.JLabel jLabel_epsi1;
     private javax.swing.JLabel jLabel_erms;
     private javax.swing.JLabel jLabel_freq;
     private javax.swing.JLabel jLabel_mu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField jTextField_Brms;
+    private javax.swing.JTextField jTextField_DN;
     private javax.swing.JTextField jTextField_Freq;
+    private javax.swing.JTextField jTextField_GCX;
+    private javax.swing.JTextField jTextField_GCZ;
     private javax.swing.JTextField jTextField_epsi1;
     private javax.swing.JTextField jTextField_erms;
     private javax.swing.JTextField jTextField_mu1;
     // End of variables declaration//GEN-END:variables
     public static boolean constants_JframeIsOpen;
+
 }
 
 
@@ -396,13 +661,22 @@ static void constructor(){
   /*5*/  SK.add("Uložiť permanentne");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); //language String value  at position 
-  /*5*/  SK.add("Uložiť");  
+  /*6*/  SK.add("Uložiť");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position              
-  /*5*/  SK.add("Zrušiť");  
+  /*7*/  SK.add("Zrušiť");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-                            
+  /*8*/  SK.add("\u0394N");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
+  /*9*/  SK.add("G.C. x");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
+  /*10*/  SK.add("G.C. z");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
+                                               
          
          
  // language_cosntant_frame.LangLabel(constants.getLanguage_option(),0)      

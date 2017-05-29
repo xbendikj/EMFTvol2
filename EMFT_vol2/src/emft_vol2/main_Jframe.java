@@ -38,7 +38,9 @@ public class main_Jframe extends javax.swing.JFrame {
         jMenuItem_new = new javax.swing.JMenuItem();
         jMenuItem_load = new javax.swing.JMenuItem();
         jMenu_settings = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu_help = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,9 +100,27 @@ public class main_Jframe extends javax.swing.JFrame {
                 jMenu_settingsActionPerformed(evt);
             }
         });
+
+        jMenuItem1.setText(language_main_frame.LangLabel(constants.getLanguage_option(),6));
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu_settings.add(jMenuItem1);
+
         jMenuBar.add(jMenu_settings);
 
         jMenu_help.setText(language_main_frame.LangLabel(constants.getLanguage_option(),3)  );
+
+        jMenuItem2.setText(language_main_frame.LangLabel(constants.getLanguage_option(),8) );
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu_help.add(jMenuItem2);
+
         jMenuBar.add(jMenu_help);
 
         setJMenuBar(jMenuBar);
@@ -135,11 +155,22 @@ public class main_Jframe extends javax.swing.JFrame {
 
     private void jMenu_settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu_settingsMouseClicked
        
+       
+    }//GEN-LAST:event_jMenu_settingsMouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if(constants_Jframe.constants_JframeIsOpen == false){
         String[] args = null;
         constants_Jframe.main(args); //spust main frame
         }
-    }//GEN-LAST:event_jMenu_settingsMouseClicked
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        if( about_JFrame.about_JframeIsOpen == false){
+        String[] args = null;
+        about_JFrame.main(args);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,6 +215,8 @@ public class main_Jframe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_STATUS;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem_load;
     private javax.swing.JMenuItem jMenuItem_new;
     private javax.swing.JMenu jMenu_help;
@@ -219,14 +252,26 @@ static void constructor(){
  /*3*/   SK.add("Help");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*3*/  SK.add("nový projekt");  
+  /*4*/  SK.add("nový projekt");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*3*/  SK.add("Načítať");  
+  /*5*/  SK.add("Načítať");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-            
+  /*6*/  SK.add("Konštanty");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
+               
+  /*7*/  SK.add("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis ante sollicitudin, laoreet ipsum et, tristique sem. Nullam porttitor malesuada tristique. Donec semper arcu mauris, eget lacinia lorem fringilla ut. Sed porta commodo nulla, venenatis convallis eros sagittis eu. Nullam viverra tincidunt lectus vel consectetur. Nunc vitae quam augue. Suspendisse quis enim nisi. Praesent orci velit, ornare fringilla dignissim vitae, sollicitudin a neque. In vitae placerat eros. Ut nec libero diam. Curabitur nec augue non elit ultrices pulvinar in lacinia orci. Suspendisse luctus odio et ultricies hendrerit. Donec non tempus ipsum, eu ullamcorper nunc. Aliquam tempus iaculis elementum. Ut a justo at augue hendrerit convallis.");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
          
+  /*8*/  SK.add("O programe");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
+               
+                          
+                
          
  // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
  inicializovane = true;

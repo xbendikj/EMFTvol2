@@ -9,6 +9,10 @@ package emft_vol2;
  *
  * @author Jozef
  */
-class Resultset {
+public class teren {
+    
+    
+    
+    
     
 }

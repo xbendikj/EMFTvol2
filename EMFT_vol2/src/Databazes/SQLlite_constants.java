@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package emft_vol2;
+package Databazes;
 
+import emft_vol2.help;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,7 +29,7 @@ public class SQLlite_constants {
         }
        
        Statement state = con.createStatement();
-       ResultSet res = state.executeQuery("SELECT Freq,Mu0,Epsi0,Mu1,Epsi1,AkcneB,AkcneE FROM constants");
+       ResultSet res = state.executeQuery("SELECT Freq,Mu0,Epsi0,Mu1,Epsi1,AkcneB,AkcneE,DN,GC_X,GC_Y,GC_Z FROM constants");
        return res;
     }
 
@@ -49,10 +50,10 @@ public class SQLlite_constants {
                  // Postavime tabulku
                  Statement state2 = con.createStatement();
                  state2.execute("CREATE TABLE constants(id integer,"
-                                + "Freq varchar(60)," + "Mu0 varchar(60)," + "Epsi0 varchar(60),"+ "Mu1 varchar(60)," + "Epsi1 varchar(60),"+ "AkcneB varchar(60),"+"AkcneE varchar(60),"+"primary key(id));");
+                                + "Freq varchar(60)," + "Mu0 varchar(60)," + "Epsi0 varchar(60),"+ "Mu1 varchar(60)," + "Epsi1 varchar(60),"+ "AkcneB varchar(60),"+"AkcneE varchar(60),"+"DN varchar(60),"+"GC_X varchar(60),"+"GC_Y varchar(60),"+"GC_Z varchar(60),"+"primary key(id));");
                  
                  // vlozime data
-                 PreparedStatement prep = con.prepareStatement("INSERT INTO constants values( ?,?,?,?,?,?,?,?   );");
+                 PreparedStatement prep = con.prepareStatement("INSERT INTO constants values( ?,?,?,?,?,?,?,?,?,?,?,?   );");
                   prep.setString(2,"50");
                   prep.setString(3,"0.000001");
                   prep.setString(4,"0.000002");
@@ -60,6 +61,10 @@ public class SQLlite_constants {
                   prep.setString(6,"0.000002");
                   prep.setString(7,"0.000001");
                   prep.setString(8,"5000");
+                  prep.setString(9,"1");
+                  prep.setString(10,"0");
+                  prep.setString(11,"0");
+                  prep.setString(12,"0");
                   prep.execute();
                   
 
@@ -100,8 +105,12 @@ public class SQLlite_constants {
         }
          Statement stmt = null;
          stmt = con.createStatement();
+      
+         
         String sql = "UPDATE constants set "+name+" = "+String.valueOf(value)+" where ID="+String.valueOf(ID)+";";
         stmt.executeUpdate(sql);
+        
+        
         
     }
     

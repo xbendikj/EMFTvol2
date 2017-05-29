@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package emft_vol2;
+package Databazes;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

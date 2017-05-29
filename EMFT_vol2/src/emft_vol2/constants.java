@@ -5,6 +5,7 @@
  */
 package emft_vol2;
 
+import Databazes.SQLlite_constants;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -24,6 +25,29 @@ public class constants {
     private static double Epsi1;
     private static double AkcneB;
     private static double AkcneE;
+    
+    private static double DN; // velkost siete
+    private static double[] GCcoordinates = new double[3]; // globalne koordinaty POZOR potrebne deklarovat velkost
+
+    public static double getDN() {
+        return DN;
+    }
+
+    public static void setDN(double DN) {
+        constants.DN = DN;
+    }
+
+    public static double[] getGCcoordinates() {
+        return GCcoordinates;
+    }
+    /**
+     * 
+     * @param GCcoordinates double s GDC cor
+     * @param id poradove čislo X-0,Y-1,Y-2
+     */
+    public static void setGCcoordinates(double GCcoordinate,int id) {
+        constants.GCcoordinates[id] = GCcoordinate;
+    }
 
     public static double getAkcneB() {
         return AkcneB;
@@ -125,9 +149,15 @@ public class constants {
         setMu0(getfromDAT("Mu0"));
         setMu1(getfromDAT("Mu1"));
         setEpsi0(getfromDAT("Epsi0"));
-        setEpsi0(getfromDAT("Epsi1"));
+        setEpsi1(getfromDAT("Epsi1"));
         setAkcneB(getfromDAT("AkcneB"));
         setAkcneE(getfromDAT("AkcneE"));
+        setDN(getfromDAT("DN"));
+        setGCcoordinates(getfromDAT("GC_X"),0);
+        setGCcoordinates(getfromDAT("GC_Y"),1);
+        setGCcoordinates(getfromDAT("GC_Z"),2);
+        
+        
     }
     
 }
