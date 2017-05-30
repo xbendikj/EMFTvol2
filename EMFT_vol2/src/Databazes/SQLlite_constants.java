@@ -5,7 +5,7 @@
  */
 package Databazes;
 
-import emft_vol2.help;
+import tools.help;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

@@ -5,11 +5,13 @@
  */
 package emft_vol2;
 
+import dislin.SurfaceGraph;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DTriangle;
+import tools.warning_jDialog;
 
 /**
  *
@@ -48,53 +50,53 @@ public class main_class {
       //  System.out.println("ZADAJ Z");
         double Z = 40; //sc.nextDouble();
       //  System.out.println("ZADAJ pocet bodov siete");
-        int N = 7;//sc.nextInt();
+        int N = 1;//sc.nextInt();
         
         ArrayList<double[]> body = new ArrayList<double[]>();
         System.out.println("Enter the coordinates of each points: <x> <y> <z>");
        for (int i = 0; i < N; i++){
         if(i==0){
             double[] cislo = new double[3];
-            cislo[0] = 10; //sc.nextDouble(); 
-            cislo[1] = 0;//sc.nextDouble();
-            cislo[2] = 2;//sc.nextDouble();
+            cislo[0] = 150; //sc.nextDouble(); 
+            cislo[1] = 10;//sc.nextDouble();
+            cislo[2] = 0;//sc.nextDouble();
             body.add(cislo);}
         if(i==1){
              double[] cislo = new double[3];
             cislo[0] = 130; //sc.nextDouble(); 
             cislo[1] = 0;//sc.nextDouble();
-            cislo[2] = 18;//sc.nextDouble();
+            cislo[2] = 20;//sc.nextDouble();
             body.add(cislo);
             
         } if(i==2){
              double[] cislo = new double[3];
             cislo[0] = 40; //sc.nextDouble(); 
             cislo[1] = 0;//sc.nextDouble();
-            cislo[2] = 23;//sc.nextDouble();
+            cislo[2] = -20;//sc.nextDouble();
             body.add(cislo);}
         if(i==3){
              double[] cislo = new double[3];
             cislo[0] = 180; //sc.nextDouble(); 
-            cislo[1] = -10;//sc.nextDouble();
-            cislo[2] = 20;//sc.nextDouble();
+            cislo[1] = 0;//sc.nextDouble();
+            cislo[2] = 5;//sc.nextDouble();
             body.add(cislo);}
         if(i==4){
              double[] cislo = new double[3];
-            cislo[0] = 55; //sc.nextDouble(); 
-            cislo[1] = 0;//sc.nextDouble();
-            cislo[2] = -19;//sc.nextDouble();
+            cislo[0] = 200; //sc.nextDouble(); 
+            cislo[1] = 10;//sc.nextDouble();
+            cislo[2] = -30;//sc.nextDouble();
             body.add(cislo);}
         if(i==5){
              double[] cislo = new double[3];
-            cislo[0] = 25; //sc.nextDouble(); 
-            cislo[1] = 15;//sc.nextDouble();
-            cislo[2] = -9;//sc.nextDouble();
+            cislo[0] = 100; //sc.nextDouble(); 
+            cislo[1] = 1;//sc.nextDouble();
+            cislo[2] = 0;//sc.nextDouble();
             body.add(cislo);}
         if(i==6){
              double[] cislo = new double[3];
-            cislo[0] = 5; //sc.nextDouble(); 
-            cislo[1] =0;//sc.nextDouble();
-            cislo[2] = 19;//sc.nextDouble();
+            cislo[0] = 10; //sc.nextDouble(); 
+            cislo[1] =10;//sc.nextDouble();
+            cislo[2] = 40;//sc.nextDouble();
             body.add(cislo);}
             
         
@@ -104,25 +106,25 @@ public class main_class {
         
         double[] LCcoordinates= new double[3];
         LCcoordinates[0]=0;
-        LCcoordinates[1]=0;
+        LCcoordinates[1]=300;
         LCcoordinates[2]=0;
         triangulacia.setLCcoordinates(LCcoordinates);
         triangulacia test = new triangulacia(A, Z, N, body,true);
+        
         try {
-            test.run();
-            
+            test.run();       
         } catch (DelaunayError ex) {
             Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        ArrayList<DTriangle> trojuholniky = new ArrayList<DTriangle>();
-        trojuholniky = test.getResults();
        
-        System.out.println(trojuholniky);
-        dislin.Surface.main(args);
+       
         
+        //test show graph
+        SurfaceGraph povrch = new SurfaceGraph(triangulacia.getTriangles(), triangulacia.getResultsPoint());
+        povrch.Run();
       
-    
+       
         
     }
     

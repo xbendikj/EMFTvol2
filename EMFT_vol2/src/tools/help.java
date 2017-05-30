@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package emft_vol2;
+package tools;
 
 import Databazes.SQLlite_constants;
 import java.awt.Color;
@@ -87,5 +87,25 @@ public class help {
         }
     }
     
+    public static void warning3row(String riadok1,String riadok2, String riadok3){  
+        
+        warning_jDialog pozor = new warning_jDialog(riadok1,riadok2,riadok3);  
+        pozor.setVisible(true);
+        
+    }
+    
+    public static void warning2row(String riadok1,String riadok2){  
+        
+        warning_jDialog pozor = new warning_jDialog(riadok1,riadok2);  
+        pozor.setVisible(true);
+        
+    }
+    
+    public static void warning1row(String riadok1){  
+        
+        warning_jDialog pozor = new warning_jDialog(riadok1);  
+        pozor.setVisible(true);
+        
+    }
     
 }

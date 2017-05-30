@@ -14,6 +14,7 @@ import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DEdge;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import org.jdelaunay.delaunay.geometries.DTriangle;
+import tools.help;
 
 
 
@@ -83,26 +84,26 @@ public class triangulacia {
             for(int cl1=0; cl1<=3;cl1++){
               // help.printl("OK som v triangl", true);
                 if(cl1==0){    //pozdlzna kladna
-                    DPoint c1 = new DPoint(0, Z, LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(A, Z, LCcoordinates[1]); // vytvor bod 2 xzy
+                    DPoint c1 = new DPoint(0+LCcoordinates[0], Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
+                    DPoint c2 = new DPoint(A+LCcoordinates[0], Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy
                     edges.add(new DEdge(c1,c2)); // vytvor hranu z bodov 1 a 2
                     mesh.addPoint(c1);
                     mesh.addPoint(c2);
                 }if(cl1==1){  //pozdlzna zaporna
-                    DPoint c1 = new DPoint(0, -Z, LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(A, -Z, LCcoordinates[1]); // vytvor bod 2 xzy
+                    DPoint c1 = new DPoint(0+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
+                    DPoint c2 = new DPoint(A+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy
                     edges.add(new DEdge(c1,c2)); 
                     mesh.addPoint(c1);
                     mesh.addPoint(c2);
                 }if(cl1==2){ //priecna nulta
-                    DPoint c1 = new DPoint(0, Z, LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(0, -Z, LCcoordinates[1]); // vytvor bod 2 xzy      
+                    DPoint c1 = new DPoint(0+LCcoordinates[0],  Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
+                    DPoint c2 = new DPoint(0+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy      
                     edges.add(new DEdge(c1,c2)); 
                     mesh.addPoint(c1);
                     mesh.addPoint(c2);
                 }if(cl1==3){ //pozdlzna A
-                    DPoint c1 = new DPoint(A, Z, LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(A, -Z, LCcoordinates[1]); // vytvor bod 2 xzy       
+                    DPoint c1 = new DPoint(A+LCcoordinates[0], Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
+                    DPoint c2 = new DPoint(A+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy       
                     edges.add(new DEdge(c1,c2)); 
                     mesh.addPoint(c1);
                     mesh.addPoint(c2);
@@ -119,26 +120,26 @@ public class triangulacia {
             Point e = new Point(x, z);
             points.add(cl2, e);
         }
-            for(int cl2= 0; cl2< points.size();cl2++){
-        help.printl(points.get(cl2).toString(),true);
-        }
+//            for(int cl2= 0; cl2< points.size();cl2++){
+//        help.printl(points.get(cl2).toString(),true);
+//        }
             
             
             
             QuickHull qh = new QuickHull();
             ArrayList<Point> p = qh.quickHull(points);
-            List<Point> pp = GrahamScan.getConvexHull(points.subList(0,points.size()));
+//            List<Point> pp = GrahamScan.getConvexHull(points.subList(0,points.size()));
             
-         help.printl("obvodove body su", true);
-           for(int cl2= 0; cl2< p.size();cl2++){
-        help.printl(p.get(cl2).toString(),true);
-
-        }
-            help.printl("obvodove body su GRAHAM", true);
-           for(int cl2= 0; cl2< pp.size();cl2++){
-        help.printl(pp.get(cl2).toString(),true);
-
-        }
+//         help.printl("obvodove body su", true);
+//           for(int cl2= 0; cl2< p.size();cl2++){
+//        help.printl(p.get(cl2).toString(),true);
+//
+//        }
+//            help.printl("obvodove body su GRAHAM", true);
+//           for(int cl2= 0; cl2< pp.size();cl2++){
+//        help.printl(pp.get(cl2).toString(),true);
+//
+//        }
             
             
             for(int cl3=0;cl3< p.size();cl3++){
@@ -151,7 +152,7 @@ public class triangulacia {
                 double YY = (double) Y;
                 double ZZ = (double) Z;
         
-                 DPoint c1 = new DPoint(XX/100, ZZ/100, YY/100); // vytvor bod 1 xyz
+                 DPoint c1 = new DPoint(XX/100+LCcoordinates[0], ZZ/100+LCcoordinates[2], YY/100+LCcoordinates[1]); // vytvor bod 1 xyz
                  
                  if(cl3+1 == p.size()){
                  
@@ -164,7 +165,7 @@ public class triangulacia {
                  YY = (double) Y;
                  ZZ = (double) Z;
                  
-                 DPoint c2 = new DPoint(XX/100, ZZ/100, YY/100); // vytvor bod 2 xyz 
+                 DPoint c2 = new DPoint(XX/100+LCcoordinates[0], ZZ/100+LCcoordinates[2], YY/100+LCcoordinates[1]); // vytvor bod 2 xyz 
                  edges.add(new DEdge(c1,c2));
                  if(cl3==-1){
                      break ;
@@ -176,18 +177,18 @@ public class triangulacia {
         
         //vlozenie bodov z arrylist bod  auprava podla LC 
         for(int cl1=0; cl1<body.size();cl1++){
-          DPoint c1 = new DPoint(body.get(cl1)[0],body.get(cl1)[2], body.get(cl1)[1]); // vytvor bod 1 xzy
+          DPoint c1 = new DPoint(body.get(cl1)[0]+LCcoordinates[0],body.get(cl1)[2]+LCcoordinates[2], body.get(cl1)[1]+LCcoordinates[1]); // vytvor bod 1 xzy
           mesh.addPoint(c1);
         }
         
         
-        help.printl(String.valueOf("je poratane?              " + mesh.isMeshComputed()), true); // je poratane čo ma byt ?
-        help.printl(String.valueOf("pocet constrain edges     " + edges.size()), true); // je poratane čo ma byt ?
-        help.printl(String.valueOf("pocet bodov body          " + body.size()), true); // je poratane čo ma byt ?
-        help.printl(String.valueOf("pocet bodov mesh          " + mesh.getPoints().size()), true); // je poratane čo ma byt ?
-        for(int cl2= 0; cl2< body.size();cl2++){
-        help.printl(String.valueOf(body.get(cl2)[0]),true);
-        }
+//        help.printl(String.valueOf("je poratane?              " + mesh.isMeshComputed()), true); // je poratane čo ma byt ?
+//        help.printl(String.valueOf("pocet constrain edges     " + edges.size()), true); // je poratane čo ma byt ?
+//        help.printl(String.valueOf("pocet bodov body          " + body.size()), true); // je poratane čo ma byt ?
+//        help.printl(String.valueOf("pocet bodov mesh          " + mesh.getPoints().size()), true); // je poratane čo ma byt ?
+//        for(int cl2= 0; cl2< body.size();cl2++){
+//        help.printl(String.valueOf(body.get(cl2)[0]),true);
+//        }
         //PRINT body mesh 
         for(int cl2= 0; cl2< mesh.getPoints().size();cl2++){
         help.printl(mesh.getPoints().get(cl2).toString(),true);
@@ -202,12 +203,12 @@ public class triangulacia {
         numberOfPoints=mesh.getPoints().size();
         resultsPoint=mesh.getPoints();
         
-        //TESTER
-        help.printl(String.valueOf("je poratane?           "  + mesh.isMeshComputed()), true); // je poratane čo ma byt ?
-        help.printl(String.valueOf("pocet constrain edges  " + mesh.getConstraintEdges().size()), true); // je poratane čo ma byt ?
-        help.printl(String.valueOf("pocet bodov            " + mesh.getPoints().size()), true); // je poratane čo ma byt ?
-        help.printl(String.valueOf("pocet trojuholnikov    " + mesh.getTriangleList().size()), true); // je poratane čo ma byt ?
-        //TESTER SECTION
+     //   TESTER
+//        help.printl(String.valueOf("je poratane?           "  + mesh.isMeshComputed()), true); // je poratane čo ma byt ?
+//        help.printl(String.valueOf("pocet constrain edges  " + mesh.getConstraintEdges().size()), true); // je poratane čo ma byt ?
+//        help.printl(String.valueOf("pocet bodov            " + mesh.getPoints().size()), true); // je poratane čo ma byt ?
+//        help.printl(String.valueOf("pocet trojuholnikov    " + mesh.getTriangleList().size()), true); // je poratane čo ma byt ?
+//      //  TESTER SECTION
         
         results=(ArrayList<DTriangle>) mesh.getTriangleList();
         
@@ -270,7 +271,10 @@ public class triangulacia {
     public  ArrayList<DTriangle> getResults() {
         return results;
     }
-    
+    /**
+     * 
+     * @return points of triangulation
+     */
     public  List<DPoint> getResultsPoinList() {
         return resultsPoint;
     }
@@ -286,7 +290,10 @@ public class triangulacia {
         return results;
         
     }
-
+     /**
+      * 
+      * @return number of  points from triangulation 
+      */
      public static int getNumberOfPoints() {
         if(IsMeshCalculated == true){
             return numberOfPoints;

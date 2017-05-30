@@ -5,6 +5,7 @@
  */
 package emft_vol2;
 
+import tools.help;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
