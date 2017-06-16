@@ -5,12 +5,15 @@
  */
 package emft_vol2;
 
+import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
 import dislin.SurfaceGraph;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdelaunay.delaunay.error.DelaunayError;
+import org.jdelaunay.delaunay.geometries.DPoint;
 import org.jdelaunay.delaunay.geometries.DTriangle;
+import tools.help;
 import tools.warning_jDialog;
 
 /**
@@ -44,59 +47,55 @@ public class main_class {
            
       
        System.out.println("TEST OF DELAUNAY 1");
-     //   Scanner sc = new Scanner(System.in);
-       // System.out.println("ZADAJ A");
-        double A = 300;//sc.nextDouble();
-      //  System.out.println("ZADAJ Z");
-        double Z = 40; //sc.nextDouble();
-      //  System.out.println("ZADAJ pocet bodov siete");
-        int N = 1;//sc.nextInt();
+        double A = 300;
+        double Z = 40; 
+        int N = 2;
         
         ArrayList<double[]> body = new ArrayList<double[]>();
         System.out.println("Enter the coordinates of each points: <x> <y> <z>");
        for (int i = 0; i < N; i++){
         if(i==0){
             double[] cislo = new double[3];
-            cislo[0] = 150; //sc.nextDouble(); 
-            cislo[1] = 10;//sc.nextDouble();
-            cislo[2] = 0;//sc.nextDouble();
+            cislo[0] = 300; 
+            cislo[1] = 20;
+            cislo[2] = 0;
             body.add(cislo);}
         if(i==1){
              double[] cislo = new double[3];
-            cislo[0] = 130; //sc.nextDouble(); 
-            cislo[1] = 0;//sc.nextDouble();
-            cislo[2] = 20;//sc.nextDouble();
+            cislo[0] = 150; 
+            cislo[1] = 10;
+            cislo[2] = 0;
             body.add(cislo);
             
         } if(i==2){
              double[] cislo = new double[3];
-            cislo[0] = 40; //sc.nextDouble(); 
-            cislo[1] = 0;//sc.nextDouble();
-            cislo[2] = -20;//sc.nextDouble();
+            cislo[0] = 40; 
+            cislo[1] = 0;
+            cislo[2] = -20;
             body.add(cislo);}
         if(i==3){
              double[] cislo = new double[3];
-            cislo[0] = 180; //sc.nextDouble(); 
-            cislo[1] = 0;//sc.nextDouble();
-            cislo[2] = 5;//sc.nextDouble();
+            cislo[0] = 180; 
+            cislo[1] = 0;
+            cislo[2] = 5;
             body.add(cislo);}
         if(i==4){
              double[] cislo = new double[3];
-            cislo[0] = 200; //sc.nextDouble(); 
-            cislo[1] = 10;//sc.nextDouble();
-            cislo[2] = -30;//sc.nextDouble();
+            cislo[0] = 200; 
+            cislo[1] = 10;
+            cislo[2] = -30;
             body.add(cislo);}
         if(i==5){
              double[] cislo = new double[3];
-            cislo[0] = 100; //sc.nextDouble(); 
-            cislo[1] = 1;//sc.nextDouble();
-            cislo[2] = 0;//sc.nextDouble();
+            cislo[0] = 100; 
+            cislo[1] = 1;
+            cislo[2] = 0;
             body.add(cislo);}
         if(i==6){
              double[] cislo = new double[3];
-            cislo[0] = 10; //sc.nextDouble(); 
-            cislo[1] =10;//sc.nextDouble();
-            cislo[2] = 40;//sc.nextDouble();
+            cislo[0] = 10;
+            cislo[1] =10;
+            cislo[2] = 40;
             body.add(cislo);}
             
         
@@ -108,23 +107,64 @@ public class main_class {
         LCcoordinates[0]=0;
         LCcoordinates[1]=300;
         LCcoordinates[2]=0;
-        triangulacia.setLCcoordinates(LCcoordinates);
-        triangulacia test = new triangulacia(A, Z, N, body,true);
-        
+    
+        triangulacia test = new triangulacia(A, Z, body,true,LCcoordinates);
+        test.setLCcoordinates(LCcoordinates);
         try {
-            test.run();       
+            test.run(); 
+            Tfield pokusnePole = new Tfield(test.getTriangles());
+            DPoint pokusnyB = new DPoint(20,0,20);
+            pokusnyB=pokusnePole.getY(pokusnyB);
+            System.out.println("TEST the field transformations");
+            System.out.println(pokusnyB);
+            
+        } catch (DelaunayError ex) {
+            Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //test show graph
+        SurfaceGraph povrch = new SurfaceGraph(test.getTriangles(), test.getResultsPoint());
+        povrch.Run();
+        
+        
+        
+        
+        
+        
+        
+        // TEST RETAZOVKA
+        System.out.println("TEST retazovka C a H");
+        retazovka ret;
+        try {
+            ret = new retazovka(20, 10, 0, 0, 4, 10, 0, 300, 1, 20, 10, false, 0.1, 100, 100, 120);
+
         } catch (DelaunayError ex) {
             Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-       
-       
+        // TEST transformacia LC GC
+        double[] LC1 = new double[3];
+        double[] LC2 = new double[3];
         
-        //test show graph
-        SurfaceGraph povrch = new SurfaceGraph(triangulacia.getTriangles(), triangulacia.getResultsPoint());
-        povrch.Run();
-      
-       
+        LC1[0]=10;
+        LC1[1]=300;
+        LC1[2]=-10;
+        
+        LC2[0]=10;
+        LC2[1]=300;
+        LC2[2]=-300;
+        
+        DPoint TEST1;
+        try {
+            TEST1 = new DPoint(20, 0, -20);
+            System.out.println("pred " + TEST1);
+            TEST1 = help.CorToLC(LC1, LC2, TEST1);
+            System.out.println("po " +TEST1);
+        } catch (DelaunayError ex) {
+            Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         
     }
     

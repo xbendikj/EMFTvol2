@@ -6,11 +6,15 @@
 package tools;
 
 import Databazes.SQLlite_constants;
+import emft_vol2.constants;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.HashSet;
+import java.util.Set;
+import org.jdelaunay.delaunay.geometries.DPoint;
 
 /**
  *
@@ -28,6 +32,15 @@ public class help {
       }  
         
     }
+    
+    public static void info(String printer,Boolean printPrinter){
+        
+      if(printPrinter.equals(true)){
+          System.out.println("INFO TEST: "+printer);
+      }  
+        
+    }
+    
     /**
      * kontrolor na double
      * @param Y Jtext field vstup
@@ -106,6 +119,58 @@ public class help {
         warning_jDialog pozor = new warning_jDialog(riadok1);  
         pozor.setVisible(true);
         
+    }
+     
+    public static double AsinH (double hodnota){
+        double cislo;
+        
+        cislo = Math.log( hodnota + Math.sqrt( 1+ Math.pow(hodnota, 2)) );
+        
+        return cislo;
+    }
+    /**
+     * POZOR neuprauje sa vyska  sfunkčne suradnice su XYZ
+     * @param LCcoordinates1 globalne suradnice lokalneho sysemu bod 1
+     * @param LCcoordinates2 globalne suradnice lokalneho sysemu bod 2
+     * @param P1             bod v globalnych sur ktory transformujeme do LC pričom 00je LCCOORDINATES1
+     * @return 
+     */
+    public static DPoint CorToLC (double[] LCcoordinates1,double[] LCcoordinates2,DPoint P1){
+        //double GCX = constants.getGCcoordinates()[0];
+       // double GCZ = constants.getGCcoordinates()[2];
+        
+        double P1XGC=P1.getX();
+        double P1ZGC=P1.getZ();
+        
+        
+        double LCX1 = LCcoordinates1[0];
+        double LCZ1 = LCcoordinates1[2];
+        
+        double LCX2 = LCcoordinates2[0];
+        double LCZ2 = LCcoordinates2[2];
+         double alpha =0;
+         
+        if(LCX1 == LCX2) {
+            
+        if(LCZ1 - LCZ2<0)    
+        alpha=Math.PI/2;
+        
+        if(LCZ1 - LCZ2>0)    
+        alpha=-Math.PI/2;
+        
+        
+        
+        }     // n ochrana pred 90 stupnami a delenim nulou
+        
+        
+        else{ alpha = (LCZ1 - LCZ2) / (LCX1 - LCX2); // uhol otocenia
+        }
+        double P1XLC = (P1XGC - LCX1) * Math.cos(alpha) + (P1ZGC - LCZ1) * Math.sin(alpha);
+        double P1ZLC = (P1ZGC - LCZ1) * Math.cos(alpha) + (P1XGC - LCX1) * Math.sin(alpha);
+        
+        P1.setX(P1XLC);
+        P1.setZ(P1ZLC);
+        return P1;
     }
     
 }

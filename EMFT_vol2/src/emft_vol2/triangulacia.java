@@ -27,27 +27,27 @@ import tools.help;
  */
 public class triangulacia {
 
-    private static double A;
-    private static double Z;
-    private static int DN;
-    private static double[] LCcoordinates= new double[3];
-    private static ArrayList<double[]> body = new ArrayList<double[]>();
-    private static boolean deff = false; // defaultna tringulacia okolo stvorcovej hrany ak true tak bdue vytvarat na zaklade bodov hranu
-    private static ArrayList<DTriangle> results = new ArrayList<DTriangle>();
-    private static boolean IsMeshCalculated = false;
-    private static int numberOfPoints;
-    private static List<DPoint> resultsPoint = new ArrayList<DPoint>();
+    private  double A;
+    private  double Z;
+    private  int DN;
+    private double[] LCcoordinates= new double[3];
+    private  ArrayList<double[]> body = new ArrayList<double[]>();
+    private  boolean deff = false; // defaultna tringulacia okolo stvorcovej hrany ak true tak bdue vytvarat na zaklade bodov hranu
+    private  ArrayList<DTriangle> results = new ArrayList<DTriangle>();
+    private  boolean IsMeshCalculated = false;
+    private  int numberOfPoints;
+    private  List<DPoint> resultsPoint = new ArrayList<DPoint>();
 
-    public static List<DPoint> getResultsPoint() {
+    public  List<DPoint> getResultsPoint() {
         return resultsPoint;
     }
 
-    public static void setResultsPoint(List<DPoint> resultsPoint) {
-        triangulacia.resultsPoint = resultsPoint;
+    public  void setResultsPoint(List<DPoint> resultsPoint) {
+         this.resultsPoint = resultsPoint;
     }
     
     /**
-     * 
+     * vytvorenie terenu pomocou triangulacie, POZOR Vsetko sa pocitna v Lokalnych suradniciach  ALE vstupuju to aj poloha LC  v globalnych pretože je potebna vyška na offset
      * @param A dlzka rozpatia ( plochy )
      * @param Z priecna dlzka plochy
      * @param DN krok stvorcovania zeme
@@ -55,19 +55,19 @@ public class triangulacia {
      * @param deff Ake bude vytvorenie hran true ( stvorec ) false ( podla bodov )
      */
 
-    public triangulacia(double A,double Z, int DN,ArrayList body,boolean deff) {
+    public triangulacia(double A,double Z,ArrayList body,boolean deff,double[] LCcoordinates) {
         this.A=A; 
         this.Z=Z;
-        this.DN =DN;
+        //this.DN =DN;
         this.LCcoordinates=LCcoordinates;
         this.body=body;  // body už su v lC koordinatoch
         this.deff=deff;
     }
     
-    public triangulacia(double A,double Z, int DN,ArrayList body) {
+    public triangulacia(double A,double Z,ArrayList body,double[] LCcoordinates) {
         this.A=A; 
         this.Z=Z;
-        this.DN =DN;
+        //this.DN =DN;
         this.LCcoordinates=LCcoordinates;
         this.body=body;
        
@@ -77,70 +77,33 @@ public class triangulacia {
         IsMeshCalculated =false;
         ConstrainedMesh mesh = new ConstrainedMesh();
         ArrayList<DEdge> edges = new ArrayList<DEdge>();
-      
-        
-        if (deff==true ){
-        //vytvorenie hran najprv hry s A potom Z a uprava podla LC
-            for(int cl1=0; cl1<=3;cl1++){
-              // help.printl("OK som v triangl", true);
-                if(cl1==0){    //pozdlzna kladna
-                    DPoint c1 = new DPoint(0+LCcoordinates[0], Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(A+LCcoordinates[0], Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy
-                    edges.add(new DEdge(c1,c2)); // vytvor hranu z bodov 1 a 2
-                    mesh.addPoint(c1);
-                    mesh.addPoint(c2);
-                }if(cl1==1){  //pozdlzna zaporna
-                    DPoint c1 = new DPoint(0+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(A+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy
-                    edges.add(new DEdge(c1,c2)); 
-                    mesh.addPoint(c1);
-                    mesh.addPoint(c2);
-                }if(cl1==2){ //priecna nulta
-                    DPoint c1 = new DPoint(0+LCcoordinates[0],  Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(0+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy      
-                    edges.add(new DEdge(c1,c2)); 
-                    mesh.addPoint(c1);
-                    mesh.addPoint(c2);
-                }if(cl1==3){ //pozdlzna A
-                    DPoint c1 = new DPoint(A+LCcoordinates[0], Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
-                    DPoint c2 = new DPoint(A+LCcoordinates[0], -Z+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 2 xzy       
-                    edges.add(new DEdge(c1,c2)); 
-                    mesh.addPoint(c1);
-                    mesh.addPoint(c2);
-                }
-            }
-          
-        }else{
+        ArrayList<Point> points = new ArrayList<Point>();
             
-            ArrayList<Point> points = new ArrayList<Point>();
-            for (int cl2 = 0; cl2 < body.size(); cl2++) //vytvorime arraylist of points
+            if(deff==true){     // ak nie je definovy okraj dorob ho LC1  
+
+               double BodA[] = {0,0,Z};  body.add(BodA);
+               double BodB[] = {A,0,Z};  body.add(BodB);
+               double BodC[] = {0,0,-Z};  body.add(BodC);
+               double BodD[] = {A,0,-Z};  body.add(BodD);
+               
+              
+            }
+            
+            for (int cl2 = 0; cl2 < body.size(); cl2++) //vytvorime arraylist of points      
         {
-            int x =  (int) body.get(cl2)[0] *100; // bdy su double ale su v LC takže hodnoty vynasobime 100
-            int z = (int)  body.get(cl2)[2] *100; // prejdeme na cm v integery 
+            
+            //DPoint BOD = new DPoint(body.get(cl2)[0], body.get(cl2)[1], body.get(cl2)[2]);
+             //      BOD = help.CorToLC(LCcoordinates, LCcoordinates, BOD)
+            int x =  (int)  body.get(cl2)[0] *100; // bdy su double ale su v LC takže hodnoty vynasobime 100
+            int z =  (int)  body.get(cl2)[2] *100; // prejdeme na cm v integery 
             Point e = new Point(x, z);
             points.add(cl2, e);
         }
-//            for(int cl2= 0; cl2< points.size();cl2++){
-//        help.printl(points.get(cl2).toString(),true);
-//        }
-            
-            
+         
             
             QuickHull qh = new QuickHull();
             ArrayList<Point> p = qh.quickHull(points);
-//            List<Point> pp = GrahamScan.getConvexHull(points.subList(0,points.size()));
-            
-//         help.printl("obvodove body su", true);
-//           for(int cl2= 0; cl2< p.size();cl2++){
-//        help.printl(p.get(cl2).toString(),true);
-//
-//        }
-//            help.printl("obvodove body su GRAHAM", true);
-//           for(int cl2= 0; cl2< pp.size();cl2++){
-//        help.printl(pp.get(cl2).toString(),true);
-//
-//        }
-            
+           
             
             for(int cl3=0;cl3< p.size();cl3++){
                 
@@ -152,7 +115,7 @@ public class triangulacia {
                 double YY = (double) Y;
                 double ZZ = (double) Z;
         
-                 DPoint c1 = new DPoint(XX/100+LCcoordinates[0], ZZ/100+LCcoordinates[2], YY/100+LCcoordinates[1]); // vytvor bod 1 xyz
+                 DPoint c1 = new DPoint(XX/100, ZZ/100, YY/100+LCcoordinates[1]); // vytvor bod 1 xyz
                  
                  if(cl3+1 == p.size()){
                  
@@ -165,7 +128,7 @@ public class triangulacia {
                  YY = (double) Y;
                  ZZ = (double) Z;
                  
-                 DPoint c2 = new DPoint(XX/100+LCcoordinates[0], ZZ/100+LCcoordinates[2], YY/100+LCcoordinates[1]); // vytvor bod 2 xyz 
+                 DPoint c2 = new DPoint(XX/100, ZZ/100, YY/100+LCcoordinates[1]); // vytvor bod 2 xyz 
                  edges.add(new DEdge(c1,c2));
                  if(cl3==-1){
                      break ;
@@ -173,13 +136,20 @@ public class triangulacia {
             }
              
             //https://gis.stackexchange.com/questions/5426/finding-boundary-co-ordinates-from-given-set-of-point-co-ordinates
-        }
+        
         
         //vlozenie bodov z arrylist bod  auprava podla LC 
         for(int cl1=0; cl1<body.size();cl1++){
-          DPoint c1 = new DPoint(body.get(cl1)[0]+LCcoordinates[0],body.get(cl1)[2]+LCcoordinates[2], body.get(cl1)[1]+LCcoordinates[1]); // vytvor bod 1 xzy
+          DPoint c1 = new DPoint(body.get(cl1)[0],body.get(cl1)[2], body.get(cl1)[1]+LCcoordinates[1]); // vytvor bod 1 xzy
           mesh.addPoint(c1);
         }
+        // ak nie su žiadne body a je deff rvna plocha vlož jeden bod do stredu plochy
+//        if (body.size() == 0){
+//            
+//          DPoint c1 = new DPoint(A/2+LCcoordinates[0],0+LCcoordinates[2], LCcoordinates[1]); // vytvor bod 1 xzy
+//          mesh.addPoint(c1);
+//            
+//        }
         
         
 //        help.printl(String.valueOf("je poratane?              " + mesh.isMeshComputed()), true); // je poratane čo ma byt ?
@@ -204,22 +174,22 @@ public class triangulacia {
         resultsPoint=mesh.getPoints();
         
      //   TESTER
-//        help.printl(String.valueOf("je poratane?           "  + mesh.isMeshComputed()), true); // je poratane čo ma byt ?
-//        help.printl(String.valueOf("pocet constrain edges  " + mesh.getConstraintEdges().size()), true); // je poratane čo ma byt ?
-//        help.printl(String.valueOf("pocet bodov            " + mesh.getPoints().size()), true); // je poratane čo ma byt ?
-//        help.printl(String.valueOf("pocet trojuholnikov    " + mesh.getTriangleList().size()), true); // je poratane čo ma byt ?
-//      //  TESTER SECTION
+ //       help.printl(String.valueOf("je poratane?           "  + mesh.isMeshComputed()), true); // je poratane čo ma byt ?
+ //      help.printl(String.valueOf("pocet constrain edges  " + mesh.getConstraintEdges().size()), true); // je poratane čo ma byt ?
+ //      help.printl(String.valueOf("pocet bodov            " + mesh.getPoints().size()), true); // je poratane čo ma byt ?
+ //       help.printl(String.valueOf("pocet trojuholnikov    " + mesh.getTriangleList().size()), true); // je poratane čo ma byt ?
+ //      //  TESTER SECTION
         
         results=(ArrayList<DTriangle>) mesh.getTriangleList();
         
     }
 
-    public static boolean isIsMeshCalculated() {
+    public  boolean isIsMeshCalculated() {
         return IsMeshCalculated;
     }
 
-    public static void setIsMeshCalculated(boolean IsMeshCalculated) {
-        triangulacia.IsMeshCalculated = IsMeshCalculated;
+    public  void setIsMeshCalculated(boolean IsMeshCalculated) {
+         this.IsMeshCalculated = IsMeshCalculated;
     }
     
     
@@ -228,44 +198,44 @@ public class triangulacia {
         results.clear();
     }
 
-    public static double getZ() {
+    public  double getZ() {
         return Z;
     }
 
-    public static void setZ(double Z) {
-        triangulacia.Z = Z;
+    public  void setZ(double Z) {
+        this.Z = Z;
     }
 
-    public static int getDN() {
+    public  int getDN() {
         return DN;
     }
 
-    public static void setDN(int DN) {
-        triangulacia.DN = DN;
+    public  void setDN(int DN) {
+         this.DN = DN;
     }
 
-    public static double[] getLCcoordinates() {
+    public  double[] getLCcoordinates() {
         return LCcoordinates;
     }
 
-    public static void setLCcoordinates(double[] LCcoordinates) {
-        triangulacia.LCcoordinates = LCcoordinates;
+    public  void setLCcoordinates(double[] LCcoordinates) {
+         this.LCcoordinates = LCcoordinates;
     }
 
-    public static ArrayList<double[]> getBody() {
+    public  ArrayList<double[]> getBody() {
         return body;
     }
 
-    public static void setBody(ArrayList<double[]> body) {
-        triangulacia.body = body;
+    public  void setBody(ArrayList<double[]> body) {
+         this.body = body;
     }
 
-    public static boolean isDeff() {
+    public  boolean isDeff() {
         return deff;
     }
 
-    public static void setDeff(boolean deff) {
-        triangulacia.deff = deff;
+    public  void setDeff(boolean deff) {
+         this.deff = deff;
     }
 
     public  ArrayList<DTriangle> getResults() {
@@ -282,7 +252,7 @@ public class triangulacia {
       * is Is mesh Calculated = true return triangles else results clear and return nullpointer;
       * @return 
       */
-     public static ArrayList<DTriangle> getTriangles() {
+     public  ArrayList<DTriangle> getTriangles() {
         if(IsMeshCalculated == true){
         return results;    
         } 
@@ -294,7 +264,7 @@ public class triangulacia {
       * 
       * @return number of  points from triangulation 
       */
-     public static int getNumberOfPoints() {
+     public  int getNumberOfPoints() {
         if(IsMeshCalculated == true){
             return numberOfPoints;
         } 
@@ -305,7 +275,7 @@ public class triangulacia {
 
      
      
-    private static int najdiVysku(int X, ArrayList<double[]> body){
+    private  int najdiVysku(int X, ArrayList<double[]> body){
         
         int poradoveCislo=0;
         for (int cl1 = 0;cl1<body.size();cl1++){

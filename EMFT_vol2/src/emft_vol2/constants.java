@@ -23,10 +23,19 @@ public class constants {
     private static double Mu1;
     private static double Epsi0;
     private static double Epsi1;
+
+    public static double getPresnostCH() {
+        return presnostCH;
+    }
+
+    public static void setPresnostCH(double presnostCH) {
+        constants.presnostCH = presnostCH;
+    }
     private static double AkcneB;
     private static double AkcneE;
+    private static double presnostCH=0.1;                  // presnost na prepocet C do H manualne v kode 
     
-    private static double DN; // velkost siete
+    private static double DN;                              // velkost siete
     private static double[] GCcoordinates = new double[3]; // globalne koordinaty POZOR potrebne deklarovat velkost
 
     public static double getDN() {

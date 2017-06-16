@@ -7,6 +7,10 @@
  */
 package emft_vol2;
 
+import org.jdelaunay.delaunay.error.DelaunayError;
+import org.jdelaunay.delaunay.geometries.DPoint;
+import tools.help;
+
 /**
  *
  * @author Jozef
@@ -19,17 +23,28 @@ public class retazovka {
     private static double I2_over;
     private static double W1_over;
     private static double W2_over;
+    private static double X1_over;
+    private static double X2_over;
+    
+    private static DPoint P1_over; 
+    private static DPoint P2_over; 
+    
     private static int bundle_over;
     private static double alpha_over;
+    
+    private static double HC_over;
     
     private static double H_over;
     private static double C_over;
     private static double Amod_over;
+    private static double A1_over;
     
     private static double r_over;
     private static double U_over;
     private static double I_over;
     private static double Phi_over;
+    
+    private static boolean isUtopeny=false ;
     
     //constructor
     /**
@@ -39,153 +54,304 @@ public class retazovka {
      * @param I1 vyska izolator1
      * @param I2 vyska izolator2
      * @param W1 vylozenie zavesneho bodu 1
-     * @param W2 vylozenie zavesneho bodu 1
+     * @param W2 vylozenie zavesneho bodu 2
+     * @param X1 zavesneho bodu 1 v osi X deff treba dat nulu
+     * @param X2 zavesneho bodu 2 v osi X deff treba dat A
      * @param bundle zvazok
      * @param alpha uhol otocenia zvazku
-     * @param H min vyska nad terenom ( podla akualne definovaneho terenu)
-     * @param C parameter retazovky
+     * @param HC cislena hodnota H alebo C
+     * @param CorH true C false H
      * @param Amod modifikovane rozpatie
      * @param r polomer vodiča
      * @param U združene napatie
      * @param I prud
      * @param Phi faza
+     * AK je zadana hodnota H tak je to minimalny výška nad nulovým terénom pre LC 000 !!
      */
     public retazovka(   
      double V1, double V2, double I1,double I2,
-     double W1, double W2,
+     double W1, double W2,double X1, double X2,
      int bundle, double alpha,  
-     double H, double C,double Amod, double r,
+     double HC, boolean CorH, double r,
      double U,double I,double Phi   
-    )
+    ) throws DelaunayError
     {   
     V1_over=V1;V2_over=V2;I1_over=I1;I2_over=I1;W1_over=W1;W2_over=W2;bundle_over=bundle;alpha_over=alpha;
-    H_over=H;C_over=C;Amod_over=Amod;r_over=r;U_over=U;I_over=I;Phi_over=Phi;
+    HC_over=HC;r_over=r;U_over=U;I_over=I;Phi_over=Phi;
+    X1_over = X1; X2_over = X2;
+    
+    P1_over = new DPoint(0, 0, 0);
+    P2_over = new DPoint(0, 0, 0);
+    
+    
+    P1_over.setX(X1_over);
+    P2_over.setX(X2_over);
+    
+    P1_over.setY(V1_over);
+    P2_over.setY(V2_over);
+    
+    P1_over.setZ(W1_over);
+    P2_over.setZ(W2_over);
+    
+    Amod_over=Amod(P1_over, P2_over);
+    if(CorH== true){                  // vypočet C
+        C_over = HC;                  // nastavi C
+        H_over = Hcalculation(P1_over, P2_over, Amod_over, C_over);      // vypočtia H
+    }else{
+        H_over =HC;
+        C_over = CfromHcalculation(P1_over, P2_over, Amod_over, H_over); // dopocita C na zaklade H
+    }
+    
+    };
+    
+    public retazovka(   
+     DPoint P1, DPoint P2,     
+     double I1,double I2,
+     int bundle, double alpha,  
+     double HC, boolean CorH, double r,
+     double U,double I,double Phi   
+    ) throws DelaunayError
+    {   
+         
+    I1_over=I1;I2_over=I1;bundle_over=bundle;alpha_over=alpha;
+    HC_over=HC;r_over=r;U_over=U;I_over=I;Phi_over=Phi;
+    
+    P1_over = new DPoint(0, 0, 0);
+    P2_over = new DPoint(0, 0, 0);
+    P1_over=P1; P2_over=P2;
+    
+    
+    X1_over=P1_over.getX();
+    X2_over=P2_over.getX();
+    
+    V1_over=P1_over.getY();
+    V2_over=P2_over.getY();
+    
+    W1_over=P1_over.getZ();
+    W2_over=P2_over.getZ();
+    
+    Amod_over=Amod(P1_over, P2_over); // AMOD
+    if(CorH== true){                  // vypočet C
+        C_over = HC;                  // nastavi C
+        H_over = Hcalculation(P1_over, P2_over, Amod_over, C_over);      // vypočtia H
+    }else{
+        H_over =HC;
+        C_over = CfromHcalculation(P1_over, P2_over, Amod_over, H_over); // dopocita C na zaklade H
+    }
+    
     };
 
+    private static double Amod (DPoint P1, DPoint P2){
+        double Amod=Math.sqrt( Math.pow(P2.getX() - P1.getX(),2) + Math.pow(P2.getZ() - P1.getZ(), 2)  );
+        return Amod;
+    }
+
+    private static double CfromHcalculation(DPoint P1, DPoint P2,double Amod,double H ){
+        double C=1000;
+        double Hnew=0;
+        double Hold = H;
+        while(true){            
+            
+            double K1 = Amod/(2*C);
+            double K2 = help.AsinH((P2.getY()- P1.getY())/(2*C*Math.sinh(K1)));
+            double A1 = Amod - (C*(K2+K1));
+            A1_over =A1;    // sets the A1
+            
+            
+            
+            Hnew = P1.getY()-(C*(Math.cosh(A1/C))) + C;
+            
+            if( Math.abs(Hold-Hnew)<constants.getPresnostCH()) break; // kontrola ak podmienka plati chod von
+            
+            if(Hnew > Hold) {                                        //  ak nie tak nasav nove Cčko
+                C=C-C/2;
+            }else{
+                C=C+C/2;
+            }
+           
+        }
+        if(A1_over<0 || A1_over>Amod_over) isUtopeny=true;          // ak je utopeny spozna to
+        H_over=Hnew;
+        return C;
+        
+    }
+
+    public  double getA1_over() {
+        return A1_over;
+    }
+
+    public  void setA1_over(double A1_over) {
+        retazovka.A1_over = A1_over;
+    }
+
+    private static double Hcalculation(DPoint P1, DPoint P2,double Amod,double C ){
+        
+        double H=0;
+  
+            double K1 = Amod/(2*C);
+            
+            double K2 = help.AsinH((P2.getY()- P1.getY())/(2*C*Math.sinh(K1)));
+           
+            double A1 = Amod - (C*(K2+K1));
+             A1_over =A1;              // sets the A1
+            H = P1.getY()-(C*(Math.cosh(A1/C))) + C;
+            if(A1_over<0 || A1_over>Amod_over) isUtopeny=true;   // ak je utopeny spozna to
+            
+        return H;
+        
+    }
+
     
-    
-    public static double getV1_over() {
-        return V1_over;
-    }
-
-    public static void setV1_over(double V1_over) {
-        retazovka.V1_over = V1_over;
-    }
-
-    public static double getV2_over() {
-        return V2_over;
-    }
-
-    public static void setV2_over(double V2_over) {
-        retazovka.V2_over = V2_over;
-    }
-
-    public static double getI1_over() {
-        return I1_over;
-    }
-
-    public static void setI1_over(double I1_over) {
-        retazovka.I1_over = I1_over;
-    }
-
-    public static double getI2_over() {
-        return I2_over;
-    }
-
-    public static void setI2_over(double I2_over) {
-        retazovka.I2_over = I2_over;
-    }
-
-    public static double getW1_over() {
-        return W1_over;
-    }
-
-    public static void setW1_over(double W1_over) {
-        retazovka.W1_over = W1_over;
-    }
-
-    public static double getW2_over() {
-        return W2_over;
-    }
-
-    public static void setW2_over(double W2_over) {
-        retazovka.W2_over = W2_over;
-    }
-
-    public static int getBundle_over() {
-        return bundle_over;
-    }
-
-    public static void setBundle_over(int bundle_over) {
-        retazovka.bundle_over = bundle_over;
-    }
-
-    public static double getAlpha_over() {
+    public  double getAlpha_over() {
         return alpha_over;
     }
 
-    public static void setAlpha_over(double alpha_over) {
-        retazovka.alpha_over = alpha_over;
-    }
-
-    public static double getH_over() {
-        return H_over;
-    }
-
-    public static void setH_over(double H_over) {
-        retazovka.H_over = H_over;
-    }
-
-    public static double getC_over() {
-        return C_over;
-    }
-
-    public static void setC_over(double C_over) {
-        retazovka.C_over = C_over;
-    }
-
-    public static double getAmod_over() {
+    public  double getAmod_over() {
         return Amod_over;
     }
 
-    public static void setAmod_over(double Amod_over) {
-        retazovka.Amod_over = Amod_over;
+    public  int getBundle_over() {
+        return bundle_over;
     }
 
-    public static double getR_over() {
-        return r_over;
+    public  double getC_over() {
+        return C_over;
     }
 
-    public static void setR_over(double r_over) {
-        retazovka.r_over = r_over;
+    public  double getH_over() {
+        return H_over;
     }
 
-    public static double getU_over() {
-        return U_over;
+    public  double getI1_over() {
+        return I1_over;
     }
 
-    public static void setU_over(double U_over) {
-        retazovka.U_over = U_over;
+    public  double getI2_over() {
+        return I2_over;
     }
 
-    public static double getI_over() {
+    public  double getI_over() {
         return I_over;
     }
 
-    public static void setI_over(double I_over) {
-        retazovka.I_over = I_over;
+    public  DPoint getP1_over() {
+        return P1_over;
     }
 
-    public static double getPhi_over() {
+    public  DPoint getP2_over() {
+        return P2_over;
+    }
+
+    public  double getPhi_over() {
         return Phi_over;
     }
 
-    public static void setPhi_over(double Phi_over) {
+    public  double getR_over() {
+        return r_over;
+    }
+
+    public  double getU_over() {
+        return U_over;
+    }
+    
+    public  double getV1_over() {
+        return V1_over;
+    }
+
+    public  double getV2_over() {
+        return V2_over;
+    }
+
+    public  double getW1_over() {
+        return W1_over;
+    }
+
+    public  double getW2_over() {
+        return W2_over;
+    }
+
+    public  double getX1_over() {
+        return X1_over;
+    }
+
+    public  double getX2_over() {
+        return X2_over;
+    }
+
+    public  void setAlpha_over(double alpha_over) {
+        retazovka.alpha_over = alpha_over;
+    }
+
+    public  void setAmod_over(double Amod_over) {
+        retazovka.Amod_over = Amod_over;
+    }
+
+    public  void setBundle_over(int bundle_over) {
+        retazovka.bundle_over = bundle_over;
+    }
+
+    public  void setC_over(double C_over) {
+        retazovka.C_over = C_over;
+    }
+
+    public  void setH_over(double H_over) {
+        retazovka.H_over = H_over;
+    }
+
+    public  void setI1_over(double I1_over) {
+        retazovka.I1_over = I1_over;
+    }
+
+    public  void setI2_over(double I2_over) {
+        retazovka.I2_over = I2_over;
+    }
+
+    public  void setI_over(double I_over) {
+        retazovka.I_over = I_over;
+    }
+
+    public  void setP1_over(DPoint P1_over) {
+        retazovka.P1_over = P1_over;
+    }
+
+    public  void setP2_over(DPoint P2_over) {
+        retazovka.P2_over = P2_over;
+    }
+
+    public  void setPhi_over(double Phi_over) {
         retazovka.Phi_over = Phi_over;
     }
 
-    
-    
-    
+    public  void setR_over(double r_over) {
+        retazovka.r_over = r_over;
+    }
+
+    public  void setU_over(double U_over) {
+        retazovka.U_over = U_over;
+    }
+
+    public  void setV1_over(double V1_over) {
+        retazovka.V1_over = V1_over;
+    }
+
+    public  void setV2_over(double V2_over) {
+        retazovka.V2_over = V2_over;
+    }
+
+    public  void setW1_over(double W1_over) {
+        retazovka.W1_over = W1_over;
+    }
+
+    public  void setW2_over(double W2_over) {
+        retazovka.W2_over = W2_over;
+    }
+
+    public  void setX1_over(double X1_over) {
+        retazovka.X1_over = X1_over;
+    }
+
+    public  void setX2_over(double X2_over) {
+        retazovka.X2_over = X2_over;
+    }
     
 }

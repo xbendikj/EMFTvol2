@@ -3,7 +3,9 @@
  */
 package emft_vol2;
 
+import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
 import java.util.ArrayList;
+import tools.help;
 
 /**
  * 
@@ -11,21 +13,22 @@ import java.util.ArrayList;
  */
  
 public class rozpatie {
-    private static String meno;
-    private static double[] LCcoordinates = new double[3]; 
-    private static double A;
-    private static double Z;
-    private static ArrayList<retazovka> Retazovka = new ArrayList<>();
-    private static teren Teren;
+    private String meno;
+    private double[] LCcoordinates1 = new double[3]; 
+    private  double[] LCcoordinates2 = new double[3]; 
+    private  double A;
+    private  double Z;
+    private  ArrayList<retazovka> Retazovka = new ArrayList<>();
+    private  teren Teren;
     
 
     // empty constructor
     public rozpatie() {
         
     //definovat default local system
-        LCcoordinates[0]=0; // X 
-        LCcoordinates[1]=0; // X 
-        LCcoordinates[2]=0; // X     
+        LCcoordinates1[0]=0; // X 
+        LCcoordinates1[1]=0; // X 
+        LCcoordinates1[2]=0; // X     
     }
     /**
      * buil default rozpatie, default l.c.
@@ -38,22 +41,27 @@ public class rozpatie {
         this.A=A;
         this.Z=Z;
         //definovat default local system
-        LCcoordinates[0]=0; // X 
-        LCcoordinates[1]=0; // X 
-        LCcoordinates[2]=0; // X 
+        LCcoordinates1[0]=0; // X 
+        LCcoordinates1[1]=0; // X 
+        LCcoordinates1[2]=0; // X 
+        
+        LCcoordinates2[0]=A; // X  //  default druhy bod LC
+        LCcoordinates2[1]= LCcoordinates1[1]; // y
+        LCcoordinates2[2]=0; // z
+        
     }
        
 
-    public static String getMeno() {
+    public  String getMeno() {
         return meno;
     }
 
     public static void setMeno(String meno) {
-        rozpatie.meno = meno;
+        meno = meno;
     }
 
-    public static double[] getLCcoordinates() {
-        return LCcoordinates;
+    public  double[] getLCcoordinates1() {
+        return LCcoordinates1;
     }
     /**
      * predefinuj l.c.
@@ -61,29 +69,37 @@ public class rozpatie {
      * @param Y corr
      * @param Z corr
      */
-    public static void setLCcoordinates(double X,double Y,double Z) {
-        rozpatie.LCcoordinates[0] = X;
-        rozpatie.LCcoordinates[1] = Y;
-        rozpatie.LCcoordinates[2] = Z;
+    public void setLCcoordinates(double X,double Y,double Z,double X2,double Z2) {
+        LCcoordinates1[0] = X;
+        LCcoordinates1[1] = Y;
+        LCcoordinates1[2] = Z;
+        
+        LCcoordinates2[0] = X2; 
+        LCcoordinates2[1] =  LCcoordinates1[1] ;
+        LCcoordinates2[2] = Z2;
+       
+        this.A=Math.sqrt( Math.pow(X2-X,2) - Math.pow(Z2-Z,2));  // znema LC znamena aj Zmena A
+         
+        help.info("Nastala Zmena A pretože bolo definovane LC mimo deff", true);
     }
 
-    public static double getA() {
+    public  double getA() {
         return A;
     }
 
-    public static void setA(double A) {
-        rozpatie.A = A;
+    public  void setA(double A) {
+        A = A;
     }
 
-    public static double getZ() {
+    public  double getZ() {
         return Z;
     }
 
-    public static void setZ(double Z) {
-        rozpatie.Z = Z;
+    public  void setZ(double Z) {
+        Z = Z;
     }
 
-    public static ArrayList<retazovka> getRetazovkaList() {
+    public  ArrayList<retazovka> getRetazovkaList() {
         return Retazovka;
     }
     /**
@@ -91,7 +107,7 @@ public class rozpatie {
      * @param id poradove cislo retazovky a arralystu
      * @return jedlo lano
      */
-    public static retazovka getRetazovka(int id) {
+    public  retazovka getRetazovka(int id) {
         return Retazovka.get(id);
     }
     
@@ -99,24 +115,24 @@ public class rozpatie {
      * add new lano to the next one
      * @param Retazovka 
      */
-    public static void setRetazovka( retazovka Retazovka) {
-        rozpatie.Retazovka.add(Retazovka);
+    public  void setRetazovka( retazovka Retazovka) {
+        this.Retazovka.add(Retazovka);
     }
     
-    public static void replaceRetazovka( retazovka Retazovka, int id) {
-        rozpatie.Retazovka.set(id,Retazovka);
+    public  void replaceRetazovka( retazovka Retazovka, int id) {
+        this.Retazovka.set(id,Retazovka);
     }
 
-    public static void setRetazovka(ArrayList<retazovka> Retazovka) {
-        rozpatie.Retazovka = Retazovka;
+    public  void setRetazovka(ArrayList<retazovka> Retazovka) {
+        this.Retazovka = Retazovka;
     }
    
-    public static teren getTeren() {
+    public  teren getTeren() {
         return Teren;
     }
 
     public static void setTeren(teren Teren) {
-        rozpatie.Teren = Teren;
+       Teren = Teren;
     }
     
     
