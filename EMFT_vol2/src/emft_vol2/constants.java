@@ -33,7 +33,7 @@ public class constants {
     }
     private static double AkcneB;
     private static double AkcneE;
-    private static double presnostCH=0.1;                  // presnost na prepocet C do H manualne v kode 
+    private static double presnostCH=0.001;                  // presnost na prepocet C do H manualne v kode 
     
     private static double DN;                              // velkost siete
     private static double[] GCcoordinates = new double[3]; // globalne koordinaty POZOR potrebne deklarovat velkost

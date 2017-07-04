@@ -45,45 +45,45 @@ public class main_class {
         main_Jframe.main(args); //spust main frame
         constants.loadConstants(); // nacitaj konštanty
            
-      
+      // test delaunay
        System.out.println("TEST OF DELAUNAY 1");
         double A = 300;
         double Z = 40; 
-        int N = 2;
+        int N = 4;
         
         ArrayList<double[]> body = new ArrayList<double[]>();
         System.out.println("Enter the coordinates of each points: <x> <y> <z>");
        for (int i = 0; i < N; i++){
         if(i==0){
             double[] cislo = new double[3];
-            cislo[0] = 300; 
-            cislo[1] = 20;
-            cislo[2] = 0;
+            cislo[0] = 0; 
+            cislo[1] = 0;
+            cislo[2] = 100;
             body.add(cislo);}
         if(i==1){
              double[] cislo = new double[3];
-            cislo[0] = 150; 
-            cislo[1] = 10;
-            cislo[2] = 0;
+            cislo[0] = 0; 
+            cislo[1] = 0;
+            cislo[2] = -100;
             body.add(cislo);
             
         } if(i==2){
              double[] cislo = new double[3];
-            cislo[0] = 40; 
-            cislo[1] = 0;
-            cislo[2] = -20;
+            cislo[0] = 300; 
+            cislo[1] = 400;
+            cislo[2] = 100;
             body.add(cislo);}
         if(i==3){
              double[] cislo = new double[3];
-            cislo[0] = 180; 
-            cislo[1] = 0;
-            cislo[2] = 5;
+            cislo[0] = 300; 
+            cislo[1] = 400;
+            cislo[2] = -100;
             body.add(cislo);}
         if(i==4){
              double[] cislo = new double[3];
-            cislo[0] = 200; 
-            cislo[1] = 10;
-            cislo[2] = -30;
+            cislo[0] = 0; 
+            cislo[1] = 0;
+            cislo[2] = 0;
             body.add(cislo);}
         if(i==5){
              double[] cislo = new double[3];
@@ -96,27 +96,34 @@ public class main_class {
             cislo[0] = 10;
             cislo[1] =10;
             cislo[2] = 40;
-            body.add(cislo);}
-            
-        
+            body.add(cislo);}  
         }
           
         System.out.println("ZADANE OK");
         
         double[] LCcoordinates= new double[3];
         LCcoordinates[0]=0;
-        LCcoordinates[1]=300;
+        LCcoordinates[1]=0;
         LCcoordinates[2]=0;
     
-        triangulacia test = new triangulacia(A, Z, body,true,LCcoordinates);
+        triangulacia test = new triangulacia(A, Z, body,false,LCcoordinates,false);
         test.setLCcoordinates(LCcoordinates);
         try {
             test.run(); 
             Tfield pokusnePole = new Tfield(test.getTriangles());
-            DPoint pokusnyB = new DPoint(20,0,20);
-            pokusnyB=pokusnePole.getY(pokusnyB);
+            DPoint pokusnyB = new DPoint(20,15,50);
+            pokusnyB=pokusnePole.getYaboveTer(pokusnyB);
             System.out.println("TEST the field transformations");
             System.out.println(pokusnyB);
+            
+            System.out.println("Test normal");
+             DPoint pokusnyc = new DPoint(290,15,0);
+             pokusnyc=pokusnePole.getY(pokusnyc);
+             
+             System.out.println("Test perpendicular");
+             DPoint pokusnyd = new DPoint(0,400,0);
+             pokusnyd=pokusnePole.getPerpendicularProjection(pokusnyd);
+            System.out.println(pokusnyd);
             
         } catch (DelaunayError ex) {
             Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,40 +132,37 @@ public class main_class {
         //test show graph
         SurfaceGraph povrch = new SurfaceGraph(test.getTriangles(), test.getResultsPoint());
         povrch.Run();
-        
-        
-        
-        
-        
-        
-        
+            
         // TEST RETAZOVKA
         System.out.println("TEST retazovka C a H");
         retazovka ret;
         try {
-            ret = new retazovka(20, 10, 0, 0, 4, 10, 0, 300, 1, 20, 10, false, 0.1, 100, 100, 120);
-
+            ret = new retazovka(40, 40, 0, 0, 0, 0, 0, 300, 1, 20, 1500, true, 0.1, 100, 100, 120,test.getTriangles());
+            System.out.println(ret.getC_over());
+            System.out.println(ret.getH_over());
+            System.out.println(ret.getA1_over());
+            System.out.println(ret.getHter_over());
         } catch (DelaunayError ex) {
             Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         // TEST transformacia LC GC
-        double[] LC1 = new double[3];
-        double[] LC2 = new double[3];
+        double[] LC1_tower = new double[3];
+        double[] LC2_tower = new double[3];
         
-        LC1[0]=10;
-        LC1[1]=300;
-        LC1[2]=-10;
+        LC1_tower[0]=10;
+        LC1_tower[1]=300;
+        LC1_tower[2]=-10;
         
-        LC2[0]=10;
-        LC2[1]=300;
-        LC2[2]=-300;
+        LC2_tower[0]=10;
+        LC2_tower[1]=300;
+        LC2_tower[2]=-300;
         
         DPoint TEST1;
         try {
             TEST1 = new DPoint(20, 0, -20);
             System.out.println("pred " + TEST1);
-            TEST1 = help.CorToLC(LC1, LC2, TEST1);
+            TEST1 = help.CorToLC(LC1_tower, LC2_tower, TEST1);
             System.out.println("po " +TEST1);
         } catch (DelaunayError ex) {
             Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);

@@ -33,6 +33,7 @@ public class triangulacia {
     private double[] LCcoordinates= new double[3];
     private  ArrayList<double[]> body = new ArrayList<double[]>();
     private  boolean deff = false; // defaultna tringulacia okolo stvorcovej hrany ak true tak bdue vytvarat na zaklade bodov hranu
+    private  boolean deff2 = false;
     private  ArrayList<DTriangle> results = new ArrayList<DTriangle>();
     private  boolean IsMeshCalculated = false;
     private  int numberOfPoints;
@@ -52,16 +53,17 @@ public class triangulacia {
      * @param Z priecna dlzka plochy
      * @param DN krok stvorcovania zeme
      * @param body arraylist double[3] musi byt v LC
-     * @param deff Ake bude vytvorenie hran true ( stvorec ) false ( podla bodov )
-     */
-
-    public triangulacia(double A,double Z,ArrayList body,boolean deff,double[] LCcoordinates) {
+     * @param deff  false ( podla bodov ) Ake bude vytvorenie hran true = ( stvorec ) default value = false
+     * @param deff2 false priratavam vyšku LC[1] ku každemu bodu  ( teda body už neobsahuju tuto vyku a je od každeho odčitana ) true = vkladam nulu teda body už pbsahuju aj vyšku default value = false
+**/
+    public triangulacia(double A,double Z,ArrayList body,boolean deff,double[] LCcoordinates,boolean deff2) {
         this.A=A; 
         this.Z=Z;
         //this.DN =DN;
         this.LCcoordinates=LCcoordinates;
         this.body=body;  // body už su v lC koordinatoch
         this.deff=deff;
+        this.deff2=deff2;
     }
     
     public triangulacia(double A,double Z,ArrayList body,double[] LCcoordinates) {
@@ -75,6 +77,10 @@ public class triangulacia {
     
     public void run() throws DelaunayError{
         IsMeshCalculated =false;
+        double vyskaLC_Y = LCcoordinates[1]; 
+        if (deff2==true) vyskaLC_Y = 0; 
+        
+        
         ConstrainedMesh mesh = new ConstrainedMesh();
         ArrayList<DEdge> edges = new ArrayList<DEdge>();
         ArrayList<Point> points = new ArrayList<Point>();
@@ -115,7 +121,7 @@ public class triangulacia {
                 double YY = (double) Y;
                 double ZZ = (double) Z;
         
-                 DPoint c1 = new DPoint(XX/100, ZZ/100, YY/100+LCcoordinates[1]); // vytvor bod 1 xyz
+                 DPoint c1 = new DPoint(XX/100, ZZ/100, YY/100+vyskaLC_Y ); // vytvor bod 1 xyz
                  
                  if(cl3+1 == p.size()){
                  
@@ -128,7 +134,7 @@ public class triangulacia {
                  YY = (double) Y;
                  ZZ = (double) Z;
                  
-                 DPoint c2 = new DPoint(XX/100, ZZ/100, YY/100+LCcoordinates[1]); // vytvor bod 2 xyz 
+                 DPoint c2 = new DPoint(XX/100, ZZ/100, YY/100+vyskaLC_Y ); // vytvor bod 2 xyz 
                  edges.add(new DEdge(c1,c2));
                  if(cl3==-1){
                      break ;
@@ -140,7 +146,7 @@ public class triangulacia {
         
         //vlozenie bodov z arrylist bod  auprava podla LC 
         for(int cl1=0; cl1<body.size();cl1++){
-          DPoint c1 = new DPoint(body.get(cl1)[0],body.get(cl1)[2], body.get(cl1)[1]+LCcoordinates[1]); // vytvor bod 1 xzy
+          DPoint c1 = new DPoint(body.get(cl1)[0],body.get(cl1)[2], body.get(cl1)[1]+vyskaLC_Y ); // vytvor bod 1 xzy
           mesh.addPoint(c1);
         }
         // ak nie su žiadne body a je deff rvna plocha vlož jeden bod do stredu plochy

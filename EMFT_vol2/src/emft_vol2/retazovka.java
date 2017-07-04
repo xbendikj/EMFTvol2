@@ -7,9 +7,12 @@
  */
 package emft_vol2;
 
+import java.util.ArrayList;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
+import org.jdelaunay.delaunay.geometries.DTriangle;
 import tools.help;
+import tools.warning_jDialog;
 
 /**
  *
@@ -35,8 +38,10 @@ public class retazovka {
     private static double HC_over;
     
     private static double H_over;
+    private static double Hter_over; // hodnotene len v mieste maximálneho prihybu
     private static double C_over;
     private static double Amod_over;
+    private static double Beta_over;
     private static double A1_over;
     
     private static double r_over;
@@ -45,6 +50,7 @@ public class retazovka {
     private static double Phi_over;
     
     private static boolean isUtopeny=false ;
+    private ArrayList<DTriangle> terenTriangles_over;
     
     //constructor
     /**
@@ -60,12 +66,13 @@ public class retazovka {
      * @param bundle zvazok
      * @param alpha uhol otocenia zvazku
      * @param HC cislena hodnota H alebo C
-     * @param CorH true C false H
+     * @param CorH true C alebo false H
      * @param Amod modifikovane rozpatie
      * @param r polomer vodiča
      * @param U združene napatie
      * @param I prud
      * @param Phi faza
+     * @param terentriangle array of triangles
      * AK je zadana hodnota H tak je to minimalny výška nad nulovým terénom pre LC 000 !!
      */
     public retazovka(   
@@ -73,11 +80,11 @@ public class retazovka {
      double W1, double W2,double X1, double X2,
      int bundle, double alpha,  
      double HC, boolean CorH, double r,
-     double U,double I,double Phi   
+     double U,double I,double Phi,ArrayList<DTriangle> terenTriangles 
     ) throws DelaunayError
     {   
     V1_over=V1;V2_over=V2;I1_over=I1;I2_over=I1;W1_over=W1;W2_over=W2;bundle_over=bundle;alpha_over=alpha;
-    HC_over=HC;r_over=r;U_over=U;I_over=I;Phi_over=Phi;
+    HC_over=HC;r_over=r;U_over=U;I_over=I;Phi_over=Phi; terenTriangles_over =  terenTriangles;
     X1_over = X1; X2_over = X2;
     
     P1_over = new DPoint(0, 0, 0);
@@ -93,14 +100,8 @@ public class retazovka {
     P1_over.setZ(W1_over);
     P2_over.setZ(W2_over);
     
-    Amod_over=Amod(P1_over, P2_over);
-    if(CorH== true){                  // vypočet C
-        C_over = HC;                  // nastavi C
-        H_over = Hcalculation(P1_over, P2_over, Amod_over, C_over);      // vypočtia H
-    }else{
-        H_over =HC;
-        C_over = CfromHcalculation(P1_over, P2_over, Amod_over, H_over); // dopocita C na zaklade H
-    }
+     generate(HC, CorH);
+
     
     };
     
@@ -109,12 +110,12 @@ public class retazovka {
      double I1,double I2,
      int bundle, double alpha,  
      double HC, boolean CorH, double r,
-     double U,double I,double Phi   
+     double U,double I,double Phi,ArrayList<DTriangle> terenTriangles  
     ) throws DelaunayError
     {   
          
     I1_over=I1;I2_over=I1;bundle_over=bundle;alpha_over=alpha;
-    HC_over=HC;r_over=r;U_over=U;I_over=I;Phi_over=Phi;
+    HC_over=HC;r_over=r;U_over=U;I_over=I;Phi_over=Phi; terenTriangles_over =  terenTriangles;
     
     P1_over = new DPoint(0, 0, 0);
     P2_over = new DPoint(0, 0, 0);
@@ -130,23 +131,71 @@ public class retazovka {
     W1_over=P1_over.getZ();
     W2_over=P2_over.getZ();
     
-    Amod_over=Amod(P1_over, P2_over); // AMOD
-    if(CorH== true){                  // vypočet C
-        C_over = HC;                  // nastavi C
-        H_over = Hcalculation(P1_over, P2_over, Amod_over, C_over);      // vypočtia H
-    }else{
-        H_over =HC;
-        C_over = CfromHcalculation(P1_over, P2_over, Amod_over, H_over); // dopocita C na zaklade H
-    }
+   generate(HC, CorH);
     
     };
 
-    private static double Amod (DPoint P1, DPoint P2){
+    private void generate(double HC, boolean CorH) throws DelaunayError{
+        
+        
+    Tfield BOD = new Tfield(terenTriangles_over);  // zober trojuholniky najdy  v ktorom s nachadza bod dopočitaj jeho vyšku vzhladom na teren
+    P1_over=BOD.getYaboveTer(P1_over);       // najdy vysku zavesneho bodu na terene above teren 
+    P2_over=BOD.getYaboveTer(P2_over);      // najdy vysku zavesneho bodu na terene above teren 
+    
+    P1_over.setY(P1_over.getY()-I1_over ); // zniž zavesny bod a vyšku izolatora
+    P2_over.setY(P2_over.getY()-I2_over ); // zniž zavesny bod a vyšku izolatora
+    
+    Amod_over=Amod(P1_over, P2_over); // AMOD
+    Beta_over=Beta(P1_over, P2_over); // Beta angle caltulation
+    
+    if( CorH== true){                  // vypočet C
+        C_over = HC;                  // nastavi C
+        H_over = Hcalculation(P1_over, P2_over, Amod_over, C_over);      // vypočtia H
+        
+        double A1x = A1_over*Math.cos(Beta_over) + P1_over.getX(); // priemet A1  do A1x osi plus odd set od OLS preto plus P1X --- P-Ret-1
+        double A1z = A1_over*Math.sin(Beta_over) + P1_over.getZ(); // priemet A1  do A1x osi plus odd set od OLS preto plus P1X
+        DPoint A1LC = new DPoint(A1x, 0, A1z);
+        A1LC = BOD.getY(A1LC); // A1 v LC coor a priradenou výškou
+        Hter_over=H_over-A1LC.getY();  // novy vyška nad nenulovým terenoom je povodna žiadana vyška plus prírastok od nenulového terenu
+        
+        if (Hter_over < 0){
+        warning_jDialog help = new warning_jDialog("seka zem");
+        help.setVisible(true);
+        }
+    }else{
+        
+        H_over =HC;
+        C_over = CfromHcalculation(P1_over, P2_over, Amod_over, H_over); // dopocita C na zaklade H
+        
+        double A1x = A1_over*Math.cos(Beta_over) + P1_over.getX(); // priemet A1  do A1x osi plus odd set od OLS preto plus P1X --- P-Ret-1
+        double A1z = A1_over*Math.sin(Beta_over) + P1_over.getZ(); // priemet A1  do A1x osi plus odd set od OLS preto plus P1X
+        
+        DPoint A1LC = new DPoint(A1x, 0, A1z);
+        A1LC = BOD.getY(A1LC); // A1 v LC coor a priradenou výškou
+        Hter_over=HC+A1LC.getY();  // novy vyška nad nenulovým terenoom je povodna žiadana vyška plus prírastok od nenulového terenu
+        C_over = CfromHcalculation(P1_over, P2_over, Amod_over, Hter_over); //dopocita C na zaklade H
+    }
+        
+        
+    }
+    
+    
+    public double getHter_over() {
+        return Hter_over;
+    }
+
+    private  double Amod (DPoint P1, DPoint P2){
         double Amod=Math.sqrt( Math.pow(P2.getX() - P1.getX(),2) + Math.pow(P2.getZ() - P1.getZ(), 2)  );
         return Amod;
     }
+    
+    private  double Beta (DPoint P1, DPoint P2){
+        double Amod=Math.sqrt( Math.pow(P2.getX() - P1.getX(),2) + Math.pow(P2.getZ() - P1.getZ(), 2)  );
+        double Beta_Angle=Math.asin( ((P2.getZ() - P1.getZ())/Amod) );
+        return Beta_Angle;        
+    }
 
-    private static double CfromHcalculation(DPoint P1, DPoint P2,double Amod,double H ){
+    private double CfromHcalculation(DPoint P1, DPoint P2,double Amod,double H ){
         double C=1000;
         double Hnew=0;
         double Hold = H;
@@ -184,7 +233,7 @@ public class retazovka {
         retazovka.A1_over = A1_over;
     }
 
-    private static double Hcalculation(DPoint P1, DPoint P2,double Amod,double C ){
+    private  double Hcalculation(DPoint P1, DPoint P2,double Amod,double C ){
         
         double H=0;
   
