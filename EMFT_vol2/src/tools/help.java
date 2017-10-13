@@ -42,7 +42,7 @@ public class help {
     }
     
     /**
-     * kontrolor na double
+     * kontrolor na double tiež meni bodku čiarku
      * @param Y Jtext field vstup
      * @param output ak je Y kokoina tak vyhodi tuto hodnotu
      * @return 
@@ -63,6 +63,33 @@ public class help {
         }
      }
     /**
+     * vyluje to iste čislo po kontrole a ak je kokotnia tak vrati hodnotu aout put, a ešte ak je kokotina tak vyhodi error sigh
+     * @param Y Jtext field
+     * @param output
+     * @return 
+     */
+    public static double ReadCheckDoubleErrorSign(javax.swing.JTextField Y,double output){
+    String hodnota1 =Y.getText();
+        hodnota1=hodnota1.replace(" ", "");
+        String hodnota2=hodnota1.replace(",", ".");
+       if(hodnota1.equals(hodnota2)){}else{ Y.setText(hodnota2);}         
+       Double value ;
+        try{
+        value = Double.parseDouble(hodnota2);
+        Y.setForeground(Color.black);
+        return value;
+        }catch(NumberFormatException | NullPointerException e){
+         Y.setForeground(Color.red);
+         help.warning1row(language_help.LangLabel(constants.getLanguage_option(), 3));
+         return value = output; 
+        
+        }
+     }
+    
+    
+    
+    
+    /**
      * vlozi hodnotu to text fildu a upravi jej pocet des miest
      * @param Y text field vstup
      * @param input value ktoru chem zobrazit v textfielde
@@ -71,7 +98,7 @@ public class help {
     public static void DisplayDouble(javax.swing.JTextField Y,double input,int pocetDesMiest){
          
          String symbol="###.";
-         for(int cl0 =0 ; cl0<=pocetDesMiest;cl0++){
+         for(int cl0 =0 ; cl0<pocetDesMiest;cl0++){
            symbol=symbol+"#";  
          }
          
@@ -121,6 +148,30 @@ public class help {
         
     }
      
+    public static double Object_To_double(Object X){
+        double value=0;
+         try{
+        value = Double.parseDouble(String.valueOf(X));
+        return value;
+        }catch(NumberFormatException | NullPointerException e){
+ 
+         help.warning1row(language_help.LangLabel(constants.getLanguage_option(), 3));
+         return value = 0; 
+        }   
+    }
+    
+     public static double Object_To_int(Object X){
+        int value=0;
+         try{
+        value = Integer.parseInt(String.valueOf(X));
+        return value;
+        }catch(NumberFormatException | NullPointerException e){
+ 
+         help.warning1row(language_help.LangLabel(constants.getLanguage_option(), 3));
+         return value = 0; 
+        }   
+    }
+    
     public static double AsinH (double hodnota){
         double cislo;
         
@@ -150,20 +201,21 @@ public class help {
         double LCZ2 = LCcoordinates2[2];
          double alpha =0;
          
-        if(LCX1 == LCX2) {
+            if(LCX1 == LCX2) {
             
         if(LCZ1 - LCZ2<0)    
         alpha=Math.PI/2;
         
         if(LCZ1 - LCZ2>0)    
         alpha=-Math.PI/2;
-        
+           
         
         
         }     // n ochrana pred 90 stupnami a delenim nulou
+         
         
-        
-        else{ alpha = (LCZ1 - LCZ2) / (LCX1 - LCX2); // uhol otocenia
+         else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)  ); // else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
+        System.out.println(alpha); 
         }
         double P1XLC = (P1XGC - LCX1) * Math.cos(alpha) + (P1ZGC - LCZ1) * Math.sin(alpha);
         double P1ZLC = (P1ZGC - LCZ1) * Math.cos(alpha) + (P1XGC - LCX1) * Math.sin(alpha);
@@ -171,6 +223,51 @@ public class help {
         P1.setX(P1XLC);
         P1.setZ(P1ZLC);
         return P1;
+    }
+    /**
+     * POZOR neuprauje sa vyska  sfunkčne suradnice su XYZ
+     * @param LCcoordinates1 globalne suradnice lokalneho sysemu bod 1
+     * @param LCcoordinates2 globalne suradnice lokalneho sysemu bod 2
+     * @param X Z            bod v globalnych sur ktory transformujeme do LC pričom 00je LCCOORDINATES1
+     * @return vrati XZ 0=x 1=Z
+     */
+    public static double[] CorToLC (double[] LCcoordinates1,double[] LCcoordinates2,double X,double Z){
+        //double GCX = constants.getGCcoordinates()[0];
+       // double GCZ = constants.getGCcoordinates()[2];
+        
+        double P1XGC=X;
+        double P1ZGC=Z;
+        
+        
+        double LCX1 = LCcoordinates1[0];
+        double LCZ1 = LCcoordinates1[2];
+        
+        double LCX2 = LCcoordinates2[0];
+        double LCZ2 = LCcoordinates2[2];
+         double alpha =0;
+         
+            if(LCX1 == LCX2) {
+            
+        if(LCZ1 - LCZ2<0)    
+        alpha=Math.PI/2;
+        
+        if(LCZ1 - LCZ2>0)    
+        alpha=-Math.PI/2;
+           
+        
+        
+        }     // n ochrana pred 90 stupnami a delenim nulou
+         
+        
+        else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)  ); // uhol otocenia else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
+        System.out.println(alpha); 
+        }
+        double P1XLC = (P1XGC - LCX1) * Math.cos(alpha) + (P1ZGC - LCZ1) * Math.sin(alpha);
+        double P1ZLC = (P1ZGC - LCZ1) * Math.cos(alpha) + (P1XGC - LCX1) * Math.sin(alpha);
+        double[] XZcor = new double[2];
+        XZcor[0]=P1XLC;
+        XZcor[1]=P1ZLC;
+        return XZcor;
     }
     
      

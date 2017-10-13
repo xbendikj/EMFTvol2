@@ -29,9 +29,9 @@ public class warning_jDialog extends javax.swing.JDialog {
         this.secondRow=secondRow; 
         this.thirdRow=thirdRow;
         initComponents();
-        firstR.setText(firstRow);
-        firstR1.setText(secondRow);
-        firstR2.setText(thirdRow);
+        firstR.setText(this.firstRow);
+        firstR1.setText(this.secondRow);
+        firstR2.setText(this.thirdRow);
     }
     
     public warning_jDialog(String firstRow, String secondRow) {
@@ -40,9 +40,9 @@ public class warning_jDialog extends javax.swing.JDialog {
         this.secondRow=secondRow; 
         this.thirdRow="";
         initComponents();
-        firstR.setText(firstRow);
-        firstR1.setText(secondRow);
-        firstR2.setText(thirdRow);
+        firstR.setText(this.firstRow);
+        firstR1.setText(this.secondRow);
+        firstR2.setText(this.thirdRow);
     }
     
     public warning_jDialog(String firstRow) {
@@ -51,9 +51,9 @@ public class warning_jDialog extends javax.swing.JDialog {
         this.secondRow=firstRow; 
         this.thirdRow="";
         initComponents();
-        firstR.setText(firstRow);
-        firstR1.setText(secondRow);
-        firstR2.setText(thirdRow);
+        firstR.setText(this.firstRow);
+        firstR1.setText(this.secondRow);
+        firstR2.setText(this.thirdRow);
     }
     
     

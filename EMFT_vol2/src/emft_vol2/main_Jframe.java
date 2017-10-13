@@ -5,8 +5,10 @@
  */
 package emft_vol2;
 
+import InternalFrame.InternalFrameproject;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 
 /**
  *
@@ -17,9 +19,11 @@ public class main_Jframe extends javax.swing.JFrame {
     /**
      * Creates new form man_Jframe
      */
+    public static InternalFrameproject window = null;
     public main_Jframe() {
         initComponents();
         seticon();
+        
     }
 
     /**
@@ -33,6 +37,7 @@ public class main_Jframe extends javax.swing.JFrame {
 
         jPanel_STATUS = new javax.swing.JPanel();
         jLabel_STATUS = new javax.swing.JLabel();
+        JDesktop = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu_project = new javax.swing.JMenu();
         jMenuItem_new = new javax.swing.JMenuItem();
@@ -61,6 +66,17 @@ public class main_Jframe extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel_STATUS)
                 .addContainerGap())
+        );
+
+        javax.swing.GroupLayout JDesktopLayout = new javax.swing.GroupLayout(JDesktop);
+        JDesktop.setLayout(JDesktopLayout);
+        JDesktopLayout.setHorizontalGroup(
+            JDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1241, Short.MAX_VALUE)
+        );
+        JDesktopLayout.setVerticalGroup(
+            JDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 684, Short.MAX_VALUE)
         );
 
         jMenu_project.setText(language_main_frame.LangLabel(constants.getLanguage_option(),1));
@@ -130,11 +146,13 @@ public class main_Jframe extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel_STATUS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(JDesktop)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(690, Short.MAX_VALUE)
+                .addComponent(JDesktop)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel_STATUS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -142,7 +160,14 @@ public class main_Jframe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_newActionPerformed
-        // TODO add your handling code here:
+       // if ( pocetOkien<3){
+       if(window==null ) {   
+        window = new InternalFrameproject();    
+        JDesktop.add(window);
+        window.show();
+      }
+       // }
+        
     }//GEN-LAST:event_jMenuItem_newActionPerformed
 
     private void jMenu_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_settingsActionPerformed
@@ -213,6 +238,7 @@ public class main_Jframe extends javax.swing.JFrame {
     }   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JDesktopPane JDesktop;
     private javax.swing.JLabel jLabel_STATUS;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
@@ -224,6 +250,8 @@ public class main_Jframe extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu_settings;
     private javax.swing.JPanel jPanel_STATUS;
     // End of variables declaration//GEN-END:variables
+    public static ArrayList<InternalFrameproject> Okna = new ArrayList<InternalFrameproject>();
+     private int pocetOkien = 0;
 }
 
 
@@ -269,13 +297,13 @@ static void constructor(){
   /*8*/  SK.add("O programe");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*9*/  SK.add("zarieť");  
+  /*9*/  SK.add("Zavieť");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
   /*10*/  SK.add("OK");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-                     
+          
                         
                           
                 
@@ -315,8 +343,9 @@ public static String LangLabel2(){
     
     return SlovoDaloSlovo;
     } 
- private static  final ArrayList<String> SK= new ArrayList<>();
+ private static final ArrayList<String> SK= new ArrayList<>();
  private static final ArrayList<String> CZ= new ArrayList<>();
  private static final ArrayList<String> EN= new ArrayList<>();
  private static boolean inicializovane = false;
+
 }

@@ -5,11 +5,15 @@
  */
 package emft_vol2;
 
+import BackEnd.Tfield;
+import BackEnd.triangulacia;
+import BackEnd.retazovka;
 import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
 import dislin.SurfaceGraph;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.Port;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import org.jdelaunay.delaunay.geometries.DTriangle;
@@ -49,7 +53,7 @@ public class main_class {
        System.out.println("TEST OF DELAUNAY 1");
         double A = 300;
         double Z = 40; 
-        int N = 4;
+        int N = 5;
         
         ArrayList<double[]> body = new ArrayList<double[]>();
         System.out.println("Enter the coordinates of each points: <x> <y> <z>");
@@ -83,7 +87,7 @@ public class main_class {
              double[] cislo = new double[3];
             cislo[0] = 0; 
             cislo[1] = 0;
-            cislo[2] = 0;
+            cislo[2] = 10;
             body.add(cislo);}
         if(i==5){
              double[] cislo = new double[3];
@@ -106,7 +110,7 @@ public class main_class {
         LCcoordinates[1]=0;
         LCcoordinates[2]=0;
     
-        triangulacia test = new triangulacia(A, Z, body,false,LCcoordinates,false);
+        triangulacia test = new triangulacia(A, Z, body,false,LCcoordinates,false,false);
         test.setLCcoordinates(LCcoordinates);
         try {
             test.run(); 
@@ -121,9 +125,19 @@ public class main_class {
              pokusnyc=pokusnePole.getY(pokusnyc);
              
              System.out.println("Test perpendicular");
-             DPoint pokusnyd = new DPoint(0,400,0);
-             pokusnyd=pokusnePole.getPerpendicularProjection(pokusnyd);
-            System.out.println(pokusnyd);
+             DPoint P = new DPoint(0,400,20);
+             DPoint Q=pokusnePole.getPerpendicularProjection(P);
+            System.out.println(Q);
+            
+            System.out.println("Test mirror");
+            DPoint NN=pokusnePole.getMirrorPoint(P);
+            System.out.println(NN);
+            
+            System.out.println("Test mirroraproxxplane");
+            P = new DPoint(150,400,20);
+            DPoint NN2=pokusnePole.getMirrorPointAproxxPlane(P,0,1);
+            System.out.println(NN2);
+            
             
         } catch (DelaunayError ex) {
             Logger.getLogger(main_class.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,13 +145,14 @@ public class main_class {
 
         //test show graph
         SurfaceGraph povrch = new SurfaceGraph(test.getTriangles(), test.getResultsPoint());
+        povrch.SetNameAndLables("test", "podpadps", "X", "Z","Y");
         povrch.Run();
             
-        // TEST RETAZOVKA
-        System.out.println("TEST retazovka C a H");
+        // TEST RETAZOVKA plus bundle
+        System.out.println("TEST retazovka C a H a bndle");
         retazovka ret;
         try {
-            ret = new retazovka(40, 40, 0, 0, 0, 0, 0, 300, 1, 20, 1500, true, 0.1, 100, 100, 120,test.getTriangles());
+            ret = new retazovka(40, 40, 0, 0, 0, 0, 0, 300, 4, 90,10, 1500, true, 0.1, 100, 100, 120,test.getTriangles());
             System.out.println(ret.getC_over());
             System.out.println(ret.getH_over());
             System.out.println(ret.getA1_over());

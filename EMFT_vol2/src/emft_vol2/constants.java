@@ -23,6 +23,7 @@ public class constants {
     private static double Mu1;
     private static double Epsi0;
     private static double Epsi1;
+    private static String teret_input_folder = "";
 
     public static double getPresnostCH() {
         return presnostCH;
@@ -33,7 +34,16 @@ public class constants {
     }
     private static double AkcneB;
     private static double AkcneE;
-    private static double presnostCH=0.001;                  // presnost na prepocet C do H manualne v kode 
+    private static double presnostCH=0.001; // presnost na prepocet C do H manualne v kode 
+    private static int divergencia_pocet=10;  
+
+    public static int getDivergencia_pocet() {
+        return divergencia_pocet;
+    }
+
+    public static void setDivergencia_pocet(int divergencia_pocet) {
+        constants.divergencia_pocet = divergencia_pocet;
+    }
     
     private static double DN;                              // velkost siete
     private static double[] GCcoordinates = new double[3]; // globalne koordinaty POZOR potrebne deklarovat velkost
@@ -44,6 +54,14 @@ public class constants {
 
     public static void setDN(double DN) {
         constants.DN = DN;
+    }
+
+    public static String getTeret_input_folder() {
+        return teret_input_folder;
+    }
+
+    public static void setTeret_input_folder(String teret_input_folder) {
+        constants.teret_input_folder = teret_input_folder;
     }
 
     public static double[] getGCcoordinates() {
