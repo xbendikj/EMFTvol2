@@ -5,6 +5,7 @@
  */
 package InternalFrame;
 
+import BackEnd.databaza;
 import BackEnd.rozpatie;
 import java.util.ArrayList;
 
@@ -13,23 +14,38 @@ import static emft_vol2.constants_Jframe.constants_JframeIsOpen;
 import emft_vol2.main_Jframe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.accessibility.AccessibleContext;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import org.jdelaunay.delaunay.error.DelaunayError;
+import org.jdelaunay.delaunay.geometries.DPoint;
+import tools.help;
 /**
  *
  * @author Jozef
  */
-public class InternalFrameproject extends javax.swing.JInternalFrame {
+public  class InternalFrameproject extends javax.swing.JInternalFrame {
 
     // deklarovanie default values
       static double A =300; 
       static double Z =20;
+      static double krok_poz =1;
       static ArrayList<double[]> body = new ArrayList<double[]>(); 
       static String meno_rozpatia = language_internal_frame.LangLabel(constants.getLanguage_option() , 0); 
       static String meno_projektu = language_internal_frame.LangLabel(constants.getLanguage_option() , 1);  ;
-      static rozpatie Rozpätie = new rozpatie(meno_rozpatia,meno_projektu ,A, Z);
+      public static rozpatie Rozpätie = new rozpatie(meno_rozpatia,meno_projektu ,A, Z);
+      // databazy
+      public databaza BE1D;
+      public databaza BE2D;
+      public databaza BE3D;
+      
+     
 
     /**
      * Creates new form New
@@ -49,10 +65,16 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         basicInfoPanel = new InternalFrame.BasicInfoPanel();
         basicSettingsPanel = new InternalFrame.BasicSettingsPanel();
         catenaryPanel1 = new InternalFrame.CatenaryPanel();
         observerPanel1 = new InternalFrame.ObserverPanel();
+        jPanel1 = new javax.swing.JPanel();
+        calcB = new javax.swing.JButton();
+        outputPanel1 = new InternalFrame.outputPanel();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setClosable(true);
         setIconifiable(true);
@@ -77,35 +99,80 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+
+        calcB.setText("jButton1");
+        calcB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcBActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(calcB)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout outputPanel1Layout = new javax.swing.GroupLayout(outputPanel1);
+        outputPanel1.setLayout(outputPanel1Layout);
+        outputPanel1Layout.setHorizontalGroup(
+            outputPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        outputPanel1Layout.setVerticalGroup(
+            outputPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 104, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(basicInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(basicSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(observerPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(catenaryPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(basicSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(outputPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(catenaryPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(basicInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(basicSettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(basicSettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(observerPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(catenaryPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                        .addComponent(outputPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(catenaryPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -116,12 +183,132 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
        
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void calcBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBActionPerformed
+     
+       
+        
+        
+       //kontrolaci je vobwec nem
+       //jake lano
+       catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+       // bnacitaj velkost elementu
+       int elementh =help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000,language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
+       boolean sulana = true;
+       if(Rozpätie.getRetazovkaList().size()==0) sulana=false;
+     
+        for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
+            try {
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
+            } catch (DelaunayError ex) {
+                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+       
+          try {   
+              ArrayList<DPoint> Rp_vectors = new ArrayList<DPoint>();
+              Rp_vectors=pozorovatel_1D(0,300,-10,10,1.8, 1); 
+              
+              for (int cl1 =0 ; cl1< Rp_vectors.size();cl1++){
+                  System.out.println(Rp_vectors.get(cl1));
+              }
+          } catch (DelaunayError ex) {
+              Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+          }
+        
+        if (sulana == true) {
+
+            
+            //DEFINOVAT POZOTROVATWLA
+            //cyklus poctu lan
+            for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+                // vypocet vektorov RO RO mirror DL
+
+               
+                
+                //cyklus bundle   
+                for (int cl2 = 0; cl1 < Rozpätie.getRetazovkaList().get(cl1).getBundle_over(); cl1++) {  // nemože sa stat že 0
+
+                    //CORE
+                }
+
+            }
+
+            // nakrm databazu nakonci observerom
+            // databaza BE1D = new datazaza(); 
+        }
+       
+       
+       
+       
+        
+       
+    }//GEN-LAST:event_calcBActionPerformed
+    /**
+     *  funkcia ktory vytvory arraylist vektorov pozorovatela pre 1D mapovanie
+     * @param X1 start point X
+     * @param X2 end point X
+     * @param Z1 Z coordinate
+     * @param Z2 Z3 coordinate
+     * @param Y konstantna vyska
+     * @param krok_pozorovatela ktork pozorovatela
+     * @return vrati arralist
+     * @throws DelaunayError 
+     */
+    private ArrayList<DPoint> pozorovatel_1D(double X1,double X2,double Z1,double Z2,double Y, double krok_pozorovatela) throws DelaunayError{
+        ArrayList<DPoint> Rp_vectors = new ArrayList<>();
+       
+        int pocet_P = (int) (Math.sqrt(Math.pow(X2 - X1, 2) + Math.pow(Z2 - Z1, 2)) / krok_pozorovatela); // pocer vektorov Rp  v realite ešte jeden navyše lebo sa zaokruhluje dole
+        double alpha = 0; // uhol otocenia
+
+        if (X1 == X2) {
+
+            if (Z1 - Z2 < 0) {
+                alpha = Math.PI / 2;
+            }
+
+            if (Z1 - Z2 > 0) {
+                alpha = -Math.PI / 2;
+            }
+
+        } // n ochrana pred 90 stupnami a delenim nulou
+        else {
+            alpha = Math.atan((Z1 - Z2) / (X1 - X2)); // uhol otocenia // else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)   ); // else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
+            
+        }
+
+        for (int cl1 = 0; cl1 <= pocet_P+1; cl1++) {
+
+            DPoint hodnota = new DPoint();
+
+            if(cl1 == 0) {
+            hodnota.setX(X1);
+            hodnota.setY(Y);
+            hodnota.setZ(Z1);
+            }else{
+            
+            hodnota.setX(X1+(Math.cos(alpha)*cl1*krok_pozorovatela) );
+            hodnota.setY(Y);
+            hodnota.setZ(Z1+(Math.sin(alpha)*cl1*krok_pozorovatela) );
+            }
+            Rp_vectors.add(hodnota);
+        }
+
+        return Rp_vectors;
+    }
+    ;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private InternalFrame.BasicInfoPanel basicInfoPanel;
     private InternalFrame.BasicSettingsPanel basicSettingsPanel;
+    private javax.swing.JButton calcB;
     private InternalFrame.CatenaryPanel catenaryPanel1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private InternalFrame.ObserverPanel observerPanel1;
+    private InternalFrame.outputPanel outputPanel1;
     // End of variables declaration//GEN-END:variables
     //public static Boolean IsOpen = false;
 
@@ -129,60 +316,65 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
 class language_internal_frame {
 
-/**
- * Function just add elements to the array list 
- * If once function runs and sets variable "inicializovane" true it never runs again
- */    
-static void constructor(){
-              /*SK*/                /*CZ*/              /*EN*/   
- /*0*/   SK.add("Nové rozpätie");  
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*1*/   SK.add("Nový projekt");  
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position 
- /*1*/   SK.add("Os - X ");  
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position             //language String value  at position 
- /*1*/   SK.add("Os - Y ");   
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                      
- /*1*/   SK.add("Os - Z ");  
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                         
-                          
-                
-         
- // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
- inicializovane = true;
-}
- 
-/**
- * Function returns on string label in set language
- * @param X  defines the language 1 Slovak, 2 Czech, 3 English
- * @param Y  defines the label position according the drawing, is starts from 0 
- * @return 
- */
-public static String LangLabel(int X,int Y){
-    
-    if ( inicializovane == false){constructor();}
-    
-    String SlovoDaloSlovo = "empty";
-    switch (X) {
-        case 1:  
-            SlovoDaloSlovo=SK.get(Y);
-            break;
-        case 2:
-            SlovoDaloSlovo=CZ.get(Y);
-            break;
-        case 3:
-            SlovoDaloSlovo=EN.get(Y);
-            break;
-    }
-    return SlovoDaloSlovo;
-}    
+    /**
+     * Function just add elements to the array list If once function runs and
+     * sets variable "inicializovane" true it never runs again
+     */
+    static void constructor() {
+        /*SK*/ /*CZ*/ /*EN*/
+ /*0*/ SK.add("Nové rozpätie");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+        /*1*/ SK.add("Nový projekt");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position 
+        /*2*/ SK.add("Os - X ");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position             //language String value  at position 
+        /*3*/ SK.add("Os - Y ");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                      
+        /*4*/ SK.add("Os - Z ");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                         
+        /*5*/ SK.add("Zla hodnota deltaL, korektura na 1000 mm");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                             
 
-public static String LangLabel2(){
+        // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
+        inicializovane = true;
+    }
+
+    /**
+     * Function returns on string label in set language
+     *
+     * @param X defines the language 1 Slovak, 2 Czech, 3 English
+     * @param Y defines the label position according the drawing, is starts from
+     * 0
+     * @return
+     */
+    public static String LangLabel(int X, int Y) {
+
+        if (inicializovane == false) {
+            constructor();
+        }
+
+        String SlovoDaloSlovo = "empty";
+        switch (X) {
+            case 1:
+                SlovoDaloSlovo = SK.get(Y);
+                break;
+            case 2:
+                SlovoDaloSlovo = CZ.get(Y);
+                break;
+            case 3:
+                SlovoDaloSlovo = EN.get(Y);
+                break;
+        }
+        return SlovoDaloSlovo;
+    }
+
+    public static String LangLabel2(){
  
     String SlovoDaloSlovo = "empty";
     

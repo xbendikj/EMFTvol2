@@ -76,6 +76,9 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
         jLabel_A8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jCheckBox_AZoffset = new javax.swing.JCheckBox();
+        jTextField_krok_pozorovatela = new javax.swing.JTextField();
+        jLabel_A9 = new javax.swing.JLabel();
+        jLabel_krok1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 0)
         ));
@@ -389,26 +392,47 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
+        help.DisplayDouble(jTextField_krok, InternalFrameproject.Rozpätie.getKrok()*1000, 0); // zobrazenie kroku ale prevod na mm
+        jTextField_krok_pozorovatela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_krok_pozorovatelaActionPerformed(evt);
+            }
+        });
+        jTextField_krok_pozorovatela.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_krok_pozorovatelaKeyReleased(evt);
+            }
+        });
+
+        jLabel_A9.setText("m");
+
+        jLabel_krok1.setText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 5));
+        jLabel_krok.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 6));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel_Z, javax.swing.GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(jLabel_A1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(jLabel_krok, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel_Z, javax.swing.GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
+                        .addComponent(jLabel_A1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                        .addComponent(jLabel_krok, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addComponent(jLabel_krok1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField_A)
                     .addComponent(jTextField_Z, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                    .addComponent(jTextField_krok))
+                    .addComponent(jTextField_krok)
+                    .addComponent(jTextField_krok_pozorovatela))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel_A2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel_A, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel_A3, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
+                    .addComponent(jLabel_A3, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                    .addComponent(jLabel_A9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -432,10 +456,15 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
                     .addComponent(jLabel_krok, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_krok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_A3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_krok_pozorovatela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_A9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_krok1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -630,6 +659,14 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_krokActionPerformed
 
+    private void jTextField_krok_pozorovatelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_krok_pozorovatelaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_krok_pozorovatelaActionPerformed
+
+    private void jTextField_krok_pozorovatelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_krok_pozorovatelaKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_krok_pozorovatelaKeyReleased
+
     
     
     
@@ -651,6 +688,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel_A6;
     private javax.swing.JLabel jLabel_A7;
     private javax.swing.JLabel jLabel_A8;
+    private javax.swing.JLabel jLabel_A9;
     private javax.swing.JLabel jLabel_L1;
     private javax.swing.JLabel jLabel_X1;
     private javax.swing.JLabel jLabel_X2;
@@ -658,6 +696,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel_Z1;
     private javax.swing.JLabel jLabel_Z2;
     private javax.swing.JLabel jLabel_krok;
+    private javax.swing.JLabel jLabel_krok1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton_AZ1;
     private javax.swing.JRadioButton jRadioButton_points;
@@ -669,6 +708,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     static javax.swing.JTextField jTextField_Z1;
     static javax.swing.JTextField jTextField_Z2;
     static javax.swing.JTextField jTextField_krok;
+    static javax.swing.JTextField jTextField_krok_pozorovatela;
     // End of variables declaration//GEN-END:variables
     static List<Double> kontrolor = Arrays.asList(1., 1., 1.); // pocet kontrolovanych prvkov
     public  terenmodel_jDialog terenModel; 

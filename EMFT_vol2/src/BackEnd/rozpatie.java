@@ -253,7 +253,7 @@ public class rozpatie {
         
     }
     public void recalculateA(){
-        help.info("Nastala Zmena A pretože bolo definovane LC mimo deff", true);
+       // help.info("Nastala Zmena A pretože bolo definovane LC mimo deff", true);
         this.A = Math.sqrt(Math.pow(LCcoordinates2[0]- LCcoordinates1[0], 2) + Math.pow(LCcoordinates2[2]- LCcoordinates1[2], 2));
     }
 

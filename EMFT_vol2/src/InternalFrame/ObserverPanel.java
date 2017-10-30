@@ -7,14 +7,17 @@ package InternalFrame;
 
 import BackEnd.ColorColumnRenderer;
 import BackEnd.MyCellEditor;
-import static InternalFrame.CatenaryPanel.isListener;
-import static InternalFrame.terenmodel_jDialog.kontrolor;
+import static InternalFrame.CatenaryPanel.Table;
 import java.util.ArrayList;
 import emft_vol2.constants;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.DefaultCellEditor;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 /**
@@ -28,9 +31,26 @@ public class ObserverPanel extends javax.swing.JPanel {
      */
     public ObserverPanel() {
         initComponents();
+        
+        //JCOmbo BOx define
+        
+        jComboBox_par.removeAllItems(); // odstrani vetky povodne itemy
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 9));
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 10));
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 11));
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 13));
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 14));
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 15));
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 16));
+        jComboBox_par.addItem(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 17));
+        
+        
         // definuju tabulky a zadavanie do nich
         Table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); // confirm Table of lost of focus
         this.DTMTable =(DefaultTableModel) Table.getModel();
+         
+        Table_par.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); // confirm Table of lost of focus
+        this.DTMTable_par =(DefaultTableModel) Table_par.getModel();
         
         table_1D.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); // confirm Table of lost of focus
         this.DTMTable_1D =(DefaultTableModel) table_1D.getModel();
@@ -50,7 +70,18 @@ public class ObserverPanel extends javax.swing.JPanel {
         col = table_1D.getColumnModel().getColumn(3); // default cell editor for one columnt
         col.setCellEditor( new MyCellEditor());
         
+        col = Table_par.getColumnModel().getColumn(1); // default cell editor for one columnt
+        col.setCellEditor( new MyCellEditor());
+        
+        col = Table_par.getColumnModel().getColumn(2); // default cell editor for one columnt
+        col.setCellEditor( new MyCellEditor());
+        
+        col = Table_par.getColumnModel().getColumn(3); // default cell editor for one columnt
+        col.setCellEditor( new MyCellEditor());
+        
+        
         table_1D.setBackground(Color.gray); // set background colors
+        Table_par.setBackground(Color.gray);
        //listener meni čiarky bodky kontroluje
     Table.getModel().addTableModelListener(new TableModelListener() {
 
@@ -144,7 +175,81 @@ public class ObserverPanel extends javax.swing.JPanel {
 
     }});
        
+    Table_par.getModel().addTableModelListener(new TableModelListener() {
+
+    @Override
+    public void tableChanged(TableModelEvent e) {
         
+    if(isListener == true){
+    if(e.getColumn()!=11 && e.getColumn()!=20){ // podmienka pre checkbox riadky    
+          try {String hodnota1 =String.valueOf(Table_par.getValueAt(Table_par.getEditingRow(), Table_par.getEditingColumn()));
+         
+          Table_par.getModel().removeTableModelListener(this);
+                    hodnota1=hodnota1.replace(",", ".");
+                  try{
+                    double value;
+                     value = Double.parseDouble(String.valueOf(hodnota1));  
+                     
+                     Table_par.setValueAt(value,Table_par.getEditingRow(), Table_par.getEditingColumn());
+                   
+                      
+                     //table_1D.getModel().addtable_1DModelListener(this);
+                     
+                       
+                         
+ 
+                     
+                       }catch( NumberFormatException | NullPointerException p){
+                       Table_par.setValueAt(language_internal_fJdialog_terenModel.LangLabel(constants.getLanguage_option(), 6),Table_par.getEditingRow(), Table_par.getEditingColumn());
+                     
+                        
+                       } 
+         
+                     
+                  
+                   
+                      
+          }catch(ArrayIndexOutOfBoundsException | NumberFormatException | NullPointerException p){}
+        
+                                
+                                Table_par.getModel().addTableModelListener(this);
+        
+                }
+    
+    }
+
+    }});
+    
+    
+    
+    jComboBox_par.addActionListener (new ActionListener () {
+    public void actionPerformed(ActionEvent e) {
+        selectedIndex = jComboBox_par.getSelectedIndex();
+       
+        
+        if(selectedIndex != -1){
+        if (selectedIndex <3) {selectedIndex = selectedIndex + 8;}
+        else if (selectedIndex >=3) {selectedIndex = selectedIndex + 9;}
+            
+        TableColumn col_past = CatenaryPanel.Table.getColumnModel().getColumn(past_par_index);
+        col_past.setHeaderRenderer(new ColorColumnRenderer(Color.LIGHT_GRAY, Color.black));
+       col_past.getCellEditor().stopCellEditing();
+    
+        TableColumn col = CatenaryPanel.Table.getColumnModel().getColumn(selectedIndex);
+        col.setHeaderRenderer(new ColorColumnRenderer(Color.RED, Color.white));
+        
+        past_par_index = selectedIndex;
+        
+        
+       JTableHeader th = CatenaryPanel.Table.getTableHeader();
+       th.repaint();
+        
+        }
+       
+    }
+});
+    
+ 
         
     }
 
@@ -161,6 +266,7 @@ public class ObserverPanel extends javax.swing.JPanel {
         pozdl_Z_user_custom = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jComboBox_par = new javax.swing.JComboBox<>();
         P1D = new javax.swing.JCheckBox();
         P2D = new javax.swing.JCheckBox();
         P3D = new javax.swing.JCheckBox();
@@ -187,6 +293,10 @@ public class ObserverPanel extends javax.swing.JPanel {
         P1D_free = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         table_1D = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        Table_par = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        P1D_par = new javax.swing.JCheckBox();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -200,6 +310,8 @@ public class ObserverPanel extends javax.swing.JPanel {
             }
         ));
         jScrollPane2.setViewportView(jTable1);
+
+        jComboBox_par.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 0)
         ));
@@ -235,7 +347,7 @@ public class ObserverPanel extends javax.swing.JPanel {
                 {null}
             },
             new String [] {
-                ""
+                "dd"
             }
         ) {
             Class[] types = new Class [] {
@@ -250,7 +362,11 @@ public class ObserverPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(Table);
         if (Table.getColumnModel().getColumnCount() > 0) {
             Table.getColumnModel().getColumn(0).setResizable(false);
-            Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),28));
+            Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),26));
+        }
+        if (Table.getColumnModel().getColumnCount() > 0) {
+            Table.getColumnModel().getColumn(0).setResizable(false);
+            Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),11));
         }
 
         jButton1.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 46));
@@ -266,8 +382,6 @@ public class ObserverPanel extends javax.swing.JPanel {
 
         P1Dpozdlzne.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 16));
         P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 17));
-
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
         priecna_X_textfield.setText("150");
         priecna_X_textfield.setEnabled(false);
@@ -330,10 +444,10 @@ public class ObserverPanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(priecna_X_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -342,8 +456,7 @@ public class ObserverPanel extends javax.swing.JPanel {
                         .addComponent(X_precne_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(X_precne_user, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pozdl_Z_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -374,7 +487,7 @@ public class ObserverPanel extends javax.swing.JPanel {
                         .addComponent(pozdl_Z_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(Z_pozdl_auto)
                         .addComponent(Z_pozdl_user)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         P1D_free.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 26));
@@ -406,7 +519,7 @@ public class ObserverPanel extends javax.swing.JPanel {
         jScrollPane3.setViewportView(table_1D);
         if (table_1D.getColumnModel().getColumnCount() > 0) {
             table_1D.getColumnModel().getColumn(0).setResizable(false);
-            table_1D.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),28));
+            table_1D.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),26));
             table_1D.getColumnModel().getColumn(1).setResizable(false);
             table_1D.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),29));
             table_1D.getColumnModel().getColumn(2).setResizable(false);
@@ -414,6 +527,67 @@ public class ObserverPanel extends javax.swing.JPanel {
             table_1D.getColumnModel().getColumn(3).setResizable(false);
             table_1D.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),31));
         }
+        if (table_1D.getColumnModel().getColumnCount() > 0) {
+            table_1D.getColumnModel().getColumn(0).setResizable(false);
+            table_1D.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),28));
+            table_1D.getColumnModel().getColumn(1).setResizable(false);
+            table_1D.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),29));
+            table_1D.getColumnModel().getColumn(1).setCellEditor(null);
+            table_1D.getColumnModel().getColumn(2).setResizable(false);
+            table_1D.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),30));
+            table_1D.getColumnModel().getColumn(3).setResizable(false);
+            table_1D.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),31));
+        }
+
+        Table_par.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "", "", "", "", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        Table_par.setEnabled(false);
+        Table_par.setRowHeight(26);
+        jScrollPane4.setViewportView(Table_par);
+        if (Table_par.getColumnModel().getColumnCount() > 0) {
+            Table_par.getColumnModel().getColumn(0).setResizable(false);
+            Table_par.getColumnModel().getColumn(0).setPreferredWidth(150);
+            Table_par.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 34)
+            );
+            Table_par.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox_par));
+            Table_par.getColumnModel().getColumn(1).setResizable(false);
+            Table_par.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 35)
+            );
+            Table_par.getColumnModel().getColumn(2).setResizable(false);
+            Table_par.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 36)
+            );
+            Table_par.getColumnModel().getColumn(3).setResizable(false);
+            Table_par.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 37)
+            );
+            Table_par.getColumnModel().getColumn(4).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 39));
+            Table_par.getColumnModel().getColumn(5).setResizable(false);
+            Table_par.getColumnModel().getColumn(5).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 40));
+        }
+
+        jLabel4.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 32)
+        );
+
+        P1D_par.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 33));
+        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 38));
+        P1D_par.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P1D_parActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -422,14 +596,7 @@ public class ObserverPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(P1D)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(P1Dpriecne)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(P1Dpozdlzne))
-                    .addComponent(P1D_free)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -438,18 +605,32 @@ public class ObserverPanel extends javax.swing.JPanel {
                                 .addComponent(P2Dh)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(P2Dv))
-                            .addComponent(P3D))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                        .addContainerGap())
+                            .addComponent(P3D)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(P1D)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(P1Dpriecne)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(P1Dpozdlzne))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(P1D_free)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(P1D_par))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,29 +641,35 @@ public class ObserverPanel extends javax.swing.JPanel {
                     .addComponent(P1Dpriecne)
                     .addComponent(P1Dpozdlzne))
                 .addGap(7, 7, 7)
-                .addComponent(P1D_free)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(P1D_free)
+                    .addComponent(P1D_par))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(P2D)
-                            .addComponent(P2Dh)
-                            .addComponent(P2Dv))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(P3D)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(P2D)
+                    .addComponent(P2Dh)
+                    .addComponent(P2Dv))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(P3D)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addComponent(jLabel4)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -551,10 +738,34 @@ public class ObserverPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_P1D_freeActionPerformed
 
+    private void P1D_parActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1D_parActionPerformed
+       
+        if (P1D_par.isSelected()){
+            Table_par.setEnabled(true);
+            Table_par.setBackground(Color.WHITE);
+            if(selectedIndex !=-1 ){
+            jComboBox_par.setSelectedIndex(jComboBox_par.getSelectedIndex()+1);
+            jComboBox_par.setSelectedIndex(jComboBox_par.getSelectedIndex()-1);
+            }
+        }else{
+             Table_par.setEnabled(false);
+             Table_par.setBackground(Color.gray);
+             
+             for (int cl1 = 0; cl1<19 ;cl1 ++){
+          TableColumn col_past = CatenaryPanel.Table.getColumnModel().getColumn(cl1);
+        col_past.setHeaderRenderer(new ColorColumnRenderer(Color.lightGray, Color.black)); 
+          JTableHeader th = CatenaryPanel.Table.getTableHeader();
+       th.repaint();
+        }
+             
+        }
+    }//GEN-LAST:event_P1D_parActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox P1D;
     private javax.swing.JCheckBox P1D_free;
+    private javax.swing.JCheckBox P1D_par;
     private javax.swing.JCheckBox P1Dpozdlzne;
     private javax.swing.JCheckBox P1Dpriecne;
     private javax.swing.JCheckBox P2D;
@@ -562,21 +773,25 @@ public class ObserverPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox P2Dv;
     private javax.swing.JCheckBox P3D;
     private javax.swing.JTable Table;
+    private javax.swing.JTable Table_par;
     private javax.swing.JCheckBox X_precne_auto;
     private javax.swing.JCheckBox X_precne_user;
     private javax.swing.ButtonGroup X_priecne_user_custom;
     private javax.swing.JCheckBox Z_pozdl_auto;
     private javax.swing.JCheckBox Z_pozdl_user;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox_par;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel_A2;
     private javax.swing.JLabel jLabel_A3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField pozdl_Z_textfield;
@@ -586,7 +801,10 @@ public class ObserverPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 DefaultTableModel DTMTable ;
 DefaultTableModel DTMTable_1D ;
+DefaultTableModel DTMTable_par ;
 boolean isListener=true;
+int past_par_index = 0;
+int selectedIndex =-1;
 }
 
 class language_internal_frame_observer_panel {
@@ -675,7 +893,7 @@ static void constructor(){
 /*25*/   SK.add("Vlastná hodnota miesta priečnej vzdialenosti na osi Z");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*26*/   SK.add("X hodnota sek.závesného b.v LC");  
+/*26*/   SK.add("1D Vlastná poloha");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
          /*27*/   SK.add("Počet zväzkových vodičov");  
@@ -693,31 +911,31 @@ static void constructor(){
 /*31*/   SK.add("Zp2");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*32*/   SK.add("polomer vodiča");  
+/*32*/   SK.add("nastavenia parametrizácie ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*33*/   SK.add("Napätie");  
+/*33*/   SK.add("parametricky výpočet");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*34*/   SK.add("Prúd");  
+/*34*/   SK.add("parameter");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*35*/   SK.add("Uhol fázy");  
+/*35*/   SK.add("od");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*36*/   SK.add("C parameter reťazovky");  
+/*36*/   SK.add("do");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*37*/  SK.add("H ter ");  
+ /*37*/  SK.add("krok");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");        
-/*38*/  SK.add("H");  
+/*38*/  SK.add("Parametricky výpočet v jednom bode pozorovatela");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*39*/   SK.add("H výška nad nulovým terénom ");  
+/*39*/   SK.add("Xp par ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*40*/   SK.add("2H-ter výška nad terénom v mieste maximálneho priehybu reťazovky  Nemusí byt totožna s miestom maximálneho priblíženia vodiča");  
+/*40*/   SK.add("Zp par");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
          /*41*/   SK.add("Potrvdenie výpočtu lana");  

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.scene.input.KeyCode.T;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
@@ -47,14 +48,28 @@ public class CatenaryPanel extends javax.swing.JPanel {
         Table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); // confirm Table of lost of focus
         this.DTMTable =(DefaultTableModel) Table.getModel();
     
+        
+        
+
+        
         for (int cl1 = 0; cl1<DTMTable.getColumnCount() ;cl1 ++){
-          if(cl1!= 11 && cl1!= 20){  
+          if(cl1!= 11 && cl1!= 20 && cl1!= 21){  
              TableColumn col = Table.getColumnModel().getColumn(cl1); // default cell editor for one columnt
         col.setCellEditor( new MyCellEditor());
          if(cl1== 17 || cl1== 18 || cl1== 19){
         col.setCellRenderer(new ColorColumnRenderer(Color.lightGray, Color.blue));
          }
+         
           }
+          
+          if(cl1== 21 ){
+             //  TableColumn col = Table.getColumnModel().getColumn(cl1);
+             //  col.setCellRenderer(new ColorColumnRenderer(Color.orange, Color.blue));
+         }
+          
+          TableColumn col_past = Table.getColumnModel().getColumn(cl1);
+        col_past.setHeaderRenderer(new ColorColumnRenderer(Color.lightGray, Color.black)); 
+          
         }
 
 
@@ -105,7 +120,8 @@ public class CatenaryPanel extends javax.swing.JPanel {
     public void tableChanged(TableModelEvent e) {
         
     if(isListener == true){
-    if(e.getColumn()!=11 && e.getColumn()!=20){ // podmienka pre checkbox riadky    
+    isCatenarydatachanged=true; // zmenili sa udaje v tabulke    
+    if(e.getColumn()!=11 && e.getColumn()!=20 && e.getColumn()!=21){ // podmienka pre checkbox riadky    
           try {String hodnota1 =String.valueOf(Table.getValueAt(Table.getEditingRow(), Table.getEditingColumn()));
          
           Table.getModel().removeTableModelListener(this);
@@ -139,6 +155,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
                                 DTMTable.addRow(new Object[0]);
                                 }
                                 Table.getModel().addTableModelListener(this);
+                                
         
                 }
     
@@ -146,9 +163,10 @@ public class CatenaryPanel extends javax.swing.JPanel {
 
     }});
     
-
-    JTableHeader header = Table.getTableHeader();
+    // nastavenie headrra Table
+    JTableHeader header = Table.getTableHeader(); // listener na each header cell
     header.addMouseListener(new TableHeaderMouseListener(Table));
+    
     }
     
     /**
@@ -174,14 +192,14 @@ public class CatenaryPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, true
+                true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -265,6 +283,8 @@ public class CatenaryPanel extends javax.swing.JPanel {
             Table.getColumnModel().getColumn(20).setResizable(false);
             Table.getColumnModel().getColumn(20).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 42)
             );
+            Table.getColumnModel().getColumn(21).setResizable(false);
+            Table.getColumnModel().getColumn(21).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 51));
         }
 
         deffX.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 43));
@@ -302,19 +322,18 @@ public class CatenaryPanel extends javax.swing.JPanel {
                         .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deffX)
                     .addComponent(delete)
                     .addComponent(calculatecatenary))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -374,10 +393,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
             }
 
         }
-        
-        
-        
-        
+
         // ak je vygenerovany teren ideme načitat retazovky a vypočitat ich parametre a zobrazot ich do okienok pracujeme len s tými ktoré su zaškrtnuté
         if(idemePocitat==true){
         // vymarat všetky ktore su vytvorene
@@ -422,6 +438,9 @@ public class CatenaryPanel extends javax.swing.JPanel {
             Table.setValueAt(lano.getC_over(), i, 17);
             Table.setValueAt(lano.getH_over()+lano.getZY_cor_bundle_lowest_conductor(), i, 18); // odpocitaj od vysky stredu vysku spodneho vodiča vo zvazku
             Table.setValueAt(lano.getHter_over()+lano.getZY_cor_bundle_lowest_conductor(), i, 19);
+           
+             
+         
             
             Retazovka_zoznam.add(lano);
             
@@ -441,7 +460,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
         }
         
        isListener = true;   
-       
+       isCatenarydatachanged=false;
        
        
        
@@ -449,7 +468,15 @@ public class CatenaryPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_calculatecatenaryActionPerformed
 
-    //diferent tool tip for every calumn https://coderanch.com/t/336281/java/Adding-Tooltip-JTable-header
+     
+
+    void calculatecatenary() {
+        calculatecatenary.doClick();
+    }
+
+   
+
+//diferent tool tip for every calumn https://coderanch.com/t/336281/java/Adding-Tooltip-JTable-header
     class ColumnHeaderToolTips extends MouseMotionAdapter {
   // Current column whose tooltip is being displayed.
   // This variable is used to minimize the calls to setToolTipText().
@@ -593,6 +620,11 @@ public class CatenaryPanel extends javax.swing.JPanel {
              tips.setToolTip(col,language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 41));
 
         }
+           if(c== 21){
+
+             tips.setToolTip(col,language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 52));
+
+        }
       
       
       
@@ -603,7 +635,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable Table;
+    static javax.swing.JTable Table;
     private javax.swing.JButton calculatecatenary;
     private javax.swing.JButton deffX;
     private javax.swing.JButton delete;
@@ -611,6 +643,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
  DefaultTableModel DTMTable ;
   static boolean isListener = true;
+  static boolean isCatenarydatachanged = false;
 }
 
 class language_internal_frame_catenary_Panel {
@@ -772,11 +805,15 @@ static void constructor(){
 /*49*/   SK.add("Teren nie je vytvorený. Vygenerovat?");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-/*49*/   SK.add("Hodnoty X1 alebo X2 su mimo vytvorenu plochu (teren).");  
+/*50*/   SK.add("Hodnoty X1 alebo X2 su mimo vytvorenu plochu (teren).");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");   
-                
-         
+/*51*/   SK.add("Par");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                   
+/*52*/   SK.add("Parametrizuj dané lano");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
       
 
 }

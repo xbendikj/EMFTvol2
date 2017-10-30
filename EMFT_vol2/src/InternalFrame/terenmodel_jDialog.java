@@ -11,7 +11,10 @@ import BackEnd.DecimalFormatRenderer;
 import BackEnd.MyCellEditor;
 import BackEnd.rozpatie;
 import static InternalFrame.BasicSettingsPanel.jTextField_X1;
+import static InternalFrame.BasicSettingsPanel.jTextField_Z;
 import static InternalFrame.BasicSettingsPanel.kontrolor;
+import dislin.plot_1D;
+import dislin.plot_2D;
 import tools.*;
 import emft_vol2.constants;
 import java.awt.Color;
@@ -332,7 +335,7 @@ public class terenmodel_jDialog extends javax.swing.JDialog {
             );
         }
 
-        jButton_ulozit.setText(language_help.LangLabel(constants.getLanguage_option(),2));
+        jButton_ulozit.setText(language_internal_fJdialog_terenModel.LangLabel(constants.getLanguage_option(),15));
         jButton_ulozit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ulozitActionPerformed(evt);
@@ -378,11 +381,6 @@ public class terenmodel_jDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(jButton_ulozit, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
@@ -440,7 +438,12 @@ public class terenmodel_jDialog extends javax.swing.JDialog {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton_ulozit, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -587,13 +590,43 @@ public class terenmodel_jDialog extends javax.swing.JDialog {
        
     }//GEN-LAST:event_TableKeyReleased
 
+        protected static void generuj_teren_bez_ukazky(){
+        
+        InternalFrameproject.Rozpätie.setZ(help.ReadCheckDouble(BasicSettingsPanel.jTextField_Z,-1));
+        InternalFrameproject.Rozpätie.setA(help.ReadCheckDouble(BasicSettingsPanel.jTextField_A,-1));
+
+        if(InternalFrameproject.Rozpätie.isAppTeren() == false){
+            InternalFrameproject.Rozpätie.setLCcoordinates(0, 0, 0, InternalFrameproject.Rozpätie.getA(), 0);
+            
+        }else{
+             InternalFrameproject.Rozpätie.setLCcoordinates(Double.valueOf(BasicSettingsPanel.jTextField_X1.getText()), Double.valueOf(BasicSettingsPanel.jTextField_L1.getText()),Double.valueOf(BasicSettingsPanel.jTextField_Z1.getText()), Double.valueOf(BasicSettingsPanel.jTextField_X2.getText()), Double.valueOf(BasicSettingsPanel.jTextField_Z2.getText()));         
+        }
+        
+        
+        try {
+           
+            InternalFrameproject.Rozpätie.generateTerrain();
+           
+        
+        } catch (DelaunayError ex) {
+            Logger.getLogger(BasicSettingsPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+        
+    }
+    
+    
+    
+    
     private void jButton_ulozitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ulozitActionPerformed
        
         boolean error = false;
         boolean oktowers=false;
         double[] tower1 = new double[]{0,0,0};
         double[] tower2 = new double[]{0,0,0};
-        
+    
+       
       //  korektura_dat(); // korektura dat
                 
        // if (jRadioButton_GC.isSelected() == true) { // aj je GC označen ideme do
@@ -632,22 +665,44 @@ public class terenmodel_jDialog extends javax.swing.JDialog {
                  
             }
 try {
+    
             if(error != true){
                 DPoint bod = new DPoint(0, 0,0);
                 ArrayList<double[]>  body = new  ArrayList<>();
                  ArrayList<double[]>  bodyGC = new  ArrayList<>();
+                // double xray[]=new double[Table.getRowCount() - 1]; // GRAFICKE TESTOVANIE 
+               //  double y1ray[]=new double[Table.getRowCount() - 1];
+               //  double y2ray[]=new double[Table.getRowCount() - 1];;
+                 
                 for (int cl1 = 0; cl1 < Table.getRowCount() - 1; cl1++) {  
  
                     bod.setX(Double.parseDouble(String.valueOf(Table.getValueAt(cl1, 0))));
                     bod.setY(Double.parseDouble(String.valueOf(Table.getValueAt(cl1, 1)))+cl1*0.00000001);   
                     bod.setZ(Double.parseDouble(String.valueOf(Table.getValueAt(cl1, 2))));
-                    
+                //    xray[cl1]=bod.getX();
+                 //   y1ray[cl1]=bod.getY();
+                 //   y2ray[cl1]=bod.getY();
                     
                     bodyGC.add(new double[]{bod.getX(),bod.getY(),bod.getZ()});
-                     bod =help.CorToLC(tower1, tower2, bod);
+                    bod =help.CorToLC(tower1, tower2, bod);
                     body.add(new double[]{bod.getX(),bod.getY(),bod.getZ()});
                 }
-               
+               //  ArrayList<double[]> y3ray = new ArrayList<>();
+                 //y3ray.add(xray);
+               //  y3ray.add(y1ray);
+               //  y3ray.add(y2ray);
+                 
+//                 String[] ahoj = new String[3]; ahoj[0]= "1,5 m"; ahoj[1]= "32,5 m"; ahoj[2]= "554,5 m";
+//                 plot_1D graf2 = new plot_1D(xray, y3ray, "KOKOT", "PICA", "ROW1", "ROW2",ahoj);
+//                 graf2.setunits(1000);
+//                 graf2.draw_1D_yn();
+//                 
+//                 plot_2D graf3 = new plot_2D(xray, y2ray,y2ray, "KOKOT", "PICA", "ROW1", "ROW2",true,"ZKOKOT");
+//                 graf3.draw_2D_yn();
+//                 
+//                 plot_2D graf32 = new plot_2D(xray, y2ray,y2ray, "KOKOT", "PICA", "ROW1", "ROW2",true);
+//                 graf32.draw_2D_yn();
+                
                 R.setLCcoordinates(Double.valueOf(jTextField_X1.getText()), Double.valueOf(jTextField_L1.getText()),Double.valueOf(jTextField_Z1.getText()), Double.valueOf(jTextField_X2.getText()), Double.valueOf(jTextField_Z2.getText()));
                 R.setBody(body);
                 R.setBodyGC(bodyGC);
@@ -665,7 +720,7 @@ try {
  
         
         }
-      
+       generuj_teren_bez_ukazky();
        if (error!=true) dispose();
     }//GEN-LAST:event_jButton_ulozitActionPerformed
 
@@ -898,7 +953,9 @@ static void constructor(){
    /*14*/ SK.add("Náčítať terén aj zo stožiarom");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                                                                                   
-                                                                                             
+  /*15*/ SK.add("Uložiť a vygenerovať");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                                                                                               
                                                                                             
                                                                                           
                                                                                                    

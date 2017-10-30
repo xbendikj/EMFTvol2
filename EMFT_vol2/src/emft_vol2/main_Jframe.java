@@ -58,7 +58,7 @@ public class main_Jframe extends javax.swing.JFrame {
             .addGroup(jPanel_STATUSLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel_STATUS)
-                .addContainerGap(1162, Short.MAX_VALUE))
+                .addContainerGap(1106, Short.MAX_VALUE))
         );
         jPanel_STATUSLayout.setVerticalGroup(
             jPanel_STATUSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -72,11 +72,11 @@ public class main_Jframe extends javax.swing.JFrame {
         JDesktop.setLayout(JDesktopLayout);
         JDesktopLayout.setHorizontalGroup(
             JDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1241, Short.MAX_VALUE)
+            .addGap(0, 1185, Short.MAX_VALUE)
         );
         JDesktopLayout.setVerticalGroup(
             JDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
+            .addGap(0, 963, Short.MAX_VALUE)
         );
 
         jMenu_project.setText(language_main_frame.LangLabel(constants.getLanguage_option(),1));

@@ -12,6 +12,7 @@ package dislin;
 
 import BackEnd.Tfield;
 import de.dislin.Dislin;
+import emft_vol2.constants;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdelaunay.delaunay.error.DelaunayError;
@@ -132,7 +133,7 @@ public class SurfaceGraph {
        
       float XE = (float) maxVal(Xray);  // horny limit X
       float YE = (float) maxVal(Yray);
-      float ZE = (float) maxVal(Zray)*1.2f;
+      float ZE = (float) maxVal(Zray)* constants.getDislin_graph_nasobok_z_vrchu();
       if(ZE == 0) ZE = -ZA;
       
       float XOR = XA;  // first label
@@ -148,6 +149,7 @@ public class SurfaceGraph {
      //Dislin.setpag ("da4r"); // PAGE ORINTATION FORMAT
     
      Dislin.page(6000, 4000); // size of window
+     Dislin.scrmod("REVERS");
      Dislin.disini ();       // BEGIN DISLIN
      Dislin.pagera ();       // BORDER AROUND PAGE
      Dislin.hwfont ();       // HARDWARE FOTN
@@ -168,20 +170,26 @@ public class SurfaceGraph {
   float Xlen =300; //XE-XA;
   float Ylen =100; //XE-XA;
   float Zlen =100; //XE-XA;
+  //********************
+ // ZAKLADNE PRAVIDLO NA SPOLOCNU GRAFIKU  GRAF SA OBALI PREMENIMI TEDA ON MA JEDNU GRAFIKU A VSETKO OSTATNE MOZE MAT DRUHU 
+ //*********************
+ Dislin.height (constants.getDislin_velkost_textu_pred_grafom()); // spolocna grafika grafov
+ Dislin.linwid(constants.getDislin_hrubka_ciar_pred_grafom());    // spolocna grafika grafov
+  
      Dislin.axis3d(Xlen,Ylen, 100);
      Dislin.view3d (0.5f*Xlen, -3.1f*Ylen,2.5f*Zlen , "abs"); // Point from where is observed graph
      Dislin.graf3d (XA, XE, XOR, XSTEP,   // plot GRAF3D
                     YA, YE, YOR, YSTEP,
                     ZA, ZE, ZOR, ZSTEP);
-     Dislin.height (50);
+     
+ Dislin.height (constants.getDislin_velkost_textu_za_grafom());   // spolocna grafika grafov
+ Dislin.linwid(constants.getDislin_hrubka_ciar_za_grafom());      // spolocna grafika grafov
      Dislin.title  ();
- 
-     Dislin.color  ("green");
-    
+     Dislin.color  ("green");  
      Dislin.surtri(Xray, Yray, Zray,n,Ixray,Iyray,Izray,nTRI);
      Dislin.hsym3d(VelkostSymbolov);
      
-    // Dislin.cyli3d(3f, 50f, 0f,VelkostSymbolov,VelkostSymbolov,10,10);
+   
     if(towery ==true){
      Dislin.color("MAGENTA"); // 1 
      Dislin.symb3d(5, (float)TOWER1[0], (float)TOWER1[2], (float)TOWER1[1]);

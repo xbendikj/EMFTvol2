@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.HashSet;
 import java.util.Set;
+import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 
 /**
@@ -81,6 +82,24 @@ public class help {
         }catch(NumberFormatException | NullPointerException e){
          Y.setForeground(Color.red);
          help.warning1row(language_help.LangLabel(constants.getLanguage_option(), 3));
+         return value = output; 
+        
+        }
+     }
+    
+     public static int ReadCheckIntErrorSign(javax.swing.JTextField Y,int output,String error ){
+    String hodnota1 =Y.getText();
+        hodnota1=hodnota1.replace(" ", "");
+        String hodnota2=hodnota1.replace(",", ".");
+       if(hodnota1.equals(hodnota2)){}else{ Y.setText(hodnota2);}         
+       int value ;
+        try{
+        value = Integer.parseInt(hodnota2);
+        Y.setForeground(Color.black);
+        return value;
+        }catch(NumberFormatException | NullPointerException e){
+         Y.setForeground(Color.red);
+         help.warning1row(error);
          return value = output; 
         
         }
@@ -214,7 +233,7 @@ public class help {
         }     // n ochrana pred 90 stupnami a delenim nulou
          
         
-         else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)  ); // else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
+       else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia // else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)   ); // else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
         System.out.println(alpha); 
         }
         double P1XLC = (P1XGC - LCX1) * Math.cos(alpha) + (P1ZGC - LCZ1) * Math.sin(alpha);
@@ -259,7 +278,7 @@ public class help {
         }     // n ochrana pred 90 stupnami a delenim nulou
          
         
-        else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)  ); // uhol otocenia else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
+       else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)   ); // uhol otocenia else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
         System.out.println(alpha); 
         }
         double P1XLC = (P1XGC - LCX1) * Math.cos(alpha) + (P1ZGC - LCZ1) * Math.sin(alpha);
@@ -269,7 +288,21 @@ public class help {
         XZcor[1]=P1ZLC;
         return XZcor;
     }
-    
-     
+    /**
+     * substract vactor A from B
+     * @param A  vector
+     * @param B  vector
+     * @return vyrti rozdiel vektorov A-B
+     * @throws DelaunayError 
+     */
+    public static DPoint substract(DPoint A, DPoint B) throws DelaunayError{
+        DPoint C = new DPoint(0, 0, 0);
+        
+        C.setX(A.getX()-B.getX());
+        C.setY(A.getY()-B.getY());
+        C.setZ(A.getZ()-B.getZ());
+        
+        return  C;
+    } 
     
 }
