@@ -21,6 +21,7 @@ public class rozpatie {
     private  double A;
     private  double Z;
     private  double Krok; // [m]
+    private  double Krok_pozorovatela; // [m]
     private  boolean AppTeren; // pocitame teren alebo nie , služi naako ukazovatel pre fron ale aj na to či sa ide počitať
     private boolean deff;
     private boolean deff2;
@@ -49,12 +50,13 @@ public class rozpatie {
      * @param deff2 false priratavam vyšku LC[1] ku každemu bodu  ( teda body už neobsahuju tuto vyku a je od každeho odčitana ) true = vkladam nulu teda body už pbsahuju aj vyšku default value = false
      * @param Appteren Aplikovat realny teren ? ( default false
      */
-    public rozpatie(String meno,String menoprojektu,double A,double Z) {
+    public rozpatie(String meno,String menoprojektu,double A,double Z, double krok, double krok_pozorovatela) {
         this.meno=meno;
         this.menoProjektu=menoprojektu;
         this.A=A;
         this.Z=Z;
-        this.Krok = 1; //  defaultna hodnota roku
+        this.Krok = krok/1000; //  defaultna hodnota roku
+        this.Krok_pozorovatela=krok_pozorovatela;
         this.AppTeren=false;
         this.deff = true; // default podla stvorca hanice prietoru
         this.deff2 = false;
@@ -212,8 +214,12 @@ public class rozpatie {
         return Krok;
     }
 
+    /**
+     * nastava krok pozorovatela  hodnota sa deli 1000 v fielde je definovana v mm
+     * @param Krok 
+     */
     public void setKrok(double Krok) {
-        this.Krok = Krok;
+        this.Krok = Krok/1000;
     }
     
     public  String getMeno() {
@@ -305,6 +311,14 @@ public class rozpatie {
 
     public void erazeRetazovkaArrayList() {
         this.Retazovka.removeAll(this.Retazovka);
+    }
+
+    public double getKrok_pozorovatela() {
+        return Krok_pozorovatela;
+    }
+
+    public void setKrok_pozorovatela(double Krok_pozorovatela) {
+        this.Krok_pozorovatela = Krok_pozorovatela;
     }
 
    

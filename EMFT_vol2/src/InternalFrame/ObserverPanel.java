@@ -7,6 +7,7 @@ package InternalFrame;
 
 import BackEnd.ColorColumnRenderer;
 import BackEnd.MyCellEditor;
+import static InternalFrame.BasicSettingsPanel.kontrolor;
 import static InternalFrame.CatenaryPanel.Table;
 import java.util.ArrayList;
 import emft_vol2.constants;
@@ -19,6 +20,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import tools.help;
 
 /**
  *
@@ -31,6 +33,10 @@ public class ObserverPanel extends javax.swing.JPanel {
      */
     public ObserverPanel() {
         initComponents();
+        
+        //Default text field values
+        priecna_X=0;
+        pozdlzna_Z=0;    
         
         //JCOmbo BOx define
         
@@ -319,6 +325,11 @@ public class ObserverPanel extends javax.swing.JPanel {
         P1D.setSelected(true);
         P1D.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 1));
         P1D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 2));
+        P1D.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P1DActionPerformed(evt);
+            }
+        });
 
         P2D.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 3));
         P2D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 4));
@@ -385,6 +396,11 @@ public class ObserverPanel extends javax.swing.JPanel {
 
         priecna_X_textfield.setText("150");
         priecna_X_textfield.setEnabled(false);
+        priecna_X_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                priecna_X_textfieldKeyReleased(evt);
+            }
+        });
 
         jLabel2.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 22)
         );
@@ -417,6 +433,11 @@ public class ObserverPanel extends javax.swing.JPanel {
 
         pozdl_Z_textfield.setText("0");
         pozdl_Z_textfield.setEnabled(false);
+        pozdl_Z_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pozdl_Z_textfieldKeyReleased(evt);
+            }
+        });
 
         jLabel_A3.setText("m");
 
@@ -761,24 +782,53 @@ public class ObserverPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_P1D_parActionPerformed
 
+    private void P1DActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1DActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_P1DActionPerformed
+
+    private void priecna_X_textfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priecna_X_textfieldKeyReleased
+           priecna_X=   help.ReadCheckDouble(priecna_X_textfield , InternalFrameproject.Rozpätie.getA()/2);
+
+    }//GEN-LAST:event_priecna_X_textfieldKeyReleased
+
+    private void pozdl_Z_textfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pozdl_Z_textfieldKeyReleased
+       pozdlzna_Z=   help.ReadCheckDouble(pozdl_Z_textfield , 0);
+    }//GEN-LAST:event_pozdl_Z_textfieldKeyReleased
+
+    public double getPriecna_X() {
+        return priecna_X;
+    }
+
+    public void setPriecna_X(double priecna_X) {
+        this.priecna_X = priecna_X;
+    }
+
+    public double getPozdlzna_Z() {
+        return pozdlzna_Z;
+    }
+
+    public void setPozdlzna_Z(double pozdlzna_Z) {
+        this.pozdlzna_Z = pozdlzna_Z;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox P1D;
-    private javax.swing.JCheckBox P1D_free;
-    private javax.swing.JCheckBox P1D_par;
-    private javax.swing.JCheckBox P1Dpozdlzne;
-    private javax.swing.JCheckBox P1Dpriecne;
-    private javax.swing.JCheckBox P2D;
-    private javax.swing.JCheckBox P2Dh;
-    private javax.swing.JCheckBox P2Dv;
-    private javax.swing.JCheckBox P3D;
-    private javax.swing.JTable Table;
-    private javax.swing.JTable Table_par;
-    private javax.swing.JCheckBox X_precne_auto;
-    private javax.swing.JCheckBox X_precne_user;
+    public javax.swing.JCheckBox P1D;
+    public javax.swing.JCheckBox P1D_free;
+    public javax.swing.JCheckBox P1D_par;
+    public javax.swing.JCheckBox P1Dpozdlzne;
+    public javax.swing.JCheckBox P1Dpriecne;
+    public javax.swing.JCheckBox P2D;
+    public javax.swing.JCheckBox P2Dh;
+    public javax.swing.JCheckBox P2Dv;
+    public javax.swing.JCheckBox P3D;
+    public javax.swing.JTable Table;
+    public javax.swing.JTable Table_par;
+    public javax.swing.JCheckBox X_precne_auto;
+    public javax.swing.JCheckBox X_precne_user;
     private javax.swing.ButtonGroup X_priecne_user_custom;
-    private javax.swing.JCheckBox Z_pozdl_auto;
-    private javax.swing.JCheckBox Z_pozdl_user;
+    public javax.swing.JCheckBox Z_pozdl_auto;
+    public javax.swing.JCheckBox Z_pozdl_user;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox_par;
     private javax.swing.JLabel jLabel1;
@@ -787,17 +837,17 @@ public class ObserverPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel_A2;
     private javax.swing.JLabel jLabel_A3;
-    private javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField pozdl_Z_textfield;
+    public javax.swing.JTextField pozdl_Z_textfield;
     private javax.swing.ButtonGroup pozdl_Z_user_custom;
-    private javax.swing.JTextField priecna_X_textfield;
-    private javax.swing.JTable table_1D;
+    public javax.swing.JTextField priecna_X_textfield;
+    public javax.swing.JTable table_1D;
     // End of variables declaration//GEN-END:variables
 DefaultTableModel DTMTable ;
 DefaultTableModel DTMTable_1D ;
@@ -805,6 +855,8 @@ DefaultTableModel DTMTable_par ;
 boolean isListener=true;
 int past_par_index = 0;
 int selectedIndex =-1;
+double priecna_X ;
+double pozdlzna_Z ;
 }
 
 class language_internal_frame_observer_panel {

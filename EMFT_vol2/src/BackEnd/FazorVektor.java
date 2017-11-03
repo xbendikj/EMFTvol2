@@ -30,6 +30,32 @@ public class FazorVektor {
         this.Z = Z;
     }
 
+    public void setFazorVektor(FazorVektor X){
+        this.X = X.getX();
+        this.Y = X.getY();
+        this.Z = X.getZ();
+    }
+    
+    public FazorVektor SumFazorVektor(FazorVektor A, FazorVektor B){
+        Complex C1 = new Complex(A.getX_Real() + B.getX_Real(), A.getX_Imaginary()+ B.getX_Imaginary());
+        Complex C2 = new Complex(A.getY_Real() + B.getY_Real(), A.getY_Imaginary()+ B.getY_Imaginary());
+        Complex C3 = new Complex(A.getZ_Real() + B.getZ_Real(), A.getZ_Imaginary()+ B.getZ_Imaginary());
+        FazorVektor C = new FazorVektor(C1, C2, C3);
+        
+        return C;
+    }
+    /**
+     * prida do existujuceho FV dalšiu hodnotu FV
+     * @param B fazorvekor
+     */
+    public void AddToFazorVektor( FazorVektor B){
+        X = new Complex(X.getReal() + B.getX_Real(), X.getImaginary()+ B.getX_Imaginary());
+        Y = new Complex(Y.getReal() + B.getY_Real(), Y.getImaginary()+ B.getY_Imaginary());
+        Z = new Complex(Z.getReal() + B.getZ_Real(), Z.getImaginary()+ B.getZ_Imaginary());
+        
+        
+    }
+    
     public Complex getX() {
         return X;
     }

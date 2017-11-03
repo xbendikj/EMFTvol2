@@ -47,8 +47,10 @@ public class main_class {
         
         // main frame
         main_Jframe.main(args); //spust main frame
+        
         constants.loadConstants(); // nacitaj konštanty
-           
+        constants.setMu0(4*Math.PI*0.0000001);
+        
       // test delaunay
        System.out.println("TEST OF DELAUNAY 1");
         double A = 300;

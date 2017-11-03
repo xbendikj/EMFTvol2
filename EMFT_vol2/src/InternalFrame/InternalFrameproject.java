@@ -5,6 +5,8 @@
  */
 package InternalFrame;
 
+import BackEnd.B_calculation;
+import BackEnd.FazorVektor;
 import BackEnd.databaza;
 import BackEnd.rozpatie;
 import java.util.ArrayList;
@@ -23,29 +25,32 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import org.apache.commons.math.complex.Complex;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
+
 /**
  *
  * @author Jozef
  */
-public  class InternalFrameproject extends javax.swing.JInternalFrame {
+public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     // deklarovanie default values
-      static double A =300; 
-      static double Z =20;
-      static double krok_poz =1;
-      static ArrayList<double[]> body = new ArrayList<double[]>(); 
-      static String meno_rozpatia = language_internal_frame.LangLabel(constants.getLanguage_option() , 0); 
-      static String meno_projektu = language_internal_frame.LangLabel(constants.getLanguage_option() , 1);  ;
-      public static rozpatie Rozpätie = new rozpatie(meno_rozpatia,meno_projektu ,A, Z);
-      // databazy
-      public databaza BE1D;
-      public databaza BE2D;
-      public databaza BE3D;
+    static double A = 300;
+    static double Z = 20;
+    static double krok_poz = 1; //m
+    static double krok= 1000; //vmm
+    static ArrayList<double[]> body = new ArrayList<double[]>();
+    static String meno_rozpatia = language_internal_frame.LangLabel(constants.getLanguage_option(), 0);
+    static String meno_projektu = language_internal_frame.LangLabel(constants.getLanguage_option(), 1);
+    ;
+      public static rozpatie Rozpätie = new rozpatie(meno_rozpatia, meno_projektu, A, Z,krok,krok_poz);
       
-     
+    // databazy
+    public databaza BE1D;
+    public databaza BE2D;
+    public databaza BE3D;
 
     /**
      * Creates new form New
@@ -53,9 +58,8 @@ public  class InternalFrameproject extends javax.swing.JInternalFrame {
     public InternalFrameproject() {
         initComponents();
         
-        
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -180,74 +184,86 @@ public  class InternalFrameproject extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         main_Jframe.window = null;
-       
+
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void calcBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBActionPerformed
-     
-       
-        
-        
-       //kontrolaci je vobwec nem
-       //jake lano
-       catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
-       // bnacitaj velkost elementu
-       int elementh =help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000,language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
-       boolean sulana = true;
-       if(Rozpätie.getRetazovkaList().size()==0) sulana=false;
-     
-        for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+        try {
+            //kontrolaci je vobwec nem
+            //jake lano
+            catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+            // bnacitaj velkost elementu
+            double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
+            boolean sulana = true;
+            if (Rozpätie.getRetazovkaList().size() == 0) {
+                sulana = false;
+            }
 
-            try {
+            for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
                 Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
                 Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
-            } catch (DelaunayError ex) {
-                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+
             }
 
-        }
-       
-          try {   
-              ArrayList<DPoint> Rp_vectors = new ArrayList<DPoint>();
-              Rp_vectors=pozorovatel_1D(0,300,-10,10,1.8, 1); 
-              
-              for (int cl1 =0 ; cl1< Rp_vectors.size();cl1++){
-                  System.out.println(Rp_vectors.get(cl1));
-              }
-          } catch (DelaunayError ex) {
-              Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-          }
-        
-        if (sulana == true) {
+            if (sulana == true) {
+                //START MAIN
 
-            
-            //DEFINOVAT POZOTROVATWLA
-            //cyklus poctu lan
-            for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
-                // vypocet vektorov RO RO mirror DL
+                // cyklus vysok Cl0
+                for (int cl0 = 0; cl0 < observerPanel1.Table.getSelectedRowCount(); cl0++) {
 
-               
-                
-                //cyklus bundle   
-                for (int cl2 = 0; cl1 < Rozpätie.getRetazovkaList().get(cl1).getBundle_over(); cl1++) {  // nemože sa stat že 0
+                    // toto možno budu separe funkcie ale ak je slačeny čudlim ZATIAL LEN PRIECNE
+                    if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
+                        ArrayList<DPoint> Rp_vectors = new ArrayList<DPoint>();
 
-                    //CORE
+                        Rp_vectors = pozorovatel_1D_priecne_final(observerPanel1.X_precne_auto.isSelected(), observerPanel1.Table.getSelectedRow() + cl0); // cisielko nastavuje výsku a tu je itereačny člen
+
+                        Complex NULA = new Complex(0, 0);
+                        FazorVektor B = new FazorVektor(NULA, NULA, NULA);
+                        
+                        // cyklus lan cl1
+                        for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
+                            //cyklus bundle   
+                            for (int cl2 = 0; cl2 < Rozpätie.getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
+                                
+                                
+                                //deklaruj main B
+                                B_calculation Main_B_cal_single_wire = new B_calculation(constants.getMu0(),
+                                                                                         constants.getMu1(),
+                                                                                         Rozpätie.getRetazovkaList().get(cl1).getI_over(),
+                                                                                         Rozpätie.getRetazovkaList().get(cl1).getPhi_over(),
+                                                                                         Rp_vectors.get(3),
+                                                                                         Rozpätie.getRetazovkaList().get(cl1).getRo_vectors(),
+                                                                                         Rozpätie.getRetazovkaList().get(cl1).getDl_vectors(),
+                                                                                         Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2],
+                                                                                         Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2] );
+                                
+                               // vyrataj main B
+                               Main_B_cal_single_wire.run();
+                               B.AddToFazorVektor(Main_B_cal_single_wire.getB()); // priraduj B od kazdeho vodica
+                            }
+
+                        }
+                       System.out.println( Rp_vectors.get(0) );
+                       System.out.println( constants.getMu0() ); 
+                       System.out.println("X=" + B.getX_ABS() + " <" +B.getX_Angle() );
+                       System.out.println("Y=" + B.getY_ABS() + " <" +B.getY_Angle() );
+                       System.out.println("Z=" + B.getZ_ABS() + " <" +B.getZ_Angle() );
+                    }
                 }
 
+                // nakrm databazu nakonci observerom
+                // databaza BE1D = new datazaza(); 
             }
 
-            // nakrm databazu nakonci observerom
-            // databaza BE1D = new datazaza(); 
+        } catch (DelaunayError ex) {
+            Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-       
-       
-       
-        
-       
     }//GEN-LAST:event_calcBActionPerformed
     /**
-     *  funkcia ktory vytvory arraylist vektorov pozorovatela pre 1D mapovanie
+     * funkcia ktory vytvory arraylist vektorov pozorovatela pre 1D mapovanie
+     *
      * @param X1 start point X
      * @param X2 end point X
      * @param Z1 Z coordinate
@@ -255,11 +271,12 @@ public  class InternalFrameproject extends javax.swing.JInternalFrame {
      * @param Y konstantna vyska
      * @param krok_pozorovatela ktork pozorovatela
      * @return vrati arralist
-     * @throws DelaunayError 
+     * @throws DelaunayError
      */
-    private ArrayList<DPoint> pozorovatel_1D(double X1,double X2,double Z1,double Z2,double Y, double krok_pozorovatela) throws DelaunayError{
+
+    private ArrayList<DPoint> pozorovatel_1D(double X1, double X2, double Z1, double Z2, double Y, double krok_pozorovatela) throws DelaunayError {
         ArrayList<DPoint> Rp_vectors = new ArrayList<>();
-       
+
         int pocet_P = (int) (Math.sqrt(Math.pow(X2 - X1, 2) + Math.pow(Z2 - Z1, 2)) / krok_pozorovatela); // pocer vektorov Rp  v realite ešte jeden navyše lebo sa zaokruhluje dole
         double alpha = 0; // uhol otocenia
 
@@ -276,30 +293,109 @@ public  class InternalFrameproject extends javax.swing.JInternalFrame {
         } // n ochrana pred 90 stupnami a delenim nulou
         else {
             alpha = Math.atan((Z1 - Z2) / (X1 - X2)); // uhol otocenia // else{ alpha = Math.atan2((LCX2 - LCX1),(LCZ2 - LCZ1)   ); // else{ alpha = Math.atan((LCZ1 - LCZ2) / (LCX1 - LCX2)); // uhol otocenia
-            
+
         }
 
-        for (int cl1 = 0; cl1 <= pocet_P+1; cl1++) {
+        for (int cl1 = 0; cl1 <= pocet_P + 1; cl1++) {
 
             DPoint hodnota = new DPoint();
 
-            if(cl1 == 0) {
-            hodnota.setX(X1);
-            hodnota.setY(Y);
-            hodnota.setZ(Z1);
-            }else{
-            
-            hodnota.setX(X1+(Math.cos(alpha)*cl1*krok_pozorovatela) );
-            hodnota.setY(Y);
-            hodnota.setZ(Z1+(Math.sin(alpha)*cl1*krok_pozorovatela) );
+            if (cl1 == 0) {
+                hodnota.setX(X1);
+                hodnota.setY(Y);
+                hodnota.setZ(Z1);
+                hodnota = Rozpätie.getPole().getYaboveTer(hodnota);
+            } else {
+
+                hodnota.setX(X1 + (Math.cos(alpha) * cl1 * krok_pozorovatela));
+                hodnota.setY(Y);
+                hodnota.setZ(Z1 + (Math.sin(alpha) * cl1 * krok_pozorovatela));
+                hodnota = Rozpätie.getPole().getYaboveTer(hodnota);
             }
             Rp_vectors.add(hodnota);
         }
 
         return Rp_vectors;
-    }
-    ;
+    };      
+     /**
+      * vektory RP ale len v polojhe priecnej
+      * @param X1 poloha priecneho mapovania
+      * @param Y vyska nad terenom
+      * @param Z dlzka priecneho mapovania Z 
+      * @return 
+      */
+    private ArrayList<DPoint> pozorovatel_1D_priecne(double X1, double Y, double krok_pozorovatela) throws DelaunayError {
+        ArrayList<DPoint> Rp_vectors = new ArrayList<>();
 
+        int pocet_P = (int) ( ((Rozpätie.getZ()) * 2 + 1)/krok_pozorovatela);
+
+        for (int cl1 = 0; cl1 <= pocet_P + 1; cl1++) {
+
+            DPoint hodnota = new DPoint();
+
+            hodnota.setX(X1);
+            hodnota.setY(Y);
+            hodnota.setZ(-Rozpätie.getZ() + cl1*krok_pozorovatela);  // nastavuje hodnotu Z len priecne mapovanie meni sa
+            hodnota = Rozpätie.getPole().getYaboveTer(hodnota);
+
+            Rp_vectors.add(hodnota);
+        }
+
+        return Rp_vectors;
+    };   
+     /**
+      * vektory RP ale len v polojhe priecnej
+      * @param Z1 poloha pozdlezneho
+      * @param Y vyska nad terenom
+      * @param Z dlzka priecneho mapovania Z 
+      * @return 
+      */
+    private ArrayList<DPoint> pozorovatel_1D_pozdlezne(double Z1, double Y, double krok_pozorovatela) throws DelaunayError {
+        ArrayList<DPoint> Rp_vectors = new ArrayList<>();
+
+        int pocet_P = (int) ( ((Rozpätie.getA()))/krok_pozorovatela);
+
+        for (int cl1 = 0; cl1 <= pocet_P + 1; cl1++) {
+
+            DPoint hodnota = new DPoint();
+
+            hodnota.setX(cl1*krok_pozorovatela);
+            hodnota.setY(Y);
+            hodnota.setZ(Z1);  // nastavuje hodnotu Z len priecne mapovanie meni sa
+            hodnota = Rozpätie.getPole().getYaboveTer(hodnota);
+
+            Rp_vectors.add(hodnota);
+        }
+
+        return Rp_vectors;
+    };      
+
+     /**
+      * 
+      * @param auto automatika na vzdialenost X1 alebo vlastne hodnota ak automatika tak podla prveho lana sa urči
+      * @param row_index ktora vyška sa počita začina sa na 1
+      * @return vektor Rp pre priečne mapovanie s poloautomatikoou
+      * @throws DelaunayError 
+      */
+    private ArrayList<DPoint> pozorovatel_1D_priecne_final(boolean auto, int row_index) throws DelaunayError {
+        ArrayList<DPoint> Rp_vectors = new ArrayList<>();
+        double X1 = 0;
+        double Y1 = 1.8;
+        if (auto == true){
+            X1=Rozpätie.getRetazovkaList().get(0).getA1_over();
+            X1=X1*Math.cos(Rozpätie.getRetazovkaList().get(0).getBeta_over()); // priemet do osi X
+        }else{
+            X1 = observerPanel1.getPriecna_X();
+        }
+        
+        Y1 = help.Object_To_double(observerPanel1.DTMTable.getValueAt(row_index, 0));
+        
+        Rp_vectors = pozorovatel_1D_priecne(X1, Y1, Rozpätie.getKrok_pozorovatela());
+
+        return Rp_vectors;
+    };   
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private InternalFrame.BasicInfoPanel basicInfoPanel;
     private InternalFrame.BasicSettingsPanel basicSettingsPanel;
@@ -374,15 +470,14 @@ class language_internal_frame {
         return SlovoDaloSlovo;
     }
 
-    public static String LangLabel2(){
- 
-    String SlovoDaloSlovo = "empty";
-    
-    return SlovoDaloSlovo;
-    } 
- private static  final ArrayList<String> SK= new ArrayList<>();
- private static final ArrayList<String> CZ= new ArrayList<>();
- private static final ArrayList<String> EN= new ArrayList<>();
- private static boolean  inicializovane = false;
-}
+    public static String LangLabel2() {
 
+        String SlovoDaloSlovo = "empty";
+
+        return SlovoDaloSlovo;
+    }
+    private static final ArrayList<String> SK = new ArrayList<>();
+    private static final ArrayList<String> CZ = new ArrayList<>();
+    private static final ArrayList<String> EN = new ArrayList<>();
+    private static boolean inicializovane = false;
+}

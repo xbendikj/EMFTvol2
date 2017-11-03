@@ -494,7 +494,7 @@ public class constants_Jframe extends javax.swing.JFrame {
             constants.UpdateConstant("DN", 1, constants.getDN());
             constants.UpdateConstant("GC_X", 1, constants.getGCcoordinates()[0]);
             constants.UpdateConstant("GC_Z", 1, constants.getGCcoordinates()[2]);
-         
+            constants.UpdateConstant("Mu0", 1, constants.getMu0());
           
             
         } catch (ClassNotFoundException | SQLException ex) {

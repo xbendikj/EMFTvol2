@@ -623,6 +623,14 @@ public class retazovka {
         return Dl_vectors;
     }
 
+    public double getBeta_over() {
+        return Beta_over;
+    }
+
+    public void setBeta_over(double Beta_over) {
+        this.Beta_over = Beta_over;
+    }
+
    
     
 
@@ -673,7 +681,7 @@ public class retazovka {
         R0.setX(cl1 * elementLength * Math.cos(this.Beta_over) + this.X1_over + elementLength * Math.cos(this.Beta_over) * pozicna_konstanta);
         R0.setY(this.C_over * (Math.cosh(((cl1 * elementLength - elementLength * pozicna_konstanta) - this.A1_over) / this.C_over)) - this.C_over + this.H_over);
         R0.setZ(cl1 * elementLength * Math.sin(this.Beta_over) + this.W1_over + elementLength * Math.sin(this.Beta_over) * pozicna_konstanta);
-        System.out.println(R0);
+       // System.out.println(R0);
         return R0;
     }
 

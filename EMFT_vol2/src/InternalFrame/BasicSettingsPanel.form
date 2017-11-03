@@ -125,6 +125,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_Z">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_ZActionPerformed"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_ZKeyReleased"/>
       </Events>
       <AuxValues>

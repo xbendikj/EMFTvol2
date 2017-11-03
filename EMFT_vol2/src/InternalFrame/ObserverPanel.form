@@ -175,8 +175,12 @@
           <Connection code="language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 1)" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="P1DActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P1D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 2));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JCheckBox" name="P2D">
@@ -190,6 +194,7 @@
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P2D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 4));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JCheckBox" name="P3D">
@@ -200,6 +205,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 6));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JCheckBox" name="P2Dh">
@@ -211,6 +217,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 8));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JCheckBox" name="P2Dv">
@@ -222,6 +229,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 10));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
@@ -263,6 +271,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -285,6 +296,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 15));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JCheckBox" name="P1Dpozdlzne">
@@ -295,9 +307,13 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 17));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -366,6 +382,12 @@
             <Property name="text" type="java.lang.String" value="150"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="priecna_X_textfieldKeyReleased"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -397,6 +419,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="X_precne_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 19));"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JCheckBox" name="X_precne_user">
@@ -413,6 +436,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="X_precne_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 21));"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -430,6 +454,12 @@
             <Property name="text" type="java.lang.String" value="0"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="pozdl_Z_textfieldKeyReleased"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_A3">
           <Properties>
@@ -451,6 +481,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="X_precne_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 24));"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JCheckBox" name="Z_pozdl_user">
@@ -467,6 +498,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="X_precne_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 25));"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -482,6 +514,7 @@
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 27));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -539,6 +572,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -615,6 +651,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -636,6 +675,7 @@
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 38));"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
   </SubComponents>

@@ -31,6 +31,11 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     
     public BasicSettingsPanel() {
         initComponents();
+        jTextField_A.setText(String.valueOf(InternalFrameproject.Rozpätie.getA()));
+        jTextField_Z.setText(String.valueOf(InternalFrameproject.Rozpätie.getZ()));
+        jTextField_krok.setText(String.valueOf(InternalFrameproject.Rozpätie.getKrok()*1000));
+        jTextField_krok_pozorovatela.setText(String.valueOf(InternalFrameproject.Rozpätie.getKrok_pozorovatela()));
+        
     }
     
     /**
@@ -101,6 +106,11 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
         jLabel_Z.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 4));
 
         help.DisplayDouble(jTextField_Z, InternalFrameproject.Rozpätie.getZ(), 1);
+        jTextField_Z.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_ZActionPerformed(evt);
+            }
+        });
         jTextField_Z.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_ZKeyReleased(evt);
@@ -664,8 +674,12 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField_krok_pozorovatelaActionPerformed
 
     private void jTextField_krok_pozorovatelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_krok_pozorovatelaKeyReleased
-        // TODO add your handling code here:
+       InternalFrameproject.Rozpätie.setKrok_pozorovatela( help.ReadCheckDouble(jTextField_krok_pozorovatela, 1));
     }//GEN-LAST:event_jTextField_krok_pozorovatelaKeyReleased
+
+    private void jTextField_ZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_ZActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_ZActionPerformed
 
     
     
