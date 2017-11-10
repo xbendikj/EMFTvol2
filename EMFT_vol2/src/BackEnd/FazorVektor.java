@@ -152,7 +152,7 @@ public class FazorVektor {
         double Image = Math.sqrt(Math.pow(this.X.getImaginary(), 2) + Math.pow(this.Y.getImaginary(), 2) + Math.pow(this.Z.getImaginary(), 2));
     
         Complex cislo = new Complex(Real,Image);
-        return cislo.abs();
+        return Math.sqrt(Math.pow(cislo.getReal(), 2) + Math.pow(cislo.getImaginary(), 2));
     }
     
     public double getComplex_rms_Angle(){

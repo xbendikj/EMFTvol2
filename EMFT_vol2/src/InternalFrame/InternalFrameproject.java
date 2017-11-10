@@ -7,8 +7,10 @@ package InternalFrame;
 
 import BackEnd.B_calculation;
 import BackEnd.FazorVektor;
+import BackEnd.Observer;
 import BackEnd.databaza;
 import BackEnd.rozpatie;
+import dislin.plot_1D;
 import java.util.ArrayList;
 
 import emft_vol2.constants;
@@ -16,6 +18,7 @@ import static emft_vol2.constants_Jframe.constants_JframeIsOpen;
 import emft_vol2.main_Jframe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -48,9 +51,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
       public static rozpatie Rozpätie = new rozpatie(meno_rozpatia, meno_projektu, A, Z,krok,krok_poz);
       
     // databazy
-    public databaza BE1D;
-    public databaza BE2D;
-    public databaza BE3D;
+    public databaza BE = new databaza();
+   
 
     /**
      * Creates new form New
@@ -210,17 +212,26 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 //START MAIN
 
                 // cyklus vysok Cl0
+                BE.clear();
                 for (int cl0 = 0; cl0 < observerPanel1.Table.getSelectedRowCount(); cl0++) {
 
                     // toto možno budu separe funkcie ale ak je slačeny čudlim ZATIAL LEN PRIECNE
                     if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
-                        ArrayList<DPoint> Rp_vectors = new ArrayList<DPoint>();
-
-                        Rp_vectors = pozorovatel_1D_priecne_final(observerPanel1.X_precne_auto.isSelected(), observerPanel1.Table.getSelectedRow() + cl0); // cisielko nastavuje výsku a tu je itereačny člen
-
-                        Complex NULA = new Complex(0, 0);
-                        FazorVektor B = new FazorVektor(NULA, NULA, NULA);
                         
+                        ArrayList<DPoint> Rp_vectors = new ArrayList<DPoint>();
+                       
+                        Rp_vectors = pozorovatel_1D_priecne_final(observerPanel1.X_precne_auto.isSelected(), observerPanel1.Table.getSelectedRow() + cl0); // cisielko nastavuje výsku a tu je itereačny člen
+                        //Databaza observera pre dany typ priecne mapovanie velkost ako pocet vektorov Rp
+                        Observer[] vektor_observerov = new Observer[Rp_vectors.size()];
+                        
+                        
+                       // cyklus posuvania pozorovatela
+                        for (int cl01 = 0; cl01 <  Rp_vectors.size(); cl01++) {
+                            Complex NULA = new Complex(0, 0);
+                            FazorVektor B = new FazorVektor(NULA, NULA, NULA); // novy FV v novom bode ozorovatela
+                            double[][] geometrickaMaticaB = new double[3][pocet_vodicov(Rozpätie)];
+                            int iterator_lan=0;
+                            
                         // cyklus lan cl1
                         for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
 
@@ -233,7 +244,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                                                                          constants.getMu1(),
                                                                                          Rozpätie.getRetazovkaList().get(cl1).getI_over(),
                                                                                          Rozpätie.getRetazovkaList().get(cl1).getPhi_over(),
-                                                                                         Rp_vectors.get(3),
+                                                                                         Rp_vectors.get(cl01),
                                                                                          Rozpätie.getRetazovkaList().get(cl1).getRo_vectors(),
                                                                                          Rozpätie.getRetazovkaList().get(cl1).getDl_vectors(),
                                                                                          Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2],
@@ -241,18 +252,45 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                 
                                // vyrataj main B
                                Main_B_cal_single_wire.run();
-                               B.AddToFazorVektor(Main_B_cal_single_wire.getB()); // priraduj B od kazdeho vodica
+                               // priraduj B od kazdeho vodica
+                               B.AddToFazorVektor(Main_B_cal_single_wire.getB()); 
+                               // priraduj gaometricke konstanty od kazeho lana
+                               geometrickaMaticaB[0][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[0];
+                               geometrickaMaticaB[1][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[1];
+                               geometrickaMaticaB[2][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[2];
+                               // celkovy pocet vyp vodicov
+                               iterator_lan=iterator_lan+1; 
                             }
 
                         }
-                       System.out.println( Rp_vectors.get(0) );
-                       System.out.println( constants.getMu0() ); 
-                       System.out.println("X=" + B.getX_ABS() + " <" +B.getX_Angle() );
-                       System.out.println("Y=" + B.getY_ABS() + " <" +B.getY_Angle() );
-                       System.out.println("Z=" + B.getZ_ABS() + " <" +B.getZ_Angle() );
+                     //  System.out.println( Rp_vectors.get(cl01) );
+                     // testovaci vypis
+                     //  System.out.println( constants.getMu0() ); 
+                     //  System.out.println("X=" + B.getX_ABS() + " <" +B.getX_Angle() );
+                     //  System.out.println("Y=" + B.getY_ABS() + " <" +B.getY_Angle() );
+                     //  System.out.println("Z=" + B.getZ_ABS() + " <" +B.getZ_Angle() );
+                     
+                     // Ukonceny jeden bod pozoovatela vloz hodnotu do Observera, kde sa kumuluju data E nie je pocitane
+                     // tu potom urobit taku ochranu že ked sa uzivatel rozhodne spocitat E ale zmeni medzitym nastavenia pre pozorovatela tak nespaja s povodnym observerom ale premaže ho
+                     Observer BOD = new Observer(B, new FazorVektor(NULA,NULA,NULA), Rp_vectors.get(cl01), geometrickaMaticaB); //
+                     // testovaci vypis
+//                     for (int cl4 = 0; cl4 < pocet_vodicov(Rozpätie); cl4++){
+//                     System.out.println( " A= " +geometrickaMaticaB[0][cl4] + " B= " + geometrickaMaticaB[1][cl4] +" C= "+ geometrickaMaticaB[2][cl4] );
+//                     }
+                    vektor_observerov[cl01]=BOD;
+ 
+                    
+                        }
+                                       BE.addToList1D(vektor_observerov, 0);
+                    
+                  
+                    
                     }
+                   
                 }
-
+ plot_1D graf2 = new plot_1D(BE.getXray1D("Z", BE.getFromList1D(0, 0)), BE.getYray1DList("B", "RMS B", BE.getP1D_priecne()), "KOKOT", "PICA", "ROW1", "ROW2",BE.getYray_height_name(BE.getP1D_priecne()));
+                   graf2.setunits(1000);
+                   graf2.draw_1D_yn(); 
                 // nakrm databazu nakonci observerom
                 // databaza BE1D = new datazaza(); 
             }
@@ -273,7 +311,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      * @return vrati arralist
      * @throws DelaunayError
      */
-
     private ArrayList<DPoint> pozorovatel_1D(double X1, double X2, double Z1, double Z2, double Y, double krok_pozorovatela) throws DelaunayError {
         ArrayList<DPoint> Rp_vectors = new ArrayList<>();
 
@@ -327,9 +364,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     private ArrayList<DPoint> pozorovatel_1D_priecne(double X1, double Y, double krok_pozorovatela) throws DelaunayError {
         ArrayList<DPoint> Rp_vectors = new ArrayList<>();
 
-        int pocet_P = (int) ( ((Rozpätie.getZ()) * 2 + 1)/krok_pozorovatela);
+        int pocet_P = (int) ( (((Rozpätie.getZ()) * 2 )/krok_pozorovatela) );
 
-        for (int cl1 = 0; cl1 <= pocet_P + 1; cl1++) {
+        for (int cl1 = 0; cl1 <= pocet_P ; cl1++) {
 
             DPoint hodnota = new DPoint();
 
@@ -369,7 +406,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         return Rp_vectors;
     };      
-
      /**
       * 
       * @param auto automatika na vzdialenost X1 alebo vlastne hodnota ak automatika tak podla prveho lana sa urči
@@ -395,6 +431,21 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         return Rp_vectors;
     };   
     
+    private int pocet_vodicov(rozpatie X){
+        int pocel_lan = 0 ;
+
+        for (int cl1 = 0; cl1 < X.getRetazovkaList().size(); cl1++) {
+
+            //cyklus bundle   
+            for (int cl2 = 0; cl2 < X.getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
+
+                 pocel_lan = pocel_lan + 1;
+            }
+
+        }
+
+        return pocel_lan;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private InternalFrame.BasicInfoPanel basicInfoPanel;

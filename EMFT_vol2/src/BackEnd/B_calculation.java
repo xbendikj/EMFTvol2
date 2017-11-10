@@ -6,8 +6,6 @@
 package BackEnd;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import org.apache.commons.math.complex.Complex;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
@@ -33,7 +31,7 @@ public class B_calculation {
     ArrayList<DPoint> R0_vectors;
     ArrayList<DPoint> deltaL_vectors;
     FazorVektor B ;
- 
+    double[] geoVektor = new double[3];
     
     
     public B_calculation() {
@@ -78,6 +76,9 @@ public class B_calculation {
             
         }
         
+        this.geoVektor[0] = B_v_miesteRp.getX_Real()/getI_real(); //X hodnota geovektora
+        this.geoVektor[1] = B_v_miesteRp.getY_Real()/getI_real(); //Y hodnota geovektora
+        this.geoVektor[2] = B_v_miesteRp.getZ_Real()/getI_real(); //Z hodnota geovektora
         this.B=B_v_miesteRp;
     }
     
@@ -86,9 +87,10 @@ public class B_calculation {
         R_0.setY(R0.getY() + R0_bundleY); //  bundle korektura pre jeden druhy SMER 
         R_0.setZ(R0.getZ() + R0_bundleZ);
          
-        System.out.println( "R_0= " + R_0 );
-        System.out.println( "Rp= " + Rp );
-        System.out.println( "deltal= " + deltaL );
+      //  System.out.println( "R_0= " + R_0 );
+      //  System.out.println( "Rp= " + Rp );
+      //
+     // System.out.println( "deltal= " + deltaL );
         double K = (this.mu0 * this.muR )/(4*Math.PI); // konštanta
         
         DPoint R = help.substract(Rp, R_0);  // rozdiel vektorov
@@ -144,7 +146,15 @@ public class B_calculation {
     public void setB(FazorVektor B) {
         this.B = B;
     }
-    
+
+    public double[] getGeoVektor() {
+        return geoVektor;
+    }
+
+    public void setGeoVektor(double[] geoVektor) {
+        this.geoVektor = geoVektor;
+    }
+     
     
     
     

@@ -291,7 +291,7 @@ public class retazovka {
 
                 ZY_cor_Bundle[0][cl1] = getZrot(NovyZ, NovyY);
                 ZY_cor_Bundle[1][cl1] = getYrot(NovyZ, NovyY);
-                System.out.println("vidič " + cl1 + ": Z-" + ZY_cor_Bundle[0][cl1] + " Y-" + ZY_cor_Bundle[1][cl1]); // vypyis kontrola
+             //   System.out.println("vidič " + cl1 + ": Z-" + ZY_cor_Bundle[0][cl1] + " Y-" + ZY_cor_Bundle[1][cl1]); // vypyis kontrola
             }
             //bod 1 dvojzvazo
             //ZY_cor_Bundle[0][0]=getZrot(0, -D);
@@ -649,7 +649,7 @@ public class retazovka {
         R0.setX(cl1 * elementLength * Math.cos(this.Beta_over) + this.X1_over);
         R0.setY(this.C_over * (Math.cosh((cl1 * elementLength - this.A1_over) / this.C_over)) - this.C_over + this.H_over);
         R0.setZ(cl1 * elementLength * Math.sin(this.Beta_over) + this.W1_over);
-        System.out.println(R0);
+        //System.out.println(R0);
         return R0;
     }
 
