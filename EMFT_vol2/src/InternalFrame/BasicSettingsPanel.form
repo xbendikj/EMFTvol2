@@ -606,11 +606,11 @@
     <Component class="javax.swing.JLabel" name="jLabel_krok1">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 5)" type="code"/>
+          <Connection code="&quot;\u25A1&quot;" type="code"/>
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabel_krok.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 6));"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabel_krok.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 29));"/>
       </AuxValues>
     </Component>
   </SubComponents>

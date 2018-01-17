@@ -147,7 +147,7 @@ public class plot_2D {
       
   private void run2D () {
      
-      this.fakemodel = true; //TOTOTOTOTOT OREEEEEEEEEC
+     // this.fakemodel = true; //TOTOTOTOTOT OREEEEEEEEEC
       double zlev; // contour
       double zlev2[] = new double [constants.getDislin_pocet_kontur()]; // fill countour
       if (this.fakemodel == true){

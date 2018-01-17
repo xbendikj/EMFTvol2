@@ -416,8 +416,8 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
 
         jLabel_A9.setText("m");
 
-        jLabel_krok1.setText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 5));
-        jLabel_krok.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 6));
+        jLabel_krok1.setText("\u25A1");
+        jLabel_krok.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 29));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -823,7 +823,9 @@ static void constructor(){
 /*28*/   SK.add("Blokuje daný ofset ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
-                                                                                        
+/*29*/   SK.add("Strana počitaneho štvorca");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                                                                               
                                                                                                
                                                                                
                                                                        

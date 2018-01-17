@@ -480,7 +480,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Z_pozdl_autoActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="X_precne_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 24));"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Z_pozdl_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 24));"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
@@ -497,7 +497,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Z_pozdl_userActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="X_precne_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 25));"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Z_pozdl_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 25));"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>

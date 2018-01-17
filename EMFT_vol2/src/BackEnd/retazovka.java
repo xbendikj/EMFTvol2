@@ -177,8 +177,6 @@ public class retazovka {
 
     }
 
-    ;
-    
     public retazovka(retazovka R, ArrayList<DTriangle> terenTriangles2) throws DelaunayError {
 
         I1_over = R.getI1_over();
@@ -214,10 +212,6 @@ public class retazovka {
         generateBundleConstants();
 
     }
-
-    ;
-    
-    
 
     /**
      * generate C or H and H_ter podla zadanzch vstupov
@@ -631,9 +625,6 @@ public class retazovka {
         this.Beta_over = Beta_over;
     }
 
-   
-    
-
     /**
      * funkcia ktory na iteračneho kroku a vypocitanich parametrov retazovky
      * vypočíta polohu vektora R0 na koniec elementu
@@ -733,7 +724,6 @@ public class retazovka {
         }
 
     }
-    
 
     /**
      * vypocita vsetky Ro mirror vektory pre jedno lano ale opat bez korekcie

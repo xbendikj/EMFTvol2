@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.jdelaunay.delaunay.error.DelaunayError;
@@ -179,7 +180,7 @@ public class help {
         }   
     }
     
-     public static double Object_To_int(Object X){
+    public static double Object_To_int(Object X){
         int value=0;
          try{
         value = Integer.parseInt(String.valueOf(X));
@@ -304,5 +305,20 @@ public class help {
         
         return  C;
     } 
+    
+    /**
+         * vytvory double array z arraylistu
+         * @param X arraylist double
+         * @return double[rozmer arrayistu ]
+         */
+        public static double[] Double_Arraylist_to_DoubleArray (ArrayList<Double> X){
+        double[] result = new double[X.size()];
+            
+         for ( int cl3=0;cl3<result.length;cl3++){
+                                 
+             result[cl3] = X.get(cl3);
+         }
+         return result;
+    }
     
 }

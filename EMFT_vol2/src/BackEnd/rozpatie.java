@@ -3,8 +3,13 @@
  */
 package BackEnd;
 
+import static InternalFrame.InternalFrameproject.Rozpätie;
+import emft_vol2.constants;
 import java.util.ArrayList;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.RealMatrix;
 import org.jdelaunay.delaunay.error.DelaunayError;
+import org.jdelaunay.delaunay.geometries.DPoint;
 import org.jdelaunay.delaunay.geometries.DTriangle;
 import tools.help;
 
@@ -307,8 +312,6 @@ public class rozpatie {
         this.Retazovka = Retazovka;
     }
    
-    
-
     public void erazeRetazovkaArrayList() {
         this.Retazovka.removeAll(this.Retazovka);
     }
@@ -321,7 +324,95 @@ public class rozpatie {
         this.Krok_pozorovatela = Krok_pozorovatela;
     }
 
-   
+    //vystupom by mal byt tap pre kazdy element, tieto tau budu vložene do retazovky kazdej jednej
+    //toto je možne robit až ked maju všetky lana vygenerovane R0 a R0 mirror   
+    public void calculateTau() throws DelaunayError{
+        //prv arraylist , vo vnorenom, lano druhy vektor
+        ArrayList<ArrayList<DPoint>> ListOfR0 = new ArrayList<ArrayList<DPoint>>();
+        ArrayList<ArrayList<DPoint>> ListOfR0_mirror = new ArrayList<ArrayList<DPoint>>();    
+        
+       
+        double[] U_real_array = null;
+        double[] U_image_array = null;
+        ArrayList<Double> U_real_list = new ArrayList<Double>();
+        ArrayList<Double> U_image_list = new ArrayList<Double>();
+        
+        //iteratory
+        int iterator_lan = 0;
+        int elementarny_iterator=0;
+        //basic priprava vektorov pre okienka matice
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+
+                    //cyklus bundle   
+                    for (int cl2 = 0; cl2 < getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
+
+                              ArrayList<DPoint> R0_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_vectors()); // nacitam jedno lano a upravim ho podla bundle konstant
+                              ArrayList<DPoint> R0_mirror_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_mirror_vectors());
+                                
+                             // cyklus 
+                             for ( int cl3=0;cl3<getRetazovka(cl1).getRo_vectors().size();cl3++){
+
+                                   //  bundle korektura pre jeden druhy SMER  a korekcia
+                                   double Y = (double) R0_vectors_per_lano.get(cl3).getY() + (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                   double Z = (double) R0_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   double X = (double) R0_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   DPoint R0 = new DPoint(X, Y, Z);
+                                   R0_vectors_per_lano.set(cl3,R0); 
+                                   
+                                   //mirrorovanie len jedneho rozmeru pozor
+                                   double Ym = (double) R0_mirror_vectors_per_lano.get(cl3).getY() - (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                   double Zm = (double) R0_mirror_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   double Xm = (double) R0_mirror_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   DPoint R0m = new DPoint(Xm, Ym, Zm);
+                                   R0_mirror_vectors_per_lano.set(cl3,R0m); 
+                                   // nastavy U real a image do separatnych listov podla toho na akom vodiči je ( tu sa bundle ignoruje )
+                                   U_real_list.add(get_real(getRetazovkaList().get(cl1).getU_over(), getRetazovkaList().get(cl1).getPhi_over() ));
+                                   U_image_list.add(get_image(getRetazovkaList().get(cl1).getU_over(), getRetazovkaList().get(cl1).getPhi_over() )); 
+                                  
+                                  elementarny_iterator = elementarny_iterator + 1; 
+                               }
+                                
+
+                        // celkovy pocet vyp vodicov
+                       
+                        // arraylist ( RO a RO mirror ), ktory obsahuje arraylistyk lan. prvy arraylist je zoznam vodičov a druhy arralist obsahuje vektory Dpoint jednolivyvh vodičov
+                        ListOfR0.add(new ArrayList<DPoint>(R0_vectors_per_lano)); 
+                        ListOfR0_mirror.add(new ArrayList<DPoint>( R0_mirror_vectors_per_lano));
+                        iterator_lan = iterator_lan + 1;
+                    }
+         
+                }
+       
+        //inicializacia matic
+        RealMatrix  P_koef = new Array2DRowRealMatrix(new double[elementarny_iterator][elementarny_iterator]);//matica Pkoeficientov vsetkych ROW COLUMN
+        RealMatrix  U_real = new Array2DRowRealMatrix(new double[elementarny_iterator][1]); // matica realnych hodnot napatia
+        RealMatrix U_image = new Array2DRowRealMatrix(new double[elementarny_iterator][1]); // matica imaginarnch hodnot napatia
+        RealMatrix  Tau_real = new Array2DRowRealMatrix(new double[elementarny_iterator][1]); // matica ireal hodnot Tau
+        RealMatrix  Tau_image = new Array2DRowRealMatrix(new double[elementarny_iterator][1]); // matica imaginarnych hodnot Tau
+        
+      
+        
+        //naplnenie matic
+        int cislo =U_real.getColumnDimension();
+        int cislo2 =U_real.getRowDimension();
+        cislo =P_koef.getColumnDimension();
+        cislo2 =P_koef.getRowDimension();
+        U_real.setColumn(0, help.Double_Arraylist_to_DoubleArray(U_real_list));
+        U_image.setColumn(0, help.Double_Arraylist_to_DoubleArray(U_image_list));
+        
+        System.out.println("pocet lan" + iterator_lan);
+        System.out.println("pocet elementov" + elementarny_iterator);
+    }
+    
+        private double get_real(double value,double phase){
+        double real = value*Math.cos(phase*(Math.PI/180));
+        return real;
+    }
+        private double get_image(double value,double phase){
+        double image = value*Math.sin(phase*(Math.PI/180));
+        return image;
+    }
+      
     
     
 }

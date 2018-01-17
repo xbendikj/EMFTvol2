@@ -11,57 +11,56 @@ import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
 
-/**vypocita B v mieste Rp od jedneho lana
+/**vypocita E v mieste Rp od jedneho lana
  * @author Jozef
  */
-public class B_calculation {
+public class E_calculation {
     
-    double mu0;
-    double muR;
-    double I;
-    double phase;
+    double epsi0;
+    double epsiR;
+   
     DPoint Rp;
     DPoint R0;
     DPoint deltaL;
     double R0_bundleY=0;
     double R0_bundleZ=0;
-    double beta = 0;
     
     ArrayList<DPoint> RP_vectors;
     ArrayList<DPoint> R0_vectors;
+    ArrayList<DPoint> R0m_vectors;
     ArrayList<DPoint> deltaL_vectors;
-    FazorVektor B ;
-    double[] geoVektor = new double[3];
+    ArrayList<Complex> Tau; // tau pre kazdy element
+    FazorVektor E ;
     
     
-    public B_calculation() {
+    
+    public E_calculation() {
     }
     
     /**
      * 
-     * @param mu0  mu0
-     * @param muR MUR
-     * @param I  prud
+     * @param epsi0  mu0
+     * @param epsiR MUR
+     * @param U  prud
      * @param phase faza
      * @param RP poloha pozorovatela
      * @param R0_vectors arralist vsetkých RP vektorov jedného lana
+     * @param R0m_vectors arralist vsetkých RP vektorov jedného lana
      * @param deltaL_vectors arraylist vsetkých DL vektorov jedneho lana
      * @param R0_Y korekcia bundke vodiča smer Y podla retazovky class
      * @param R0_Z korekcia bundke vodiča smer Z podla retazovky class 
-     * @param beta priebetovanieZtoveho otočenia do Xsovehos meru 
      * @throws DelaunayError 
      */
-    public B_calculation(double mu0, double muR, double I, double phase, DPoint RP, ArrayList<DPoint> R0_vectors, ArrayList<DPoint> deltaL_vectors,double R0_Z,double R0_Y,double beta) throws DelaunayError {
-        this.mu0 = mu0;
-        this.muR = muR;
-        this.I = I;
-        this.phase = phase;
+    public E_calculation(double epsi0, double epsiR, ArrayList<Complex> Tau, DPoint RP, ArrayList<DPoint> R0_vectors,ArrayList<DPoint> R0m_vectors, ArrayList<DPoint> deltaL_vectors,double R0_Z,double R0_Y) throws DelaunayError {
+        this.epsi0 = epsi0;
+        this.epsiR = epsiR;
+        this.Tau = Tau;
         this.Rp = RP;
         this.R0_vectors = R0_vectors;
+        this.R0m_vectors = R0m_vectors;
         this.deltaL_vectors = deltaL_vectors;
         this.R0_bundleY = R0_Y;
         this.R0_bundleZ = R0_Z;
-        this.beta=beta; // 
         //System.out.println( " this.R0_bundleY " + this.R0_bundleY );
         //System.out.println( " this.R0_bundleZ " + this.R0_bundleZ );
         //korektura bundle
@@ -69,26 +68,23 @@ public class B_calculation {
     }
     public void  run () throws DelaunayError{
         Complex NULA = new Complex(0, 0);
-        FazorVektor B_v_miesteRp = new FazorVektor(NULA, NULA, NULA);
+        FazorVektor E_v_miesteRp = new FazorVektor(NULA, NULA, NULA);
         
-        //cyklus 
+        //cyklus od kazdeho elementu
         for(int cl1 = 0; cl1<this.R0_vectors.size();cl1++){
             
-             B_v_miesteRp.AddToFazorVektor( calc_DB(Rp, R0_vectors.get(cl1), deltaL_vectors.get(cl1)));
+             E_v_miesteRp.AddToFazorVektor( calc_DE(Rp, R0_vectors.get(cl1), deltaL_vectors.get(cl1)));
             
         }
         
-        this.geoVektor[0] = B_v_miesteRp.getX_Real()/getI_real(); //X hodnota geovektora
-        this.geoVektor[1] = B_v_miesteRp.getY_Real()/getI_real(); //Y hodnota geovektora
-        this.geoVektor[2] = B_v_miesteRp.getZ_Real()/getI_real(); //Z hodnota geovektora
-        this.B=B_v_miesteRp;
+       
+        this.E=E_v_miesteRp;
     }
-    
-    private FazorVektor calc_DB(DPoint Rp,DPoint R0,DPoint deltaL ) throws DelaunayError{
+    //TOTO JE SRDCE VYPOCTU
+    private FazorVektor calc_DE(DPoint Rp,DPoint R0,DPoint deltaL ) throws DelaunayError{
         DPoint R_0 = new DPoint(R0.getX(), R0.getY(), R0.getZ());
-        R_0.setY(R0.getY() + R0_bundleY); //  bundle korektura pre jeden druhy SMER // treba to priemetovat
-        R_0.setZ(R0.getZ() + Math.cos(beta)*R0_bundleZ); // priemety
-        R_0.setX(R0.getX() + Math.sin(beta)*R0_bundleZ);
+        R_0.setY(R0.getY() + R0_bundleY); //  bundle korektura pre jeden druhy SMER 
+        R_0.setZ(R0.getZ() + R0_bundleZ);
          
       //  System.out.println( "R_0= " + R_0 );
       //  System.out.println( "Rp= " + Rp );
@@ -113,14 +109,7 @@ public class B_calculation {
         return deltaB;
     }
     
-    private double getI_real(){
-        double I_real = I*Math.cos(phase*(Math.PI/180));
-        return I_real;
-    }
-    private double getI_image(){
-        double I_image = I*Math.sin(phase*(Math.PI/180));
-        return I_image;
-    }
+
     private double get_ABS(DPoint X){
         double ABS = Math.sqrt( Math.pow(X.getX(), 2) + Math.pow(X.getY(), 2) + Math.pow(X.getZ(), 2)  );
         return ABS;
@@ -142,21 +131,15 @@ public class B_calculation {
         return C;
     }
 
-    public FazorVektor getB() {
-        return B;
+    public FazorVektor getE() {
+        return E;
     }
 
-    public void setB(FazorVektor B) {
-        this.B = B;
+    public void setE(FazorVektor B) {
+        this.E = E;
     }
 
-    public double[] getGeoVektor() {
-        return geoVektor;
-    }
-
-    public void setGeoVektor(double[] geoVektor) {
-        this.geoVektor = geoVektor;
-    }
+   
      
     
     

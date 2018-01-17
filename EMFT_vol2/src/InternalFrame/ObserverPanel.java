@@ -444,7 +444,7 @@ public class ObserverPanel extends javax.swing.JPanel {
         pozdl_Z_user_custom.add(Z_pozdl_auto);
         Z_pozdl_auto.setSelected(true);
         Z_pozdl_auto.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 18));
-        X_precne_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 24));
+        Z_pozdl_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 24));
         Z_pozdl_auto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Z_pozdl_autoActionPerformed(evt);
@@ -453,7 +453,7 @@ public class ObserverPanel extends javax.swing.JPanel {
 
         pozdl_Z_user_custom.add(Z_pozdl_user);
         Z_pozdl_user.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 20));
-        X_precne_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 25));
+        Z_pozdl_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 25));
         Z_pozdl_user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Z_pozdl_userActionPerformed(evt);
@@ -924,7 +924,7 @@ static void constructor(){
 /*18*/   SK.add("auto");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-/*19*/   SK.add("Automatická hodnota v mieste maximálneho priehybu");  
+/*19*/   SK.add("Automatická hodnota v mieste maximálneho priehybu A1 prvého lana");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
 /*20*/   SK.add("vlastná");   
@@ -939,7 +939,7 @@ static void constructor(){
 /*23*/   SK.add("Zp =");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-/*24*/   SK.add("Automatická hodnota v kolma na miesto max priehybu");  
+/*24*/   SK.add("Automatická hodnota W1 prvého lana");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
 /*25*/   SK.add("Vlastná hodnota miesta priečnej vzdialenosti na osi Z");  
