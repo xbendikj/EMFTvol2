@@ -754,7 +754,7 @@ static void constructor(){
          /*32*/   SK.add("polomer vodiča");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*33*/   SK.add("Napätie");  
+         /*33*/   SK.add("3f združene napätie");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
          /*34*/   SK.add("Prúd");  

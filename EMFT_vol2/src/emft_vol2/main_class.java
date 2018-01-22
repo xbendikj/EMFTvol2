@@ -50,6 +50,7 @@ public class main_class {
         
         constants.loadConstants(); // nacitaj konštanty
         constants.setMu0(4*Math.PI*0.0000001);
+        constants.setEpsi0(8.854187817620E-12);
         
       // test delaunay
        System.out.println("TEST OF DELAUNAY 1");

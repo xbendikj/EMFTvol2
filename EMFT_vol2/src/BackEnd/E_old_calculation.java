@@ -8,6 +8,7 @@ package BackEnd;
 import static InternalFrame.InternalFrameproject.Rozpätie;
 import emft_vol2.constants;
 import java.util.ArrayList;
+import java.util.Scanner;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import org.jdelaunay.delaunay.error.DelaunayError;
@@ -17,11 +18,11 @@ import tools.help;
 /**vypocita E v mieste Rp od jedneho lana
  * @author Jozef
  */
-public class E_calculation {
+public class E_old_calculation {
     
     double epsi0;
     double epsiR;
-   
+    int myint;
     DPoint Rp;
     DPoint R0;
     DPoint deltaL;
@@ -33,15 +34,15 @@ public class E_calculation {
     ArrayList<DPoint> R0_vectors;
     ArrayList<DPoint> R0m_vectors;
     ArrayList<DPoint> deltaL_vectors;
-    RealMatrix Tau_real; // tau pre kazdy element
-    RealMatrix Tau_image;
+    ArrayList<RealMatrix> Tau_real; // tau pre kazdy element
+    ArrayList<RealMatrix> Tau_image;
     ArrayList<Integer> polohy_lan;
     int Lano;
     FazorVektor E ;
     
     
     
-    public E_calculation() {
+    public E_old_calculation() {
     }
     
     /**
@@ -58,12 +59,11 @@ public class E_calculation {
      * @param R0_Z korekcia bundke vodiča smer Z podla retazovky class 
      * @throws DelaunayError 
      */
-    public E_calculation(double epsi0, double epsiR, RealMatrix Tau_real,RealMatrix Tau_image,ArrayList<Integer> polohy_lan,int Lano, DPoint RP, ArrayList<DPoint> R0_vectors,ArrayList<DPoint> R0m_vectors, ArrayList<DPoint> deltaL_vectors,double R0_Z,double R0_Y,double beta) throws DelaunayError {
+    public E_old_calculation(double epsi0, double epsiR, ArrayList<RealMatrix> Tau_real,ArrayList<RealMatrix> Tau_image,int Lano, DPoint RP, ArrayList<DPoint> R0_vectors,ArrayList<DPoint> R0m_vectors, ArrayList<DPoint> deltaL_vectors,double R0_Z,double R0_Y,double beta) throws DelaunayError {
         this.epsi0 = epsi0;
         this.epsiR = epsiR;
         this.Tau_real = Tau_real;
         this.Tau_image = Tau_image;
-        this.polohy_lan = polohy_lan;
         this.Lano=Lano;
         this.Rp = RP;
         this.R0_vectors = R0_vectors;
@@ -81,11 +81,13 @@ public class E_calculation {
         Complex NULA = new Complex(0, 0);
         FazorVektor E_v_miesteRp = new FazorVektor(NULA, NULA, NULA);
         
+         
+        
         //cyklus od kazdeho elementu
         for(int cl1 = 0; cl1<this.R0_vectors.size();cl1++){
             
              E_v_miesteRp.AddToFazorVektor( 
-                          calc_DE(Tau_real.getEntry(polohy_lan.get(Lano) + cl1, 0),Tau_image.getEntry(polohy_lan.get(Lano) + cl1, 0) ,Rp, R0_vectors.get(cl1),R0m_vectors.get(cl1) , deltaL_vectors.get(cl1))
+                          calc_DE(Tau_real.get(cl1).getEntry(Lano, 0) ,Tau_image.get(cl1).getEntry(Lano, 0) ,Rp, R0_vectors.get(cl1),R0m_vectors.get(cl1) , deltaL_vectors.get(cl1))
              );
             
         }
@@ -96,7 +98,7 @@ public class E_calculation {
     //TOTO JE SRDCE VYPOCTU
     private FazorVektor calc_DE(double tau_real,double tau_image, DPoint Rp,DPoint R0,DPoint R0m,DPoint deltaL ) throws DelaunayError{
         DPoint R_0 = new DPoint(R0.getX(), R0.getY(), R0.getZ());
-        DPoint R_0m = new DPoint(R0.getX(), R0.getY(), R0.getZ());
+        DPoint R_0m = new DPoint(R0m.getX(), R0m.getY(), R0m.getZ());
         R_0.setY(R0.getY() + R0_bundleY); //  bundle korektura pre jeden druhy SMER 
         R_0.setZ(R0.getZ() + Math.cos(beta)*R0_bundleZ); // priemety
         R_0.setX(R0.getX() + Math.sin(beta)*R0_bundleZ);
@@ -115,16 +117,25 @@ public class E_calculation {
         DPoint R_r_unit = new DPoint(R_r);
         DPoint R_m_unit = new DPoint(R_m);
         
-        R_r_unit.setX(R_r_unit.getX()/get_ABS(R_r));
-        R_r_unit.setY(R_r_unit.getY()/get_ABS(R_r));
-        R_r_unit.setZ(R_r_unit.getZ()/get_ABS(R_r));
+//        R_r_unit.setX(R_r_unit.getX()/get_ABS(R_r));
+//        R_r_unit.setY(R_r_unit.getY()/get_ABS(R_r));
+//        R_r_unit.setZ(R_r_unit.getZ()/get_ABS(R_r));
+//        
+//        R_m_unit.setX(R_m_unit.getX()/get_ABS(R_m));
+//        R_m_unit.setY(R_m_unit.getY()/get_ABS(R_m));
+//        R_m_unit.setZ(R_m_unit.getZ()/get_ABS(R_m));
         
-        R_m_unit.setX(R_m_unit.getX()/get_ABS(R_m));
-        R_m_unit.setY(R_m_unit.getY()/get_ABS(R_m));
-        R_m_unit.setZ(R_m_unit.getZ()/get_ABS(R_m));
         
-        double menovatel_r = Math.pow(get_ABS(R_r), 2);
-        double menovatel_m = Math.pow(get_ABS(R_m), 2);
+      
+        double menovatel_r =0;
+        double menovatel_m =0;
+
+         menovatel_r = Math.pow(get_ABS(R_r), 3);
+         menovatel_m = Math.pow(get_ABS(R_m), 3); 
+        
+        
+        
+        
         double DELTA_l = get_ABS(deltaL);
         //
         //double DELTA_l = 1; //Rozpätie.getKrok();
