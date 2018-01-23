@@ -661,23 +661,23 @@ public class rozpatie {
              Tau_real_mat.add(Tau_real);
              Tau_image_mat.add(Tau_image);
 
-                   System.out.println("BackEnd.rozpatie.calculateTau() real posledne" );
-            for (int i = 0; i < Tau_real.getRowDimension(); i++) {
-            for (int j = 0; j < Tau_real.getColumnDimension(); j++) {
-                System.out.print(Tau_real.getData()[i][j] + " ");
-            }
-
-            System.out.println();
-
-        }
-                    System.out.println("BackEnd.rozpatie.calculateTau() Image posledne" );
-            for (int i = 0; i < Tau_image.getRowDimension(); i++) {
-            for (int j = 0; j < Tau_image.getColumnDimension(); j++) {
-                System.out.print(Tau_real.getData()[i][j] + " ");
-            }
-            System.out.println();
-
-        }
+//                   System.out.println("BackEnd.rozpatie.calculateTau() real posledne" );
+//            for (int i = 0; i < Tau_real.getRowDimension(); i++) {
+//            for (int j = 0; j < Tau_real.getColumnDimension(); j++) {
+//                System.out.print(Tau_real.getData()[i][j] + " ");
+//            }
+//
+//            System.out.println();
+//
+//        }
+//                    System.out.println("BackEnd.rozpatie.calculateTau() Image posledne" );
+//            for (int i = 0; i < Tau_image.getRowDimension(); i++) {
+//            for (int j = 0; j < Tau_image.getColumnDimension(); j++) {
+//                System.out.print(Tau_real.getData()[i][j] + " ");
+//            }
+//            System.out.println();
+//
+//        }
              
              
              this.Tau_real_mat=Tau_real_mat;

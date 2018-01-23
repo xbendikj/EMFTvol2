@@ -69,6 +69,23 @@ public class Observer {
     public void setPoloha(DPoint poloha) {
         this.poloha = poloha;
     }
+     /**
+      * sppricitaj observera ku observerovi
+      * @param X 
+      */
+     public void merge(Observer X) {
+        this.B.AddToFazorVektor(X.getB());
+        this.E.AddToFazorVektor(X.getE());
+        this.GeoMatrix_A.add(X.getGeoMatrix_A()) ; 
+    }
+
+    public RealMatrix getGeoMatrix_A() {
+        return GeoMatrix_A;
+    }
+
+    public void setGeoMatrix_A(RealMatrix GeoMatrix_A) {
+        this.GeoMatrix_A = GeoMatrix_A;
+    }
     
     
     

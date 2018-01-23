@@ -545,10 +545,12 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
 
     private void jTextField_AKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_AKeyReleased
       InternalFrameproject.Rozpätie.setA(kontrolor.set(0, help.ReadCheckDouble(jTextField_A, -1)));
+      InternalFrameproject.calcE_OLD_plus.setEnabled(false);
     }//GEN-LAST:event_jTextField_AKeyReleased
 
     private void jTextField_ZKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ZKeyReleased
       InternalFrameproject.Rozpätie.setZ( kontrolor.set(1, help.ReadCheckDouble(jTextField_Z, -1)));
+      InternalFrameproject.calcE_OLD_plus.setEnabled(false);
     }//GEN-LAST:event_jTextField_ZKeyReleased
 
     private void jTextField_krokKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_krokKeyReleased
@@ -572,11 +574,11 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField_Z2KeyReleased
 
     private void jButton_model_terrenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_model_terrenActionPerformed
-      
+        
         try {
             terenModel = new terenmodel_jDialog(InternalFrameproject.Rozpätie);
             terenModel.setVisible(true);
-           
+            InternalFrameproject.calcE_OLD_plus.setEnabled(false);
         } catch (DelaunayError ex) {
             Logger.getLogger(BasicSettingsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -675,6 +677,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
 
     private void jTextField_krok_pozorovatelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_krok_pozorovatelaKeyReleased
        InternalFrameproject.Rozpätie.setKrok_pozorovatela( help.ReadCheckDouble(jTextField_krok_pozorovatela, 1));
+       InternalFrameproject.calcE_OLD_plus.setEnabled(false);
     }//GEN-LAST:event_jTextField_krok_pozorovatelaKeyReleased
 
     private void jTextField_ZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_ZActionPerformed

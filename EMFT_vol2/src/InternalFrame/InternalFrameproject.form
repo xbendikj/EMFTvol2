@@ -103,10 +103,12 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calcB" min="-2" pref="38" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                   <Component id="calcE" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calcE_OLD" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="calcE_OLD_plus" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -119,6 +121,7 @@
                       <Component id="calcB" alignment="3" pref="26" max="32767" attributes="0"/>
                       <Component id="calcE" alignment="3" pref="0" max="32767" attributes="0"/>
                       <Component id="calcE_OLD" alignment="3" pref="0" max="32767" attributes="0"/>
+                      <Component id="calcE_OLD_plus" alignment="3" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -149,6 +152,18 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcE_OLDActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="calcE_OLD_plus">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eo plus"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcE_OLD_plusActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
