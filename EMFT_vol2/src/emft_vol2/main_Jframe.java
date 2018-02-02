@@ -44,6 +44,7 @@ public class main_Jframe extends javax.swing.JFrame {
         jMenuItem_load = new javax.swing.JMenuItem();
         jMenu_settings = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu_help = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -125,6 +126,14 @@ public class main_Jframe extends javax.swing.JFrame {
         });
         jMenu_settings.add(jMenuItem1);
 
+        jMenuItem3.setText(language_main_frame.LangLabel(constants.getLanguage_option(),13));
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu_settings.add(jMenuItem3);
+
         jMenuBar.add(jMenu_settings);
 
         jMenu_help.setText(language_main_frame.LangLabel(constants.getLanguage_option(),3)  );
@@ -197,6 +206,20 @@ public class main_Jframe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        if( TxT_JFrame.about_JframeIsOpen == false){
+            String[] args = null;
+            TxT_JFrame.main(args);
+        }
+
+//        if(window==null ) {
+//            window = new JInternalFrame_TXT();
+//            JDesktop.add(window);
+//            window.show();
+//        }
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -243,6 +266,7 @@ public class main_Jframe extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem_load;
     private javax.swing.JMenuItem jMenuItem_new;
     private javax.swing.JMenu jMenu_help;
@@ -303,10 +327,18 @@ static void constructor(){
   /*10*/  SK.add("OK");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-          
-                        
-                          
-                
+  /*11*/  SK.add("Nastavenie velkeho TXT výstupu Y sxis");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position         
+  /*12*/  SK.add("Výstup aj pre parametricky output Y axis");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                         
+ /*13*/  SK.add("TxT nastavenia");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                             
+  /*14*/  SK.add("Pre funkčnost a aktualnosť nastaveni ponechaj okno otvorené.");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");               
          
  // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
  inicializovane = true;

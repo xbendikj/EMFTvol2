@@ -28,6 +28,9 @@ public class plot_2D {
     String zname;
     String name_row1;
     String name_row2;
+    String Path;
+    boolean screen = true;
+    boolean file = false;
     
     // CONSTRUCTORS
      /**
@@ -64,6 +67,7 @@ public class plot_2D {
       * @param row_2 nazov grafu druhy riadok
       * @param contury oknturovy graf
      * @param fill fill graf ( ak je aj contury aj fil contury su automat vyplnute)
+     * @param zname meno Zosi
       */
      public plot_2D(double[] xray, double[] yray, double[] zmat,String xname,String yname,String row_1,String row_2, boolean fill, String zname) {
         this.xray = xray; // array data X
@@ -79,7 +83,23 @@ public class plot_2D {
         
         
     }
-    
+
+    public boolean isScreen() {
+        return screen;
+    }
+
+    public void setScreen(boolean screen) {
+        this.screen = screen;
+    }
+
+    public boolean isFile() {
+        return file;
+    }
+
+    public void setFile(boolean file,String Path) {
+        this.file = file;
+        this.Path = Path;
+    }
      /**
       * defaultne vypnuta legenda
       * @param xray xray array rozmer n
@@ -201,20 +221,25 @@ public class plot_2D {
      float YSTEP = (YE-YA)/10;//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
      float ZSTEP = (ZE-ZA)/5;
      
-     Dislin.metafl ("xwin"); // SCREEN OUTPUT
+    if(screen==true) Dislin.metafl ("xwin"); // SCREEN OUTPUT
+     if(screen==false) Dislin.metafl ("VIRT");
+     
      Dislin.page(6000, 4000); // size of window
      Dislin.scrmod("REVERS");
      Dislin.disini ();       // BEGIN DISLIN
      Dislin.pagera ();       // BORDER AROUND PAGE
      Dislin.hwfont ();       // HARDWARE FOTN
      Dislin.center();
-      
+    
      Dislin.name(this.xname, "x");
      Dislin.name(this.yname,  "y");
+     
+     //if()Dislin.axslen(0, 0);
+      
      if(fill==true)  Dislin.name(this.zname,  "z");
      Dislin.titlin (name_row1, 1);
      Dislin.titlin (name_row2, 3); 
-     
+      Dislin.texmod("ON"); 
      Dislin.labdig(constants.getDislin_pocet_des_miest(), "x"); 
      Dislin.labdig(constants.getDislin_pocet_des_miest(), "y");
      if(fill==true)  Dislin.labdig(constants.getDislin_pocet_des_miest(), "z");
@@ -281,7 +306,7 @@ public class plot_2D {
      Dislin.conshd (xray, xray.length, yray, yray.length, zmat, zlev2, constants.getDislin_pocet_kontur());
     }
     
-     
+      if(file==true) Dislin.rpng(Path); // SCREEN OUTPUT
      Dislin.disfin ();
   }
      /**

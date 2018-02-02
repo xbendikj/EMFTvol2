@@ -15,6 +15,7 @@ import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
 
 /**vypocita E v mieste Rp od jedneho lana
+ * matrmatika výpočtu je ale ZLA PONECHAVAM LEN KOLI ALGORITMOM 3D PKK a PKJ koeficienty
  * @author Jozef
  */
 public class E_calculation {

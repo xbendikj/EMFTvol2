@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import tools.help;
 
@@ -32,6 +33,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     public BasicSettingsPanel() {
         initComponents();
         jTextField_A.setText(String.valueOf(InternalFrameproject.Rozpätie.getA()));
+        jTextField_H.setText(String.valueOf(50));
         jTextField_Z.setText(String.valueOf(InternalFrameproject.Rozpätie.getZ()));
         jTextField_krok.setText(String.valueOf(InternalFrameproject.Rozpätie.getKrok()*1000));
         jTextField_krok_pozorovatela.setText(String.valueOf(InternalFrameproject.Rozpätie.getKrok_pozorovatela()));
@@ -84,6 +86,9 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
         jTextField_krok_pozorovatela = new javax.swing.JTextField();
         jLabel_A9 = new javax.swing.JLabel();
         jLabel_krok1 = new javax.swing.JLabel();
+        jLabel_H = new javax.swing.JLabel();
+        jTextField_H = new javax.swing.JTextField();
+        jLabel_A10 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 0)
         ));
@@ -419,6 +424,24 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
         jLabel_krok1.setText("\u25A1");
         jLabel_krok.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 29));
 
+        jLabel_H.setText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 30));
+        jLabel_H.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(),31));
+
+        help.DisplayDouble(jTextField_Z, InternalFrameproject.Rozpätie.getZ(), 1);
+        jTextField_H.setEnabled(false);
+        jTextField_H.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_HActionPerformed(evt);
+            }
+        });
+        jTextField_H.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_HKeyReleased(evt);
+            }
+        });
+
+        jLabel_A10.setText("m");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -426,26 +449,33 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel_Z, javax.swing.GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
-                        .addComponent(jLabel_A1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(jLabel_krok, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                    .addComponent(jLabel_krok1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addComponent(jLabel_H, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel_Z, javax.swing.GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel_A1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(jLabel_krok, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel_krok1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField_H)
                     .addComponent(jTextField_A)
                     .addComponent(jTextField_Z, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
                     .addComponent(jTextField_krok)
                     .addComponent(jTextField_krok_pozorovatela))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel_A2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel_A, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel_A3, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(jLabel_A9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel_A2)
+                        .addComponent(jLabel_A3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel_A10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel_A, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel_A9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,7 +491,12 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField_Z, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel_A, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_H, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_H, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_A10, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_krok, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_krok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -568,6 +603,14 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     private void jTextField_X2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_X2KeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_X2KeyReleased
+
+    public static JTextField getjTextField_H() {
+        return jTextField_H;
+    }
+
+    public static void setjTextField_H(JTextField jTextField_H) {
+        BasicSettingsPanel.jTextField_H = jTextField_H;
+    }
 
     private void jTextField_Z2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Z2KeyReleased
         // TODO add your handling code here:
@@ -684,6 +727,14 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_ZActionPerformed
 
+    private void jTextField_HActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_HActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_HActionPerformed
+
+    private void jTextField_HKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_HKeyReleased
+         jTextField_H.setText( String.valueOf(help.ReadCheckIntErrorSign(jTextField_H, 40,"Error value")) );
+    }//GEN-LAST:event_jTextField_HKeyReleased
+
     
     
     
@@ -698,6 +749,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel_A;
     private javax.swing.JLabel jLabel_A1;
+    private javax.swing.JLabel jLabel_A10;
     private javax.swing.JLabel jLabel_A2;
     private javax.swing.JLabel jLabel_A3;
     private javax.swing.JLabel jLabel_A4;
@@ -706,6 +758,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel_A7;
     private javax.swing.JLabel jLabel_A8;
     private javax.swing.JLabel jLabel_A9;
+    private javax.swing.JLabel jLabel_H;
     private javax.swing.JLabel jLabel_L1;
     private javax.swing.JLabel jLabel_X1;
     private javax.swing.JLabel jLabel_X2;
@@ -718,6 +771,7 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton jRadioButton_AZ1;
     private javax.swing.JRadioButton jRadioButton_points;
     static javax.swing.JTextField jTextField_A;
+    static javax.swing.JTextField jTextField_H;
     static javax.swing.JTextField jTextField_L1;
     static javax.swing.JTextField jTextField_X1;
     static javax.swing.JTextField jTextField_X2;
@@ -828,7 +882,13 @@ static void constructor(){
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
 /*29*/   SK.add("Strana počitaneho štvorca");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                                                                               
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*30*/   SK.add("H :");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+/*31*/   SK.add("Vyska pre vertikalne mapovanie");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");         
                                                                                                
                                                                                
                                                                        

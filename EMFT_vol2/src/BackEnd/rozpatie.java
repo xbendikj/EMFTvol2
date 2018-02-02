@@ -366,11 +366,13 @@ public class rozpatie {
      *   vystupom by mal byt tap pre kazdy element, tieto tau budu vložene do retazovky kazdej jednej
          toto je možne robit až ked maju všetky lana vygenerovane R0 a R0 mirror 
          uklada Tau podla specifickeho poradia do jednej veeeeelkej Tau pičky
+         * TOTO TIESENIE JE MATEMATIKY NEKOREKTNE 
      * @throws DelaunayError 
      */
     public void calculateTau() throws DelaunayError{
         
         // docasne testovacie
+        //
         Scanner keyboard = new Scanner(System.in);
         System.out.println("0 - infinite 1 - pkj 2 - 0");
         int myint = keyboard.nextInt();
@@ -635,7 +637,7 @@ public class rozpatie {
                      } else { // PKJ   
 
                          koeficient = get_Pkj(K, get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0_mirror.get(j).get(element_iterator)), get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0.get(j).get(element_iterator))); //inverzna matica funguje
-
+                         
                      }
                      P_koef.addToEntry(k, j, koeficient);
                  }

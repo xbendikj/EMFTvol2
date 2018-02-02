@@ -7,6 +7,7 @@ package dislin;
 
 import de.dislin.Dislin;
 import emft_vol2.constants;
+import emft_vol2.main_class;
 import java.util.ArrayList;
 
 /**
@@ -22,9 +23,11 @@ public class plot_1D {
     ArrayList<double[]> y2ray = new ArrayList<>();
     boolean islegend=false;
     double smallunits=1;
-    
+    boolean screen = true;
+    boolean file = false;
     String xname;
     String y1name;
+    String Path;
    
     String name_row1;
     String name_row2;
@@ -68,6 +71,23 @@ public class plot_1D {
         this.nameY=nameY;
         this.islegend=true;
     }
+
+    public boolean isScreen() {
+        return screen;
+    }
+
+    public void setScreen(boolean screen) {
+        this.screen = screen;
+    }
+
+    public boolean isFile() {
+        return file;
+    }
+
+    public void setFile(boolean file,String Path) {
+        this.file = file;
+        this.Path = Path;
+    }
     
     public void draw_1D_yn(){
         run1D_yn();
@@ -101,8 +121,8 @@ public class plot_1D {
      float XSTEP = (XE-XA)/10;//(Math.abs(XA)-Math.abs(XE))/((float)draw_constants.STEPdivider); // step between labels
      float YSTEP = (YE-YA)/5;//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
       
-     Dislin.metafl ("xwin"); // SCREEN OUTPUT
-     
+     if(screen==true) Dislin.metafl ("xwin"); // SCREEN OUTPUT
+     if(screen==false) Dislin.metafl ("VIRT");
     
      Dislin.page(6000, 4000); // size of window
      Dislin.scrmod("REVERS");
@@ -114,10 +134,10 @@ public class plot_1D {
      
      Dislin.axspos (500, 500);     //LEFT LOWeR CORNER OF AXIS SYSETM
    // Dislin.axslen (6000, 3000);    //
-         
+        
      Dislin.name(this.xname, "x");
-     Dislin.name(this.y1name,  "y");
-
+     Dislin.name(this.y1name ,  "y");
+     
      Dislin.labdig(constants.getDislin_pocet_des_miest(), "x"); 
      Dislin.labdig(constants.getDislin_pocet_des_miest(), "y");
      
@@ -144,14 +164,14 @@ public class plot_1D {
      
         Dislin.titlin (name_row1, 1);
         Dislin.titlin (name_row2, 3);  
-        
+        Dislin.texmod("ON");
  //********************
  // ZAKLADNE PRAVIDLO NA SPOLOCNU GRAFIKU  GRAF SA OBALI PREMENIMI TEDA ON MA JEDNU GRAFIKU A VSETKO OSTATNE MOZE MAT DRUHU 
  //*********************
  Dislin.height (constants.getDislin_velkost_textu_pred_grafom()); // spolocna grafika grafov
  Dislin.linwid(constants.getDislin_hrubka_ciar_pred_grafom());    // spolocna grafika grafov
  Dislin.hname(constants.getDislin_velkost_textu_pred_grafom());
- 
+ Dislin.labels(constants.getDislin_Dislin_Float_orEXP(), "Y");
      Dislin.graf   (XA, XE, XOR, XSTEP,
                     YA, YE, YOR, YSTEP);
     
@@ -186,6 +206,7 @@ public class plot_1D {
         Dislin.legend(cbuf, 7);
      }
      
+     if(file==true) Dislin.rpng(Path); // SCREEN OUTPUT
      Dislin.disfin ();
   }
 

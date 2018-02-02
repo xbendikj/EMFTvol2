@@ -166,7 +166,7 @@ public class E_old_calculation {
         return E;
     }
 
-    public void setE(FazorVektor B) {
+    public void setE(FazorVektor E) {
         this.E = E;
     }
 

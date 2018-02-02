@@ -37,11 +37,92 @@ public class constants {
     private static int dislin_hrubka_ciar_GRID = 8;
     private static float dislin_graph_nasobok_z_vrchu = 1.2f; //
     private static float dislin_graph_nasobok_zo_stran = 1.2f; // 
+    private static String dislin_Dislin_Float_orEXP = "FLOAT"; //
+    private static String dislin_Label_B = "$B [\\mu T]$"; //
+    private static String dislin_Label_E = "$E [kV/m]$"; //
+    private static String dislin_Label_Emod = "$E_{mod} [kV/m]$"; //
+    private static String dislin_Label_I = "$I [mA/m^2]$"; //
+     private static String dislin_Label_X = "$l [m]$"; //
+      private static String dislin_Label_Z = "$V [m]$"; //
+      private static String dislin_Label_Y = "$h [m]$"; //
+        private static String dislin_Label_X_par = "C"; //
     private static boolean dislin_grid = false;
     private static boolean dislin_graph_type = true;      // true cross - false rectangular
     private static boolean dislin_graph_bgcol = true;     // true sive pozadie - false biele pozadie
     private static int dislin_pocet_kontur = 9;
-    private static int Dislin_pocet_des_miest=3;
+    private static int Dislin_pocet_des_miest=2;
+
+    public static String getDislin_Label_Y() {
+        return dislin_Label_Y;
+    }
+
+    public static void setDislin_Label_Y(String dislin_Label_Y) {
+        constants.dislin_Label_Y = dislin_Label_Y;
+    }
+
+    public static String getDislin_Label_X() {
+        return dislin_Label_X;
+    }
+
+    public static void setDislin_Label_X(String dislin_Label_X) {
+        constants.dislin_Label_X = dislin_Label_X;
+    }
+
+    public static String getDislin_Label_Z() {
+        return dislin_Label_Z;
+    }
+
+    public static void setDislin_Label_Z(String dislin_Label_Z) {
+        constants.dislin_Label_Z = dislin_Label_Z;
+    }
+
+    public static String getDislin_Label_X_par() {
+        return dislin_Label_X_par;
+    }
+
+    public static void setDislin_Label_X_par(String dislin_Label_X_par) {
+        constants.dislin_Label_X_par = dislin_Label_X_par;
+    }
+
+    public static String getDislin_Label_B() {
+        return dislin_Label_B;
+    }
+
+    public static void setDislin_Label_B(String dislin_Label_B) {
+        constants.dislin_Label_B = dislin_Label_B;
+    }
+
+    public static String getDislin_Label_E() {
+        return dislin_Label_E;
+    }
+
+    public static void setDislin_Label_E(String dislin_Label_E) {
+        constants.dislin_Label_E = dislin_Label_E;
+    }
+
+    public static String getDislin_Label_Emod() {
+        return dislin_Label_Emod;
+    }
+
+    public static void setDislin_Label_Emod(String dislin_Label_Emod) {
+        constants.dislin_Label_Emod = dislin_Label_Emod;
+    }
+
+    public static String getDislin_Label_I() {
+        return dislin_Label_I;
+    }
+
+    public static void setDislin_Label_I(String dislin_Label_I) {
+        constants.dislin_Label_I = dislin_Label_I;
+    }
+
+    public static String getDislin_Dislin_Float_orEXP() {
+        return dislin_Dislin_Float_orEXP;
+    }
+
+    public static void setDislin_Dislin_Float_orEXP(String dislin_Dislin_Float_orEXP) {
+        constants.dislin_Dislin_Float_orEXP = dislin_Dislin_Float_orEXP;
+    }
 
     public static int getDislin_pocet_des_miest() {
         return Dislin_pocet_des_miest;

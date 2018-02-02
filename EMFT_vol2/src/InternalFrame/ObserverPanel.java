@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -339,8 +340,11 @@ public class ObserverPanel extends javax.swing.JPanel {
             }
         });
 
-        P3D.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 5));
-        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 6));
+        P3D.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P3DActionPerformed(evt);
+            }
+        });
 
         P2Dh.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 7));
         P2Dh.setEnabled(false);
@@ -349,6 +353,11 @@ public class ObserverPanel extends javax.swing.JPanel {
         P2Dv.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 9));
         P2Dv.setEnabled(false);
         P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 10));
+        P2Dv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P2DvActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 12)
         );
@@ -620,23 +629,6 @@ public class ObserverPanel extends javax.swing.JPanel {
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(P2D)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P2Dh)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P2Dv))
-                            .addComponent(P3D)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(P1D)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P1Dpriecne)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P1Dpozdlzne))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(P1D_free)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P1D_par))
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -645,33 +637,51 @@ public class ObserverPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(P1D)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(P1Dpriecne)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(P1Dpozdlzne)
+                                .addGap(18, 18, 18)
+                                .addComponent(P3D, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(P2D)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(P2Dh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(P2Dv))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(107, 107, 107)
+                                .addComponent(P1D_free))
+                            .addComponent(P1D_par))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(P1D)
-                    .addComponent(P1Dpriecne)
-                    .addComponent(P1Dpozdlzne))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(P1D)
+                        .addComponent(P1Dpriecne)
+                        .addComponent(P1Dpozdlzne))
+                    .addComponent(P3D))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(P1D_free)
                 .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(P1D_free)
-                    .addComponent(P1D_par))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(P1D_par)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(P2D)
                     .addComponent(P2Dh)
                     .addComponent(P2Dv))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(P3D)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -795,6 +805,19 @@ public class ObserverPanel extends javax.swing.JPanel {
        pozdlzna_Z=   help.ReadCheckDouble(pozdl_Z_textfield , 0);
     }//GEN-LAST:event_pozdl_Z_textfieldKeyReleased
 
+    public JCheckBox getP2Dv() {
+        return P2Dv;
+    }
+
+    private void P3DActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P3DActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_P3DActionPerformed
+
+    private void P2DvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P2DvActionPerformed
+       if(P2Dv.isSelected()==true) BasicSettingsPanel.jTextField_H.setEnabled(true);
+       if(P2Dv.isSelected()==false) BasicSettingsPanel.jTextField_H.setEnabled(false);
+    }//GEN-LAST:event_P2DvActionPerformed
+
     public double getPriecna_X() {
         return priecna_X;
     }
@@ -821,7 +844,7 @@ public class ObserverPanel extends javax.swing.JPanel {
     public javax.swing.JCheckBox P2D;
     public javax.swing.JCheckBox P2Dh;
     public javax.swing.JCheckBox P2Dv;
-    public javax.swing.JCheckBox P3D;
+    private javax.swing.JCheckBox P3D;
     public javax.swing.JTable Table;
     public javax.swing.JTable Table_par;
     public javax.swing.JCheckBox X_precne_auto;

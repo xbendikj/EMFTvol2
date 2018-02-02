@@ -44,7 +44,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="basicInfoPanel" max="32767" attributes="0"/>
                           <Component id="basicSettingsPanel" max="32767" attributes="0"/>
-                          <Component id="outputPanel1" max="32767" attributes="0"/>
+                          <Component id="outputPanel2" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="observerPanel1" min="-2" pref="443" max="-2" attributes="0"/>
@@ -70,11 +70,11 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="basicSettingsPanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="outputPanel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="outputPanel2" pref="127" max="32767" attributes="0"/>
                   </Group>
                   <Component id="observerPanel1" min="-2" pref="486" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="catenaryPanel1" min="-2" pref="322" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -103,12 +103,12 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calcB" min="-2" pref="38" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="calcE" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calcE_OLD" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calcE_OLD_plus" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="calcE_square" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -119,9 +119,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="calcB" alignment="3" pref="26" max="32767" attributes="0"/>
-                      <Component id="calcE" alignment="3" pref="0" max="32767" attributes="0"/>
                       <Component id="calcE_OLD" alignment="3" pref="0" max="32767" attributes="0"/>
                       <Component id="calcE_OLD_plus" alignment="3" pref="0" max="32767" attributes="0"/>
+                      <Component id="calcE_square" alignment="3" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -135,14 +135,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcBActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="calcE">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="E"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcEActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="calcE_OLD">
@@ -165,22 +157,17 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
         </Component>
+        <Component class="javax.swing.JButton" name="calcE_square">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="E sphere"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcE_squareActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
-    <Container class="InternalFrame.outputPanel" name="outputPanel1">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="104" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
+    <Component class="InternalFrame.outputPanel" name="outputPanel2">
+    </Component>
   </SubComponents>
 </Form>
