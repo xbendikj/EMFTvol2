@@ -30,6 +30,11 @@ public class constants {
     private static double presnostCH=0.001;   // presnost na prepocet C do H manualne v kode 
     private static int divergencia_pocet=10;  // divergencna konstana kedy už rozlišuje že vypočet diverguje
     // DISLIN KONSTANTY
+    private static int dislin_Step_between_the_labels_X = 10; //  (XE-XA)/10 delitel 
+    private static int dislin_Step_between_the_labels_Y = 10; //  (YE-YA)/10 delitel 
+    private static int dislin_Step_between_the_labels_Z = 5;  //   (ZE-ZA)/10 delitel 
+    private static int dislin_velkost_strany_X = 6000;
+    private static int dislin_velkost_strany_Y = 4000;
     private static int dislin_velkost_textu_pred_grafom = 70;
     private static int dislin_velkost_textu_za_grafom= 70;        
     private static int dislin_hrubka_ciar_pred_grafom = 8;
@@ -51,6 +56,46 @@ public class constants {
     private static boolean dislin_graph_bgcol = true;     // true sive pozadie - false biele pozadie
     private static int dislin_pocet_kontur = 9;
     private static int Dislin_pocet_des_miest=2;
+
+    public static int getDislin_Step_between_the_labels_X() {
+        return dislin_Step_between_the_labels_X;
+    }
+
+    public static void setDislin_Step_between_the_labels_X(int dislin_Step_between_the_labels_X) {
+        constants.dislin_Step_between_the_labels_X = dislin_Step_between_the_labels_X;
+    }
+
+    public static int getDislin_Step_between_the_labels_Y() {
+        return dislin_Step_between_the_labels_Y;
+    }
+
+    public static void setDislin_Step_between_the_labels_Y(int dislin_Step_between_the_labels_Y) {
+        constants.dislin_Step_between_the_labels_Y = dislin_Step_between_the_labels_Y;
+    }
+
+    public static int getDislin_Step_between_the_labels_Z() {
+        return dislin_Step_between_the_labels_Z;
+    }
+
+    public static void setDislin_Step_between_the_labels_Z(int dislin_Step_between_the_labels_Z) {
+        constants.dislin_Step_between_the_labels_Z = dislin_Step_between_the_labels_Z;
+    }
+
+    public static int getDislin_velkost_strany_X() {
+        return dislin_velkost_strany_X;
+    }
+
+    public static void setDislin_velkost_strany_X(int dislin_velkost_strany_X) {
+        constants.dislin_velkost_strany_X = dislin_velkost_strany_X;
+    }
+
+    public static int getDislin_velkost_strany_Y() {
+        return dislin_velkost_strany_Y;
+    }
+
+    public static void setDislin_velkost_strany_Y(int dislin_velkost_strany_Y) {
+        constants.dislin_velkost_strany_Y = dislin_velkost_strany_Y;
+    }
 
     public static String getDislin_Label_Y() {
         return dislin_Label_Y;

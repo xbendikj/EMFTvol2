@@ -81,6 +81,7 @@ public class outputPanel extends javax.swing.JPanel {
         update_Unit = new javax.swing.JRadioButton();
         conturry = new javax.swing.JRadioButton();
         fill = new javax.swing.JRadioButton();
+        equal_sides = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 4)
         ));
@@ -175,13 +176,16 @@ public class outputPanel extends javax.swing.JPanel {
             }
         });
 
+        equal_sides.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 29));
+        equal_sides.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(TxT_short, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,35 +199,39 @@ public class outputPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Graph_file, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 76, Short.MAX_VALUE))
+                                .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jTextField1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(show)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Save_to_memory))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(SI_unit)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(SI_unit)
+                            .addComponent(conturry))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(update_Unit))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(conturry)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fill)))
-                .addGap(27, 27, 27))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(fill)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(equal_sides))
+                            .addComponent(update_Unit))))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxT_short)
-                    .addComponent(Graph_screen)
-                    .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(conturry)
-                        .addComponent(fill)))
+                        .addComponent(fill)
+                        .addComponent(equal_sides))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TxT_short)
+                        .addComponent(Graph_screen)
+                        .addComponent(jLabel1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxT_long)
@@ -306,6 +314,10 @@ public class outputPanel extends javax.swing.JPanel {
     private void Graph_fileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Graph_fileActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Graph_fileActionPerformed
+
+    public JCheckBox getEqual_sides() {
+        return equal_sides;
+    }
 
     private void JComboBox_YvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboBox_YvarActionPerformed
         if(JComboBox_Yvar.getSelectedIndex()==3 || JComboBox_Yvar.getSelectedIndex()==7 || JComboBox_Yvar.getSelectedIndex()==11 || JComboBox_Yvar.getSelectedIndex()==15 ){
@@ -442,6 +454,7 @@ public class outputPanel extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JRadioButton conturry;
+    private javax.swing.JCheckBox equal_sides;
     private javax.swing.JRadioButton fill;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
@@ -553,9 +566,16 @@ static void constructor(){
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
 
-/*27*/   SK.add("plne");  
+/*28*/   SK.add("plne");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");           
+/*29*/   SK.add("auto pomer ");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
+
+/*30*/   SK.add("Pomer X Y osi v 2D graf výstupe. Ak Off pomer 1:1. ");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
          
 }
  

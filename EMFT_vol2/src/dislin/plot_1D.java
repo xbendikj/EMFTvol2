@@ -7,7 +7,6 @@ package dislin;
 
 import de.dislin.Dislin;
 import emft_vol2.constants;
-import emft_vol2.main_class;
 import java.util.ArrayList;
 
 /**
@@ -92,10 +91,14 @@ public class plot_1D {
     public void draw_1D_yn(){
         run1D_yn();
     }
+
+   
  
     private void run1D_yn() {
 
-       
+     int pageX =constants.getDislin_velkost_strany_X();
+    int pageY =constants.getDislin_velkost_strany_Y();
+        
      float XA = (float) minVal(xray) * constants.getDislin_graph_nasobok_zo_stran(); // spodny limit X
      float YA =0;//= (float) minVal(y1ray);
      float legend_offset =1;
@@ -124,7 +127,7 @@ public class plot_1D {
      if(screen==true) Dislin.metafl ("xwin"); // SCREEN OUTPUT
      if(screen==false) Dislin.metafl ("VIRT");
     
-     Dislin.page(6000, 4000); // size of window
+     Dislin.page(pageX, pageY); // size of window
      Dislin.scrmod("REVERS");
      Dislin.disini ();       // BEGIN DISLIN
      Dislin.pagera ();       // BORDER AROUND PAGE

@@ -1501,7 +1501,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
-     
+         graf3.setIsequalSides(outputPanel2.getEqual_sides().isSelected());
                graf3.draw_2D_yn();
          }
          if(HORvert=="vert"){ 
@@ -1511,7 +1511,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
-     
+     graf3.setIsequalSides(outputPanel2.getEqual_sides().isSelected());
+        
                graf3.draw_2D_yn();
          }
          
@@ -1533,7 +1534,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
-     
+        graf3.setIsequalSides(outputPanel2.getEqual_sides().isSelected());
                graf3.draw_2D_yn();
          }
          if(HORvert=="vert"){ 
@@ -1543,7 +1544,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
-     
+        graf3.setIsequalSides(outputPanel2.getEqual_sides().isSelected());
                graf3.draw_2D_yn();
          }
          

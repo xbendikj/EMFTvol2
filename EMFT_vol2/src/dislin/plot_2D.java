@@ -31,7 +31,8 @@ public class plot_2D {
     String Path;
     boolean screen = true;
     boolean file = false;
-    
+    boolean isequalSides=false;
+  
     // CONSTRUCTORS
      /**
       * 
@@ -94,6 +95,17 @@ public class plot_2D {
 
     public boolean isFile() {
         return file;
+    }
+
+    
+    
+
+    public boolean isIsequalSides() {
+        return isequalSides;
+    }
+
+    public void setIsequalSides(boolean isequalSides) {
+        this.isequalSides = isequalSides;
     }
 
     public void setFile(boolean file,String Path) {
@@ -167,6 +179,9 @@ public class plot_2D {
       
   private void run2D () {
      
+      int pageX =constants.getDislin_velkost_strany_X();
+    int pageY =constants.getDislin_velkost_strany_Y();
+      
      // this.fakemodel = true; //TOTOTOTOTOT OREEEEEEEEEC
       double zlev; // contour
       double zlev2[] = new double [constants.getDislin_pocet_kontur()]; // fill countour
@@ -217,14 +232,35 @@ public class plot_2D {
      float YOR = YA;
       float ZOR = ZA;
      
-     float XSTEP = (XE-XA)/10;//(Math.abs(XA)-Math.abs(XE))/((float)draw_constants.STEPdivider); // step between labels
-     float YSTEP = (YE-YA)/10;//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
-     float ZSTEP = (ZE-ZA)/5;
+     float XSTEP = (XE-XA)/constants.getDislin_Step_between_the_labels_X();//(Math.abs(XA)-Math.abs(XE))/((float)draw_constants.STEPdivider); // step between labels
+     float YSTEP = (YE-YA)/constants.getDislin_Step_between_the_labels_Y();//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
+     float ZSTEP = (ZE-ZA)/constants.getDislin_Step_between_the_labels_Z();
      
     if(screen==true) Dislin.metafl ("xwin"); // SCREEN OUTPUT
      if(screen==false) Dislin.metafl ("VIRT");
      
-     Dislin.page(6000, 4000); // size of window
+     if(isequalSides==true) { // ak s strany rovnako velke
+         double X =  (XE-XA);
+         double Y =  (YE-YA);
+         double nasobic = 1;
+         while (true) {             
+          
+             double X1= X *nasobic;
+             double Y1= Y *nasobic;
+             
+             if(Y1>= 2*pageY-300) break;
+             if(X1>= 2*pageX-300) break; 
+             nasobic=nasobic+ 0.1;
+         }
+         
+         Dislin.page( (int) (X*nasobic) , (int) (Y*nasobic));
+         
+     }else{
+         Dislin.page(pageX, pageY); // size of window
+     }
+     
+     
+     //Dislin.page(pageX, pageY); // size of window
      Dislin.scrmod("REVERS");
      Dislin.disini ();       // BEGIN DISLIN
      Dislin.pagera ();       // BORDER AROUND PAGE
@@ -234,7 +270,7 @@ public class plot_2D {
      Dislin.name(this.xname, "x");
      Dislin.name(this.yname,  "y");
      
-     //if()Dislin.axslen(0, 0);
+     
       
      if(fill==true)  Dislin.name(this.zname,  "z");
      Dislin.titlin (name_row1, 1);
