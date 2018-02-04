@@ -744,7 +744,7 @@ try {
     private void jButton_nacitat_terenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_nacitat_terenActionPerformed
 
      
-        String userhome = System.getProperty("user.dir");
+        String userhome = System.getProperty(constants.getProgrampath());
         JFileChooser chooser = new JFileChooser(userhome + "\\" + constants.getTeret_input_folder());
         FileNameExtensionFilter txtfilter = new FileNameExtensionFilter("txt files (*.txt)", "txt");
         chooser.setDialogTitle(language_internal_fJdialog_terenModel.LangLabel(constants.getLanguage_option(), 14));

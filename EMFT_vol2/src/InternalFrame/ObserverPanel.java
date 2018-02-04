@@ -834,6 +834,14 @@ public class ObserverPanel extends javax.swing.JPanel {
         this.pozdlzna_Z = pozdlzna_Z;
     }
 
+    public DefaultTableModel getDTMTable() {
+        return DTMTable;
+    }
+
+    public void setDTMTable(DefaultTableModel DTMTable) {
+        this.DTMTable = DTMTable;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JCheckBox P1D;
@@ -872,7 +880,7 @@ public class ObserverPanel extends javax.swing.JPanel {
     public javax.swing.JTextField priecna_X_textfield;
     public javax.swing.JTable table_1D;
     // End of variables declaration//GEN-END:variables
-DefaultTableModel DTMTable ;
+public DefaultTableModel DTMTable ;
 DefaultTableModel DTMTable_1D ;
 DefaultTableModel DTMTable_par ;
 boolean isListener=true;

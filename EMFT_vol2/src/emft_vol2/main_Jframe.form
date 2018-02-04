@@ -33,6 +33,9 @@
                   <Connection code="language_main_frame.LangLabel(constants.getLanguage_option(),5)  " type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_loadActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

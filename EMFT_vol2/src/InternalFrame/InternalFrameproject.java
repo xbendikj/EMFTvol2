@@ -13,29 +13,43 @@ import BackEnd.FazorVektor;
 import BackEnd.Observer;
 import BackEnd.databaza;
 import BackEnd.rozpatie;
+import static InternalFrame.CatenaryPanel.isListener;
 import static de.dislin.Dislin.graf3;
 import dislin.plot_1D;
 import dislin.plot_2D;
+import emft_vol2.TxT_JFrame;
 import java.util.ArrayList;
 
 import emft_vol2.constants;
 import static emft_vol2.constants_Jframe.constants_JframeIsOpen;
 import emft_vol2.main_Jframe;
+import emft_vol2.main_class;
+import java.awt.Desktop;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.accessibility.AccessibleContext;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.math.complex.Complex;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
@@ -68,7 +82,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      */
     public InternalFrameproject() {
         initComponents();
-
+        Locale.setDefault(new Locale("en", "US"));
     }
 
     /**
@@ -90,6 +104,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         calcE_OLD = new javax.swing.JButton();
         calcE_OLD_plus = new javax.swing.JButton();
         calcE_square = new javax.swing.JButton();
+        load = new javax.swing.JButton();
+        save = new javax.swing.JButton();
         outputPanel2 = new InternalFrame.outputPanel();
 
         jMenuItem1.setText("jMenuItem1");
@@ -148,13 +164,33 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         });
 
+        load.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/if_Open_1493293 (1).png"))); // NOI18N
+        load.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 6));
+        load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadActionPerformed(evt);
+            }
+        });
+
+        save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/Save-24.png"))); // NOI18N
+        save.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 8));
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(load, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(144, 144, 144)
+                .addComponent(calcB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calcE_OLD)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -171,7 +207,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
                     .addComponent(calcE_OLD, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(calcE_square, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(calcE_square, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(load, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -217,6 +255,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JButton getLoad() {
+        return load;
+    }
+
     public boolean isBEpluspovolene() {
         return BEpluspovolene;
     }
@@ -229,6 +271,46 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         main_Jframe.window = null;
 
     }//GEN-LAST:event_formInternalFrameClosed
+
+    public BasicInfoPanel getBasicInfoPanel() {
+        return basicInfoPanel;
+    }
+
+    public void setBasicInfoPanel(BasicInfoPanel basicInfoPanel) {
+        this.basicInfoPanel = basicInfoPanel;
+    }
+
+    public BasicSettingsPanel getBasicSettingsPanel() {
+        return basicSettingsPanel;
+    }
+
+    public void setBasicSettingsPanel(BasicSettingsPanel basicSettingsPanel) {
+        this.basicSettingsPanel = basicSettingsPanel;
+    }
+
+    public CatenaryPanel getCatenaryPanel1() {
+        return catenaryPanel1;
+    }
+
+    public void setCatenaryPanel1(CatenaryPanel catenaryPanel1) {
+        this.catenaryPanel1 = catenaryPanel1;
+    }
+
+    public ObserverPanel getObserverPanel1() {
+        return observerPanel1;
+    }
+
+    public void setObserverPanel1(ObserverPanel observerPanel1) {
+        this.observerPanel1 = observerPanel1;
+    }
+
+    public outputPanel getOutputPanel2() {
+        return outputPanel2;
+    }
+
+    public void setOutputPanel2(outputPanel outputPanel2) {
+        this.outputPanel2 = outputPanel2;
+    }
 
     private void calcBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBActionPerformed
         try {
@@ -268,6 +350,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  // vystupy Graf TXT
                  if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true){  
                  Draw_1D_graph( "priecne","Z", 0, "B", "KOKOT","PICA","POKUS");
+                    
+                 
                  }
                  
                  if (observerPanel1.P1Dpozdlzne.isSelected() == true && observerPanel1.P1D.isSelected() == true){ 
@@ -288,12 +372,15 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  }
               
                 
-               
+                  if(outputPanel2.getTxT_short().isSelected()==true) make_TxT(Rozpätie, 0, BE, "POKUS",true);
+                  if(outputPanel2.getTxT_long().isSelected()==true) make_TxT(Rozpätie, 0, BE, "POKUS",false);
                 
           
             }
 
         } catch (DelaunayError ex) {
+            Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_calcBActionPerformed
@@ -573,6 +660,191 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
        BEpluspovolene =true;
        calcE_OLD_plus.setEnabled(true);
     }//GEN-LAST:event_calcE_squareActionPerformed
+
+    private void loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadActionPerformed
+      
+        String userhome = System.getProperty(constants.getProgrampath());
+        JFileChooser chooser = new JFileChooser(userhome + "\\" + constants.getProject_input_folder());
+        FileNameExtensionFilter txtfilter = new FileNameExtensionFilter("emft files (*Emft)", "Emft");
+        chooser.setDialogTitle(language_internal_frame.LangLabel(constants.getLanguage_option(), 7));
+        chooser.setFileFilter(txtfilter);
+        chooser.showOpenDialog(null);
+        
+        File f = chooser.getSelectedFile();
+        File subor = new File( f.getParent()+ "\\" + f.getName());
+        
+        int pocet_Vysok = 0;
+        try {
+            Scanner input = new Scanner(subor);
+            
+            basicInfoPanel.jTextField_mano.setText( input.nextLine());
+            basicInfoPanel.jTextField_mano_projektu.setText( input.nextLine());
+            basicSettingsPanel.jTextField_A.setText( String.valueOf(input.nextDouble()));
+            basicSettingsPanel.jTextField_Z.setText( String.valueOf(input.nextDouble()));
+             basicSettingsPanel.jTextField_H.setText( String.valueOf(input.nextDouble()));
+            basicSettingsPanel.jTextField_krok.setText( String.valueOf(input.nextDouble()));
+             basicSettingsPanel.jTextField_krok_pozorovatela.setText( String.valueOf(input.nextDouble()));
+              input.nextLine(); 
+              
+            pocet_Vysok = input.nextInt();  input.nextLine();            
+            int rowCount =  observerPanel1.DTMTable.getRowCount();// odsrrani riadky z DTM table
+            for (int i = rowCount-1 ; i >= 0; i--) {
+             observerPanel1.isListener =false;
+                observerPanel1.DTMTable.removeRow(i);
+                 observerPanel1.isListener =true;
+            }
+            for (int i = 0; i < pocet_Vysok; i++) {
+              observerPanel1.isListener=false;  
+              observerPanel1.DTMTable.addRow(new Object[]{input.nextLine()}); 
+              observerPanel1.isListener=true;  
+            }
+            
+            observerPanel1.Table.selectAll(); // označ potom všetky stplce
+            
+              observerPanel1.isListener=false;  
+              observerPanel1.DTMTable.addRow(new Object[0]); 
+              observerPanel1.isListener=true;
+            
+            
+            
+            
+             int pocet_catenary_riadkov =   input.nextInt(); input.nextLine(); 
+              rowCount =  catenaryPanel1.DTMTable.getRowCount();// odsrrani riadky z DTM table
+            for (int i = rowCount-1 ; i >= 0; i--) {
+             catenaryPanel1.isListener =false;
+                catenaryPanel1.DTMTable.removeRow(i);
+                 catenaryPanel1.isListener =true;
+            }
+              for (int i = 0; i < pocet_catenary_riadkov; i++) {
+              catenaryPanel1.isListener=false; 
+              
+              double V1 = input.nextDouble();
+              double V2 = input.nextDouble();
+              double I1 = input.nextDouble();
+              double I2 = input.nextDouble();
+              double W1 = input.nextDouble();
+              double W2 = input.nextDouble();
+              double X1 = input.nextDouble();
+              double X2 = input.nextDouble();
+              int zvazok = input.nextInt();
+              double alpha = input.nextDouble();
+              double d = input.nextDouble();
+              int CH =  input.nextInt(); 
+              boolean ch = false;
+              if(CH == 1)  ch = true;
+              double val = input.nextDouble();
+              double r = input.nextDouble();
+              double U = input.nextDouble();
+              double I = input.nextDouble();
+              double Phi  = input.nextDouble();
+              int pocitaj =  input.nextInt(); 
+              boolean poc = false;
+              if(pocitaj == 1)  poc = true;
+              
+              catenaryPanel1.DTMTable.addRow(new Object[]{V1,V2,I1,I2,W1,W2,X1,X2,zvazok,alpha,d,ch,val,r,U,I,Phi,"-","-","-",poc}); 
+              catenaryPanel1.isListener=true;  
+            }
+              catenaryPanel1.isListener=false;  
+              catenaryPanel1.DTMTable.addRow(new Object[0]); 
+              catenaryPanel1.isListener=true;  
+ 
+            
+        }    catch (FileNotFoundException ex) {
+            Logger.getLogger(terenmodel_jDialog.class.getName()).log(Level.SEVERE, null, ex);
+          
+        }
+
+     
+    
+    }//GEN-LAST:event_loadActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+      String userhome = System.getProperty(constants.getProgrampath());          //userhome is home folder of program
+        
+        // ak je zadaná špec lokaciakde ukladať tak tam ak nide default priečion kde existuje
+         JFileChooser chooser = new JFileChooser(userhome +"\\" + constants.getProject_input_folder());
+
+          //key files are stored in resources
+        FileNameExtensionFilter txtfilter = new FileNameExtensionFilter(
+          "emft files (*.Emft)", "Emft");                                // whitch type of files are we looking for
+        chooser.setDialogTitle(language_internal_frame.LangLabel(constants.getLanguage_option(), 9));   // title for Jfile chooser window
+        chooser.setFileFilter(txtfilter);                                   // Txt filter for choosing file
+        chooser.showSaveDialog(null);
+        File f = chooser.getSelectedFile();   
+        String project_filename=  f.getName()+".Emft"; 
+        String project_filepath = f.getParent(); 
+        
+        
+        
+        File subor = new File(project_filepath +"\\" +project_filename);
+          
+          
+          
+                PrintWriter fw;
+        try {
+            fw = new PrintWriter(subor);
+       
+              
+                fw.println( basicInfoPanel.jTextField_mano.getText());
+                fw.println( basicInfoPanel.jTextField_mano_projektu.getText());
+                 fw.println( basicSettingsPanel.jTextField_A.getText() + " " + 
+                             basicSettingsPanel.jTextField_Z.getText() + " " +
+                         basicSettingsPanel.jTextField_H.getText() + " " +
+                         basicSettingsPanel.jTextField_krok.getText() + " " +
+                         basicSettingsPanel.jTextField_krok_pozorovatela.getText() + " " 
+                 
+                 
+                 );
+                fw.println( observerPanel1.Table.getRowCount()-1);
+                
+                 for (int i = 0; i < observerPanel1.Table.getRowCount()-1; i++) {
+               
+                 fw.println(observerPanel1.DTMTable.getValueAt(i, 0));
+             
+                }
+                
+                 fw.println( catenaryPanel1.Table.getRowCount()-1);
+                 
+                 for (int i = 0; i < catenaryPanel1.Table.getRowCount()-1; i++) {
+               
+                 double V1 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 0));
+              double V2 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 1));
+              double I1 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 2));
+              double I2 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 3));
+              double W1 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 4));
+              double W2 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 5));
+              double X1 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 6));
+              double X2 = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 7));
+              int zvazok = (int)help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 8));
+              double alpha = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 9));
+              double d = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 10));
+              int CH =  0; 
+              boolean ch =  help.Object_To_Boolean(catenaryPanel1.DTMTable.getValueAt(i, 11));
+              if(ch == true)  CH = 1;
+              double val = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 12));
+              double r = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 13));
+              double U = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 14));
+              double I = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 15));
+              double Phi  = help.Object_To_double(catenaryPanel1.DTMTable.getValueAt(i, 16));
+              int poc =  0; 
+              boolean pocitaj =  help.Object_To_Boolean(catenaryPanel1.DTMTable.getValueAt(i, 20));
+              if(pocitaj == true)  poc = 1;   
+                     
+                     
+                 fw.println( V1 + " " +V2 + " " +I1 + " " +I2 + " " +W1 + " " +W2 + " " +X1 + " " +X2 + " " +zvazok + " " +alpha + " " +d + " " +CH + " " +val + " " +r + " " +U + " " +I + " " +Phi +  " " +poc);
+             
+                }
+                
+              Date todaysDate = new Date();
+              DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");  
+              fw.println("END of file");
+              fw.println("time of creation :" + df2.format(todaysDate));
+              fw.close();
+                 
+         } catch (FileNotFoundException ex) {
+            Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+        }     
+    }//GEN-LAST:event_saveActionPerformed
     
 
 
@@ -1447,7 +1719,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         return pocel_lan;
     }
   
-    
+    //draw functions
     
     private void Draw_1D_graph(String typ,String Xos,int poloha_v_dat,String BorE,String ROW1,String ROW2,String Sufix){
      String label = "kokotik";
@@ -1490,14 +1762,23 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }  
       
          
-    }
-    
+    }  
+    /**
+     *  kresnenie koturoveho grafu
+     * @param HORvert "hor" or "vert"
+     * @param BorE "B" or"E" or "I" or "Emod"
+     * @param ROW1 napis na row 1
+     * @param ROW2 napis na rov 2
+     * @param Sufix sufix pre file n vystup
+     */
      private void Draw_2D_graph_kontury(String HORvert,String BorE,String ROW1,String ROW2,String Sufix){
      
          if(HORvert=="hor"){ 
          plot_2D graf3 = new plot_2D(BE.getXray2D("X", BE.getP2D_hor()), BE.getYray2D("Z", BE.getP2D_hor()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_hor()),  constants.getDislin_Label_X(), constants.getDislin_Label_Z(), ROW1, ROW2,true);
-                graf3.setunits(outputPanel2.BscaleFactor());
-                graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
+              if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
+               if(BorE == "E")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
+              if(BorE == "I")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
@@ -1506,7 +1787,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          }
          if(HORvert=="vert"){ 
          plot_2D graf3 = new plot_2D(BE.getXray2D("Z", BE.getP2D_vert()), BE.getYray2D("Y", BE.getP2D_vert()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_vert()),  constants.getDislin_Label_X(), constants.getDislin_Label_Y(), ROW1, ROW2,true);
-                graf3.setunits(outputPanel2.BscaleFactor());
+                if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
+               if(BorE == "E")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
+              if(BorE == "I")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -1518,7 +1802,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          
          
     }
-    
+     /**
+     *  kresnenie koturoveho grafu
+     * @param HORvert "hor" or "vert"
+     * @param BorE "B" or"E" or "I" or "Emod"
+     * @param ROW1 napis na row 1
+     * @param ROW2 napis na rov 2
+     * @param Sufix sufix pre file n vystup
+     */
      private void Draw_2D_graph_fill(String HORvert,String BorE,String ROW1,String ROW2,String Sufix){
      String label = "kokotik";
          if(BorE=="B") label = constants.getDislin_Label_B();
@@ -1529,7 +1820,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          
          if(HORvert=="hor"){ 
          plot_2D graf3 = new plot_2D(BE.getXray2D("X", BE.getP2D_hor()), BE.getYray2D("Z", BE.getP2D_hor()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_hor()),  constants.getDislin_Label_X(), constants.getDislin_Label_Z(), ROW1, ROW2,true,label);
-                graf3.setunits(outputPanel2.BscaleFactor());
+              if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
+               if(BorE == "E")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
+              if(BorE == "I")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -1539,7 +1833,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          }
          if(HORvert=="vert"){ 
          plot_2D graf3 = new plot_2D(BE.getXray2D("Z", BE.getP2D_vert()), BE.getYray2D("Y", BE.getP2D_vert()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_vert()),  constants.getDislin_Label_X(), constants.getDislin_Label_Y(), ROW1, ROW2,true,label);
-                graf3.setunits(outputPanel2.BscaleFactor());
+                if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
+               if(BorE == "E")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
+              if(BorE == "I")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -1550,8 +1847,485 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          
          
     }
-    
+     /**
+      * funkcia vytvara kratky vystup
+      * @param roz rozpatie
+      * @param B_E_I_EMOD 0=B, 1 =E, 2 = B E , 3 = B E I , 4 = B E Emod, 5 = B E I Emod
+      * @param BE databaza
+      * @param Sufix pripona pre subory
+      * @param Short of true kratky vystup if False dlhy
+      * @throws IOException 
+      */
+     private void make_TxT (rozpatie roz,int B_E_I_EMOD,databaza BE,String Sufix,Boolean Short) throws IOException{
+          
+          String fF = "%18.8E"; // https://stackoverflow.com/questions/2944822/format-double-value-in-scientific-notation
+          String cF =   "%8.3f"; // https://dzone.com/articles/java-string-format-examples
+          String YaxisVal = "";
+          String BorE ="";
+          String file_recognition = "";
+          
+          if (Short == true) file_recognition = "_Short_";
+          if (Short == false) file_recognition = "_Long_";
+          
+          if(B_E_I_EMOD == 0) BorE = "B";
+          if(B_E_I_EMOD == 1) BorE = "E";
+          if(B_E_I_EMOD == 2) BorE = "B & E";
+          if(B_E_I_EMOD == 3) BorE = "B & E & I";
+          if(B_E_I_EMOD == 4) BorE = "B & E & Emod";
+          if(B_E_I_EMOD == 5) BorE = "B & E & I & Emod";
+          
+          Date todaysDate = new Date();
+          DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+          DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+          File subor = new File(outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+Sufix+ file_recognition + ".TxT");
+            try {
+                PrintWriter fw = new PrintWriter(subor);
+               if(Short==true) fw.println("EMFT2 - Short TxT output for given calculation");
+               if(Short==false) fw.println("EMFT2 - Short TxT output for given calculation");
+                fw.println("----------------------------------------------");
+                fw.println("Time of the calculation       : " + df3.format(todaysDate));
+                fw.println("Tipe of the calculation       : " + BorE);
+                fw.println("Name of the project           : " + meno_projektu);
+                fw.println("Name of the span              : " + meno_rozpatia);
+                fw.println("");
+                fw.println("Total number of wires      : " + roz.getPocet_lan());
+                fw.println("Number of phase conductors : " + (roz.getPocet_lan()-roz.getPocet_zemnych_lan()));
+                fw.println("Number of ground wires     : " + roz.getPocet_zemnych_lan());
+                fw.println("----------------------------------------------");
+                fw.println("RESULTS MAXIMUM VALUES");
+                ;
+                
+                if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
+                    fw.println("");
+                    fw.println("Perpendicular solution");
+
+                    if(Short==true) make_TXT_shor_futro(BorE, fw, cF, fF, BE.getP1D_priecne());
+                    if(Short==false) make_TXT_long_futro(BorE, fw, cF, fF, BE.getP1D_priecne());
+                } 
+                if (observerPanel1.P1Dpozdlzne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
+                    fw.println("");
+                    fw.println("Paralel solution");
+
+                    if(Short==true) make_TXT_shor_futro(BorE, fw, cF, fF, BE.getP1D_pozdlzne());
+                     if(Short==false) make_TXT_long_futro(BorE, fw, cF, fF, BE.getP1D_pozdlzne());
+                };
+                if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D_free.isSelected() == true) {
+                    fw.println("");
+                    fw.println("Free position solution");
+
+                    if(Short==true) make_TXT_shor_futro(BorE, fw, cF, fF, BE.getP1D_neurcite());
+                     if(Short==false) make_TXT_long_futro(BorE, fw, cF, fF, BE.getP1D_neurcite());
+                };
+                if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dh.isSelected() == true) {
+                    fw.println("");
+                    fw.println("2D horizontal");
+
+                   if(Short==true)  make_TXT_shor_futro(BorE, fw, cF, fF, BE.getP2D_hor());
+                     if(Short==false) make_TXT_long_futro(BorE, fw, cF, fF, BE.getP2D_hor());
+                };
+                if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true) {
+                    fw.println("");
+                    fw.println("2D vertical");
+
+                    if(Short==true) make_TXT_shor_futro(BorE, fw, cF, fF, BE.getP2D_vert());
+                     if(Short==false) make_TXT_long_futro(BorE, fw, cF, fF, BE.getP2D_vert());
+                };
+
+                fw.println("END OF FILE");
+                fw.close();
+                
+            } catch (FileNotFoundException ex) {
+         
+         
+          }
+
+          if (Desktop.isDesktopSupported()) {
+              Desktop.getDesktop().edit(subor);
+          } else {
+    // dunno, up to you to handle this
+}
+      
+      }
      
+      /**
+       * vyklus pre vnutro short TXT vypiysu
+       * @param BorE vstupuje z main TXT kod podla cisla
+       * @param fw printwrite
+       * @param cF format coordinatov na vypiys
+       * @param fF format pola na vypiys
+       * @param X arraylist observerov s ktorm ma praovat
+       */
+      private void make_TXT_shor_futro(String BorE,PrintWriter fw,String cF,String fF, ArrayList<Observer[]> X){
+                boolean deg = false;
+                String unit = "";
+                if(outputPanel2.getJComboBox_Yvar().getSelectedIndex()==3 || outputPanel2.getJComboBox_Yvar().getSelectedIndex()==5 || outputPanel2.getJComboBox_Yvar().getSelectedIndex()==9 || outputPanel2.getJComboBox_Yvar().getSelectedIndex()==13 ) deg = true;
+                
+                String YaxisVal = "";
+             
+                if(BorE == "B") {YaxisVal  = outputPanel2.YAxisVal("B");  double[] out = BE.getMaxVal("B", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "T";} 
+                                fw.println( "   X[m] " + " " + "   Y[m] " + " " + "   Z[m] " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0]));
+                }
+                if(BorE == "E") {YaxisVal  = outputPanel2.YAxisVal("E"); double[] out = BE.getMaxVal("E", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "V/m";}
+                                fw.println( "   X[m] " + " " + "   Y[m] " + " " + "   Z[m] " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0]));
+                                 
+                }
+                if(BorE == "B & E") { YaxisVal  = outputPanel2.YAxisVal("B");double[] out = BE.getMaxVal("B", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "T";}
+                                fw.println( "   X[m] " + " " + "   Y[m] " + " " + "   Z[m] " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0]));
+                                YaxisVal  = outputPanel2.YAxisVal("E"); out = BE.getMaxVal("E", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "V/m";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                }
+                if(BorE == "B & E & I") { YaxisVal  = outputPanel2.YAxisVal("B"); double[] out = BE.getMaxVal("B", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "T";}
+                                fw.println( "   X[m] " + " " + "   Y[m] " + " " + "   Z[m] " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0]));
+                                YaxisVal  = outputPanel2.YAxisVal("E");out = BE.getMaxVal("E", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "V/m";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                                YaxisVal  = outputPanel2.YAxisVal("I"); out = BE.getMaxVal("I", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "A/m2";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                }
+                if(BorE == "B & E & Emod") { YaxisVal  = outputPanel2.YAxisVal("B");double[] out = BE.getMaxVal("B", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "T";}
+                                fw.println( "   X[m] " + " " + "   Y[m] " + " " + "   Z[m] " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0]));
+                               YaxisVal  = outputPanel2.YAxisVal("E"); out = BE.getMaxVal("E", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "V/m";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                                YaxisVal  = outputPanel2.YAxisVal("Emod");out = BE.getMaxVal("Emod", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "V/m";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                }
+                if(BorE == "B & E & I & Emod") {YaxisVal  = outputPanel2.YAxisVal("B"); double[] out = BE.getMaxVal("B", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "T";}
+                                fw.println( "   X[m] " + " " + "   Y[m] " + " " + "   Z[m] " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0]));
+                                YaxisVal  = outputPanel2.YAxisVal("E");out = BE.getMaxVal("E", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "V/m";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                                YaxisVal  = outputPanel2.YAxisVal("I");out = BE.getMaxVal("I", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "A/m2";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                                YaxisVal  = outputPanel2.YAxisVal("Emod");out = BE.getMaxVal("Emod", YaxisVal, X); if(deg==true) {unit = "deg";} else{unit = "V/m";}
+                                fw.println( "        " + " " + "        " + " " + "        " + "        " + YaxisVal +" ["+unit+"]");
+                                fw.println(String.format(cF,out[1]) + " " + String.format(cF,out[2]) + " " + String.format(cF,out[3]) + " " + String.format(fF,out[0])); 
+                }
+                
+      }
+     
+        /**
+       * vyklus pre vnutro short TXT vypiysu
+       * @param BorE vstupuje z main TXT kod podla cisla
+       * @param fw printwrite
+       * @param cF format coordinatov na vypiys
+       * @param fF format pola na vypiys
+       * @param X arraylist observerov s ktorm ma praovat
+       */
+      private void make_TXT_long_futro(String BorE,PrintWriter fw,String cF,String fF, ArrayList<Observer[]> X){
+               
+              
+             
+                if(BorE == "B") {
+                    make_TXT_long_futro_futra("B", fw, cF, fF, X); 
+                                }
+                if(BorE == "E") { 
+                     make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                    
+                }
+                if(BorE == "B & E") { 
+                     make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                      fw.println("");
+                     make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                }
+                if(BorE == "B & E & I") { 
+                 make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                      fw.println("");
+                     make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                     fw.println("");
+                     make_TXT_long_futro_futra("I", fw, cF, fF, X);
+                
+                }
+                if(BorE == "B & E & Emod") { 
+                     make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                      fw.println("");
+                     make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                     fw.println("");
+                     make_TXT_long_futro_futra("Emod", fw, cF, fF, X);
+                
+                }
+                if(BorE == "B & E & I & Emod") { 
+                 make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                      fw.println("");
+                     make_TXT_long_futro_futra("E", fw, cF, fF, X);
+                     fw.println("");
+                     make_TXT_long_futro_futra("I", fw, cF, fF, X);
+                     fw.println("");
+                     make_TXT_long_futro_futra("Emod", fw, cF, fF, X);
+                
+                }
+                
+      }
+    
+      private void make_TXT_long_futro_futra(String BorE,PrintWriter fw, String cF, String dF,ArrayList<Observer[]> X){
+        
+        ArrayList<String> hlavicka =    new ArrayList<>();
+        ArrayList<Boolean> ISvariable = new ArrayList<>();
+        if(BorE == "B")hlavicka = mate_TXT_long_futro_futra_hlavicka(BorE, hlavicka);
+        if(BorE == "E")hlavicka = mate_TXT_long_futro_futra_hlavicka(BorE, hlavicka);
+        if(BorE == "I")hlavicka = mate_TXT_long_futro_futra_hlavicka(BorE, hlavicka);
+        if(BorE == "Emod")hlavicka = mate_TXT_long_futro_futra_hlavicka(BorE, hlavicka);
+        
+        for(int cl1 =0;cl1<19;cl1++){ // daj všade false a potom len nastav kde bude true
+            ISvariable.add( false);
+        }
+        if(BorE == "B"){
+        ISvariable.set(0,true); //X cor
+        ISvariable.set(1,true); //Y cor
+        ISvariable.set(2,true); //Z cor
+                     
+        if(TxT_JFrame.getB_RMS1().isSelected()==true)  ISvariable.set(3,true);  
+        if(TxT_JFrame.getB_COMPLEX().isSelected()==true){  ISvariable.set(4,true); ISvariable.set(5,true);}
+        if(TxT_JFrame.getB_PHASOR().isSelected()==true){  ISvariable.set(6,true); }
+        if(TxT_JFrame.getB_XYZ_RMS().isSelected()==true){  ISvariable.set(7,true); ISvariable.set(11,true); ISvariable.set(15,true);  }
+        if(TxT_JFrame.getB_XYZ_COMPLEX().isSelected()==true){  ISvariable.set(8,true); ISvariable.set(9,true); ISvariable.set(12,true); ISvariable.set(13,true); ISvariable.set(16,true); ISvariable.set(17,true); }
+        if(TxT_JFrame.getB_XYZ_PHASOR().isSelected()==true){  ISvariable.set(10,true); ISvariable.set(14,true); ISvariable.set(18,true);  }
+        }
+        if(BorE == "E"){
+        ISvariable.set(0,true); //X cor
+        ISvariable.set(1,true); //Y cor
+        ISvariable.set(2,true); //Z cor
+                     
+        if(TxT_JFrame.getE_RMS().isSelected()==true)  ISvariable.set(3,true);  
+        if(TxT_JFrame.getE_COMPLEX().isSelected()==true){  ISvariable.set(4,true); ISvariable.set(5,true);}
+        if(TxT_JFrame.getE_PHASOR().isSelected()==true){  ISvariable.set(6,true); }
+        if(TxT_JFrame.getE_XYZ_RMS().isSelected()==true){  ISvariable.set(7,true); ISvariable.set(11,true); ISvariable.set(15,true);  }
+        if(TxT_JFrame.getE_XYZ_COMPLEX().isSelected()==true){  ISvariable.set(8,true); ISvariable.set(9,true); ISvariable.set(12,true); ISvariable.set(13,true); ISvariable.set(16,true); ISvariable.set(17,true); }
+        if(TxT_JFrame.getE_XYZ_PHASOR().isSelected()==true){  ISvariable.set(10,true); ISvariable.set(14,true); ISvariable.set(18,true);  }
+        }
+        if(BorE == "I"){
+        ISvariable.set(0,true); //X cor
+        ISvariable.set(1,true); //Y cor
+        ISvariable.set(2,true); //Z cor
+                     
+        if(TxT_JFrame.getI_RMS().isSelected()==true)  ISvariable.set(3,true);  
+        if(TxT_JFrame.getI_COMPLEX().isSelected()==true){  ISvariable.set(4,true); ISvariable.set(5,true);}
+        if(TxT_JFrame.getI_PHASOR().isSelected()==true){  ISvariable.set(6,true); }
+        if(TxT_JFrame.getI_XYZ_RMS().isSelected()==true){  ISvariable.set(7,true); ISvariable.set(11,true); ISvariable.set(15,true);  }
+        if(TxT_JFrame.getI_XYZ_COMPLEX().isSelected()==true){  ISvariable.set(8,true); ISvariable.set(9,true); ISvariable.set(12,true); ISvariable.set(13,true); ISvariable.set(16,true); ISvariable.set(17,true); }
+        if(TxT_JFrame.getI_XYZ_PHASOR().isSelected()==true){  ISvariable.set(10,true); ISvariable.set(14,true); ISvariable.set(18,true);  }
+        }
+        if(BorE == "Emod"){
+        ISvariable.set(0,true); //X cor
+        ISvariable.set(1,true); //Y cor
+        ISvariable.set(2,true); //Z cor
+                     
+        if(TxT_JFrame.getEmod_RMS().isSelected()==true)  ISvariable.set(3,true);  
+        if(TxT_JFrame.getEmod_COMPLEX().isSelected()==true){  ISvariable.set(4,true); ISvariable.set(5,true);}
+        if(TxT_JFrame.getEmod_PHASOR().isSelected()==true){  ISvariable.set(6,true); }
+        if(TxT_JFrame.getEmod_XYZ_RMS().isSelected()==true){  ISvariable.set(7,true); ISvariable.set(11,true); ISvariable.set(15,true);  }
+        if(TxT_JFrame.getEmod_XYZ_COMPLEX().isSelected()==true){  ISvariable.set(8,true); ISvariable.set(9,true); ISvariable.set(12,true); ISvariable.set(13,true); ISvariable.set(16,true); ISvariable.set(17,true); }
+        if(TxT_JFrame.getEmod_XYZ_PHASOR().isSelected()==true){  ISvariable.set(10,true); ISvariable.set(14,true); ISvariable.set(18,true);  }
+        }
+        
+        
+        String head= "";
+        for(int cl1 =0;cl1<ISvariable.size();cl1++){ //poskladaj hlavičku
+            if (ISvariable.get(cl1)==true )head = head + hlavicka.get(cl1) + " ";
+        }
+         fw.println( head );
+         
+         
+        if(BorE =="B"){  
+          for (int cl1 = 0; cl1 < X.size(); cl1++) {
+              
+              for (int cl2 = 0; cl2 < X.get(cl1).length; cl2++) {
+                  head = "";
+                  if (ISvariable.get(0)==true) head =head + String.format(cF,X.get(cl1)[cl2].getPoloha().getX()) + " ";
+                  if (ISvariable.get(1)==true) head =head + String.format(cF,X.get(cl1)[cl2].getPoloha().getY()) + " ";
+                  if (ISvariable.get(2)==true) head =head + String.format(cF,X.get(cl1)[cl2].getPoloha().getZ()) + " ";
+              if(BorE == "B")  {  
+                  if (ISvariable.get(3)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getComplex_rms_ABS()) + " ";
+                  if (ISvariable.get(4)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getComplex_rms().getReal()) + " ";
+                  if (ISvariable.get(5)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getComplex_rms().getImaginary()) + " ";
+                  if (ISvariable.get(6)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getComplex_rms_Angle()) + " ";
+                 
+                  if (ISvariable.get(7)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getX_ABS()) + " ";
+                  if (ISvariable.get(8)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getX_Real()) + " ";
+                  if (ISvariable.get(9)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getX_Imaginary()) + " ";
+                  if (ISvariable.get(10)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getX_Angle()) + " ";
+                 
+                  if (ISvariable.get(11)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getY_ABS()) + " ";
+                  if (ISvariable.get(12)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getY_Real()) + " ";
+                  if (ISvariable.get(13)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getY_Imaginary()) + " ";
+                  if (ISvariable.get(14)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getY_Angle()) + " ";
+                 
+                  if (ISvariable.get(15)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getZ_ABS()) + " ";
+                  if (ISvariable.get(16)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getZ_Real()) + " ";
+                  if (ISvariable.get(17)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getZ_Imaginary()) + " ";
+                  if (ISvariable.get(18)==true) head =head + String.format(dF,X.get(cl1)[cl2].getB().getZ_Angle()) + " ";
+              }
+              if(BorE == "E")  {  
+                  if (ISvariable.get(3)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getComplex_rms_ABS()) + " ";
+                  if (ISvariable.get(4)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getComplex_rms().getReal()) + " ";
+                  if (ISvariable.get(5)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getComplex_rms().getImaginary()) + " ";
+                  if (ISvariable.get(6)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getComplex_rms_Angle()) + " ";
+                 
+                  if (ISvariable.get(7)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getX_ABS()) + " ";
+                  if (ISvariable.get(8)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getX_Real()) + " ";
+                  if (ISvariable.get(9)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getX_Imaginary()) + " ";
+                  if (ISvariable.get(10)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getX_Angle()) + " ";
+                 
+                  if (ISvariable.get(11)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getY_ABS()) + " ";
+                  if (ISvariable.get(12)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getY_Real()) + " ";
+                  if (ISvariable.get(13)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getY_Imaginary()) + " ";
+                  if (ISvariable.get(14)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getY_Angle()) + " ";
+                 
+                  if (ISvariable.get(15)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getZ_ABS()) + " ";
+                  if (ISvariable.get(16)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getZ_Real()) + " ";
+                  if (ISvariable.get(17)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getZ_Imaginary()) + " ";
+                  if (ISvariable.get(18)==true) head =head + String.format(dF,X.get(cl1)[cl2].getE().getZ_Angle()) + " ";
+              }
+              if(BorE == "I")  {  
+                  if (ISvariable.get(3)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getComplex_rms_ABS()) + " ";
+                  if (ISvariable.get(4)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getComplex_rms().getReal()) + " ";
+                  if (ISvariable.get(5)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getComplex_rms().getImaginary()) + " ";
+                  if (ISvariable.get(6)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getComplex_rms_Angle()) + " ";
+                 
+                  if (ISvariable.get(7)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getX_ABS()) + " ";
+                  if (ISvariable.get(8)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getX_Real()) + " ";
+                  if (ISvariable.get(9)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getX_Imaginary()) + " ";
+                  if (ISvariable.get(10)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getX_Angle()) + " ";
+                 
+                  if (ISvariable.get(11)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getY_ABS()) + " ";
+                  if (ISvariable.get(12)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getY_Real()) + " ";
+                  if (ISvariable.get(13)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getY_Imaginary()) + " ";
+                  if (ISvariable.get(14)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getY_Angle()) + " ";
+                 
+                  if (ISvariable.get(15)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getZ_ABS()) + " ";
+                  if (ISvariable.get(16)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getZ_Real()) + " ";
+                  if (ISvariable.get(17)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getZ_Imaginary()) + " ";
+                  if (ISvariable.get(18)==true) head =head + String.format(dF,X.get(cl1)[cl2].getI().getZ_Angle()) + " ";
+              }
+              if(BorE == "Emod")  {  
+                  if (ISvariable.get(3)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getComplex_rms_ABS()) + " ";
+                  if (ISvariable.get(4)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getComplex_rms().getReal()) + " ";
+                  if (ISvariable.get(5)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getComplex_rms().getImaginary()) + " ";
+                  if (ISvariable.get(6)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getComplex_rms_Angle()) + " ";
+                 
+                  if (ISvariable.get(7)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getX_ABS()) + " ";
+                  if (ISvariable.get(8)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getX_Real()) + " ";
+                  if (ISvariable.get(9)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getX_Imaginary()) + " ";
+                  if (ISvariable.get(10)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getX_Angle()) + " ";
+                 
+                  if (ISvariable.get(11)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getY_ABS()) + " ";
+                  if (ISvariable.get(12)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getY_Real()) + " ";
+                  if (ISvariable.get(13)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getY_Imaginary()) + " ";
+                  if (ISvariable.get(14)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getY_Angle()) + " ";
+                 
+                  if (ISvariable.get(15)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getZ_ABS()) + " ";
+                  if (ISvariable.get(16)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getZ_Real()) + " ";
+                  if (ISvariable.get(17)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getZ_Imaginary()) + " ";
+                  if (ISvariable.get(18)==true) head =head + String.format(dF,X.get(cl1)[cl2].getEmod().getZ_Angle()) + " ";
+              }
+              
+                  fw.println( head );
+              }
+          }
+        }
+      }
+      
+      private ArrayList<String>  mate_TXT_long_futro_futra_hlavicka(String BorE,ArrayList<String> hlavicka){
+        if(BorE== "B"){  
+        hlavicka.add("   X[m] "); //0
+        hlavicka.add("   Y[m] "); //1
+        hlavicka.add("   Z[m] "); //2
+        hlavicka.add("   B{rms}   [T]   "); //3
+        hlavicka.add("   B{Re}    [T]   "); //4
+        hlavicka.add("   B{Im}    [T]   "); //5
+        hlavicka.add("   B{Fi}    [deg] "); //6
+        hlavicka.add("   Bx{rms}  [T]   "); //7
+        hlavicka.add("   Bx{Re}   [T]   "); //8
+        hlavicka.add("   Bx{Im}   [T]   "); //9
+        hlavicka.add("   Bx{Fi}   [deg] "); //10
+        hlavicka.add("   By{rms}  [T]   "); //11
+        hlavicka.add("   By{Re}   [T]   "); //12
+        hlavicka.add("   By{Im}   [T]   "); //13
+        hlavicka.add("   By{Fi}   [deg] "); //14
+        hlavicka.add("   Bz{rms}  [T]   "); //15
+        hlavicka.add("   Bz{Re}   [T]   "); //16
+        hlavicka.add("   Bz{Im}   [T]   "); //17
+        hlavicka.add("   Bz{Fi}   [deg] "); //18
+        }
+        if(BorE== "E"){  
+        hlavicka.add("   X[m] "); //0
+        hlavicka.add("   Y[m] "); //1
+        hlavicka.add("   Z[m] "); //2
+        hlavicka.add("   E{rms}   [V/m] "); //3
+        hlavicka.add("   E{Re}    [V/m] "); //4
+        hlavicka.add("   E{Im}    [V/m] "); //5
+        hlavicka.add("   E{Fi}    [deg] "); //6
+        hlavicka.add("   Ex{rms}  [V/m] "); //7
+        hlavicka.add("   Ex{Re}   [V/m] "); //8
+        hlavicka.add("   Ex{Im}   [V/m] "); //9
+        hlavicka.add("   Ex{Fi}   [deg] "); //10
+        hlavicka.add("   Ey{rms}  [V/m] "); //11
+        hlavicka.add("   Ey{Re}   [V/m] "); //12
+        hlavicka.add("   Ey{Im}   [V/m] "); //13
+        hlavicka.add("   Ey{Fi}   [deg] "); //14
+        hlavicka.add("   Ez{rms}  [V/m] "); //15
+        hlavicka.add("   Ez{Re}   [V/m] "); //16
+        hlavicka.add("   Ez{Im}   [V/m] "); //17
+        hlavicka.add("   Ez{Fi}   [deg] "); //18
+        }
+         if(BorE== "I"){  
+        hlavicka.add("   X[m] "); //0
+        hlavicka.add("   Y[m] "); //1
+        hlavicka.add("   Z[m] "); //2
+        hlavicka.add("   I{rms}   [A/m2]"); //3
+        hlavicka.add("   I{Re}    [A/m2]"); //4
+        hlavicka.add("   I{Im}    [A/m2]"); //5
+        hlavicka.add("   I{Fi}    [deg] "); //6
+        hlavicka.add("   Ix{rms}  [A/m2]"); //7
+        hlavicka.add("   Ix{Re}   [A/m2]"); //8
+        hlavicka.add("   Ix{Im}   [A/m2]"); //9
+        hlavicka.add("   Ix{Fi}   [deg] "); //10
+        hlavicka.add("   Iy{rms}  [A/m2]"); //11
+        hlavicka.add("   Iy{Re}   [A/m2]"); //12
+        hlavicka.add("   Iy{Im}   [A/m2]"); //13
+        hlavicka.add("   Iy{Fi}   [deg] "); //14
+        hlavicka.add("   Iz{rms}  [A/m2]"); //15
+        hlavicka.add("   Iz{Re}   [A/m2]"); //16
+        hlavicka.add("   Iz{Im}   [A/m2]"); //17
+        hlavicka.add("   Iz{Fi}   [deg] "); //18
+     
+        }
+        if(BorE== "Emod"){  
+        hlavicka.add("   X[m] "); //0
+        hlavicka.add("   Y[m] "); //1
+        hlavicka.add("   Z[m] "); //2
+        hlavicka.add("   Emod{rms}[V/m] "); //3
+        hlavicka.add("   Emod{Re} [V/m] "); //4
+        hlavicka.add("   Emod{Im} [V/m] "); //5
+        hlavicka.add("   Emod{Fi} [deg] "); //6
+        hlavicka.add("   Emodx{rms}[V/m]"); //7
+        hlavicka.add("   Emodx{Re}[V/m] "); //8
+        hlavicka.add("   Emodx{Im}[V/m] "); //9
+        hlavicka.add("   Emodx{Fi}[deg] "); //10
+        hlavicka.add("   Emody{rms}[V/m]"); //11
+        hlavicka.add("   Emody{Re}[V/m] "); //12
+        hlavicka.add("   Emody{Im}[V/m] "); //13
+        hlavicka.add("   Emody{Fi}[deg] "); //14
+        hlavicka.add("   Emodz{rms}[V/m]"); //15
+        hlavicka.add("   Emodz{Re}[V/m] "); //16
+        hlavicka.add("   Emodz{Im}[V/m] "); //17
+        hlavicka.add("   Emodz{Fi}[deg] "); //18
+        }
+        
+        
+        return hlavicka;
+      }
+      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private InternalFrame.BasicInfoPanel basicInfoPanel;
     private InternalFrame.BasicSettingsPanel basicSettingsPanel;
@@ -1562,8 +2336,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     private InternalFrame.CatenaryPanel catenaryPanel1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton load;
     private InternalFrame.ObserverPanel observerPanel1;
     private InternalFrame.outputPanel outputPanel2;
+    private javax.swing.JButton save;
     // End of variables declaration//GEN-END:variables
     //public static Boolean IsOpen = false;
 
@@ -1593,6 +2369,18 @@ class language_internal_frame {
         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                         
         /*5*/ SK.add("Zla hodnota deltaL, korektura na 1000 mm");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                             
+          /*6*/ SK.add("Otvor subor");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                             
+ /*7*/ SK.add("Načitaj rozpätie");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                             
+ /*8*/ SK.add("Ulož subor");
+        CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
+        EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                             
+ /*9*/ SK.add("Ulož rozpätie");
         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release");
         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  //language String value  at position                             
 

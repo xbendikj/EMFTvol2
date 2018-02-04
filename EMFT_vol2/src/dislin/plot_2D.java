@@ -32,6 +32,8 @@ public class plot_2D {
     boolean screen = true;
     boolean file = false;
     boolean isequalSides=false;
+    boolean levels=false;
+    double level;
   
     // CONSTRUCTORS
      /**
@@ -292,7 +294,7 @@ public class plot_2D {
  Dislin.height (constants.getDislin_velkost_textu_pred_grafom()); // spolocna grafika grafov
  Dislin.linwid(constants.getDislin_hrubka_ciar_pred_grafom());    // spolocna grafika grafov
  Dislin.hname(constants.getDislin_velkost_textu_pred_grafom());
- 
+  Dislin.labels(constants.getDislin_Dislin_Float_orEXP(), "Z");
     if (contury==true){
      Dislin.graf   (XA, XE, XOR, XSTEP,
                     YA, YE, YOR, YSTEP);
@@ -347,12 +349,20 @@ public class plot_2D {
   }
      /**
      * prevedie jednotkovu premenu potrebne zavolat pred zostrojenim grafu
-     * @param units 
+     * @param units
+     * @param limits nastav horny limit 
      */
-    public void setunits(double units) {
+    public void setunits(double units,boolean limits,double limitValue) {
          for (int cl1 = 0; cl1 < zmat.length; cl1++) {
            
-                zmat[cl1] = zmat[cl1] * units;
+                if(limits==false) zmat[cl1] = zmat[cl1] * units;
+                if(limits==true){
+                    if (zmat[cl1] >= limitValue){
+                        zmat[cl1] = limitValue * units;
+                    }else{
+                        zmat[cl1] = zmat[cl1] * units;
+                    }
+                }
         }
         this.smallunits = units;
     }

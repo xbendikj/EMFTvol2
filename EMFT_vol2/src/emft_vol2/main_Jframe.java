@@ -93,6 +93,11 @@ public class main_Jframe extends javax.swing.JFrame {
 
         jMenuItem_load.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem_load.setText(language_main_frame.LangLabel(constants.getLanguage_option(),5)  );
+        jMenuItem_load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_loadActionPerformed(evt);
+            }
+        });
         jMenu_project.add(jMenuItem_load);
 
         jMenuBar.add(jMenu_project);
@@ -219,6 +224,17 @@ public class main_Jframe extends javax.swing.JFrame {
 //        }
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_loadActionPerformed
+         // if ( pocetOkien<3){
+       if(window==null ) {   
+        window = new InternalFrameproject();    
+        JDesktop.add(window);
+        window.show();
+        window.getLoad().doClick();
+      }
+       // }
+    }//GEN-LAST:event_jMenuItem_loadActionPerformed
 
     /**
      * @param args the command line arguments

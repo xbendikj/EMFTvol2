@@ -3,6 +3,7 @@
  */
 package BackEnd;
 
+import com.sun.xml.internal.fastinfoset.algorithm.IEEE754FloatingPointEncodingAlgorithm;
 import emft_vol2.constants;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -690,6 +691,34 @@ public class rozpatie {
      
     }
     
+    public int getPocet_lan() {
+
+        int iterator_lan = 0;
+
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+
+            for (int cl2 = 0; cl2 < getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
+
+                iterator_lan = iterator_lan + 1;
+            }
+        }
+        return iterator_lan;
+    }
+    
+       public int getPocet_zemnych_lan() {
+
+        int iterator_lan = 0;
+
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+
+            for (int cl2 = 0; cl2 < getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
+
+               if(getRetazovkaList().get(cl1).getU_over()== 0) iterator_lan = iterator_lan + 1;
+            }
+        }
+        return iterator_lan;
+    }
+       
         private double get_real(double value,double phase){
         double real = value*Math.cos(phase*(Math.PI/180));
         return real;

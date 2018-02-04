@@ -19,6 +19,8 @@ public class Observer {
     private RealMatrix  GeoMatrix_A;
     private FazorVektor B;
     private FazorVektor E;
+    private FazorVektor I;
+    private FazorVektor Emod;
     private DPoint poloha;
     /**
      * bod pozorovatela zo všetkym čo tam ma byt
@@ -44,6 +46,22 @@ public class Observer {
         this.E = E;
         this.poloha = poloha;
         this.GeoMatrix_A = MatrixUtils.createRealMatrix(GeoMatrix_A);
+    }
+
+    public FazorVektor getI() {
+        return I;
+    }
+
+    public void setI(FazorVektor I) {
+        this.I = I;
+    }
+
+    public FazorVektor getEmod() {
+        return Emod;
+    }
+
+    public void setEmod(FazorVektor Emod) {
+        this.Emod = Emod;
     }
     
     public FazorVektor getB() {
@@ -86,7 +104,12 @@ public class Observer {
     public void setGeoMatrix_A(RealMatrix GeoMatrix_A) {
         this.GeoMatrix_A = GeoMatrix_A;
     }
-    
-    
+    //TU POJDU FUNKCIE NA VYPOCET I a EMOD. Z Ba E 
+   public void calculateI(){
+        
+    }
+    public void calculateEmod(){
+        
+    }
     
 }

@@ -1,0 +1,11 @@
+nazov rozpatia
+nazov projektu
+A Z H DL stvorec
+1 pocet vysok
+1.8
+2 pocet riadkov tabulky
+V1 V2 I1 I2 W1 W2 X1 X2 ZVYZOK aplha D c/h/01 Val r U I phi pocitat/01
+V1 V2 I1 I2 W1 W2 X1 X2 ZVYZOK aplha D c/h/01 Val r U I phi pocitat/01 
+END OF FILE 
+CESTA
+ochrana ak cesta neni

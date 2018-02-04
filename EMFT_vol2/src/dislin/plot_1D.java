@@ -121,8 +121,8 @@ public class plot_1D {
      float XOR = XA;  // first label
      float YOR = YA;
       
-     float XSTEP = (XE-XA)/10;//(Math.abs(XA)-Math.abs(XE))/((float)draw_constants.STEPdivider); // step between labels
-     float YSTEP = (YE-YA)/5;//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
+     float XSTEP = (XE-XA)/constants.getDislin_Step_between_the_labels_X();//(Math.abs(XA)-Math.abs(XE))/((float)draw_constants.STEPdivider); // step between labels
+     float YSTEP = (YE-YA)/constants.getDislin_Step_between_the_labels_Z();//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
       
      if(screen==true) Dislin.metafl ("xwin"); // SCREEN OUTPUT
      if(screen==false) Dislin.metafl ("VIRT");

@@ -5,8 +5,6 @@
  */
 package emft_vol2;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
-import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JCheckBox;
@@ -66,6 +64,18 @@ public class TxT_JFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
+        I_RMS = new javax.swing.JCheckBox();
+        I_XYZ_PHASOR = new javax.swing.JCheckBox();
+        I_COMPLEX = new javax.swing.JCheckBox();
+        I_XYZ_COMPLEX = new javax.swing.JCheckBox();
+        I_XYZ_RMS = new javax.swing.JCheckBox();
+        I_PHASOR = new javax.swing.JCheckBox();
+        Emod_COMPLEX = new javax.swing.JCheckBox();
+        Emod_XYZ_COMPLEX = new javax.swing.JCheckBox();
+        Emod_XYZ_RMS = new javax.swing.JCheckBox();
+        Emod_PHASOR = new javax.swing.JCheckBox();
+        Emod_RMS = new javax.swing.JCheckBox();
+        Emod_XYZ_PHASOR = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -179,6 +189,92 @@ public class TxT_JFrame extends javax.swing.JFrame {
 
         jLabel4.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 12));
 
+        I_RMS.setSelected(true);
+        I_RMS.setText("I rms");
+        I_RMS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                I_RMSActionPerformed(evt);
+            }
+        });
+
+        I_XYZ_PHASOR.setText("I  xyz phasor");
+        I_XYZ_PHASOR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                I_XYZ_PHASORActionPerformed(evt);
+            }
+        });
+
+        I_COMPLEX.setText("I complex");
+        I_COMPLEX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                I_COMPLEXActionPerformed(evt);
+            }
+        });
+
+        I_XYZ_COMPLEX.setText("I  xyz complex");
+        I_XYZ_COMPLEX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                I_XYZ_COMPLEXActionPerformed(evt);
+            }
+        });
+
+        I_XYZ_RMS.setText("I xyz rms");
+        I_XYZ_RMS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                I_XYZ_RMSActionPerformed(evt);
+            }
+        });
+
+        I_PHASOR.setText("I phasor");
+        I_PHASOR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                I_PHASORActionPerformed(evt);
+            }
+        });
+
+        Emod_COMPLEX.setText("Emod complex");
+        Emod_COMPLEX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Emod_COMPLEXActionPerformed(evt);
+            }
+        });
+
+        Emod_XYZ_COMPLEX.setText("Emod  xyz complex");
+        Emod_XYZ_COMPLEX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Emod_XYZ_COMPLEXActionPerformed(evt);
+            }
+        });
+
+        Emod_XYZ_RMS.setText("Emod xyz rms");
+        Emod_XYZ_RMS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Emod_XYZ_RMSActionPerformed(evt);
+            }
+        });
+
+        Emod_PHASOR.setText("Emod phasor");
+        Emod_PHASOR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Emod_PHASORActionPerformed(evt);
+            }
+        });
+
+        Emod_RMS.setSelected(true);
+        Emod_RMS.setText("Emod rms");
+        Emod_RMS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Emod_RMSActionPerformed(evt);
+            }
+        });
+
+        Emod_XYZ_PHASOR.setText("Emod  xyz phasor");
+        Emod_XYZ_PHASOR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Emod_XYZ_PHASORActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,38 +288,70 @@ public class TxT_JFrame extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(E_RMS, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(E_XYZ_RMS, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(19, 19, 19)
+                                                .addComponent(E_COMPLEX))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(E_XYZ_COMPLEX))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(B_XYZ_RMS)
+                                            .addComponent(B_RMS1))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(B_XYZ_COMPLEX)
+                                            .addComponent(B_COMPLEX))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(E_PHASOR)
+                                    .addComponent(B_XYZ_PHASOR)
+                                    .addComponent(E_XYZ_PHASOR)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(B_PHASOR)
+                                        .addGap(34, 34, 34)
+                                        .addComponent(B_GeoMat))))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(E_RMS, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(E_XYZ_RMS, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(I_RMS, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(I_XYZ_RMS, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(19, 19, 19)
-                                        .addComponent(E_COMPLEX))
+                                        .addComponent(I_COMPLEX))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addComponent(E_XYZ_COMPLEX))))
-                            .addGroup(layout.createSequentialGroup()
+                                        .addComponent(I_XYZ_COMPLEX)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(B_XYZ_RMS)
-                                    .addComponent(B_RMS1))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(B_XYZ_COMPLEX)
-                                    .addComponent(B_COMPLEX))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(E_PHASOR)
-                            .addComponent(B_XYZ_PHASOR)
-                            .addComponent(E_XYZ_PHASOR)
+                                    .addComponent(I_PHASOR)
+                                    .addComponent(I_XYZ_PHASOR)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(B_PHASOR)
-                                .addGap(34, 34, 34)
-                                .addComponent(B_GeoMat)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(Emod_RMS, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Emod_XYZ_RMS, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(19, 19, 19)
+                                        .addComponent(Emod_COMPLEX))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(Emod_XYZ_COMPLEX)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Emod_PHASOR)
+                                    .addComponent(Emod_XYZ_PHASOR))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -257,9 +385,29 @@ public class TxT_JFrame extends javax.swing.JFrame {
                     .addComponent(E_XYZ_RMS)
                     .addComponent(E_XYZ_COMPLEX)
                     .addComponent(E_XYZ_PHASOR))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(I_RMS)
+                    .addComponent(I_COMPLEX)
+                    .addComponent(I_PHASOR))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(I_XYZ_RMS)
+                    .addComponent(I_XYZ_COMPLEX)
+                    .addComponent(I_XYZ_PHASOR))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Emod_RMS)
+                    .addComponent(Emod_COMPLEX)
+                    .addComponent(Emod_PHASOR))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Emod_XYZ_RMS)
+                    .addComponent(Emod_XYZ_COMPLEX)
+                    .addComponent(Emod_XYZ_PHASOR))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addGap(0, 17, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -317,55 +465,103 @@ public class TxT_JFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_B_GeoMatActionPerformed
 
-    public JCheckBox getB_COMPLEX() {
+    private void I_RMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_I_RMSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_I_RMSActionPerformed
+
+    private void I_XYZ_PHASORActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_I_XYZ_PHASORActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_I_XYZ_PHASORActionPerformed
+
+    private void I_COMPLEXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_I_COMPLEXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_I_COMPLEXActionPerformed
+
+    private void I_XYZ_COMPLEXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_I_XYZ_COMPLEXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_I_XYZ_COMPLEXActionPerformed
+
+    private void I_XYZ_RMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_I_XYZ_RMSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_I_XYZ_RMSActionPerformed
+
+    private void I_PHASORActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_I_PHASORActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_I_PHASORActionPerformed
+
+    private void Emod_COMPLEXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Emod_COMPLEXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Emod_COMPLEXActionPerformed
+
+    private void Emod_XYZ_COMPLEXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Emod_XYZ_COMPLEXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Emod_XYZ_COMPLEXActionPerformed
+
+    private void Emod_XYZ_RMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Emod_XYZ_RMSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Emod_XYZ_RMSActionPerformed
+
+    private void Emod_PHASORActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Emod_PHASORActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Emod_PHASORActionPerformed
+
+    private void Emod_RMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Emod_RMSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Emod_RMSActionPerformed
+
+    private void Emod_XYZ_PHASORActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Emod_XYZ_PHASORActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Emod_XYZ_PHASORActionPerformed
+
+    public static JCheckBox getB_COMPLEX() {
         return B_COMPLEX;
     }
 
-    public JCheckBox getB_GeoMat() {
+    public  static JCheckBox getB_GeoMat() {
         return B_GeoMat;
     }
 
-    public JCheckBox getB_PHASOR() {
+    public  static JCheckBox getB_PHASOR() {
         return B_PHASOR;
     }
 
-    public JCheckBox getB_RMS1() {
+    public static JCheckBox getB_RMS1() {
         return B_RMS1;
     }
 
-    public JCheckBox getB_XYZ_COMPLEX() {
+    public static JCheckBox getB_XYZ_COMPLEX() {
         return B_XYZ_COMPLEX;
     }
 
-    public JCheckBox getB_XYZ_PHASOR() {
+    public static JCheckBox getB_XYZ_PHASOR() {
         return B_XYZ_PHASOR;
     }
 
-    public JCheckBox getB_XYZ_RMS() {
+    public static JCheckBox getB_XYZ_RMS() {
         return B_XYZ_RMS;
     }
 
-    public JCheckBox getE_COMPLEX() {
+    public static JCheckBox getE_COMPLEX() {
         return E_COMPLEX;
     }
 
-    public JCheckBox getE_PHASOR() {
+    public static JCheckBox getE_PHASOR() {
         return E_PHASOR;
     }
 
-    public JCheckBox getE_RMS() {
+    public static JCheckBox getE_RMS() {
         return E_RMS;
     }
 
-    public JCheckBox getE_XYZ_COMPLEX() {
+    public static JCheckBox getE_XYZ_COMPLEX() {
         return E_XYZ_COMPLEX;
     }
 
-    public JCheckBox getE_XYZ_PHASOR() {
+    public static JCheckBox getE_XYZ_PHASOR() {
         return E_XYZ_PHASOR;
     }
 
-    public JCheckBox getE_XYZ_RMS() {
+    public static JCheckBox getE_XYZ_RMS() {
         return E_XYZ_RMS;
     }
 
@@ -406,20 +602,128 @@ public class TxT_JFrame extends javax.swing.JFrame {
          
     }
 
+    public static JCheckBox getEmod_COMPLEX() {
+        return Emod_COMPLEX;
+    }
+
+    public static void setEmod_COMPLEX(JCheckBox Emod_COMPLEX) {
+        TxT_JFrame.Emod_COMPLEX = Emod_COMPLEX;
+    }
+
+    public static JCheckBox getEmod_PHASOR() {
+        return Emod_PHASOR;
+    }
+
+    public static void setEmod_PHASOR(JCheckBox Emod_PHASOR) {
+        TxT_JFrame.Emod_PHASOR = Emod_PHASOR;
+    }
+
+    public static JCheckBox getEmod_RMS() {
+        return Emod_RMS;
+    }
+
+    public static void setEmod_RMS(JCheckBox Emod_RMS) {
+        TxT_JFrame.Emod_RMS = Emod_RMS;
+    }
+
+    public static JCheckBox getEmod_XYZ_COMPLEX() {
+        return Emod_XYZ_COMPLEX;
+    }
+
+    public static void setEmod_XYZ_COMPLEX(JCheckBox Emod_XYZ_COMPLEX) {
+        TxT_JFrame.Emod_XYZ_COMPLEX = Emod_XYZ_COMPLEX;
+    }
+
+    public static JCheckBox getEmod_XYZ_PHASOR() {
+        return Emod_XYZ_PHASOR;
+    }
+
+    public static void setEmod_XYZ_PHASOR(JCheckBox Emod_XYZ_PHASOR) {
+        TxT_JFrame.Emod_XYZ_PHASOR = Emod_XYZ_PHASOR;
+    }
+
+    public static JCheckBox getEmod_XYZ_RMS() {
+        return Emod_XYZ_RMS;
+    }
+
+    public static void setEmod_XYZ_RMS(JCheckBox Emod_XYZ_RMS) {
+        TxT_JFrame.Emod_XYZ_RMS = Emod_XYZ_RMS;
+    }
+
+    public static JCheckBox getI_COMPLEX() {
+        return I_COMPLEX;
+    }
+
+    public static void setI_COMPLEX(JCheckBox I_COMPLEX) {
+        TxT_JFrame.I_COMPLEX = I_COMPLEX;
+    }
+
+    public static JCheckBox getI_PHASOR() {
+        return I_PHASOR;
+    }
+
+    public static void setI_PHASOR(JCheckBox I_PHASOR) {
+        TxT_JFrame.I_PHASOR = I_PHASOR;
+    }
+
+    public static JCheckBox getI_RMS() {
+        return I_RMS;
+    }
+
+    public static void setI_RMS(JCheckBox I_RMS) {
+        TxT_JFrame.I_RMS = I_RMS;
+    }
+
+    public static JCheckBox getI_XYZ_COMPLEX() {
+        return I_XYZ_COMPLEX;
+    }
+
+    public static void setI_XYZ_COMPLEX(JCheckBox I_XYZ_COMPLEX) {
+        TxT_JFrame.I_XYZ_COMPLEX = I_XYZ_COMPLEX;
+    }
+
+    public static JCheckBox getI_XYZ_PHASOR() {
+        return I_XYZ_PHASOR;
+    }
+
+    public static void setI_XYZ_PHASOR(JCheckBox I_XYZ_PHASOR) {
+        TxT_JFrame.I_XYZ_PHASOR = I_XYZ_PHASOR;
+    }
+
+    public static JCheckBox getI_XYZ_RMS() {
+        return I_XYZ_RMS;
+    }
+
+    public static void setI_XYZ_RMS(JCheckBox I_XYZ_RMS) {
+        TxT_JFrame.I_XYZ_RMS = I_XYZ_RMS;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox B_COMPLEX;
-    private javax.swing.JCheckBox B_GeoMat;
-    private javax.swing.JCheckBox B_PHASOR;
-    private javax.swing.JCheckBox B_RMS1;
-    private javax.swing.JCheckBox B_XYZ_COMPLEX;
-    private javax.swing.JCheckBox B_XYZ_PHASOR;
-    private javax.swing.JCheckBox B_XYZ_RMS;
-    private javax.swing.JCheckBox E_COMPLEX;
-    private javax.swing.JCheckBox E_PHASOR;
-    private javax.swing.JCheckBox E_RMS;
-    private javax.swing.JCheckBox E_XYZ_COMPLEX;
-    private javax.swing.JCheckBox E_XYZ_PHASOR;
-    private javax.swing.JCheckBox E_XYZ_RMS;
+    private static javax.swing.JCheckBox B_COMPLEX;
+    private static javax.swing.JCheckBox B_GeoMat;
+    private static javax.swing.JCheckBox B_PHASOR;
+    private static javax.swing.JCheckBox B_RMS1;
+    private static javax.swing.JCheckBox B_XYZ_COMPLEX;
+    private static javax.swing.JCheckBox B_XYZ_PHASOR;
+    private static javax.swing.JCheckBox B_XYZ_RMS;
+    private static javax.swing.JCheckBox E_COMPLEX;
+    private static javax.swing.JCheckBox E_PHASOR;
+    private static javax.swing.JCheckBox E_RMS;
+    private static javax.swing.JCheckBox E_XYZ_COMPLEX;
+    private static javax.swing.JCheckBox E_XYZ_PHASOR;
+    private static javax.swing.JCheckBox E_XYZ_RMS;
+    private static javax.swing.JCheckBox Emod_COMPLEX;
+    private static javax.swing.JCheckBox Emod_PHASOR;
+    private static javax.swing.JCheckBox Emod_RMS;
+    private static javax.swing.JCheckBox Emod_XYZ_COMPLEX;
+    private static javax.swing.JCheckBox Emod_XYZ_PHASOR;
+    private static javax.swing.JCheckBox Emod_XYZ_RMS;
+    private static javax.swing.JCheckBox I_COMPLEX;
+    private static javax.swing.JCheckBox I_PHASOR;
+    private static javax.swing.JCheckBox I_RMS;
+    private static javax.swing.JCheckBox I_XYZ_COMPLEX;
+    private static javax.swing.JCheckBox I_XYZ_PHASOR;
+    private static javax.swing.JCheckBox I_XYZ_RMS;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

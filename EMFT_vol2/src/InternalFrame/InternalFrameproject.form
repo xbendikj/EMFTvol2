@@ -102,7 +102,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="calcB" min="-2" pref="38" max="-2" attributes="0"/>
+                  <Component id="load" min="-2" pref="24" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="save" min="-2" pref="24" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
+                  <Component id="calcB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calcE_OLD" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -122,6 +126,8 @@
                       <Component id="calcE_OLD" alignment="3" pref="0" max="32767" attributes="0"/>
                       <Component id="calcE_OLD_plus" alignment="3" pref="0" max="32767" attributes="0"/>
                       <Component id="calcE_square" alignment="3" pref="0" max="32767" attributes="0"/>
+                      <Component id="load" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="save" alignment="1" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -164,6 +170,32 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcE_squareActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="load">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/graphics/if_Open_1493293 (1).png"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="load.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 6));"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="save">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/graphics/Save-24.png"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="save.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 8));"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

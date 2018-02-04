@@ -5,6 +5,7 @@
  */
 package InternalFrame;
 
+import emft_vol2.TxT_JFrame;
 import emft_vol2.constants;
 import emft_vol2.main_class;
 import java.awt.Point;
@@ -15,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -82,6 +84,7 @@ public class outputPanel extends javax.swing.JPanel {
         conturry = new javax.swing.JRadioButton();
         fill = new javax.swing.JRadioButton();
         equal_sides = new javax.swing.JCheckBox();
+        limit = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 4)
         ));
@@ -179,6 +182,10 @@ public class outputPanel extends javax.swing.JPanel {
         equal_sides.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 29));
         equal_sides.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 30));
 
+        limit.setSelected(true);
+        limit.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 31));
+        limit.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 32));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,7 +202,9 @@ public class outputPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Graph_screen, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(limit))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Graph_file, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -218,7 +227,7 @@ public class outputPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(equal_sides))
                             .addComponent(update_Unit))))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +236,8 @@ public class outputPanel extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(conturry)
                         .addComponent(fill)
-                        .addComponent(equal_sides))
+                        .addComponent(equal_sides)
+                        .addComponent(limit))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(TxT_short)
                         .addComponent(Graph_screen)
@@ -308,7 +318,10 @@ public class outputPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_Save_to_memoryActionPerformed
 
     private void TxT_longActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxT_longActionPerformed
-        // TODO add your handling code here:
+     if( TxT_JFrame.about_JframeIsOpen == false){
+            String[] args = null;
+            TxT_JFrame.main(args);
+        }
     }//GEN-LAST:event_TxT_longActionPerformed
 
     private void Graph_fileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Graph_fileActionPerformed
@@ -319,8 +332,16 @@ public class outputPanel extends javax.swing.JPanel {
         return equal_sides;
     }
 
+    public JComboBox<String> getJComboBox_Yvar() {
+        return JComboBox_Yvar;
+    }
+
+    public void setJComboBox_Yvar(JComboBox<String> JComboBox_Yvar) {
+        this.JComboBox_Yvar = JComboBox_Yvar;
+    }
+
     private void JComboBox_YvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboBox_YvarActionPerformed
-        if(JComboBox_Yvar.getSelectedIndex()==3 || JComboBox_Yvar.getSelectedIndex()==7 || JComboBox_Yvar.getSelectedIndex()==11 || JComboBox_Yvar.getSelectedIndex()==15 ){
+        if(JComboBox_Yvar.getSelectedIndex()==3 || JComboBox_Yvar.getSelectedIndex()==5 || JComboBox_Yvar.getSelectedIndex()==9 || JComboBox_Yvar.getSelectedIndex()==13 ){
             update_Unit.setEnabled(false);
             SI_unit.setEnabled(false);
             constants.setDislin_Dislin_Float_orEXP("Float");
@@ -330,7 +351,8 @@ public class outputPanel extends javax.swing.JPanel {
             constants.setDislin_Label_Emod("$E_{mod} [deg]$");
             constants.setDislin_Label_I("$I [deg]$");
         }else{
-            
+            update_Unit.setEnabled(true);
+            SI_unit.setEnabled(true);
            if(update_Unit.isSelected()==true){
                scaleUnit="true"; 
                constants.setDislin_Dislin_Float_orEXP("Float");
@@ -379,6 +401,14 @@ public class outputPanel extends javax.swing.JPanel {
     private void conturryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conturryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_conturryActionPerformed
+    
+    public JCheckBox getLimit() {
+        return limit;
+    }
+
+    public void setLimit(JCheckBox limit) {
+        this.limit = limit;
+    }
 
     private void fillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillActionPerformed
         // TODO add your handling code here:
@@ -412,6 +442,22 @@ public class outputPanel extends javax.swing.JPanel {
         return conturry;
     }
 
+    public JCheckBox getTxT_long() {
+        return TxT_long;
+    }
+
+    public void setTxT_long(JCheckBox TxT_long) {
+        this.TxT_long = TxT_long;
+    }
+
+    public JCheckBox getTxT_short() {
+        return TxT_short;
+    }
+
+    public void setTxT_short(JCheckBox TxT_short) {
+        this.TxT_short = TxT_short;
+    }
+
     public JRadioButton getFill() {
         return fill;
     }
@@ -419,18 +465,18 @@ public class outputPanel extends javax.swing.JPanel {
     public String YAxisVal(String VAR){
         String val ="";
         int poradie = JComboBox_Yvar.getSelectedIndex();
-        if (poradie==0) val = "RMS " +VAR;
-        if (poradie==1) val = "RMS " +VAR +" REAL";
-        if (poradie==2) val = "RMS " +VAR +" IMAGE";
-        if (poradie==3) val = "RMS " +VAR +" ANGLE";
+        if (poradie==0) val  = "RMS " +VAR;
+        if (poradie==1) val  = "RMS " +VAR +" REAL";
+        if (poradie==2) val  = "RMS " +VAR +" IMAGE";
+        if (poradie==3) val  = "RMS " +VAR +" ANGLE";
         
-        if (poradie==4) val = "RMS " +VAR +" X";
-        if (poradie==5) val = "PHASE " +VAR +" X";
-        if (poradie==6) val = "REAL " +VAR +" X";
-        if (poradie==7) val = "IMAGE " +VAR +" X";
+        if (poradie==4) val  = "RMS " +VAR +" X";
+        if (poradie==5) val  = "PHASE " +VAR +" X";
+        if (poradie==6) val  = "REAL " +VAR +" X";
+        if (poradie==7) val  = "IMAGE " +VAR +" X";
         
-        if (poradie==8) val = "RMS " +VAR +" Y";
-        if (poradie==9) val = "PHASE " +VAR +" Y";
+        if (poradie==8) val  = "RMS " +VAR +" Y";
+        if (poradie==9) val  = "PHASE " +VAR +" Y";
         if (poradie==10) val = "REAL " +VAR +" Y";
         if (poradie==11) val = "IMAGE " +VAR +" Y";
         
@@ -458,6 +504,7 @@ public class outputPanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton fill;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JCheckBox limit;
     private javax.swing.JButton show;
     private javax.swing.JRadioButton update_Unit;
     // End of variables declaration//GEN-END:variables
@@ -526,41 +573,41 @@ static void constructor(){
 /*14*/   SK.add("x Abs");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+/*17*/   SK.add("x \u03C6");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");     
 /*15*/   SK.add("x Re");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
 /*16*/   SK.add("x Im");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
-/*17*/   SK.add("x \u03C6");  
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         
+   
 /*18*/   SK.add("y Abs");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+/*21*/   SK.add("y \u03C6");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");    
 /*19*/   SK.add("y Re");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
 /*20*/   SK.add("y Im");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
-/*21*/   SK.add("y \u03C6");  
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");    
-        
+
 /*22*/   SK.add("z Abs");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+/*25*/   SK.add("z \u03C6");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
 /*23*/   SK.add("z Re");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
 /*24*/   SK.add("z Im");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
-/*25*/   SK.add("z \u03C6");  
-         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
 
 /*27*/   SK.add("contury");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
@@ -576,7 +623,13 @@ static void constructor(){
 /*30*/   SK.add("Pomer X Y osi v 2D graf výstupe. Ak Off pomer 1:1. ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
-         
+/*31*/   SK.add("Limit");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
+
+/*32*/   SK.add("Zobraz  v grafe limit pre počitanu veličinu");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
 }
  
 /**

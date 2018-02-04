@@ -8,6 +8,7 @@ package InternalFrame;
 import emft_vol2.constants;
 import emft_vol2.main_Jframe;
 import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
@@ -110,6 +111,22 @@ public class BasicInfoPanel extends javax.swing.JPanel {
     private void jTextField_manoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_manoKeyReleased
        InternalFrameproject.Rozpätie.setMeno(jTextField_mano.getText());
     }//GEN-LAST:event_jTextField_manoKeyReleased
+
+    public static JTextField getjTextField_mano() {
+        return jTextField_mano;
+    }
+
+    public static void setjTextField_mano(JTextField jTextField_mano) {
+        BasicInfoPanel.jTextField_mano = jTextField_mano;
+    }
+
+    public static JTextField getjTextField_mano_projektu() {
+        return jTextField_mano_projektu;
+    }
+
+    public static void setjTextField_mano_projektu(JTextField jTextField_mano_projektu) {
+        BasicInfoPanel.jTextField_mano_projektu = jTextField_mano_projektu;
+    }
 
     private void jTextField_mano_projektuKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_mano_projektuKeyReleased
        InternalFrameproject.Rozpätie.setMenoProjektu(jTextField_mano_projektu.getText());

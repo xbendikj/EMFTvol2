@@ -23,10 +23,14 @@ public class constants {
     private static double Mu1;
     private static double Epsi0;
     private static double Epsi1;
+    private static String Programpath = "user.dir";
     private static String teret_input_folder = "";
+    private static String project_input_folder = "";
     
     private static double AkcneB;
     private static double AkcneE;
+    private static double AkcneI;
+    private static double AkcneEmod;
     private static double presnostCH=0.001;   // presnost na prepocet C do H manualne v kode 
     private static int divergencia_pocet=10;  // divergencna konstana kedy už rozlišuje že vypočet diverguje
     // DISLIN KONSTANTY
@@ -56,6 +60,38 @@ public class constants {
     private static boolean dislin_graph_bgcol = true;     // true sive pozadie - false biele pozadie
     private static int dislin_pocet_kontur = 9;
     private static int Dislin_pocet_des_miest=2;
+
+    public static String getProgrampath() {
+        return Programpath;
+    }
+
+    public static void setProgrampath(String Programpath) {
+        constants.Programpath = Programpath;
+    }
+
+    public static String getProject_input_folder() {
+        return project_input_folder;
+    }
+
+    public static void setProject_input_folder(String project_input_folder) {
+        constants.project_input_folder = project_input_folder;
+    }
+
+    public static double getAkcneI() {
+        return AkcneI;
+    }
+
+    public static void setAkcneI(double AkcneI) {
+        constants.AkcneI = AkcneI;
+    }
+
+    public static double getAkcneEmod() {
+        return AkcneEmod;
+    }
+
+    public static void setAkcneEmod(double AkcneEmod) {
+        constants.AkcneEmod = AkcneEmod;
+    }
 
     public static int getDislin_Step_between_the_labels_X() {
         return dislin_Step_between_the_labels_X;
