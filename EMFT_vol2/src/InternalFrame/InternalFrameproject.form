@@ -37,24 +37,26 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="basicInfoPanel" max="32767" attributes="0"/>
-                          <Component id="basicSettingsPanel" max="32767" attributes="0"/>
-                          <Component id="outputPanel2" max="32767" attributes="0"/>
+                  <Component id="catenaryPanel1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="outputPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="basicInfoPanel" max="32767" attributes="0"/>
+                                  <Component id="basicSettingsPanel" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="observerPanel1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="observerPanel1" min="-2" pref="443" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="catenaryPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,19 +65,19 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="basicInfoPanel" min="-2" pref="116" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="basicSettingsPanel" min="-2" max="-2" attributes="0"/>
+                      <Component id="basicInfoPanel" min="-2" pref="135" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="outputPanel2" pref="127" max="32767" attributes="0"/>
+                      <Component id="basicSettingsPanel" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="observerPanel1" min="-2" pref="486" max="-2" attributes="0"/>
+                  <Component id="observerPanel1" min="-2" pref="400" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="catenaryPanel1" min="-2" pref="322" max="-2" attributes="0"/>
+              <Component id="outputPanel2" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="catenaryPanel1" min="-2" pref="288" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -105,13 +107,15 @@
                   <Component id="load" min="-2" pref="24" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="save" min="-2" pref="24" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                   <Component id="calcB" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calcE_OLD" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="calcBaE" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="calcE_OLD_plus" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="calcE_OLD_plus" min="-2" pref="56" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="284" max="-2" attributes="0"/>
                   <Component id="calcE_square" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -121,13 +125,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="calcB" alignment="3" pref="26" max="32767" attributes="0"/>
-                      <Component id="calcE_OLD" alignment="3" pref="0" max="32767" attributes="0"/>
-                      <Component id="calcE_OLD_plus" alignment="3" pref="0" max="32767" attributes="0"/>
-                      <Component id="calcE_square" alignment="3" pref="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="load" alignment="0" pref="0" max="32767" attributes="0"/>
                       <Component id="save" alignment="1" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="calcB" alignment="3" pref="26" max="32767" attributes="0"/>
+                          <Component id="calcE_OLD" alignment="3" pref="0" max="32767" attributes="0"/>
+                          <Component id="calcE_OLD_plus" alignment="3" pref="0" max="32767" attributes="0"/>
+                          <Component id="calcE_square" alignment="3" pref="0" max="32767" attributes="0"/>
+                          <Component id="calcBaE" alignment="3" pref="26" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -145,7 +152,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="calcE_OLD">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eo"/>
+            <Property name="text" type="java.lang.String" value="E"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcE_OLDActionPerformed"/>
@@ -153,7 +160,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="calcE_OLD_plus">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eo plus"/>
+            <Property name="text" type="java.lang.String" value="E +"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -196,6 +203,14 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="save.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 8));"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="calcBaE">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="B &amp; E"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcBaEActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

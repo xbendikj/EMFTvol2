@@ -320,388 +320,391 @@ public class ObserverPanel extends javax.swing.JPanel {
 
         jComboBox_par.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 0)
-        ));
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 0)
+            , javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP));
 
-        P1D.setSelected(true);
-        P1D.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 1));
-        P1D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 2));
-        P1D.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P1DActionPerformed(evt);
-            }
-        });
-
-        P2D.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 3));
-        P2D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 4));
-        P2D.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P2DActionPerformed(evt);
-            }
-        });
-
-        P3D.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P3DActionPerformed(evt);
-            }
-        });
-
-        P2Dh.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 7));
-        P2Dh.setEnabled(false);
-        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 8));
-
-        P2Dv.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 9));
-        P2Dv.setEnabled(false);
-        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 10));
-        P2Dv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P2DvActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 12)
-        );
-
-        Table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null}
-            },
-            new String [] {
-                "dd"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        Table.setRowHeight(26);
-        jScrollPane1.setViewportView(Table);
-        if (Table.getColumnModel().getColumnCount() > 0) {
-            Table.getColumnModel().getColumn(0).setResizable(false);
-            Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),26));
+    P1D.setSelected(true);
+    P1D.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 1));
+    P1D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 2));
+    P1D.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P1DActionPerformed(evt);
         }
-        if (Table.getColumnModel().getColumnCount() > 0) {
-            Table.getColumnModel().getColumn(0).setResizable(false);
-            Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),11));
+    });
+
+    P2D.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 3));
+    P2D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 4));
+    P2D.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P2DActionPerformed(evt);
         }
+    });
 
-        jButton1.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 46));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        P1Dpriecne.setSelected(true);
-        P1Dpriecne.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 14));
-        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 15));
-
-        P1Dpozdlzne.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 16));
-        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 17));
-
-        priecna_X_textfield.setText("150");
-        priecna_X_textfield.setEnabled(false);
-        priecna_X_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                priecna_X_textfieldKeyReleased(evt);
-            }
-        });
-
-        jLabel2.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 22)
-        );
-        jLabel2.setPreferredSize(new java.awt.Dimension(73, 24));
-
-        jLabel_A2.setText("m");
-
-        X_priecne_user_custom.add(X_precne_auto);
-        X_precne_auto.setSelected(true);
-        X_precne_auto.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 18));
-        X_precne_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 19));
-        X_precne_auto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                X_precne_autoActionPerformed(evt);
-            }
-        });
-
-        X_priecne_user_custom.add(X_precne_user);
-        X_precne_user.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 20));
-        X_precne_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 21));
-        X_precne_user.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                X_precne_userActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 23)
-        );
-        jLabel3.setPreferredSize(new java.awt.Dimension(73, 24));
-
-        pozdl_Z_textfield.setText("0");
-        pozdl_Z_textfield.setEnabled(false);
-        pozdl_Z_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                pozdl_Z_textfieldKeyReleased(evt);
-            }
-        });
-
-        jLabel_A3.setText("m");
-
-        pozdl_Z_user_custom.add(Z_pozdl_auto);
-        Z_pozdl_auto.setSelected(true);
-        Z_pozdl_auto.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 18));
-        Z_pozdl_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 24));
-        Z_pozdl_auto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Z_pozdl_autoActionPerformed(evt);
-            }
-        });
-
-        pozdl_Z_user_custom.add(Z_pozdl_user);
-        Z_pozdl_user.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 20));
-        Z_pozdl_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 25));
-        Z_pozdl_user.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Z_pozdl_userActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(priecna_X_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_A2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(X_precne_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(X_precne_user, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pozdl_Z_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_A3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Z_pozdl_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Z_pozdl_user, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel_A2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(priecna_X_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(X_precne_auto)
-                        .addComponent(X_precne_user)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel_A3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pozdl_Z_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Z_pozdl_auto)
-                        .addComponent(Z_pozdl_user)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        P1D_free.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 26));
-        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 27));
-        P1D_free.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P1D_freeActionPerformed(evt);
-            }
-        });
-
-        table_1D.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null}
-            },
-            new String [] {
-                "", "", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        table_1D.setEnabled(false);
-        table_1D.setRowHeight(26);
-        jScrollPane3.setViewportView(table_1D);
-        if (table_1D.getColumnModel().getColumnCount() > 0) {
-            table_1D.getColumnModel().getColumn(0).setResizable(false);
-            table_1D.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),26));
-            table_1D.getColumnModel().getColumn(1).setResizable(false);
-            table_1D.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),29));
-            table_1D.getColumnModel().getColumn(2).setResizable(false);
-            table_1D.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),30));
-            table_1D.getColumnModel().getColumn(3).setResizable(false);
-            table_1D.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),31));
+    P3D.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P3DActionPerformed(evt);
         }
-        if (table_1D.getColumnModel().getColumnCount() > 0) {
-            table_1D.getColumnModel().getColumn(0).setResizable(false);
-            table_1D.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),28));
-            table_1D.getColumnModel().getColumn(1).setResizable(false);
-            table_1D.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),29));
-            table_1D.getColumnModel().getColumn(1).setCellEditor(null);
-            table_1D.getColumnModel().getColumn(2).setResizable(false);
-            table_1D.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),30));
-            table_1D.getColumnModel().getColumn(3).setResizable(false);
-            table_1D.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),31));
+    });
+
+    P2Dh.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 7));
+    P2Dh.setEnabled(false);
+    P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 8));
+
+    P2Dv.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 9));
+    P2Dv.setEnabled(false);
+    P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 10));
+    P2Dv.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P2DvActionPerformed(evt);
         }
+    });
 
-        Table_par.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "", "", "", "", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
+    jLabel1.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 12)
+    );
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        Table_par.setEnabled(false);
-        Table_par.setRowHeight(26);
-        jScrollPane4.setViewportView(Table_par);
-        if (Table_par.getColumnModel().getColumnCount() > 0) {
-            Table_par.getColumnModel().getColumn(0).setResizable(false);
-            Table_par.getColumnModel().getColumn(0).setPreferredWidth(150);
-            Table_par.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 34)
-            );
-            Table_par.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox_par));
-            Table_par.getColumnModel().getColumn(1).setResizable(false);
-            Table_par.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 35)
-            );
-            Table_par.getColumnModel().getColumn(2).setResizable(false);
-            Table_par.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 36)
-            );
-            Table_par.getColumnModel().getColumn(3).setResizable(false);
-            Table_par.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 37)
-            );
-            Table_par.getColumnModel().getColumn(4).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 39));
-            Table_par.getColumnModel().getColumn(5).setResizable(false);
-            Table_par.getColumnModel().getColumn(5).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 40));
+    Table.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {null}
+        },
+        new String [] {
+            "dd"
         }
+    ) {
+        Class[] types = new Class [] {
+            java.lang.String.class
+        };
 
-        jLabel4.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 32)
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
+        }
+    });
+    Table.setRowHeight(26);
+    jScrollPane1.setViewportView(Table);
+    if (Table.getColumnModel().getColumnCount() > 0) {
+        Table.getColumnModel().getColumn(0).setResizable(false);
+        Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),26));
+    }
+    if (Table.getColumnModel().getColumnCount() > 0) {
+        Table.getColumnModel().getColumn(0).setResizable(false);
+        Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),11));
+    }
+
+    jButton1.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 46));
+    jButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton1ActionPerformed(evt);
+        }
+    });
+
+    P1Dpriecne.setSelected(true);
+    P1Dpriecne.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 14));
+    P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 15));
+
+    P1Dpozdlzne.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 16));
+    P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 17));
+    P1Dpozdlzne.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P1DpozdlzneActionPerformed(evt);
+        }
+    });
+
+    priecna_X_textfield.setText("150");
+    priecna_X_textfield.setEnabled(false);
+    priecna_X_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            priecna_X_textfieldKeyReleased(evt);
+        }
+    });
+
+    jLabel2.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 22)
+    );
+    jLabel2.setPreferredSize(new java.awt.Dimension(73, 24));
+
+    jLabel_A2.setText("m");
+
+    X_priecne_user_custom.add(X_precne_auto);
+    X_precne_auto.setSelected(true);
+    X_precne_auto.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 18));
+    X_precne_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 19));
+    X_precne_auto.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            X_precne_autoActionPerformed(evt);
+        }
+    });
+
+    X_priecne_user_custom.add(X_precne_user);
+    X_precne_user.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 20));
+    X_precne_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 21));
+    X_precne_user.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            X_precne_userActionPerformed(evt);
+        }
+    });
+
+    jLabel3.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 23)
+    );
+    jLabel3.setPreferredSize(new java.awt.Dimension(73, 24));
+
+    pozdl_Z_textfield.setText("0");
+    pozdl_Z_textfield.setEnabled(false);
+    pozdl_Z_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            pozdl_Z_textfieldKeyReleased(evt);
+        }
+    });
+
+    jLabel_A3.setText("m");
+
+    pozdl_Z_user_custom.add(Z_pozdl_auto);
+    Z_pozdl_auto.setSelected(true);
+    Z_pozdl_auto.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 18));
+    Z_pozdl_auto.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 24));
+    Z_pozdl_auto.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            Z_pozdl_autoActionPerformed(evt);
+        }
+    });
+
+    pozdl_Z_user_custom.add(Z_pozdl_user);
+    Z_pozdl_user.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 20));
+    Z_pozdl_user.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 25));
+    Z_pozdl_user.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            Z_pozdl_userActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+    jPanel1.setLayout(jPanel1Layout);
+    jPanel1Layout.setHorizontalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(priecna_X_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel_A2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(X_precne_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(X_precne_user, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(pozdl_Z_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel_A3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(Z_pozdl_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(Z_pozdl_user, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap())
+    );
+    jPanel1Layout.setVerticalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_A2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(priecna_X_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(X_precne_auto)
+                    .addComponent(X_precne_user)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_A3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pozdl_Z_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Z_pozdl_auto)
+                    .addComponent(Z_pozdl_user)))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
+
+    P1D_free.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 26));
+    P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 27));
+    P1D_free.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P1D_freeActionPerformed(evt);
+        }
+    });
+
+    table_1D.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {null, null, null, null}
+        },
+        new String [] {
+            "", "", "", ""
+        }
+    ) {
+        Class[] types = new Class [] {
+            java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+        };
+
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
+        }
+    });
+    table_1D.setEnabled(false);
+    table_1D.setRowHeight(26);
+    jScrollPane3.setViewportView(table_1D);
+    if (table_1D.getColumnModel().getColumnCount() > 0) {
+        table_1D.getColumnModel().getColumn(0).setResizable(false);
+        table_1D.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),26));
+        table_1D.getColumnModel().getColumn(1).setResizable(false);
+        table_1D.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),29));
+        table_1D.getColumnModel().getColumn(2).setResizable(false);
+        table_1D.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),30));
+        table_1D.getColumnModel().getColumn(3).setResizable(false);
+        table_1D.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),31));
+    }
+    if (table_1D.getColumnModel().getColumnCount() > 0) {
+        table_1D.getColumnModel().getColumn(0).setResizable(false);
+        table_1D.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),28));
+        table_1D.getColumnModel().getColumn(1).setResizable(false);
+        table_1D.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),29));
+        table_1D.getColumnModel().getColumn(1).setCellEditor(null);
+        table_1D.getColumnModel().getColumn(2).setResizable(false);
+        table_1D.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),30));
+        table_1D.getColumnModel().getColumn(3).setResizable(false);
+        table_1D.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(),31));
+    }
+
+    Table_par.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {null, null, null, null, null, null}
+        },
+        new String [] {
+            "", "", "", "", "", ""
+        }
+    ) {
+        Class[] types = new Class [] {
+            java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+        };
+
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
+        }
+    });
+    Table_par.setEnabled(false);
+    Table_par.setRowHeight(26);
+    jScrollPane4.setViewportView(Table_par);
+    if (Table_par.getColumnModel().getColumnCount() > 0) {
+        Table_par.getColumnModel().getColumn(0).setResizable(false);
+        Table_par.getColumnModel().getColumn(0).setPreferredWidth(150);
+        Table_par.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 34)
         );
-
-        P1D_par.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 33));
-        P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 38));
-        P1D_par.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P1D_parActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(P1D)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P1Dpriecne)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P1Dpozdlzne)
-                                .addGap(18, 18, 18)
-                                .addComponent(P3D, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(P2D)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P2Dh)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(P2Dv))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(107, 107, 107)
-                                .addComponent(P1D_free))
-                            .addComponent(P1D_par))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+        Table_par.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jComboBox_par));
+        Table_par.getColumnModel().getColumn(1).setResizable(false);
+        Table_par.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 35)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(P1D)
-                        .addComponent(P1Dpriecne)
-                        .addComponent(P1Dpozdlzne))
-                    .addComponent(P3D))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(P1D_free)
-                .addGap(7, 7, 7)
-                .addComponent(P1D_par)
-                .addGap(12, 12, 12)
+        Table_par.getColumnModel().getColumn(2).setResizable(false);
+        Table_par.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 36)
+        );
+        Table_par.getColumnModel().getColumn(3).setResizable(false);
+        Table_par.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 37)
+        );
+        Table_par.getColumnModel().getColumn(4).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 39));
+        Table_par.getColumnModel().getColumn(5).setResizable(false);
+        Table_par.getColumnModel().getColumn(5).setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 40));
+    }
+
+    jLabel4.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 32)
+    );
+
+    P1D_par.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 33));
+    P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 38));
+    P1D_par.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P1D_parActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jSeparator1)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(P1D)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(P1Dpriecne, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(P1Dpozdlzne, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(P1D_free, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(P3D, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(P1D_par)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(P2D)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(P2Dh)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(P2Dv)))
+                    .addGap(0, 16, Short.MAX_VALUE))))
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(P2D)
-                    .addComponent(P2Dh)
-                    .addComponent(P2Dv))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
+                    .addComponent(P1D)
+                    .addComponent(P1Dpriecne)
+                    .addComponent(P1Dpozdlzne)
+                    .addComponent(P1D_free))
+                .addComponent(P3D))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(P1D_par)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(P2D)
+                .addComponent(P2Dh)
+                .addComponent(P2Dv))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jLabel1)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel4)
+            .addGap(10, 10, 10)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
     }// </editor-fold>//GEN-END:initComponents
 
     private void P2DActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P2DActionPerformed
@@ -817,6 +820,10 @@ public class ObserverPanel extends javax.swing.JPanel {
        if(P2Dv.isSelected()==true) BasicSettingsPanel.jTextField_H.setEnabled(true);
        if(P2Dv.isSelected()==false) BasicSettingsPanel.jTextField_H.setEnabled(false);
     }//GEN-LAST:event_P2DvActionPerformed
+
+    private void P1DpozdlzneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1DpozdlzneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_P1DpozdlzneActionPerformed
 
     public double getPriecna_X() {
         return priecna_X;

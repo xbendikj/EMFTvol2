@@ -46,7 +46,10 @@
   <Properties>
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-        <TitledBorder title="&lt;User Code&gt;">
+        <TitledBorder position="3" title="&lt;User Code&gt;">
+          <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+            <EtchetBorder/>
+          </Border>
           <Connection PropertyName="titleX" code="language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 0)&#xd;&#xa;" type="code"/>
         </TitledBorder>
       </Border>
@@ -88,19 +91,22 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="P1D" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="P1Dpriecne" min="-2" max="-2" attributes="0"/>
+                              <Component id="P1Dpriecne" min="-2" pref="71" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="P1Dpozdlzne" min="-2" max="-2" attributes="0"/>
+                              <Component id="P1Dpozdlzne" min="-2" pref="84" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="P1D_free" min="-2" pref="113" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="P3D" min="-2" pref="0" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="148" max="32767" attributes="0"/>
+                      <EmptySpace min="238" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane4" min="-2" pref="395" max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" pref="186" max="-2" attributes="0"/>
+                          <Component id="P1D_par" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="P2D" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -108,13 +114,8 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="P2Dv" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
-                              <Component id="P1D_free" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="P1D_par" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -129,20 +130,19 @@
                       <Component id="P1D" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="P1Dpriecne" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="P1Dpozdlzne" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="P1D_free" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="P3D" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="P1D_free" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Component id="P1D_par" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="P2D" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="P2Dh" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="P2Dv" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -163,7 +163,7 @@
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Component id="jScrollPane4" min="-2" pref="73" max="-2" attributes="0"/>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -303,6 +303,9 @@
           <Connection code="language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 16)" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="P1DpozdlzneActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 17));"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

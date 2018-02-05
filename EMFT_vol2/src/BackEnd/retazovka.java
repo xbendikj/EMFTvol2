@@ -816,4 +816,24 @@ public class retazovka {
         }
 
     }
+    /**
+     * najebe vsetky mirror vektory do minus nekonečna
+     * @param elementLength
+     * @throws DelaunayError 
+     */
+    public void calcul_AllRo_mirrorVectors_OFF(double elementLength) throws DelaunayError {
+        this.Ro_mirror_vectors.clear();  // precisti celi zoznam a sme ready na prgenerovanie
+
+        double modelovana_dlzka = 0;
+        int iterator = 0;
+        while (modelovana_dlzka < this.Amod_over) {
+            Ro_mirror_vectors.add( new DPoint(-10E40+iterator,-10E40+iterator, -10E40+iterator));
+
+            iterator = iterator + 1;
+             modelovana_dlzka=iterator*elementLength;
+        }
+
+    }
+    
+    
 }

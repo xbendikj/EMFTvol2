@@ -23,7 +23,7 @@ public class main_Jframe extends javax.swing.JFrame {
     public main_Jframe() {
         initComponents();
         seticon();
-        
+        iscalculation_Settings=false;
     }
 
     /**
@@ -45,6 +45,7 @@ public class main_Jframe extends javax.swing.JFrame {
         jMenu_settings = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu_help = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -139,6 +140,14 @@ public class main_Jframe extends javax.swing.JFrame {
         });
         jMenu_settings.add(jMenuItem3);
 
+        jMenuItem4.setText(language_main_frame.LangLabel(constants.getLanguage_option(),15));
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu_settings.add(jMenuItem4);
+
         jMenuBar.add(jMenu_settings);
 
         jMenu_help.setText(language_main_frame.LangLabel(constants.getLanguage_option(),3)  );
@@ -179,6 +188,7 @@ public class main_Jframe extends javax.swing.JFrame {
         window = new InternalFrameproject();    
         JDesktop.add(window);
         window.show();
+        
       }
        // }
         
@@ -236,6 +246,15 @@ public class main_Jframe extends javax.swing.JFrame {
        // }
     }//GEN-LAST:event_jMenuItem_loadActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+       
+        if( calculation_Settings.about_JframeIsOpen == false){
+           iscalculation_Settings=true;
+            String[] args = null;
+            calculation_Settings.main(args);
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -272,6 +291,14 @@ public class main_Jframe extends javax.swing.JFrame {
         });
     }
 
+    public static boolean isIscalculation_Settings() {
+        return iscalculation_Settings;
+    }
+
+    public static void setIscalculation_Settings(boolean iscalculation_Settings) {
+        main_Jframe.iscalculation_Settings = iscalculation_Settings;
+    }
+
  private void seticon() {
      setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/graphics/" + "icon.png")));
     }   
@@ -283,6 +310,7 @@ public class main_Jframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem_load;
     private javax.swing.JMenuItem jMenuItem_new;
     private javax.swing.JMenu jMenu_help;
@@ -292,6 +320,7 @@ public class main_Jframe extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     public static ArrayList<InternalFrameproject> Okna = new ArrayList<InternalFrameproject>();
      private int pocetOkien = 0;
+     public static boolean iscalculation_Settings;
 }
 
 
@@ -354,8 +383,40 @@ static void constructor(){
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                             
   /*14*/  SK.add("Pre funkčnost a aktualnosť nastaveni ponechaj okno otvorené.");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");               
-         
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+  /*15*/  SK.add("Nastavenia výpočtu");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");   
+ /*16*/  SK.add("Geometria vodičov");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*17*/  SK.add("Nastavenia Dislin");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*18*/  SK.add("Špecificke nastavenia výpočtu");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*19*/  SK.add("Druh zrkadlenia");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*20*/  SK.add("Bodove zrkladnie");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*21*/  SK.add("Zrkadlenie na aroximovanu rovinu");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+  /*22*/  SK.add("Každy element sa zrkadli  v priestore podla kolmo na trojuholnik pod nim.");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*23*/  SK.add("bod sa priemietne pod seba a tam sa vytvory nova rovina paralelna s plocohu  XZ a kolma na os X na tento pas sa potom zrkaldli. Metodika ako v EMFT povodnom");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");         
+  /*24*/  SK.add("Vypnutie mirroru");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*25*/  SK.add("Vypne sa mirrorovanie");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");           
  // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
  inicializovane = true;
 }

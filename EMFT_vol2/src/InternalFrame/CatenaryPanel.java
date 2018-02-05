@@ -190,157 +190,159 @@ public class CatenaryPanel extends javax.swing.JPanel {
         delete = new javax.swing.JButton();
         calculatecatenary = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 0)
-        ));
+        setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 0)
+            , javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP));
 
-        Table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+    Table.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
 
-            },
-            new String [] {
-                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, true, true
-            };
+        },
+        new String [] {
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+        }
+    ) {
+        Class[] types = new Class [] {
+            java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+        };
+        boolean[] canEdit = new boolean [] {
+            true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, true, true
+        };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        Table.setRowHeight(24);
-        Table.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                TableMouseMoved(evt);
-            }
-        });
-        Table.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                TableKeyReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(Table);
-        if (Table.getColumnModel().getColumnCount() > 0) {
-            Table.getColumnModel().getColumn(0).setResizable(false);
-            Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 1)
-            );
-            Table.getColumnModel().getColumn(1).setResizable(false);
-            Table.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 2)
-            );
-            Table.getColumnModel().getColumn(2).setResizable(false);
-            Table.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 3)
-            );
-            Table.getColumnModel().getColumn(3).setResizable(false);
-            Table.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 4)
-            );
-            Table.getColumnModel().getColumn(4).setResizable(false);
-            Table.getColumnModel().getColumn(4).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 5)
-            );
-            Table.getColumnModel().getColumn(5).setResizable(false);
-            Table.getColumnModel().getColumn(5).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 6)
-            );
-            Table.getColumnModel().getColumn(6).setResizable(false);
-            Table.getColumnModel().getColumn(6).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 7)
-            );
-            Table.getColumnModel().getColumn(7).setResizable(false);
-            Table.getColumnModel().getColumn(7).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 8)
-            );
-            Table.getColumnModel().getColumn(8).setResizable(false);
-            Table.getColumnModel().getColumn(8).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 9)
-            );
-            Table.getColumnModel().getColumn(9).setResizable(false);
-            Table.getColumnModel().getColumn(9).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 10)
-            );
-            Table.getColumnModel().getColumn(10).setResizable(false);
-            Table.getColumnModel().getColumn(10).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 11)
-            );
-            Table.getColumnModel().getColumn(11).setResizable(false);
-            Table.getColumnModel().getColumn(11).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 12)
-            );
-            Table.getColumnModel().getColumn(12).setResizable(false);
-            Table.getColumnModel().getColumn(12).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 13)
-            );
-            Table.getColumnModel().getColumn(13).setResizable(false);
-            Table.getColumnModel().getColumn(13).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 14)
-            );
-            Table.getColumnModel().getColumn(14).setResizable(false);
-            Table.getColumnModel().getColumn(14).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 15)
-            );
-            Table.getColumnModel().getColumn(15).setResizable(false);
-            Table.getColumnModel().getColumn(15).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 16)
-            );
-            Table.getColumnModel().getColumn(16).setResizable(false);
-            Table.getColumnModel().getColumn(16).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 17)
-            );
-            Table.getColumnModel().getColumn(17).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 18)
-            );
-            Table.getColumnModel().getColumn(18).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 38)
-            );
-            Table.getColumnModel().getColumn(19).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 37)
-            );
-            Table.getColumnModel().getColumn(20).setResizable(false);
-            Table.getColumnModel().getColumn(20).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 42)
-            );
-            Table.getColumnModel().getColumn(21).setResizable(false);
-            Table.getColumnModel().getColumn(21).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 51));
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
         }
 
-        deffX.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 43));
-        deffX.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deffXActionPerformed(evt);
-            }
-        });
-
-        delete.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 46));
-        delete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteActionPerformed(evt);
-            }
-        });
-
-        calculatecatenary.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 47));
-        calculatecatenary.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                calculatecatenaryActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(deffX, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    Table.setRowHeight(24);
+    Table.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        public void mouseMoved(java.awt.event.MouseEvent evt) {
+            TableMouseMoved(evt);
+        }
+    });
+    Table.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            TableKeyReleased(evt);
+        }
+    });
+    jScrollPane1.setViewportView(Table);
+    if (Table.getColumnModel().getColumnCount() > 0) {
+        Table.getColumnModel().getColumn(0).setResizable(false);
+        Table.getColumnModel().getColumn(0).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 1)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deffX)
-                    .addComponent(delete)
-                    .addComponent(calculatecatenary))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        Table.getColumnModel().getColumn(1).setResizable(false);
+        Table.getColumnModel().getColumn(1).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 2)
         );
+        Table.getColumnModel().getColumn(2).setResizable(false);
+        Table.getColumnModel().getColumn(2).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 3)
+        );
+        Table.getColumnModel().getColumn(3).setResizable(false);
+        Table.getColumnModel().getColumn(3).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 4)
+        );
+        Table.getColumnModel().getColumn(4).setResizable(false);
+        Table.getColumnModel().getColumn(4).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 5)
+        );
+        Table.getColumnModel().getColumn(5).setResizable(false);
+        Table.getColumnModel().getColumn(5).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 6)
+        );
+        Table.getColumnModel().getColumn(6).setResizable(false);
+        Table.getColumnModel().getColumn(6).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 7)
+        );
+        Table.getColumnModel().getColumn(7).setResizable(false);
+        Table.getColumnModel().getColumn(7).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 8)
+        );
+        Table.getColumnModel().getColumn(8).setResizable(false);
+        Table.getColumnModel().getColumn(8).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 9)
+        );
+        Table.getColumnModel().getColumn(9).setResizable(false);
+        Table.getColumnModel().getColumn(9).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 10)
+        );
+        Table.getColumnModel().getColumn(10).setResizable(false);
+        Table.getColumnModel().getColumn(10).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 11)
+        );
+        Table.getColumnModel().getColumn(11).setResizable(false);
+        Table.getColumnModel().getColumn(11).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 12)
+        );
+        Table.getColumnModel().getColumn(12).setResizable(false);
+        Table.getColumnModel().getColumn(12).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 13)
+        );
+        Table.getColumnModel().getColumn(13).setResizable(false);
+        Table.getColumnModel().getColumn(13).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 14)
+        );
+        Table.getColumnModel().getColumn(14).setResizable(false);
+        Table.getColumnModel().getColumn(14).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 15)
+        );
+        Table.getColumnModel().getColumn(15).setResizable(false);
+        Table.getColumnModel().getColumn(15).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 16)
+        );
+        Table.getColumnModel().getColumn(16).setResizable(false);
+        Table.getColumnModel().getColumn(16).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 17)
+        );
+        Table.getColumnModel().getColumn(17).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 18)
+        );
+        Table.getColumnModel().getColumn(18).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 38)
+        );
+        Table.getColumnModel().getColumn(19).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 37)
+        );
+        Table.getColumnModel().getColumn(20).setResizable(false);
+        Table.getColumnModel().getColumn(20).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 42)
+        );
+        Table.getColumnModel().getColumn(21).setResizable(false);
+        Table.getColumnModel().getColumn(21).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 51));
+    }
+
+    deffX.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 43));
+    deffX.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            deffXActionPerformed(evt);
+        }
+    });
+
+    delete.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 46));
+    delete.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            deleteActionPerformed(evt);
+        }
+    });
+
+    calculatecatenary.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 47));
+    calculatecatenary.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            calculatecatenaryActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(deffX, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 436, Short.MAX_VALUE)))
+            .addContainerGap())
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(deffX)
+                .addComponent(delete)
+                .addComponent(calculatecatenary))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
     }// </editor-fold>//GEN-END:initComponents
 
     private void TableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableKeyReleased

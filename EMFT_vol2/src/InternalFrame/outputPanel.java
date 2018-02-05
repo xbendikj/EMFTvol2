@@ -86,176 +86,176 @@ public class outputPanel extends javax.swing.JPanel {
         equal_sides = new javax.swing.JCheckBox();
         limit = new javax.swing.JCheckBox();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 4)
-        ));
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 4)
+            , javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP));
 
-        TxT_short.setSelected(true);
-        TxT_short.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 0));
+    TxT_short.setSelected(true);
+    TxT_short.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 0));
 
-        TxT_long.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 1));
-        TxT_long.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxT_longActionPerformed(evt);
-            }
-        });
+    TxT_long.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 1));
+    TxT_long.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            TxT_longActionPerformed(evt);
+        }
+    });
 
-        Graph_screen.setSelected(true);
-        Graph_screen.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 2));
-        Graph_screen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Graph_screenActionPerformed(evt);
-            }
-        });
+    Graph_screen.setSelected(true);
+    Graph_screen.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 2));
+    Graph_screen.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            Graph_screenActionPerformed(evt);
+        }
+    });
 
-        Graph_file.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 3));
-        Graph_file.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Graph_fileActionPerformed(evt);
-            }
-        });
+    Graph_file.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 3));
+    Graph_file.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            Graph_fileActionPerformed(evt);
+        }
+    });
 
-        jTextField1.setText("jTextField1");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
+    jTextField1.setText("jTextField1");
+    jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jTextField1ActionPerformed(evt);
+        }
+    });
 
-        show.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 5));
-        show.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showActionPerformed(evt);
-            }
-        });
+    show.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 5));
+    show.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            showActionPerformed(evt);
+        }
+    });
 
-        Save_to_memory.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 6));
-        Save_to_memory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Save_to_memoryActionPerformed(evt);
-            }
-        });
+    Save_to_memory.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 6));
+    Save_to_memory.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            Save_to_memoryActionPerformed(evt);
+        }
+    });
 
-        JComboBox_Yvar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        JComboBox_Yvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JComboBox_YvarActionPerformed(evt);
-            }
-        });
+    JComboBox_Yvar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+    JComboBox_Yvar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            JComboBox_YvarActionPerformed(evt);
+        }
+    });
 
-        jLabel1.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 9));
-        jLabel1.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 10));
+    jLabel1.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 9));
+    jLabel1.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 10));
 
-        buttonGroup1.add(SI_unit);
-        SI_unit.setText("[ T ] & [ V/m]");
-        SI_unit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SI_unitActionPerformed(evt);
-            }
-        });
+    buttonGroup1.add(SI_unit);
+    SI_unit.setText("[ T ] & [ V/m]");
+    SI_unit.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            SI_unitActionPerformed(evt);
+        }
+    });
 
-        buttonGroup1.add(update_Unit);
-        update_Unit.setSelected(true);
-        update_Unit.setText("[ \u00B5 T ] / [ kV/m]");
-        update_Unit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                update_UnitActionPerformed(evt);
-            }
-        });
+    buttonGroup1.add(update_Unit);
+    update_Unit.setSelected(true);
+    update_Unit.setText("[ \u00B5 T ] / [ kV/m]");
+    update_Unit.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            update_UnitActionPerformed(evt);
+        }
+    });
 
-        buttonGroup2.add(conturry);
-        conturry.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 27));
-        conturry.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                conturryActionPerformed(evt);
-            }
-        });
+    buttonGroup2.add(conturry);
+    conturry.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 27));
+    conturry.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            conturryActionPerformed(evt);
+        }
+    });
 
-        buttonGroup2.add(fill);
-        fill.setSelected(true);
-        fill.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 28));
-        fill.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fillActionPerformed(evt);
-            }
-        });
+    buttonGroup2.add(fill);
+    fill.setSelected(true);
+    fill.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 28));
+    fill.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            fillActionPerformed(evt);
+        }
+    });
 
-        equal_sides.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 29));
-        equal_sides.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 30));
+    equal_sides.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 29));
+    equal_sides.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 30));
 
-        limit.setSelected(true);
-        limit.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 31));
-        limit.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 32));
+    limit.setSelected(true);
+    limit.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 31));
+    limit.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 32));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TxT_short, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TxT_long, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Graph_screen, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(limit))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Graph_file, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jTextField1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(show)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Save_to_memory))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SI_unit)
-                            .addComponent(conturry))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(fill)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(equal_sides))
-                            .addComponent(update_Unit))))
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(conturry)
-                        .addComponent(fill)
-                        .addComponent(equal_sides)
-                        .addComponent(limit))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TxT_short)
-                        .addComponent(Graph_screen)
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(TxT_short, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxT_long, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(Graph_screen, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(limit))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(Graph_file, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addComponent(jTextField1))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(show)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(Save_to_memory))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(SI_unit)
+                        .addComponent(conturry))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(fill)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(equal_sides))
+                        .addComponent(update_Unit))))
+            .addContainerGap(37, Short.MAX_VALUE))
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxT_long)
-                    .addComponent(Graph_file)
-                    .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SI_unit)
-                    .addComponent(update_Unit))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(conturry)
+                    .addComponent(fill)
+                    .addComponent(equal_sides)
+                    .addComponent(limit))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(Save_to_memory, javax.swing.GroupLayout.PREFERRED_SIZE, 28, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                    .addComponent(TxT_short)
+                    .addComponent(Graph_screen)
+                    .addComponent(jLabel1)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(TxT_long)
+                .addComponent(Graph_file)
+                .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SI_unit)
+                .addComponent(update_Unit))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(Save_to_memory, javax.swing.GroupLayout.PREFERRED_SIZE, 28, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
     }// </editor-fold>//GEN-END:initComponents
 
     private void Graph_screenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Graph_screenActionPerformed
@@ -377,8 +377,9 @@ public class outputPanel extends javax.swing.JPanel {
 
     private void update_UnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_UnitActionPerformed
         if(update_Unit.isSelected()==true) scaleUnit="true"; 
+      
         constants.setDislin_Dislin_Float_orEXP("Float");
-          constants.setDislin_Label_B("$B [\\mu T]$");
+        constants.setDislin_Label_B("$B [\\mu T]$");
             constants.setDislin_Label_E("$E [kV/m]$");
             constants.setDislin_Label_Emod("$E_{mod} [kV/m]$");
             constants.setDislin_Label_I("$I [mA/m^2]$");
