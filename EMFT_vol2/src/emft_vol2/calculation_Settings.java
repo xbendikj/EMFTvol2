@@ -58,6 +58,22 @@ public class calculation_Settings extends javax.swing.JFrame {
         calculation_Settings.EmirrorOff = EmirrorOff;
     }
 
+    public static JCheckBox getEmod() {
+        return Emod;
+    }
+
+    public static void setEmod(JCheckBox Emod) {
+        calculation_Settings.Emod = Emod;
+    }
+
+    public static JCheckBox getI() {
+        return I;
+    }
+
+    public static void setI(JCheckBox I) {
+        calculation_Settings.I = I;
+    }
+
 
 
     /**
@@ -77,19 +93,20 @@ public class calculation_Settings extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         EmirrorB = new javax.swing.JCheckBox();
         EmirrorOff = new javax.swing.JCheckBox();
+        I = new javax.swing.JCheckBox();
+        Emod = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
 
         if(constants.getLanguage_option() ==1){
             jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/header_nastaveniaV_SK.png")));
-            jLabel1.setMaximumSize(new java.awt.Dimension(0, 0));
         }
         if(constants.getLanguage_option() ==3){
-            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/header_nastaveniaV_EN"))); // NOI18N
+            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/header_nastaveniaV_EN.png"))); // NOI18N
         }
         if(constants.getLanguage_option() ==2){
-            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/header_nastaveniaV_CZ"))); // NOI18N
+            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/header_nastaveniaV_CZ.png"))); // NOI18N
         }
 
         jLabel2.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 19));
@@ -124,27 +141,44 @@ public class calculation_Settings extends javax.swing.JFrame {
             }
         });
 
+        I.setText("indukovana prudova hustota");
+        EmirrorOff.setToolTipText(language_main_frame.LangLabel(constants.getLanguage_option(), 25));
+        I.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IActionPerformed(evt);
+            }
+        });
+
+        Emod.setText("E modifikovane");
+        EmirrorOff.setToolTipText(language_main_frame.LangLabel(constants.getLanguage_option(), 25));
+        Emod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmodActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(EmirrorA, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                                    .addComponent(EmirrorB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(EmirrorOff, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 328, Short.MAX_VALUE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(EmirrorA, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                        .addComponent(EmirrorB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(EmirrorOff, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(I, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Emod, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 275, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -165,7 +199,11 @@ public class calculation_Settings extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EmirrorOff)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(I)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Emod)
+                .addContainerGap())
         );
 
         pack();
@@ -182,6 +220,14 @@ public class calculation_Settings extends javax.swing.JFrame {
     private void EmirrorOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmirrorOffActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EmirrorOffActionPerformed
+
+    private void IActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IActionPerformed
+
+    private void EmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EmodActionPerformed
 
    
 
@@ -230,6 +276,8 @@ public class calculation_Settings extends javax.swing.JFrame {
     private static javax.swing.JCheckBox EmirrorA;
     private static javax.swing.JCheckBox EmirrorB;
     private static javax.swing.JCheckBox EmirrorOff;
+    private static javax.swing.JCheckBox Emod;
+    private static javax.swing.JCheckBox I;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

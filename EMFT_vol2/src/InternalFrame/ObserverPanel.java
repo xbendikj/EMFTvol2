@@ -410,6 +410,11 @@ public class ObserverPanel extends javax.swing.JPanel {
 
     priecna_X_textfield.setText("150");
     priecna_X_textfield.setEnabled(false);
+    priecna_X_textfield.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            priecna_X_textfieldActionPerformed(evt);
+        }
+    });
     priecna_X_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
         public void keyReleased(java.awt.event.KeyEvent evt) {
             priecna_X_textfieldKeyReleased(evt);
@@ -824,6 +829,10 @@ public class ObserverPanel extends javax.swing.JPanel {
     private void P1DpozdlzneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1DpozdlzneActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_P1DpozdlzneActionPerformed
+
+    private void priecna_X_textfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priecna_X_textfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_priecna_X_textfieldActionPerformed
 
     public double getPriecna_X() {
         return priecna_X;

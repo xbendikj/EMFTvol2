@@ -77,7 +77,7 @@ public class databaza {
          for(int cl2 = 0;cl2<P1D_priecne.get(cl1).length;cl2++){
             
              P1D_priecne.get(cl1)[cl2].merge(X.getP1D_priecne().get(cl1)[cl2] );
- 
+             
         }}
         
         for(int cl1 = 0;cl1<P1D_pozdlzne.size();cl1++){
@@ -110,6 +110,54 @@ public class databaza {
         
     }
 
+     public void scitanieAndCalcIEmod(databaza X,boolean calcI,boolean calcE,double KE_I,double KB_I,double KE_Emod,double KB_Emod,double epsi0,double epsi1,double sigma0,double f){
+        
+        for(int cl1 = 0;cl1<P1D_priecne.size();cl1++){
+         for(int cl2 = 0;cl2<P1D_priecne.get(cl1).length;cl2++){
+            
+             P1D_priecne.get(cl1)[cl2].merge(X.getP1D_priecne().get(cl1)[cl2] );
+             if(calcI==true) P1D_priecne.get(cl1)[cl2].calculateI(KE_I, KB_I, epsi0, epsi1, sigma0, f);
+             if(calcE==true) P1D_priecne.get(cl1)[cl2].calculateEmod(KE_Emod, KB_Emod, epsi0, epsi1, sigma0, f);
+        }}
+        
+        for(int cl1 = 0;cl1<P1D_pozdlzne.size();cl1++){
+         for(int cl2 = 0;cl2<P1D_pozdlzne.get(cl1).length;cl2++){
+            
+             P1D_pozdlzne.get(cl1)[cl2].merge(X.getP1D_pozdlzne().get(cl1)[cl2] );
+             if(calcI==true) P1D_pozdlzne.get(cl1)[cl2].calculateI(KE_I, KB_I, epsi0, epsi1, sigma0, f);
+             if(calcE==true) P1D_pozdlzne.get(cl1)[cl2].calculateEmod(KE_Emod, KB_Emod, epsi0, epsi1, sigma0, f);
+        }}
+        
+         for(int cl1 = 0;cl1<P1D_neurcite.size();cl1++){
+         for(int cl2 = 0;cl2<P1D_neurcite.get(cl1).length;cl2++){
+            
+             P1D_neurcite.get(cl1)[cl2].merge(X.getP1D_neurcite().get(cl1)[cl2] );
+              if(calcI==true) P1D_neurcite.get(cl1)[cl2].calculateI(KE_I, KB_I, epsi0, epsi1, sigma0, f);
+             if(calcE==true) P1D_neurcite.get(cl1)[cl2].calculateEmod(KE_Emod, KB_Emod, epsi0, epsi1, sigma0, f);
+ 
+        }}
+         
+           for(int cl1 = 0;cl1<P2D_hor.size();cl1++){
+         for(int cl2 = 0;cl2<P2D_hor.get(cl1).length;cl2++){
+            
+             P2D_hor.get(cl1)[cl2].merge(X.getP2D_hor().get(cl1)[cl2] );
+              if(calcI==true) P2D_hor.get(cl1)[cl2].calculateI(KE_I, KB_I, epsi0, epsi1, sigma0, f);
+             if(calcE==true) P2D_hor.get(cl1)[cl2].calculateEmod(KE_Emod, KB_Emod, epsi0, epsi1, sigma0, f);
+ 
+        }}
+           
+         for(int cl1 = 0;cl1<P2D_vert.size();cl1++){
+         for(int cl2 = 0;cl2<P2D_vert.get(cl1).length;cl2++){
+            
+             P2D_vert.get(cl1)[cl2].merge(X.getP2D_vert().get(cl1)[cl2] );
+              if(calcI==true) P2D_vert.get(cl1)[cl2].calculateI(KE_I, KB_I, epsi0, epsi1, sigma0, f);
+             if(calcE==true) P2D_vert.get(cl1)[cl2].calculateEmod(KE_Emod, KB_Emod, epsi0, epsi1, sigma0, f);
+             
+        }}   
+        
+    }
+
+    
     public ArrayList<Observer[]> getP2D_vert() {
         return P2D_vert;
     }
@@ -554,6 +602,52 @@ public class databaza {
             if(rozmer.equals( "PHASE E Z"))val = X.get(cl1)[cl2].getE().getZ_Angle() ;
             if(rozmer.equals( "REAL E Z")) val =X.get(cl1)[cl2].getE().getZ_Real() ;
             if(rozmer.equals( "IMAGE E Z")) val =X.get(cl1)[cl2].getE().getZ_Imaginary() ;
+                    
+        }
+          if (BE =="I"){  
+              
+            if(rozmer.equals( "RMS I")) val =X.get(cl1)[cl2].getI().getComplex_rms_ABS() ;
+            if(rozmer.equals( "RMS I REAL"))val = X.get(cl1)[cl2].getI().getComplex_rms().getReal() ;
+            if(rozmer.equals( "RMS I IMAGE")) val =X.get(cl1)[cl2].getI().getComplex_rms().getImaginary()  ;
+            if(rozmer.equals( "RMS I ANGLE")) val =X.get(cl1)[cl2].getI().getComplex_rms_Angle();  
+                    
+            if(rozmer.equals( "RMS I X")) val =X.get(cl1)[cl2].getI().getX_ABS();
+            if(rozmer.equals( "PHASE I X"))val = X.get(cl1)[cl2].getI().getX_Angle() ;
+            if(rozmer.equals( "REAL I X"))val = X.get(cl1)[cl2].getI().getX_Real() ;
+            if(rozmer.equals( "IMAGE I X"))val = X.get(cl1)[cl2].getI().getX_Imaginary();
+            
+            if(rozmer.equals( "RMS I Y")) val =X.get(cl1)[cl2].getI().getY_ABS();
+            if(rozmer.equals( "PHASE I Y"))val = X.get(cl1)[cl2].getI().getY_Angle() ;
+            if(rozmer.equals( "REAL I Y")) val =X.get(cl1)[cl2].getI().getY_Real() ;
+            if(rozmer.equals( "IMAGE I Y")) val =X.get(cl1)[cl2].getI().getY_Imaginary() ;
+            
+            if(rozmer.equals( "RMS I Z")) val =X.get(cl1)[cl2].getI().getZ_ABS();
+            if(rozmer.equals( "PHASE I Z"))val = X.get(cl1)[cl2].getI().getZ_Angle() ;
+            if(rozmer.equals( "REAL I Z")) val =X.get(cl1)[cl2].getI().getZ_Real() ;
+            if(rozmer.equals( "IMAGE I Z")) val =X.get(cl1)[cl2].getI().getZ_Imaginary() ;
+                    
+        }
+          if (BE =="Emod"){  
+              
+            if(rozmer.equals( "RMS Emod")) val =X.get(cl1)[cl2].getEmod().getComplex_rms_ABS() ;
+            if(rozmer.equals( "RMS Emod REAL"))val = X.get(cl1)[cl2].getEmod().getComplex_rms().getReal() ;
+            if(rozmer.equals( "RMS Emod IMAGE")) val =X.get(cl1)[cl2].getEmod().getComplex_rms().getImaginary()  ;
+            if(rozmer.equals( "RMS Emod ANGLE")) val =X.get(cl1)[cl2].getEmod().getComplex_rms_Angle();  
+                    
+            if(rozmer.equals( "RMS Emod X")) val =X.get(cl1)[cl2].getEmod().getX_ABS();
+            if(rozmer.equals( "PHASE Emod X"))val = X.get(cl1)[cl2].getEmod().getX_Angle() ;
+            if(rozmer.equals( "REAL Emod X"))val = X.get(cl1)[cl2].getEmod().getX_Real() ;
+            if(rozmer.equals( "IMAGE Emod X"))val = X.get(cl1)[cl2].getEmod().getX_Imaginary();
+            
+            if(rozmer.equals( "RMS Emod Y")) val =X.get(cl1)[cl2].getEmod().getY_ABS();
+            if(rozmer.equals( "PHASE Emod Y"))val = X.get(cl1)[cl2].getEmod().getY_Angle() ;
+            if(rozmer.equals( "REAL Emod Y")) val =X.get(cl1)[cl2].getEmod().getY_Real() ;
+            if(rozmer.equals( "IMAGE Emod Y")) val =X.get(cl1)[cl2].getEmod().getY_Imaginary() ;
+            
+            if(rozmer.equals( "RMS Emod Z")) val =X.get(cl1)[cl2].getEmod().getZ_ABS();
+            if(rozmer.equals( "PHASE Emod Z"))val = X.get(cl1)[cl2].getEmod().getZ_Angle() ;
+            if(rozmer.equals( "REAL Emod Z")) val =X.get(cl1)[cl2].getEmod().getZ_Real() ;
+            if(rozmer.equals( "IMAGE Emod Z")) val =X.get(cl1)[cl2].getEmod().getZ_Imaginary() ;
                     
         }
                 

@@ -893,6 +893,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             // bnacitaj velkost elementu
             double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
             boolean sulana = true;
+           boolean CalcI=false;
+               boolean CalcEmod=false;
             if (Rozpätie.getRetazovkaList().size() == 0) {
                 sulana = false;
             }
@@ -908,6 +910,13 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                   if(calculation_Settings.getEmirrorB().isSelected() == true) Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
                   if(calculation_Settings.getEmirrorOff().isSelected() == true) Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_OFF(elementh);
                
+               }
+               
+               
+               if(main_Jframe.iscalculation_Settings==true) {
+                  if(calculation_Settings.getI().isSelected() == true) CalcI=true;
+                  if(calculation_Settings.getEmod().isSelected() == true) CalcEmod=true;
+                  
                }
                
                 
@@ -938,21 +947,46 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 
                 }
                 
-                BE.scitanie(BEplus);
-                
+                if(main_Jframe.iscalculation_Settings==true) {
+                  if(calculation_Settings.getI().isSelected() == true) CalcI=true;
+                  if(calculation_Settings.getEmod().isSelected() == true) CalcEmod=true;
+                  
+               }
+              if(CalcI ==false && CalcEmod == false){
+                  BE.scitanie(BEplus);
+              }else{
+                  BE.scitanieAndCalcIEmod(BEplus,CalcI,CalcEmod,
+                                            constants.getKE_I(),
+                                            constants.getKB_I(),
+                                            constants.getKE_Emod(),
+                                            constants.getKB_Emod(),
+                                            constants.getEpsi0(),
+                                            constants.getEpsi1(),
+                                            constants.getSigma(),
+                                            constants.getFrequency());
+              }
+              
+               
                 
                  if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true){  
                  Draw_1D_graph( "priecne","Z", 0, "B", "KOKOT","PICA","POKUS");
-                 Draw_1D_graph( "priecne","Z", 0, "E", "KOKOT","PICA","POKUS"); 
+                 Draw_1D_graph( "priecne","Z", 0, "E", "KOKOT","PICA","POKUS");
+                 if( CalcI==true) Draw_1D_graph( "priecne","Z", 0, "I", "KOKOT","PICA","POKUS");
+                 if( CalcEmod==true)  Draw_1D_graph( "priecne","Z", 0, "Emod", "KOKOT","PICA","POKUS");
+                 
                  }
                  
                  if (observerPanel1.P1Dpozdlzne.isSelected() == true && observerPanel1.P1D.isSelected() == true){ 
                  Draw_1D_graph("pozdlzne", "X", 1, "B", "KOKOT","PICA","POKUS");
                  Draw_1D_graph("pozdlzne", "X", 1, "E", "KOKOT","PICA","POKUS");
+                 if( CalcI==true) Draw_1D_graph( "pozdlzne","X", 1, "I", "KOKOT","PICA","POKUS");
+                 if( CalcEmod==true)  Draw_1D_graph( "pozdlzne","X", 1, "Emod", "KOKOT","PICA","POKUS");
                  }
                  if (observerPanel1.P1D.isSelected() == true && observerPanel1.P1D_free.isSelected() == true){  // ZOBRAZOVANIE TU TREBA UROBIT KOREKCIE PRE OS X STLACA GRAF DOKOPY
                  Draw_1D_graph("neurcite", "X", 2, "B", "KOKOT","PICA","POKUS");
                  Draw_1D_graph("neurcite", "X", 2, "E", "KOKOT","PICA","POKUS");
+                 if( CalcI==true) Draw_1D_graph( "neurcite","X", 2, "I", "KOKOT","PICA","POKUS");
+                 if( CalcEmod==true)  Draw_1D_graph( "neurcite","X", 2, "Emod", "KOKOT","PICA","POKUS");
                  }
 
                  if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dh.isSelected() == true){  
@@ -960,6 +994,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  if(outputPanel2.getFill().isSelected()==true) Draw_2D_graph_fill("hor",  "B", "KOKOT","PICA","POKUS");
                  if(outputPanel2.getConturry().isSelected()==true) Draw_2D_graph_kontury("hor",  "E", "KOKOT","PICA","POKUS");
                  if(outputPanel2.getFill().isSelected()==true) Draw_2D_graph_fill("hor",  "E", "KOKOT","PICA","POKUS");
+                 
+                 if(outputPanel2.getConturry().isSelected()==true) if( CalcI==true) Draw_2D_graph_kontury("hor",  "I", "KOKOT","PICA","POKUS");
+                 if(outputPanel2.getFill().isSelected()==true)if( CalcI==true) Draw_2D_graph_fill("hor",  "I", "KOKOT","PICA","POKUS");
+                 if(outputPanel2.getConturry().isSelected()==true)if( CalcEmod==true) Draw_2D_graph_kontury("hor",  "Emod", "KOKOT","PICA","POKUS");
+                 if(outputPanel2.getFill().isSelected()==true) if( CalcEmod==true)Draw_2D_graph_fill("hor",  "Emod", "KOKOT","PICA","POKUS");
+                 
                  
                  
                  }
@@ -970,14 +1010,28 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                   if(outputPanel2.getConturry().isSelected()==true) Draw_2D_graph_kontury("vert",  "E", "KOKOT","PICA","POKUS");
                  if(outputPanel2.getFill().isSelected()==true) Draw_2D_graph_fill("vert",  "E", "KOKOT","PICA","POKUS");
                  
+                   if(outputPanel2.getConturry().isSelected()==true) if( CalcI==true) Draw_2D_graph_kontury("vert",  "I", "KOKOT","PICA","POKUS");
+                 if(outputPanel2.getFill().isSelected()==true)if( CalcI==true) Draw_2D_graph_fill("vert",  "I", "KOKOT","PICA","POKUS");
+                 if(outputPanel2.getConturry().isSelected()==true)if( CalcEmod==true) Draw_2D_graph_kontury("vert",  "Emod", "KOKOT","PICA","POKUS");
+                 if(outputPanel2.getFill().isSelected()==true) if( CalcEmod==true)Draw_2D_graph_fill("vert",  "Emod", "KOKOT","PICA","POKUS");
+                 
+                 
                   
                   }
               
                  // @param B_E_I_EMOD 0=B, 1 =E, 2 = B E , 3 = B E I , 4 = B E Emod, 5 = B E I Emod
-                  if(outputPanel2.getTxT_short().isSelected()==true) make_TxT(Rozpätie, 2, BE, "POKUS",true);
-                  if(outputPanel2.getTxT_long().isSelected()==true) make_TxT(Rozpätie, 2, BE, "POKUS",false);
-                
-          
+                  if(outputPanel2.getTxT_short().isSelected()==true)if( CalcI==false) if( CalcEmod==false) make_TxT(Rozpätie, 2, BE, "POKUS",true);
+                  if(outputPanel2.getTxT_long().isSelected()==true)if( CalcI==false) if( CalcEmod==false) make_TxT(Rozpätie, 2, BE, "POKUS",false);
+                  
+                  if(outputPanel2.getTxT_short().isSelected()==true)if( CalcI==true) if( CalcEmod==false) make_TxT(Rozpätie, 3, BE, "POKUS",true);
+                  if(outputPanel2.getTxT_long().isSelected()==true)if( CalcI==true) if( CalcEmod==false) make_TxT(Rozpätie, 3, BE, "POKUS",false);
+                  
+                  if(outputPanel2.getTxT_short().isSelected()==true)if( CalcI==false) if( CalcEmod==true) make_TxT(Rozpätie, 4, BE, "POKUS",true);
+                  if(outputPanel2.getTxT_long().isSelected()==true)if( CalcI==false) if( CalcEmod==true) make_TxT(Rozpätie, 4, BE, "POKUS",false);
+                  
+                  if(outputPanel2.getTxT_short().isSelected()==true)if( CalcI==true) if( CalcEmod==true) make_TxT(Rozpätie, 5, BE, "POKUS",true);
+                  if(outputPanel2.getTxT_long().isSelected()==true)if( CalcI==true) if( CalcEmod==true) make_TxT(Rozpätie, 5, BE, "POKUS",false);
+                  
             }
 
         } catch (DelaunayError ex) {
@@ -2458,6 +2512,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_priecne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_priecne()));         
      if(BorE == "B")graf2.setunits(outputPanel2.BscaleFactor());
      if(BorE == "E")graf2.setunits(outputPanel2.EscaleFactor());
+     if(BorE == "I")graf2.setunits(outputPanel2.IscaleFactor());
+     if(BorE == "Emod")graf2.setunits(outputPanel2.EscaleFactor());
      
      graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
      Date todaysDate = new Date();
@@ -2471,6 +2527,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_pozdlzne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_pozdlzne()));         
      if(BorE == "B")graf2.setunits(outputPanel2.BscaleFactor());
      if(BorE == "E")graf2.setunits(outputPanel2.EscaleFactor());
+      if(BorE == "I")graf2.setunits(outputPanel2.IscaleFactor());
+     if(BorE == "Emod")graf2.setunits(outputPanel2.EscaleFactor());
      graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
      Date todaysDate = new Date();
       DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -2483,6 +2541,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_neurcite()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_neurcite()));         
      if(BorE == "B")graf2.setunits(outputPanel2.BscaleFactor());
      if(BorE == "E")graf2.setunits(outputPanel2.EscaleFactor());
+      if(BorE == "I")graf2.setunits(outputPanel2.IscaleFactor());
+     if(BorE == "Emod")graf2.setunits(outputPanel2.EscaleFactor());
      graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
      Date todaysDate = new Date();
       DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -2506,8 +2566,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          plot_2D graf3 = new plot_2D(BE.getXray2D("X", BE.getP2D_hor()), BE.getYray2D("Z", BE.getP2D_hor()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_hor()),  constants.getDislin_Label_X(), constants.getDislin_Label_Z(), ROW1, ROW2,true);
               if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
                if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
-              if(BorE == "I")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
@@ -2518,8 +2578,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          plot_2D graf3 = new plot_2D(BE.getXray2D("Z", BE.getP2D_vert()), BE.getYray2D("Y", BE.getP2D_vert()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_vert()),  constants.getDislin_Label_X(), constants.getDislin_Label_Y(), ROW1, ROW2,true);
                 if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
                if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
-              if(BorE == "I")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -2551,8 +2611,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          plot_2D graf3 = new plot_2D(BE.getXray2D("X", BE.getP2D_hor()), BE.getYray2D("Z", BE.getP2D_hor()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_hor()),  constants.getDislin_Label_X(), constants.getDislin_Label_Z(), ROW1, ROW2,true,label);
               if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
                if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
-              if(BorE == "I")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -2564,8 +2624,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          plot_2D graf3 = new plot_2D(BE.getXray2D("Z", BE.getP2D_vert()), BE.getYray2D("Y", BE.getP2D_vert()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_vert()),  constants.getDislin_Label_X(), constants.getDislin_Label_Y(), ROW1, ROW2,true,label);
                 if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
                if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
-              if(BorE == "I")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
+              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");

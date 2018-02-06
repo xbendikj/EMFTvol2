@@ -31,6 +31,12 @@ public class constants {
     private static double AkcneE;
     private static double AkcneI;
     private static double AkcneEmod;
+    private static double KE_I = 100;
+    private static double KB_I = 0.13;
+    private static double KE_Emod = 66;
+    private static double KB_Emod = 0.05;
+     private static double sigma= 0.2;
+     
     private static double presnostCH=0.001;   // presnost na prepocet C do H manualne v kode 
     private static int divergencia_pocet=10;  // divergencna konstana kedy už rozlišuje že vypočet diverguje
     // DISLIN KONSTANTY
@@ -45,6 +51,7 @@ public class constants {
     private static int dislin_hrubka_ciar_za_grafom= 5;            
     private static int dislin_hrubka_ciar_GRID = 8;
     private static float dislin_graph_nasobok_z_vrchu = 1.2f; //
+    private static float dislin_graph_nasobok_z_spodu = 1.2f; //
     private static float dislin_graph_nasobok_zo_stran = 1.2f; // 
     private static String dislin_Dislin_Float_orEXP = "FLOAT"; //
     private static String dislin_Label_B = "$B [\\mu T]$"; //
@@ -60,6 +67,54 @@ public class constants {
     private static boolean dislin_graph_bgcol = true;     // true sive pozadie - false biele pozadie
     private static int dislin_pocet_kontur = 9;
     private static int Dislin_pocet_des_miest=2;
+
+    public static double getSigma() {
+        return sigma;
+    }
+
+    public static void setSigma(double sigma) {
+        constants.sigma = sigma;
+    }
+
+    public static double getKE_I() {
+        return KE_I;
+    }
+
+    public static void setKE_I(double KE_I) {
+        constants.KE_I = KE_I;
+    }
+
+    public static double getKB_I() {
+        return KB_I;
+    }
+
+    public static void setKB_I(double KB_I) {
+        constants.KB_I = KB_I;
+    }
+
+    public static double getKE_Emod() {
+        return KE_Emod;
+    }
+
+    public static void setKE_Emod(double KE_Emod) {
+        constants.KE_Emod = KE_Emod;
+    }
+
+    public static double getKB_Emod() {
+        return KB_Emod;
+    }
+
+    public static void setKB_Emod(double KB_Emod) {
+        constants.KB_Emod = KB_Emod;
+    }
+
+    public static float getDislin_graph_nasobok_z_spodu() {
+        return dislin_graph_nasobok_z_spodu;
+    }
+
+    public static void setDislin_graph_nasobok_z_spodu(float dislin_graph_nasobok_z_spodu) {
+        constants.dislin_graph_nasobok_z_spodu = dislin_graph_nasobok_z_spodu;
+    }
 
     public static String getProgrampath() {
         return Programpath;

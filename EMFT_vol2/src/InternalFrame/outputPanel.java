@@ -426,6 +426,20 @@ public class outputPanel extends javax.swing.JPanel {
         if (scaleUnit=="angle") val = 180/Math.PI;
         return val;
     }
+    
+     /**
+     * vrat scale faktor pre B
+     * @param scaleUnit nie Tesla Ano mu Tesla
+     * @return 
+     */
+    public double IscaleFactor(){
+        double val =1;
+        if (scaleUnit=="false") val = 1;
+        if (scaleUnit=="true") val = 1000;
+        if (scaleUnit=="angle") val = 180/Math.PI;
+        return val;
+    }
+    
     /**
      * vrati hodnotu scale pre E
      * @param scaleUnit nie V/m Ano kV/m

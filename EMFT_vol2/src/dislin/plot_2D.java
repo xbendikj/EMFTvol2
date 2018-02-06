@@ -134,6 +134,7 @@ public class plot_2D {
         this.zmat = zmat;
         this.xname=xname;
         this.yname=yname;
+        
         this.name_row1=row_1;
         this.name_row2=row_2;
         this.islegend=legend;
@@ -141,6 +142,7 @@ public class plot_2D {
         
         this.contury=contury;
         this.fill=fill;
+        
         
         if (this.fill==true){
             this.contury=false;
@@ -274,7 +276,10 @@ public class plot_2D {
      
      
       
-     if(fill==true)  Dislin.name(this.zname,  "z");
+     if(fill==true) {
+      if(fakemodel==false)   Dislin.name(this.zname,  "z");
+      if(fakemodel==true)   Dislin.name("Value Z",  "z");
+     }
      Dislin.titlin (name_row1, 1);
      Dislin.titlin (name_row2, 3); 
       Dislin.texmod("ON"); 

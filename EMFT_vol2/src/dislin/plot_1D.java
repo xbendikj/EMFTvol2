@@ -96,13 +96,14 @@ public class plot_1D {
  
     private void run1D_yn() {
 
-     int pageX =constants.getDislin_velkost_strany_X();
+     
+    int pageX =constants.getDislin_velkost_strany_X();
     int pageY =constants.getDislin_velkost_strany_Y();
         
      float XA = (float) minVal(xray) * constants.getDislin_graph_nasobok_zo_stran(); // spodny limit X
      float YA =0;//= (float) minVal(y1ray);
      float legend_offset =1;
-     if (islegend==true) legend_offset =1.05f; 
+     if (islegend==true) legend_offset =1.15f; 
      
      float XE = (float) maxVal(xray) * constants.getDislin_graph_nasobok_zo_stran()*legend_offset;  // horny limit X
      float YE =0;//= (float) maxVal(y1ray);
@@ -115,8 +116,8 @@ public class plot_1D {
          if(YEd>YE) YE=YEd;
      } 
       
-     YE=YE * constants.getDislin_graph_nasobok_z_vrchu()*legend_offset; // uprava aby graf nebol nacapeny ulne hore userom nastavitelne
-     
+                   YE=YE * constants.getDislin_graph_nasobok_z_vrchu()*legend_offset; // uprava aby graf nebol nacapeny ulne hore userom nastavitelne
+     if ( YA < 0 ) YA=YA * constants.getDislin_graph_nasobok_z_spodu();
      
      float XOR = XA;  // first label
      float YOR = YA;

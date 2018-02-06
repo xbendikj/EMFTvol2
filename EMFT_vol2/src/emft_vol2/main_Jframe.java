@@ -46,6 +46,7 @@ public class main_Jframe extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu_help = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -147,6 +148,14 @@ public class main_Jframe extends javax.swing.JFrame {
             }
         });
         jMenu_settings.add(jMenuItem4);
+
+        jMenuItem5.setText(language_main_frame.LangLabel(constants.getLanguage_option(),17));
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu_settings.add(jMenuItem5);
 
         jMenuBar.add(jMenu_settings);
 
@@ -255,6 +264,14 @@ public class main_Jframe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        if( Dislin_Settings.about_JframeIsOpen == false){
+          
+            String[] args = null;
+            Dislin_Settings.main(args);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -311,6 +328,7 @@ public class main_Jframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem_load;
     private javax.swing.JMenuItem jMenuItem_new;
     private javax.swing.JMenu jMenu_help;
@@ -349,42 +367,40 @@ static void constructor(){
  /*3*/   SK.add("Help");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*4*/  SK.add("nový projekt");  
+ /*4*/   SK.add("nový projekt");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*5*/  SK.add("Načítať");  
+ /*5*/   SK.add("Načítať");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*6*/  SK.add("Konštanty");  
+ /*6*/   SK.add("Konštanty");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-               
-  /*7*/  SK.add("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis ante sollicitudin, laoreet ipsum et, tristique sem. Nullam porttitor malesuada tristique. Donec semper arcu mauris, eget lacinia lorem fringilla ut. Sed porta commodo nulla, venenatis convallis eros sagittis eu. Nullam viverra tincidunt lectus vel consectetur. Nunc vitae quam augue. Suspendisse quis enim nisi. Praesent orci velit, ornare fringilla dignissim vitae, sollicitudin a neque. In vitae placerat eros. Ut nec libero diam. Curabitur nec augue non elit ultrices pulvinar in lacinia orci. Suspendisse luctus odio et ultricies hendrerit. Donec non tempus ipsum, eu ullamcorper nunc. Aliquam tempus iaculis elementum. Ut a justo at augue hendrerit convallis.");  
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position      
+ /*7*/   SK.add("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis ante sollicitudin, laoreet ipsum et, tristique sem. Nullam porttitor malesuada tristique. Donec semper arcu mauris, eget lacinia lorem fringilla ut. Sed porta commodo nulla, venenatis convallis eros sagittis eu. Nullam viverra tincidunt lectus vel consectetur. Nunc vitae quam augue. Suspendisse quis enim nisi. Praesent orci velit, ornare fringilla dignissim vitae, sollicitudin a neque. In vitae placerat eros. Ut nec libero diam. Curabitur nec augue non elit ultrices pulvinar in lacinia orci. Suspendisse luctus odio et ultricies hendrerit. Donec non tempus ipsum, eu ullamcorper nunc. Aliquam tempus iaculis elementum. Ut a justo at augue hendrerit convallis.");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
-         
-  /*8*/  SK.add("O programe");  
+ /*8*/   SK.add("O programe");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*9*/  SK.add("Zavieť");  
+ /*9*/   SK.add("Zavieť");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*10*/  SK.add("OK");  
+ /*10*/  SK.add("OK");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
-  /*11*/  SK.add("Nastavenie velkeho TXT výstupu Y sxis");  
+ /*11*/  SK.add("Nastavenie velkeho TXT výstupu Y sxis");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position         
-  /*12*/  SK.add("Výstup aj pre parametricky output Y axis");  
+ /*12*/  SK.add("Výstup aj pre parametricky output Y axis");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                         
  /*13*/  SK.add("TxT nastavenia");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                             
-  /*14*/  SK.add("Pre funkčnost a aktualnosť nastaveni ponechaj okno otvorené.");  
+ /*14*/  SK.add("Pre funkčnost a aktualnosť nastaveni ponechaj okno otvorené.");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-  /*15*/  SK.add("Nastavenia výpočtu");  
+ /*15*/  SK.add("Nastavenia výpočtu");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");   
  /*16*/  SK.add("Geometria vodičov");  
@@ -405,18 +421,124 @@ static void constructor(){
  /*21*/  SK.add("Zrkadlenie na aroximovanu rovinu");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
-  /*22*/  SK.add("Každy element sa zrkadli  v priestore podla kolmo na trojuholnik pod nim.");  
+ /*22*/  SK.add("Každy element sa zrkadli  v priestore podla kolmo na trojuholnik pod nim.");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
- /*23*/  SK.add("bod sa priemietne pod seba a tam sa vytvory nova rovina paralelna s plocohu  XZ a kolma na os X na tento pas sa potom zrkaldli. Metodika ako v EMFT povodnom");  
+ /*23*/  SK.add("Bod sa priemietne pod seba a tam sa vytvory nova rovina paralelna s plocohu  XZ a kolma na os X na tento pas sa potom zrkaldli. Metodika ako v EMFT povodnom");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");         
-  /*24*/  SK.add("Vypnutie mirroru");  
+ /*24*/  SK.add("Vypnutie mirroru");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
  /*25*/  SK.add("Vypne sa mirrorovanie");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");           
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*26*/  SK.add("Grafické nastavenia Dislin");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
+ /*27*/  SK.add("Ticks delitel - X");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*28*/  SK.add("Počet dielikov na osi X");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*29*/  SK.add("Ticks delitel - Y");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*30*/  SK.add("Počet dielikov na osi Y");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*31*/  SK.add("Ticks delitel - Z");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*32*/  SK.add("Počet dielikov na osi Z");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*33*/  SK.add("Velkost strany X");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*34*/  SK.add("Velkost strany Y");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");        
+ /*35*/  SK.add("Velkost Textu A");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*36*/  SK.add("Velkost Textu pred generovanim funkcie graf");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*37*/  SK.add("Velkost Textu B");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*38*/  SK.add("Velkost Textu po generovani funkcie graf");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");        
+ /*39*/  SK.add("Hrubka čiar A");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*40*/  SK.add("Hrubka čiar  pred generovanim funkcie graf");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*41*/  SK.add("Hrubka čiar B");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*42*/  SK.add("Hrubka čiar  po generovani funkcie graf");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*43*/  SK.add("Hrubka čiar Grid");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*44*/  SK.add("Offset 1D graf Y+");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*45*/  SK.add("Nnasobok ofsetu na Y+ osi");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*46*/  SK.add("Offset 1D graf Y-");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*47*/  SK.add("Nasobok ofsetu 1D graf Y-");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*48*/  SK.add("Offset 1D graf X +/-");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*49*/  SK.add("Nasobok ofsetu 1D graf X +/-");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");  
+ /*50*/  SK.add("Popis osi X");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*51*/  SK.add("Popis osi Y");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*52*/  SK.add("Popis osi Z");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*53*/  SK.add("LaTeX Math format zápisu");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");   
+ /*54*/  SK.add("Grid");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*55*/  SK.add("Pozadie ");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*56*/  SK.add("true = sive / false = biele");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*57*/  SK.add("Pocet kontur");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+ /*58*/  SK.add("Pocet desatinných miest");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*59*/  SK.add("coss / stvorec");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
+ /*60*/  SK.add("Ďalšie konštanty mimo databazu");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
+                 
  // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
  inicializovane = true;
 }
