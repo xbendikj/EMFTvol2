@@ -359,7 +359,7 @@ public class outputPanel extends javax.swing.JPanel {
               
             constants.setDislin_Label_B("$B [\\mu T]$");
             constants.setDislin_Label_E("$E [kV/m]$");
-            constants.setDislin_Label_Emod("$E_{mod} [kV/m]$");
+            constants.setDislin_Label_Emod("$E_{mod} [V/m]$");
             constants.setDislin_Label_I("$I [mA/m^2]$");
            }
             if(SI_unit.isSelected()==true){
@@ -381,7 +381,7 @@ public class outputPanel extends javax.swing.JPanel {
         constants.setDislin_Dislin_Float_orEXP("Float");
         constants.setDislin_Label_B("$B [\\mu T]$");
             constants.setDislin_Label_E("$E [kV/m]$");
-            constants.setDislin_Label_Emod("$E_{mod} [kV/m]$");
+            constants.setDislin_Label_Emod("$E_{mod} [V/m]$");
             constants.setDislin_Label_I("$I [mA/m^2]$");
     }//GEN-LAST:event_update_UnitActionPerformed
 

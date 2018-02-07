@@ -5,6 +5,7 @@
  */
 package emft_vol2;
 
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JCheckBox;
@@ -20,7 +21,8 @@ public class TxT_JFrame extends javax.swing.JFrame {
      */
     public TxT_JFrame() {
         initComponents();
-       
+        seticon();
+        setLocationRelativeTo(null);
         about_JframeIsOpen=true;
          addWindowListener(new WindowAdapter() // listener na krizik zabretie okna
         {
@@ -413,6 +415,9 @@ public class TxT_JFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+     private void seticon() {
+     setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/graphics/" + "icon.png")));
+    }
     private void B_COMPLEXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_COMPLEXActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_B_COMPLEXActionPerformed

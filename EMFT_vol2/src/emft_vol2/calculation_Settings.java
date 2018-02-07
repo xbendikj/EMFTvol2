@@ -5,6 +5,7 @@
  */
 package emft_vol2;
 
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JCheckBox;
@@ -20,7 +21,8 @@ public class calculation_Settings extends javax.swing.JFrame {
      */
     public calculation_Settings() {
         initComponents();
-       
+        seticon();
+        setLocationRelativeTo(null);
         about_JframeIsOpen=true;
          addWindowListener(new WindowAdapter() // listener na krizik zabretie okna
         {
@@ -33,7 +35,9 @@ public class calculation_Settings extends javax.swing.JFrame {
         });
         
     }
-
+     private void seticon() {
+     setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/graphics/" + "icon.png")));
+    }
     public static JCheckBox getEmirrorA() {
         return EmirrorA;
     }

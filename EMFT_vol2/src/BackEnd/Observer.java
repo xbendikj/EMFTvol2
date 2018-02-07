@@ -22,6 +22,8 @@ public class Observer {
     private FazorVektor E;
     private FazorVektor I;
     private FazorVektor Emod;
+    private double parameter;
+    
     private DPoint poloha;
     /**
      * bod pozorovatela zo všetkym čo tam ma byt
@@ -33,7 +35,7 @@ public class Observer {
         this.B = B;
         this.E = E;
         this.poloha = poloha;
-    }
+    }   
 /**
      * bod pozorovatela zo všetkym čo tam ma byt
      * @param B indukcia mag pola ako fazorvektor TESLA
@@ -47,6 +49,22 @@ public class Observer {
         this.E = E;
         this.poloha = poloha;
         this.GeoMatrix_A = MatrixUtils.createRealMatrix(GeoMatrix_A);
+    }
+    
+     public Observer(FazorVektor B, FazorVektor E, DPoint poloha,double[][] GeoMatrix_A,double parameter) {
+        this.B = B;
+        this.E = E;
+        this.poloha = poloha;
+        this.parameter=parameter;
+        this.GeoMatrix_A = MatrixUtils.createRealMatrix(GeoMatrix_A);
+    }
+
+    public double getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(double parameter) {
+        this.parameter = parameter;
     }
 
     public FazorVektor getI() {

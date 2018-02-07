@@ -21,6 +21,8 @@ public class databaza {
     private ArrayList<Observer[]> P1D_priecne  = new ArrayList<>();  // array observerov
     private ArrayList<Observer[]> P1D_pozdlzne  = new ArrayList<>(); // array observerov
     private ArrayList<Observer[]> P1D_neurcite  = new ArrayList<>(); // array observerov
+    
+    private ArrayList<Observer[]> P1D_parameter  = new ArrayList<>(); // array observerov
    
     private ArrayList<Observer[]> P2D_hor = new ArrayList<>();       // arraylist observerov
     private ArrayList<Observer[]> P2D_vert = new ArrayList<>();      // arraylist observerov
@@ -31,7 +33,7 @@ public class databaza {
     //P1D - 0 - priecne 
     //P1D - 1 - pozdlzne
     //P1D - 2 - neurcite
-    
+    //P1D - 3 - parameter
     public databaza() {
         
     }
@@ -46,7 +48,7 @@ public class databaza {
          if(Y==0 )  P1D_priecne.add(X);
          if(Y==1 )  P1D_pozdlzne.add(X);
          if(Y==2 )  P1D_neurcite.add(X);
-        
+         if(Y==3 )  P1D_parameter.add(X);
        
        
     }
@@ -179,7 +181,7 @@ public class databaza {
              if(Y==0 ) vystup = P1D_priecne.get(X) ;
              if(Y==1 ) vystup = P1D_pozdlzne.get(X);
              if(Y==2 ) vystup = P1D_neurcite.get(X);
-        
+             if(Y==3 ) vystup = P1D_parameter.get(X);
         
         return vystup;
     } 
@@ -447,6 +449,7 @@ public class databaza {
              if(XYZ.equals( "X" ))  xray[cl1]=X[cl1].getPoloha().getX();
                if(XYZ.equals( "Y" )) xray[cl1]=X[cl1].getPoloha().getY();
                  if(XYZ.equals( "Z" ))  xray[cl1]=X[cl1].getPoloha().getZ();
+                  if(XYZ.equals( "P" ))  xray[cl1]=X[cl1].getParameter();
              
         }    
         return xray;  
@@ -486,6 +489,14 @@ public class databaza {
              
         }    
         return yray;  
+    }
+
+    public ArrayList<Observer[]> getP1D_parameter() {
+        return P1D_parameter;
+    }
+
+    public void setP1D_parameter(ArrayList<Observer[]> P1D_parameter) {
+        this.P1D_parameter = P1D_parameter;
     }
     
     
@@ -549,7 +560,7 @@ public class databaza {
      * @param rozmer rozmer na vypis
      * @param X odkial to brat  Arraylist observerov[] hadat hodnotu
      */
-        public double[] getMaxVal(String BE ,String rozmer,ArrayList<Observer[]> X) {
+    public double[] getMaxVal(String BE ,String rozmer,ArrayList<Observer[]> X) {
         double[] vystup = new double[4];
         double maxval = 0;
         double val = 0;
@@ -668,6 +679,7 @@ public class databaza {
         P1D_neurcite.clear();
         P1D_pozdlzne.clear();
         P1D_priecne.clear();
+        P1D_parameter.clear();
         P2D_hor.clear();
         P2D_vert.clear();
 

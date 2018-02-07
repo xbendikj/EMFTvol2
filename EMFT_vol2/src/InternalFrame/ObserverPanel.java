@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -188,7 +189,7 @@ public class ObserverPanel extends javax.swing.JPanel {
     public void tableChanged(TableModelEvent e) {
         
     if(isListener == true){
-    if(e.getColumn()!=11 && e.getColumn()!=20){ // podmienka pre checkbox riadky    
+    if(e.getColumn()!=11 && e.getColumn()!=20 && e.getColumn()!=0){ // podmienka pre checkbox riadky    
           try {String hodnota1 =String.valueOf(Table_par.getValueAt(Table_par.getEditingRow(), Table_par.getEditingColumn()));
          
           Table_par.getModel().removeTableModelListener(this);
@@ -258,6 +259,14 @@ public class ObserverPanel extends javax.swing.JPanel {
     
  
         
+    }
+
+    public JComboBox<String> getjComboBox_par() {
+        return jComboBox_par;
+    }
+
+    public void setjComboBox_par(JComboBox<String> jComboBox_par) {
+        this.jComboBox_par = jComboBox_par;
     }
 
     /**

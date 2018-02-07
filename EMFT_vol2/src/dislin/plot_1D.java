@@ -21,6 +21,8 @@ public class plot_1D {
     
     ArrayList<double[]> y2ray = new ArrayList<>();
     boolean islegend=false;
+    boolean limits=false;
+    double limit = 0;
     double smallunits=1;
     boolean screen = true;
     boolean file = false;
@@ -92,6 +94,15 @@ public class plot_1D {
         run1D_yn();
     }
 
+    /**
+     * zapne / nastavi zbrazovanie lmitov 
+     * @param limits ano nie
+     * @param value ak ano aka hodnota
+     */
+    public void setLimits(boolean limits,double value){
+        this.limits=limits;
+        this.limit = value*smallunits;
+    }
    
  
     private void run1D_yn() {
@@ -99,8 +110,9 @@ public class plot_1D {
      
     int pageX =constants.getDislin_velkost_strany_X();
     int pageY =constants.getDislin_velkost_strany_Y();
-        
-     float XA = (float) minVal(xray) * constants.getDislin_graph_nasobok_zo_stran(); // spodny limit X
+     float XA = (float) minVal(xray);   
+      if(XA >0)   XA=XA - XA* (constants.getDislin_graph_nasobok_zo_stran()-1); // spodny limit X
+       if(XA <0)   XA=XA * constants.getDislin_graph_nasobok_zo_stran(); // spodny limit X
      float YA =0;//= (float) minVal(y1ray);
      float legend_offset =1;
      if (islegend==true) legend_offset =1.15f; 
@@ -108,6 +120,7 @@ public class plot_1D {
      float XE = (float) maxVal(xray) * constants.getDislin_graph_nasobok_zo_stran()*legend_offset;  // horny limit X
      float YE =0;//= (float) maxVal(y1ray);
      
+    
      //sorter na osi aby sa tam zmestilo vždy všetko
      for(int cl1=0;cl1<y2ray.size();cl1++){
          float YAd= (float) minVal(y2ray.get(cl1));
@@ -118,6 +131,9 @@ public class plot_1D {
       
                    YE=YE * constants.getDislin_graph_nasobok_z_vrchu()*legend_offset; // uprava aby graf nebol nacapeny ulne hore userom nastavitelne
      if ( YA < 0 ) YA=YA * constants.getDislin_graph_nasobok_z_spodu();
+    
+      if (limits==true) if (YE< limit) YE =(float) limit* constants.getDislin_graph_nasobok_zo_stran()*legend_offset;
+     
      
      float XOR = XA;  // first label
      float YOR = YA;
@@ -192,17 +208,29 @@ public class plot_1D {
     
      
     
-     Dislin.title  ();
+          Dislin.title  ();
      //legenda
-     String cbuf="  ";
-     Dislin.legini(cbuf, y2ray.size(), 10);
+          String cbuf="  ";
+          Dislin.legini(cbuf, y2ray.size(), 10);
      
       for(int cl1=0;cl1<y2ray.size();cl1++){
+          
           Dislin.setclr(255-10*cl1);
           Dislin.curve  (xray, y2ray.get(cl1), xray.length);
-         if (islegend==true) Dislin.leglin(cbuf, nameY[cl1], cl1+1); 
-     }  
+          if (islegend==true) Dislin.leglin(cbuf, nameY[cl1], cl1+1); 
      
+      }  
+     
+      if(limits==true){
+          Dislin.myline(new int[]{10,40}, 2);
+          Dislin.color("RED");
+          Dislin.linwid(constants.getDislin_hrubka_ciar_za_grafom()*2);
+          double[] xray = new double[]{0+XA/4, 0+XE/4 };
+          double[] yray = new double[]{limit, limit};
+          Dislin.curve(xray, yray, 2);
+          Dislin.linwid(constants.getDislin_hrubka_ciar_za_grafom()); 
+      }
+      
      if (islegend==true) {
         Dislin.legtit("");
         Dislin.frame(0);

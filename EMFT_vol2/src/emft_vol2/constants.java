@@ -29,8 +29,8 @@ public class constants {
     
     private static double AkcneB;
     private static double AkcneE;
-    private static double AkcneI;
-    private static double AkcneEmod;
+    private static double AkcneI = 0.002;
+    private static double AkcneEmod = 0.2;
     private static double KE_I = 100;
     private static double KB_I = 0.13;
     private static double KE_Emod = 66;

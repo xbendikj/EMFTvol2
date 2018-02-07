@@ -6,12 +6,14 @@
 package InternalFrame;
 
 import BackEnd.B_calculation;
+import BackEnd.ColorColumnRenderer;
 import BackEnd.E_Spheres_calculation;
 import BackEnd.E_calculation;
 import BackEnd.E_old_calculation;
 import BackEnd.FazorVektor;
 import BackEnd.Observer;
 import BackEnd.databaza;
+import BackEnd.retazovka;
 import BackEnd.rozpatie;
 import static InternalFrame.CatenaryPanel.isListener;
 import static de.dislin.Dislin.graf3;
@@ -25,6 +27,7 @@ import emft_vol2.constants;
 import static emft_vol2.constants_Jframe.constants_JframeIsOpen;
 import emft_vol2.main_Jframe;
 import emft_vol2.main_class;
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -51,6 +54,8 @@ import javax.swing.JTextField;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import org.apache.commons.math.complex.Complex;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
@@ -135,7 +140,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(52, 152, 219));
 
         calcB.setText("B");
         calcB.addActionListener(new java.awt.event.ActionListener() {
@@ -357,7 +362,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (observerPanel1.P1D.isSelected() == true && observerPanel1.P1D_free.isSelected() == true)    calculate_B_volne(BE,cl0);
                 if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dh.isSelected() == true)    calculate_B_2D_hor(BE,cl0);
                 if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true)    calculate_B_2D_ver(BE, Integer.valueOf(basicSettingsPanel.jTextField_H.getText()));
-
+                if (observerPanel1.P1D_par.isSelected() == true ) calculate_B_parameter(BE,cl0);
+                
                 }
                 
                 
@@ -371,6 +377,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  }
                  if (observerPanel1.P1D.isSelected() == true && observerPanel1.P1D_free.isSelected() == true){  // ZOBRAZOVANIE TU TREBA UROBIT KOREKCIE PRE OS X STLACA GRAF DOKOPY
                  Draw_1D_graph("neurcite", "X", 2, "B", "KOKOT","PICA","POKUS");
+                 }
+                 if (observerPanel1.P1D_par.isSelected() == true ){  // ZOBRAZOVANIE TU TREBA UROBIT KOREKCIE PRE OS X STLACA GRAF DOKOPY
+                 Draw_1D_graph("parametricke", "P", 3, "B", "KOKOT","PICA","POKUS");
                  }
 
                  if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dh.isSelected() == true){  
@@ -591,7 +600,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (observerPanel1.P1D.isSelected() == true && observerPanel1.P1D_free.isSelected() == true)    calculate_E_OLD_plus_volne(BEplus,cl0);
                 if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dh.isSelected() == true)    calculate_E_OLD_plus_2D_hor(BEplus,cl0);
                 if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true)    calculate_E_OLD_plus_2D_ver(BEplus, Integer.valueOf(basicSettingsPanel.jTextField_H.getText()));
-
+                 
+                
                 }
                 
                BE.scitanie(BEplus);
@@ -2187,7 +2197,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
 
     }
-    
+   
     private void calculate_B_pozdlzne(databaza BE,int cl0) throws DelaunayError {
 
         if (observerPanel1.P1Dpozdlzne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
@@ -2481,6 +2491,182 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
 
     }
+    
+     private void calculate_B_parameter(databaza BE,int cl0) throws DelaunayError {
+
+        if (observerPanel1.P1D_par.isSelected() == true ) {
+
+            DPoint Rp = new DPoint();
+             Rp.setX(help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 4)));
+             Rp.setY(help.Object_To_double(observerPanel1.DTMTable.getValueAt( observerPanel1.Table.getSelectedRow() + cl0,0)));
+             Rp.setZ(help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 5)));  // nastavuje hodnotu Z len priecne mapovanie meni sa
+             Rp = Rozpätie.getPole().getYaboveTer(Rp);
+            
+            double odVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 1));
+            double doVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
+            double krokVal =help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 3));
+            int pocetCyklovparametrov = (int)((doVal-odVal)/krokVal);
+            
+            //index ulozenie z catenary table
+            int selectedIndex = observerPanel1.getjComboBox_par().getSelectedIndex();
+            if (selectedIndex != -1) {
+                if (selectedIndex < 3) {
+                    selectedIndex = selectedIndex + 8;
+                } else if (selectedIndex >= 3) {
+                    selectedIndex = selectedIndex + 9;
+                }
+
+            }  
+            //Databaza observera pre dany typ priecne mapovanie velkost ako pocet vektorov Rp
+            Observer[] vektor_observerov = new Observer[pocetCyklovparametrov];
+
+                //krokovy cyklus     
+           
+           
+            for (int cl01 = 0; cl01 < pocetCyklovparametrov; cl01++) {    
+                int iterator_lan = 0;
+                calculatecatenaryParameter(selectedIndex, krokVal*cl01,odVal);
+                double elementh = Rozpätie.getKrok();
+                 for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
+               
+                }
+                  FazorVektor B = new FazorVektor(new Complex(0, 0), new Complex(0, 0), new Complex(0, 0)); // novy FV v novom bode ozorovatela
+                double[][] geometrickaMaticaB = new double[3][pocet_vodicov(Rozpätie)];
+          
+                // cyklus lan cl1
+                for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
+                    //cyklus bundle   
+                    for (int cl2 = 0; cl2 < Rozpätie.getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
+
+                        //deklaruj main B
+                        B_calculation Main_B_cal_single_wire = new B_calculation(constants.getMu0(),
+                                constants.getMu1(),
+                                Rozpätie.getRetazovkaList().get(cl1).getI_over(),
+                                Rozpätie.getRetazovkaList().get(cl1).getPhi_over(),
+                                Rp,
+                                Rozpätie.getRetazovkaList().get(cl1).getRo_vectors(),
+                                Rozpätie.getRetazovkaList().get(cl1).getDl_vectors(),
+                                Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2],
+                                Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2],
+                                Rozpätie.getRetazovkaList().get(cl1).getBeta_over());
+
+                        // vyrataj main B
+                        Main_B_cal_single_wire.run();
+                        // priraduj B od kazdeho vodica
+                        B.AddToFazorVektor(Main_B_cal_single_wire.getB());
+                        // priraduj gaometricke konstanty od kazeho lana
+                        geometrickaMaticaB[0][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[0];
+                        geometrickaMaticaB[1][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[1];
+                        geometrickaMaticaB[2][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[2];
+                        // celkovy pocet vyp vodicov
+                        iterator_lan = iterator_lan + 1;
+                    }
+
+                }
+                Observer BOD = new Observer(B, new FazorVektor(new Complex(0, 0), new Complex(0, 0), new Complex(0, 0)),Rp, geometrickaMaticaB,odVal +krokVal*cl01); //
+                vektor_observerov[cl01] = BOD;
+
+            }
+            BE.addToList1D(vektor_observerov, 3);
+
+        }
+
+    }
+     
+       private void calculatecatenaryParameter(int Stlpec, double hodnota,double start) {                                                  
+       isListener = false;
+        boolean idemePocitat = true; // boolena ci sa ide vobec pocitat catenary
+       
+        
+
+         if(idemePocitat==true){
+        // vymarat všetky ktore su vytvorene
+        InternalFrameproject.Rozpätie.erazeRetazovkaArrayList();
+        // vytvor novu arraylist retazovky
+        ArrayList<retazovka> Retazovka_zoznam = new ArrayList<>();    
+        
+        int rows = catenaryPanel1.Table.getRowCount();
+        for(int i=0;i<rows-1;i++){ 
+            
+          
+            boolean  isChecked = Boolean.valueOf(String.valueOf(catenaryPanel1.Table.getValueAt(i, 20))); 
+            boolean  isCheckedpar = Boolean.valueOf(String.valueOf(catenaryPanel1.Table.getValueAt(i, 21))); 
+        
+    
+            if(isChecked){ // iba ak je zasškrtnute tak vklada lana
+            
+                   int val8 = (int) help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 8));
+                double val9 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 9));
+                double val10 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 10));
+                double val12 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 12));
+                double val13 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 13));
+                double val14 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 14));
+                double val15 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 15));
+                double val16 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 16));
+                if (isCheckedpar==true){
+                    if(Stlpec == 8 ) val8 = (int)start + (int)hodnota;
+                    if(Stlpec == 9 ) val9 = start + hodnota;
+                    if(Stlpec == 10 ) val10 = start + hodnota;
+                    if(Stlpec == 12 ) val12 = start + hodnota;
+                    if(Stlpec == 13 ) val13 = start + hodnota;
+                    if(Stlpec == 14 ) val14 = start + hodnota;
+                    if(Stlpec == 15 ) val15 = start + hodnota;
+                    if(Stlpec == 16 ) val16 = start + hodnota;
+                }
+                
+            try {
+        
+            retazovka lano = new  retazovka(help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 0)), // V1
+                    help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 1)), // V2
+                    help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 2)), // I1
+                    help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 3)), // I2
+                    help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 4)), // W1
+                    help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 5)), // W2
+                    help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 6)), // X1
+                    help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 7)), // X2
+                    val8, // bundle
+                    val9, // alpha
+                    val10, // distance
+                    val12, // H/C value
+                    Boolean.valueOf(String.valueOf(catenaryPanel1.Table.getValueAt(i, 11))), // true/false
+                    val13, // polomer
+                    val14, // U
+                    val15, // I
+                    val16, // Phi
+                    InternalFrameproject.Rozpätie.getTeren());
+            
+            
+            
+          //  Table.setValueAt(lano.getC_over(), i, 17);
+          //  Table.setValueAt(lano.getH_over()+lano.getZY_cor_bundle_lowest_conductor(), i, 18); // odpocitaj od vysky stredu vysku spodneho vodiča vo zvazku
+          //  Table.setValueAt(lano.getHter_over()+lano.getZY_cor_bundle_lowest_conductor(), i, 19);
+           
+             
+         
+            
+            Retazovka_zoznam.add(lano);
+            
+            } catch (DelaunayError ex) {
+                isListener = true;  
+                Logger.getLogger(CatenaryPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+     
+            } 
+         
+        }
+           InternalFrameproject.Rozpätie.setRetazovkaArrayList(Retazovka_zoznam);   // vlozi zoznam retazoviem s prepocitanimi parametrami do retazovky rozpatia
+           
+           
+        }
+        
+       isListener = true;   
+  
+    }                                                 
+
      
     private int pocet_vodicov(rozpatie X) {
         int pocel_lan = 0;
@@ -2513,9 +2699,13 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      if(BorE == "B")graf2.setunits(outputPanel2.BscaleFactor());
      if(BorE == "E")graf2.setunits(outputPanel2.EscaleFactor());
      if(BorE == "I")graf2.setunits(outputPanel2.IscaleFactor());
-     if(BorE == "Emod")graf2.setunits(outputPanel2.EscaleFactor());
+     if(BorE == "Emod")graf2.setunits(1);
      
      graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+     if(BorE == "B") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+      if(BorE == "E") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+       if(BorE == "I") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+        if(BorE == "Emod") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
      Date todaysDate = new Date();
       DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
      graf2.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
@@ -2528,8 +2718,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      if(BorE == "B")graf2.setunits(outputPanel2.BscaleFactor());
      if(BorE == "E")graf2.setunits(outputPanel2.EscaleFactor());
       if(BorE == "I")graf2.setunits(outputPanel2.IscaleFactor());
-     if(BorE == "Emod")graf2.setunits(outputPanel2.EscaleFactor());
+     if(BorE == "Emod")graf2.setunits(1);
      graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+      if(BorE == "B") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+      if(BorE == "E") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+       if(BorE == "I") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+        if(BorE == "Emod") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
      Date todaysDate = new Date();
       DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
      graf2.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
@@ -2542,8 +2736,30 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      if(BorE == "B")graf2.setunits(outputPanel2.BscaleFactor());
      if(BorE == "E")graf2.setunits(outputPanel2.EscaleFactor());
       if(BorE == "I")graf2.setunits(outputPanel2.IscaleFactor());
-     if(BorE == "Emod")graf2.setunits(outputPanel2.EscaleFactor());
+     if(BorE == "Emod")graf2.setunits(1);
      graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+      if(BorE == "B") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+      if(BorE == "E") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+       if(BorE == "I") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+        if(BorE == "Emod") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+     Date todaysDate = new Date();
+      DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+     graf2.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
+     graf2.draw_1D_yn();
+    }  
+    
+    if(typ == "parametricke"){
+      
+     plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter()));         
+     if(BorE == "B")graf2.setunits(outputPanel2.BscaleFactor());
+     if(BorE == "E")graf2.setunits(outputPanel2.EscaleFactor());
+      if(BorE == "I")graf2.setunits(outputPanel2.IscaleFactor());
+     if(BorE == "Emod")graf2.setunits(1);
+     graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+      if(BorE == "B") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+      if(BorE == "E") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+       if(BorE == "I") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+        if(BorE == "Emod") graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
      Date todaysDate = new Date();
       DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
      graf2.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
@@ -2565,28 +2781,31 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
          if(HORvert=="hor"){ 
          plot_2D graf3 = new plot_2D(BE.getXray2D("X", BE.getP2D_hor()), BE.getYray2D("Z", BE.getP2D_hor()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_hor()),  constants.getDislin_Label_X(), constants.getDislin_Label_Z(), ROW1, ROW2,true);
               if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
-               if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
+              if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
               if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
          graf3.setIsequalSides(outputPanel2.getEqual_sides().isSelected());
-               graf3.draw_2D_yn();
+              graf3.draw_2D_yn();
          }
          if(HORvert=="vert"){ 
          plot_2D graf3 = new plot_2D(BE.getXray2D("Z", BE.getP2D_vert()), BE.getYray2D("Y", BE.getP2D_vert()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_vert()),  constants.getDislin_Label_X(), constants.getDislin_Label_Y(), ROW1, ROW2,true);
-                if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
-               if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
+              if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
+              if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
               if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
+                
+                
+                
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         graf3.setFile(outputPanel2.getGraph_file().isSelected(),outputPanel2.getjTextField1().getText()+"/"+ df2.format(todaysDate) +"_"+ meno_projektu +"_"+ Sufix+ ".png" );
      graf3.setIsequalSides(outputPanel2.getEqual_sides().isSelected());
         
-               graf3.draw_2D_yn();
+              graf3.draw_2D_yn();
          }
          
          
@@ -2612,7 +2831,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
               if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
                if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
               if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -2625,7 +2844,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if(BorE == "B")  graf3.setunits(outputPanel2.BscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneB());
                if(BorE == "E")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneE());
               if(BorE == "I")  graf3.setunits(outputPanel2.IscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneI());
-              if(BorE == "Emod")  graf3.setunits(outputPanel2.EscaleFactor(),outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
+              if(BorE == "Emod")  graf3.setunits(1,outputPanel2.getLimit().isSelected(),constants.getAkcneEmod()); 
                 graf3.setScreen(outputPanel2.getGraph_screen().isSelected());
                 Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");

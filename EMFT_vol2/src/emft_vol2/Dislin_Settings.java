@@ -8,6 +8,7 @@ package emft_vol2;
 import InternalFrame.InternalFrameproject;
 import dislin.plot_1D;
 import dislin.plot_2D;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
@@ -28,6 +29,8 @@ public class Dislin_Settings extends javax.swing.JFrame {
      */
     public Dislin_Settings() {
         initComponents();
+        seticon();
+        setLocationRelativeTo(null);
         jTextField_stepX.setText(String.valueOf(constants.getDislin_Step_between_the_labels_X()));
         jTextField_stepY.setText(String.valueOf(constants.getDislin_Step_between_the_labels_Y()));
         jTextField_stepZ.setText(String.valueOf(constants.getDislin_Step_between_the_labels_Z()));
@@ -599,7 +602,9 @@ public class Dislin_Settings extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ private void seticon() {
+     setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/graphics/" + "icon.png")));
+    }
     private void gridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gridActionPerformed
         constants.setDislin_grid(grid.isSelected());
     }//GEN-LAST:event_gridActionPerformed
