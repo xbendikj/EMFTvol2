@@ -35,8 +35,10 @@ public class constants {
     private static double KB_I = 0.13;
     private static double KE_Emod = 66;
     private static double KB_Emod = 0.05;
-     private static double sigma= 0.2;
-     
+    private static double sigma= 0.2;
+    
+    private static boolean ParA = true;
+    
     private static double presnostCH=0.001;   // presnost na prepocet C do H manualne v kode 
     private static int divergencia_pocet=10;  // divergencna konstana kedy už rozlišuje že vypočet diverguje
     // DISLIN KONSTANTY
@@ -67,6 +69,14 @@ public class constants {
     private static boolean dislin_graph_bgcol = true;     // true sive pozadie - false biele pozadie
     private static int dislin_pocet_kontur = 9;
     private static int Dislin_pocet_des_miest=2;
+
+    public static boolean isParA() {
+        return ParA;
+    }
+
+    public static void setParA(boolean ParA) {
+        constants.ParA = ParA;
+    }
 
     public static double getSigma() {
         return sigma;

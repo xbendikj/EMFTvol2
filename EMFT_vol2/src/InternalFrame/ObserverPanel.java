@@ -22,6 +22,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import tools.help;
 
 /**
@@ -233,12 +234,21 @@ public class ObserverPanel extends javax.swing.JPanel {
     jComboBox_par.addActionListener (new ActionListener () {
     public void actionPerformed(ActionEvent e) {
         selectedIndex = jComboBox_par.getSelectedIndex();
-       
+                                nazov="bundle            ";
+        if (selectedIndex == 0) nazov="    bundle [-]    ";
+        if (selectedIndex == 1) nazov="    Alpha  [deg]  ";
+        if (selectedIndex == 2) nazov="bundle diamater[m]";
+        if (selectedIndex == 3) nazov="    C/h value [m] ";
+        if (selectedIndex == 4) nazov=" radius con. [m]  ";
+        if (selectedIndex == 5) nazov="    Voltage [V]   ";
+        if (selectedIndex == 6) nazov="    Current [A]   ";
+        if (selectedIndex == 7) nazov="    Phase   [deg] ";
         
         if(selectedIndex != -1){
         if (selectedIndex <3) {selectedIndex = selectedIndex + 8;}
         else if (selectedIndex >=3) {selectedIndex = selectedIndex + 9;}
-            
+        
+        
         TableColumn col_past = CatenaryPanel.Table.getColumnModel().getColumn(past_par_index);
         col_past.setHeaderRenderer(new ColorColumnRenderer(Color.LIGHT_GRAY, Color.black));
        col_past.getCellEditor().stopCellEditing();
@@ -283,6 +293,7 @@ public class ObserverPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jComboBox_par = new javax.swing.JComboBox<>();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         P1D = new javax.swing.JCheckBox();
         P2D = new javax.swing.JCheckBox();
         P3D = new javax.swing.JCheckBox();
@@ -313,6 +324,8 @@ public class ObserverPanel extends javax.swing.JPanel {
         Table_par = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         P1D_par = new javax.swing.JCheckBox();
+        P1D_par_A = new javax.swing.JCheckBox();
+        P1D_par_B = new javax.swing.JCheckBox();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -631,10 +644,28 @@ public class ObserverPanel extends javax.swing.JPanel {
     );
 
     P1D_par.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 33));
-    P3D.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 38));
     P1D_par.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             P1D_parActionPerformed(evt);
+        }
+    });
+
+    buttonGroup1.add(P1D_par_A);
+    P1D_par_A.setSelected(true);
+    P1D_par_A.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 50));
+    P1D_par_A.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 51));
+    P1D_par_A.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P1D_par_AActionPerformed(evt);
+        }
+    });
+
+    buttonGroup1.add(P1D_par_B);
+    P1D_par_B.setText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 55));
+    P1D_par_B.setToolTipText(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 52));
+    P1D_par_B.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            P1D_par_BActionPerformed(evt);
         }
     });
 
@@ -658,28 +689,37 @@ public class ObserverPanel extends javax.swing.JPanel {
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(P1D)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(P1D)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(P1Dpriecne, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(P1Dpozdlzne, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(P1D_par_A, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(P2Dh, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(31, 31, 31)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(P1Dpriecne, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(P1Dpozdlzne, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(P1D_free, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(P3D, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(P2Dv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(P1D_free, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(P3D, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(P1D_par_B, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(0, 0, Short.MAX_VALUE)))))
+                    .addContainerGap())
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(P1D_par)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(P2D)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(P2Dh)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(P2Dv)))
-                    .addGap(0, 16, Short.MAX_VALUE))))
+                        .addComponent(P2D)
+                        .addComponent(P1D_par, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE))))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -693,7 +733,11 @@ public class ObserverPanel extends javax.swing.JPanel {
                     .addComponent(P1D_free))
                 .addComponent(P3D))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(P1D_par)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(P1D_par_A)
+                    .addComponent(P1D_par_B))
+                .addComponent(P1D_par))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(P2D)
@@ -731,6 +775,14 @@ public class ObserverPanel extends javax.swing.JPanel {
              P2Dv.setEnabled(false);
         }
     }//GEN-LAST:event_P2DActionPerformed
+
+    public String getNazov() {
+        return nazov;
+    }
+
+    public void setNazov(String nazov) {
+        this.nazov = nazov;
+    }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         isListener = false;
@@ -787,7 +839,6 @@ public class ObserverPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_P1D_freeActionPerformed
 
     private void P1D_parActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1D_parActionPerformed
-       
         if (P1D_par.isSelected()){
             Table_par.setEnabled(true);
             Table_par.setBackground(Color.WHITE);
@@ -802,11 +853,10 @@ public class ObserverPanel extends javax.swing.JPanel {
              for (int cl1 = 0; cl1<19 ;cl1 ++){
           TableColumn col_past = CatenaryPanel.Table.getColumnModel().getColumn(cl1);
         col_past.setHeaderRenderer(new ColorColumnRenderer(Color.lightGray, Color.black)); 
-          JTableHeader th = CatenaryPanel.Table.getTableHeader();
+          JTableHeader  th = CatenaryPanel.Table.getTableHeader();
        th.repaint();
-        }
-             
-        }
+        }}
+        
     }//GEN-LAST:event_P1D_parActionPerformed
 
     private void P1DActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1DActionPerformed
@@ -843,6 +893,39 @@ public class ObserverPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_priecna_X_textfieldActionPerformed
 
+    private void P1D_par_AActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1D_par_AActionPerformed
+       
+         //update header par table
+        JTableHeader th = Table_par.getTableHeader();
+        TableColumnModel tcm = th.getColumnModel();
+        TableColumn tc = tcm.getColumn(1);
+        tc.setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 35));
+        th.repaint();
+         tc = tcm.getColumn(2);
+        tc.setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 36));
+        th.repaint();
+        
+        
+       
+             
+        
+    }//GEN-LAST:event_P1D_par_AActionPerformed
+
+    private void P1D_par_BActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P1D_par_BActionPerformed
+       
+        
+        //update header par table
+        JTableHeader th = Table_par.getTableHeader();
+        TableColumnModel tcm = th.getColumnModel();
+        TableColumn tc = tcm.getColumn(1);
+        tc.setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 53));
+        th.repaint();
+         tc = tcm.getColumn(2);
+        tc.setHeaderValue(language_internal_frame_observer_panel.LangLabel(constants.getLanguage_option(), 54));
+        th.repaint();
+        
+    }//GEN-LAST:event_P1D_par_BActionPerformed
+
     public double getPriecna_X() {
         return priecna_X;
     }
@@ -872,6 +955,8 @@ public class ObserverPanel extends javax.swing.JPanel {
     public javax.swing.JCheckBox P1D;
     public javax.swing.JCheckBox P1D_free;
     public javax.swing.JCheckBox P1D_par;
+    public javax.swing.JCheckBox P1D_par_A;
+    public javax.swing.JCheckBox P1D_par_B;
     public javax.swing.JCheckBox P1Dpozdlzne;
     public javax.swing.JCheckBox P1Dpriecne;
     public javax.swing.JCheckBox P2D;
@@ -885,6 +970,7 @@ public class ObserverPanel extends javax.swing.JPanel {
     private javax.swing.ButtonGroup X_priecne_user_custom;
     public javax.swing.JCheckBox Z_pozdl_auto;
     public javax.swing.JCheckBox Z_pozdl_user;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox_par;
     private javax.swing.JLabel jLabel1;
@@ -913,6 +999,7 @@ int past_par_index = 0;
 int selectedIndex =-1;
 double priecna_X ;
 double pozdlzna_Z ;
+String nazov;
 }
 
 class language_internal_frame_observer_panel {
@@ -1022,7 +1109,7 @@ static void constructor(){
 /*32*/   SK.add("nastavenia parametrizácie ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-/*33*/   SK.add("parametricky výpočet");  
+/*33*/   SK.add("parametricky výpočet ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
 /*34*/   SK.add("parameter");  
@@ -1073,11 +1160,24 @@ static void constructor(){
 /*49*/   SK.add("Teren nie je vytvorený. Vygenerovat?");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-/*49*/   SK.add("Hodnoty X1 alebo X2 su mimo vytvorenu plochu (teren).");  
+/*50*/   SK.add("A");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
-         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");   
-                
-         
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*51*/   SK.add("Spoločá zmena od Od - Do pri zvolenom kroku pre dany pramatere. Nie je viazane na hodnotu v tabulke parametrov retazovky");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+/*52*/   SK.add("Individualna zmena počet krokov  zvolenom kroku pre dany pramatere. Jee viazane na hodnotu v tabulke parametrov retazovky");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*53*/   SK.add("-");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");         
+ /*54*/   SK.add("Pocet krokov");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                  
+ /*55*/   SK.add("B");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
       
 
 }

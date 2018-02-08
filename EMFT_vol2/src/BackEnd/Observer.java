@@ -51,6 +51,10 @@ public class Observer {
         this.GeoMatrix_A = MatrixUtils.createRealMatrix(GeoMatrix_A);
     }
     
+    public Observer() {
+       
+    }
+    
      public Observer(FazorVektor B, FazorVektor E, DPoint poloha,double[][] GeoMatrix_A,double parameter) {
         this.B = B;
         this.E = E;

@@ -111,7 +111,7 @@ public class plot_1D {
     int pageX =constants.getDislin_velkost_strany_X();
     int pageY =constants.getDislin_velkost_strany_Y();
      float XA = (float) minVal(xray);   
-      if(XA >0)   XA=XA - XA* (constants.getDislin_graph_nasobok_zo_stran()-1); // spodny limit X
+      if(XA >0)   XA=0 ;//XA - XA* (constants.getDislin_graph_nasobok_zo_stran()-1); // spodny limit X
        if(XA <0)   XA=XA * constants.getDislin_graph_nasobok_zo_stran(); // spodny limit X
      float YA =0;//= (float) minVal(y1ray);
      float legend_offset =1;

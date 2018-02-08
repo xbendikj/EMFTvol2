@@ -96,6 +96,13 @@ public class databaza {
  
         }}
          
+         for(int cl1 = 0;cl1<P1D_parameter.size();cl1++){
+         for(int cl2 = 0;cl2<P1D_parameter.get(cl1).length;cl2++){
+            
+             P1D_parameter.get(cl1)[cl2].merge(X.getP1D_parameter().get(cl1)[cl2] );
+ 
+        }}
+         
            for(int cl1 = 0;cl1<P2D_hor.size();cl1++){
          for(int cl2 = 0;cl2<P2D_hor.get(cl1).length;cl2++){
             
@@ -138,6 +145,15 @@ public class databaza {
              if(calcE==true) P1D_neurcite.get(cl1)[cl2].calculateEmod(KE_Emod, KB_Emod, epsi0, epsi1, sigma0, f);
  
         }}
+         
+         for(int cl1 = 0;cl1<P1D_parameter.size();cl1++){
+         for(int cl2 = 0;cl2<P1D_parameter.get(cl1).length;cl2++){
+            
+             P1D_parameter.get(cl1)[cl2].merge(X.getP1D_parameter().get(cl1)[cl2] );
+              if(calcI==true) P1D_parameter.get(cl1)[cl2].calculateI(KE_I, KB_I, epsi0, epsi1, sigma0, f);
+             if(calcE==true) P1D_parameter.get(cl1)[cl2].calculateEmod(KE_Emod, KB_Emod, epsi0, epsi1, sigma0, f);
+ 
+        }} 
          
            for(int cl1 = 0;cl1<P2D_hor.size();cl1++){
          for(int cl2 = 0;cl2<P2D_hor.get(cl1).length;cl2++){
@@ -560,8 +576,8 @@ public class databaza {
      * @param rozmer rozmer na vypis
      * @param X odkial to brat  Arraylist observerov[] hadat hodnotu
      */
-    public double[] getMaxVal(String BE ,String rozmer,ArrayList<Observer[]> X) {
-        double[] vystup = new double[4];
+    public double[] getMaxVal(String BE ,String rozmer,ArrayList<Observer[]> X,boolean Parameter) {
+        double[] vystup = new double[5];
         double maxval = 0;
         double val = 0;
         int poloha1=0;
@@ -672,8 +688,134 @@ public class databaza {
         vystup[1] = X.get(poloha1)[poloha2].getPoloha().getX();
         vystup[2] = X.get(poloha1)[poloha2].getPoloha().getY();
         vystup[3] = X.get(poloha1)[poloha2].getPoloha().getZ();
+        if (Parameter ==true) vystup[4] = X.get(poloha1)[poloha2].getParameter();
+        
         return vystup;
     }
+    
+    /**vyypis
+     *  vystup je 4rozmerny vektor veličina polus gometricke koordinaty XYZ
+     * @param BE  string B alebo E
+     * @param rozmer rozmer na vypis
+     * @param X odkial to brat  Arraylist observerov[] hadat hodnotu
+     */
+    public double[] getMaxVal(String BE ,String rozmer,ArrayList<Observer[]> X) {
+        double[] vystup = new double[5];
+        double maxval = 0;
+        double val = 0;
+        int poloha1=0;
+        int poloha2=0;
+        for (int cl1 = 0; cl1 < X.size(); cl1++) {
+            for (int cl2 = 0; cl2 < X.get(cl1).length; cl2++) {
+
+                if(BE == "B"){ 
+            
+           if(rozmer.equals("RMS B")) val = X.get(cl1)[cl2].getB().getComplex_rms_ABS() ;
+           if(rozmer.equals("RMS B REAL")) val =X.get(cl1)[cl2].getB().getComplex_rms().getReal() ;
+           if(rozmer.equals("RMS B IMAGE"))val = X.get(cl1)[cl2].getB().getComplex_rms().getImaginary()  ;
+           if(rozmer.equals("RMS B ANGLE")) val =X.get(cl1)[cl2].getB().getComplex_rms_Angle();  
+                    
+           if(rozmer.equals( "RMS B X"))val = X.get(cl1)[cl2].getB().getX_ABS();
+            if(rozmer.equals("PHASE B X")) val =X.get(cl1)[cl2].getB().getX_Angle() ;
+           if(rozmer.equals( "REAL B X")) val =X.get(cl1)[cl2].getB().getX_Real() ;
+            if(rozmer.equals( "IMAGE B X"))val = X.get(cl1)[cl2].getB().getX_Imaginary();
+            
+            if(rozmer.equals( "RMS B Y"))val = X.get(cl1)[cl2].getB().getY_ABS();
+            if(rozmer.equals( "PHASE B Y")) val =X.get(cl1)[cl2].getB().getY_Angle() ;
+            if(rozmer.equals( "REAL B Y")) val =X.get(cl1)[cl2].getB().getY_Real() ;
+            if(rozmer.equals( "IMAGE B Y"))val = X.get(cl1)[cl2].getB().getY_Imaginary() ;
+            
+            if(rozmer.equals( "RMS B Z"))val = X.get(cl1)[cl2].getB().getZ_ABS();
+            if(rozmer.equals( "PHASE B Z"))val = X.get(cl1)[cl2].getB().getZ_Angle() ;
+            if(rozmer.equals( "REAL B Z")) val =X.get(cl1)[cl2].getB().getZ_Real() ;
+            if(rozmer.equals( "IMAGE B Z"))val = X.get(cl1)[cl2].getB().getZ_Imaginary() ;
+                    
+        }
+          if (BE =="E"){  
+              
+            if(rozmer.equals( "RMS E")) val =X.get(cl1)[cl2].getE().getComplex_rms_ABS() ;
+            if(rozmer.equals( "RMS E REAL"))val = X.get(cl1)[cl2].getE().getComplex_rms().getReal() ;
+            if(rozmer.equals( "RMS E IMAGE")) val =X.get(cl1)[cl2].getE().getComplex_rms().getImaginary()  ;
+            if(rozmer.equals( "RMS E ANGLE")) val =X.get(cl1)[cl2].getE().getComplex_rms_Angle();  
+                    
+            if(rozmer.equals( "RMS E X")) val =X.get(cl1)[cl2].getE().getX_ABS();
+            if(rozmer.equals( "PHASE E X"))val = X.get(cl1)[cl2].getE().getX_Angle() ;
+            if(rozmer.equals( "REAL E X"))val = X.get(cl1)[cl2].getE().getX_Real() ;
+            if(rozmer.equals( "IMAGE E X"))val = X.get(cl1)[cl2].getE().getX_Imaginary();
+            
+            if(rozmer.equals( "RMS E Y")) val =X.get(cl1)[cl2].getE().getY_ABS();
+            if(rozmer.equals( "PHASE E Y"))val = X.get(cl1)[cl2].getE().getY_Angle() ;
+            if(rozmer.equals( "REAL E Y")) val =X.get(cl1)[cl2].getE().getY_Real() ;
+            if(rozmer.equals( "IMAGE E Y")) val =X.get(cl1)[cl2].getE().getY_Imaginary() ;
+            
+            if(rozmer.equals( "RMS E Z")) val =X.get(cl1)[cl2].getE().getZ_ABS();
+            if(rozmer.equals( "PHASE E Z"))val = X.get(cl1)[cl2].getE().getZ_Angle() ;
+            if(rozmer.equals( "REAL E Z")) val =X.get(cl1)[cl2].getE().getZ_Real() ;
+            if(rozmer.equals( "IMAGE E Z")) val =X.get(cl1)[cl2].getE().getZ_Imaginary() ;
+                    
+        }
+          if (BE =="I"){  
+              
+            if(rozmer.equals( "RMS I")) val =X.get(cl1)[cl2].getI().getComplex_rms_ABS() ;
+            if(rozmer.equals( "RMS I REAL"))val = X.get(cl1)[cl2].getI().getComplex_rms().getReal() ;
+            if(rozmer.equals( "RMS I IMAGE")) val =X.get(cl1)[cl2].getI().getComplex_rms().getImaginary()  ;
+            if(rozmer.equals( "RMS I ANGLE")) val =X.get(cl1)[cl2].getI().getComplex_rms_Angle();  
+                    
+            if(rozmer.equals( "RMS I X")) val =X.get(cl1)[cl2].getI().getX_ABS();
+            if(rozmer.equals( "PHASE I X"))val = X.get(cl1)[cl2].getI().getX_Angle() ;
+            if(rozmer.equals( "REAL I X"))val = X.get(cl1)[cl2].getI().getX_Real() ;
+            if(rozmer.equals( "IMAGE I X"))val = X.get(cl1)[cl2].getI().getX_Imaginary();
+            
+            if(rozmer.equals( "RMS I Y")) val =X.get(cl1)[cl2].getI().getY_ABS();
+            if(rozmer.equals( "PHASE I Y"))val = X.get(cl1)[cl2].getI().getY_Angle() ;
+            if(rozmer.equals( "REAL I Y")) val =X.get(cl1)[cl2].getI().getY_Real() ;
+            if(rozmer.equals( "IMAGE I Y")) val =X.get(cl1)[cl2].getI().getY_Imaginary() ;
+            
+            if(rozmer.equals( "RMS I Z")) val =X.get(cl1)[cl2].getI().getZ_ABS();
+            if(rozmer.equals( "PHASE I Z"))val = X.get(cl1)[cl2].getI().getZ_Angle() ;
+            if(rozmer.equals( "REAL I Z")) val =X.get(cl1)[cl2].getI().getZ_Real() ;
+            if(rozmer.equals( "IMAGE I Z")) val =X.get(cl1)[cl2].getI().getZ_Imaginary() ;
+                    
+        }
+          if (BE =="Emod"){  
+              
+            if(rozmer.equals( "RMS Emod")) val =X.get(cl1)[cl2].getEmod().getComplex_rms_ABS() ;
+            if(rozmer.equals( "RMS Emod REAL"))val = X.get(cl1)[cl2].getEmod().getComplex_rms().getReal() ;
+            if(rozmer.equals( "RMS Emod IMAGE")) val =X.get(cl1)[cl2].getEmod().getComplex_rms().getImaginary()  ;
+            if(rozmer.equals( "RMS Emod ANGLE")) val =X.get(cl1)[cl2].getEmod().getComplex_rms_Angle();  
+                    
+            if(rozmer.equals( "RMS Emod X")) val =X.get(cl1)[cl2].getEmod().getX_ABS();
+            if(rozmer.equals( "PHASE Emod X"))val = X.get(cl1)[cl2].getEmod().getX_Angle() ;
+            if(rozmer.equals( "REAL Emod X"))val = X.get(cl1)[cl2].getEmod().getX_Real() ;
+            if(rozmer.equals( "IMAGE Emod X"))val = X.get(cl1)[cl2].getEmod().getX_Imaginary();
+            
+            if(rozmer.equals( "RMS Emod Y")) val =X.get(cl1)[cl2].getEmod().getY_ABS();
+            if(rozmer.equals( "PHASE Emod Y"))val = X.get(cl1)[cl2].getEmod().getY_Angle() ;
+            if(rozmer.equals( "REAL Emod Y")) val =X.get(cl1)[cl2].getEmod().getY_Real() ;
+            if(rozmer.equals( "IMAGE Emod Y")) val =X.get(cl1)[cl2].getEmod().getY_Imaginary() ;
+            
+            if(rozmer.equals( "RMS Emod Z")) val =X.get(cl1)[cl2].getEmod().getZ_ABS();
+            if(rozmer.equals( "PHASE Emod Z"))val = X.get(cl1)[cl2].getEmod().getZ_Angle() ;
+            if(rozmer.equals( "REAL Emod Z")) val =X.get(cl1)[cl2].getEmod().getZ_Real() ;
+            if(rozmer.equals( "IMAGE Emod Z")) val =X.get(cl1)[cl2].getEmod().getZ_Imaginary() ;
+                    
+        }
+                
+                
+               
+                if (val > maxval) {maxval=val;  poloha1 = cl1; poloha2 = cl2;}
+            }
+        }
+
+        vystup[0] = maxval;
+        vystup[1] = X.get(poloha1)[poloha2].getPoloha().getX();
+        vystup[2] = X.get(poloha1)[poloha2].getPoloha().getY();
+        vystup[3] = X.get(poloha1)[poloha2].getPoloha().getZ();
+        vystup[4] = 0;
+        
+        return vystup;
+    }
+  
     
     public void clear(){
         P1D_neurcite.clear();

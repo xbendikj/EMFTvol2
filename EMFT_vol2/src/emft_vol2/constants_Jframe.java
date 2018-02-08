@@ -50,10 +50,10 @@ public class constants_Jframe extends javax.swing.JFrame {
         help.DisplayDouble(jTextField_mu1, constants.getMu1(), 2);
         help.DisplayDouble(jTextField_Brms, constants.getAkcneB()*1000000, 2);
         help.DisplayDouble(jTextField_erms, constants.getAkcneE(), 2);
-        help.DisplayDouble(jTextField_Irms, constants.getAkcneI(), 2);
+        help.DisplayDouble(jTextField_Irms,1000* constants.getAkcneI(), 2);
         help.DisplayDouble(jTextField_Emodrms, constants.getAkcneEmod(), 2);
         help.DisplayDouble(jTextField_KEI, constants.getKE_I(), 2);
-        help.DisplayDouble(jTextField_KbI, constants.getKE_I(), 2);
+        help.DisplayDouble(jTextField_KbI, constants.getKB_I(), 2);
         help.DisplayDouble(jTextField_KE_emod, constants.getKE_Emod(), 2);
         help.DisplayDouble(jTextField_Kb_emod, constants.getKB_Emod(), 2);
         help.DisplayDouble(jTextField_sigma, constants.getSigma(), 2);
@@ -323,7 +323,7 @@ public class constants_Jframe extends javax.swing.JFrame {
         });
 
         jLabel_Irms.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel_Irms.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),3) );
+        jLabel_Irms.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),11) );
 
         jLabel15.setText("=");
 
@@ -339,10 +339,10 @@ public class constants_Jframe extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setText("A/m2");
+        jLabel16.setText("mA/m2");
 
         jLabel_emodrms.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel_emodrms.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),4) );
+        jLabel_emodrms.setText(language_cosntant_frame.LangLabel(constants.getLanguage_option(),12) );
 
         jLabel17.setText("=");
 
@@ -426,7 +426,7 @@ public class constants_Jframe extends javax.swing.JFrame {
                                                     .addComponent(jTextField_Freq, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                     .addComponent(jLabel2))))
-                                        .addGap(13, 13, 13)
+                                        .addGap(27, 27, 27)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel_epsi1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -692,7 +692,7 @@ public class constants_Jframe extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_IrmsActionPerformed
 
     private void jTextField_IrmsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_IrmsKeyReleased
-        constants.setAkcneI(help.ReadCheckDouble(jTextField_Irms , 2));
+        constants.setAkcneI(help.ReadCheckDouble(jTextField_Irms , 2)/1000);
     }//GEN-LAST:event_jTextField_IrmsKeyReleased
 
     private void jTextField_EmodrmsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_EmodrmsActionPerformed
@@ -915,7 +915,13 @@ static void constructor(){
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
   /*10*/  SK.add("G.C. z");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+         /*11*/   SK.add("I - limit");  //   ze vraj rms \u1D63\u2098\u209B
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
+  /*12*/  SK.add("Emodd - limitt");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");//language String value  at position 
                                                
          
          
