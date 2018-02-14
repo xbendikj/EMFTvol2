@@ -6,7 +6,10 @@
 package BackEnd;
 
 import java.util.ArrayList;
+import static jdk.nashorn.internal.objects.NativeMath.round;
+import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DTriangle;
+import tools.help;
 
 /**
  *
@@ -530,12 +533,13 @@ public class databaza {
         
     }
     
-    public String[] getYray_height_name( ArrayList<Observer[]> X) {
+    public String[] getYray_height_name( ArrayList<Observer[]> X,Tfield pole) throws DelaunayError {
          String[] yray=new String[X.size()];
         
         for (int cl1 = 0; cl1 < X.size(); cl1++) {
-          
-            yray[cl1]=String.valueOf(X.get(cl1)[0].getPoloha().getY()) + " m";
+         double Y =  pole.getY(X.get(cl1)[0].getPoloha().getX(), X.get(cl1)[0].getPoloha().getZ());
+         double Y1 =X.get(cl1)[0].getPoloha().getY();
+            yray[cl1]=String.valueOf(help.round(Y1- Y,2)) + " m";
         }    
         return yray;  
     }

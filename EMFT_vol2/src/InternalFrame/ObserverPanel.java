@@ -430,7 +430,7 @@ public class ObserverPanel extends javax.swing.JPanel {
         }
     });
 
-    priecna_X_textfield.setText("150");
+    priecna_X_textfield.setText("-");
     priecna_X_textfield.setEnabled(false);
     priecna_X_textfield.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -472,7 +472,7 @@ public class ObserverPanel extends javax.swing.JPanel {
     );
     jLabel3.setPreferredSize(new java.awt.Dimension(73, 24));
 
-    pozdl_Z_textfield.setText("0");
+    pozdl_Z_textfield.setText("-");
     pozdl_Z_textfield.setEnabled(false);
     pozdl_Z_textfield.addKeyListener(new java.awt.event.KeyAdapter() {
         public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -701,7 +701,6 @@ public class ObserverPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(P2Dh, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(31, 31, 31)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(P2Dv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createSequentialGroup()

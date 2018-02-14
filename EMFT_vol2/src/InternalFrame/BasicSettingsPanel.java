@@ -585,6 +585,7 @@ jRadioButton_points.addActionListener(new java.awt.event.ActionListener() {
 
     private void jTextField_AKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_AKeyReleased
       InternalFrameproject.Rozpätie.setA(kontrolor.set(0, help.ReadCheckDouble(jTextField_A, -1)));
+     
       InternalFrameproject.calcE_OLD_plus.setEnabled(false);
     }//GEN-LAST:event_jTextField_AKeyReleased
 
@@ -737,7 +738,11 @@ jRadioButton_points.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_jTextField_HActionPerformed
 
     private void jTextField_HKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_HKeyReleased
-         jTextField_H.setText( String.valueOf(help.ReadCheckIntErrorSign(jTextField_H, 40,"Error value")) );
+        // jTextField_H.setText( String.valueOf(help.ReadCheckIntErrorSign(jTextField_H, 40,"Error value")) );
+         InternalFrameproject.Rozpätie.setH(help.ReadCheckDouble(jTextField_H, 40));
+       //  InternalFrameproject.Rozpätie.setA(kontrolor.set(0, help.ReadCheckDouble(jTextField_A, -1)));
+     
+         
     }//GEN-LAST:event_jTextField_HKeyReleased
 
     private void jTextField_X2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_X2ActionPerformed

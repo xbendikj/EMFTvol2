@@ -107,7 +107,6 @@
                                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="P2Dv" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
@@ -404,7 +403,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextField" name="priecna_X_textfield">
           <Properties>
-            <Property name="text" type="java.lang.String" value="150"/>
+            <Property name="text" type="java.lang.String" value="-"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -477,7 +476,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="pozdl_Z_textfield">
           <Properties>
-            <Property name="text" type="java.lang.String" value="0"/>
+            <Property name="text" type="java.lang.String" value="-"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>

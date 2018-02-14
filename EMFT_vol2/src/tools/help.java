@@ -8,11 +8,16 @@ package tools;
 import Databazes.SQLlite_constants;
 import emft_vol2.constants;
 import java.awt.Color;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.jdelaunay.delaunay.error.DelaunayError;
@@ -42,6 +47,14 @@ public class help {
 
     }
 
+    public static double round(double value, int places) {
+    if (places < 0) throw new IllegalArgumentException();
+
+    BigDecimal bd = new BigDecimal(value);
+    bd = bd.setScale(places, RoundingMode.HALF_UP);
+    return bd.doubleValue();
+}
+    
     /**
      * kontrolor na double tiež meni bodku čiarku
      *
@@ -96,7 +109,30 @@ public class help {
 
         }
     }
-
+    /**
+     * "dd-MM-yyyy_HH-mm-ss"
+     * @return  datum string
+     */
+    public static String getDateDF2(){
+        String date ;
+        Date todaysDate = new Date();
+          DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+         
+          return date = df2.format(todaysDate);
+    }
+    
+    /**
+     * dd-MM-yyyy HH:mm:ss"
+     * @return  datum string
+     */
+    public static String getDateDF3(){
+        String date ;
+        Date todaysDate = new Date();
+          DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+         
+          return date = df3.format(todaysDate);
+    }
+    
     public static int ReadCheckIntErrorSign(javax.swing.JTextField Y, int output, String error) {
         String hodnota1 = Y.getText();
         hodnota1 = hodnota1.replace(" ", "");

@@ -51,6 +51,8 @@ public class CatenaryPanel extends javax.swing.JPanel {
     public CatenaryPanel() {
         initComponents();
         setToolTipsForColumnHeader();
+        T1.setText(String.valueOf(InternalFrameproject.Rozpätie.getV1base()));
+        T2.setText(String.valueOf(InternalFrameproject.Rozpätie.getV1base()));
         Table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); // confirm Table of lost of focus
         this.DTMTable =(DefaultTableModel) Table.getModel();
     
@@ -189,6 +191,13 @@ public class CatenaryPanel extends javax.swing.JPanel {
         deffX = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         calculatecatenary = new javax.swing.JButton();
+        base = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
+        T1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        T2 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 0)
@@ -315,6 +324,40 @@ public class CatenaryPanel extends javax.swing.JPanel {
         }
     });
 
+    base.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 53));
+    base.setToolTipText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 54));
+    base.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            baseActionPerformed(evt);
+        }
+    });
+
+    jLabel1.setText("T1 =");
+    jLabel1.setToolTipText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 55));
+
+    T1.setText("jTextField1");
+    T1.setToolTipText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 55));
+    T1.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            T1KeyReleased(evt);
+        }
+    });
+
+    jLabel2.setText("m");
+
+    jLabel3.setText("T2 =");
+    jLabel3.setToolTipText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 56));
+
+    T2.setText("jTextField1");
+    T2.setToolTipText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 55));
+    T2.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            T2KeyReleased(evt);
+        }
+    });
+
+    jLabel4.setText("m");
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
@@ -328,20 +371,50 @@ public class CatenaryPanel extends javax.swing.JPanel {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 436, Short.MAX_VALUE)))
+                    .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(base, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(T1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel2)
+                    .addGap(18, 18, 18)
+                    .addComponent(jLabel3)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(T2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel4)
+                    .addGap(0, 196, Short.MAX_VALUE)))
             .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(deffX)
-                .addComponent(delete)
-                .addComponent(calculatecatenary))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(base, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(deffX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(T2)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(T1)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+            .addContainerGap())
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -437,7 +510,10 @@ public class CatenaryPanel extends javax.swing.JPanel {
                     help.Object_To_double(Table.getValueAt(i, 14)), // U
                     help.Object_To_double(Table.getValueAt(i, 15)), // I
                     help.Object_To_double(Table.getValueAt(i, 16)), // Phi
-                    InternalFrameproject.Rozpätie.getTeren());
+                    InternalFrameproject.Rozpätie.getTeren(),
+                    InternalFrameproject.Rozpätie.isIsV1V2base(),
+                    InternalFrameproject.Rozpätie.getV1base(),
+                    InternalFrameproject.Rozpätie.getV2base());
             // sleduje mozne chybne zadania X1X2 vzhladom na teren
             if(help.Object_To_double(Table.getValueAt(i, 6))<0 || help.Object_To_double(Table.getValueAt(i, 7))> InternalFrameproject.Rozpätie.getA()){
                 inkrement_poctu_zleho_zadaniaX1X2++;
@@ -475,6 +551,19 @@ public class CatenaryPanel extends javax.swing.JPanel {
        
         
     }//GEN-LAST:event_calculatecatenaryActionPerformed
+
+    private void baseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_baseActionPerformed
+       if(base.isSelected()== true) InternalFrameproject.Rozpätie.setIsV1V2base(true);
+       if(base.isSelected()== false) InternalFrameproject.Rozpätie.setIsV1V2base(false);
+    }//GEN-LAST:event_baseActionPerformed
+
+    private void T1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_T1KeyReleased
+       InternalFrameproject.Rozpätie.setV1base(help.ReadCheckDouble(T1, 0));
+    }//GEN-LAST:event_T1KeyReleased
+
+    private void T2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_T2KeyReleased
+        InternalFrameproject.Rozpätie.setV2base(help.ReadCheckDouble(T2, 0));
+    }//GEN-LAST:event_T2KeyReleased
 
      
 
@@ -643,10 +732,17 @@ public class CatenaryPanel extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JTextField T1;
+    public javax.swing.JTextField T2;
     static javax.swing.JTable Table;
+    public javax.swing.JCheckBox base;
     public javax.swing.JButton calculatecatenary;
     public javax.swing.JButton deffX;
     public javax.swing.JButton delete;
+    public javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel jLabel3;
+    public javax.swing.JLabel jLabel4;
     public javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
  DefaultTableModel DTMTable ;
@@ -820,6 +916,18 @@ static void constructor(){
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                   
 /*52*/   SK.add("Parametrizuj dané lano");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*53*/   SK.add("Base stožiara.");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*54*/   SK.add("AK nie je zaškrtnute absolutna výška každeho závesneho bodu V1 a V2  = výška lana V1 + výška terenu pod závesným bodom");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*55*/   SK.add("Výška stožiara 1 nad absolutnou nulou.  ");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*56*/   SK.add("Výška stožiara 1 nad absolutnou nulou.  ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
       

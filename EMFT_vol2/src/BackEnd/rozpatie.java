@@ -26,6 +26,7 @@ public class rozpatie {
     private  double[] LCcoordinates2 = new double[3]; 
     private  double A;
     private  double Z;
+    private  double H;
     private  double Krok; // [m]
     private  double Krok_pozorovatela; // [m]
     private  boolean AppTeren; // pocitame teren alebo nie , služi naako ukazovatel pre fron ale aj na to či sa ide počitať
@@ -46,6 +47,18 @@ public class rozpatie {
 
     private ArrayList<RealMatrix> Tau_real_mat = new ArrayList<RealMatrix>();
     private ArrayList<RealMatrix> Tau_image_mat = new ArrayList<RealMatrix>();
+
+    private  boolean isV1V2base = false; // catenary panel parametre
+    private  double V1base = 0;
+    private  double V2base = 0;
+    
+    public double getH() {
+        return H;
+    }
+
+    public void setH(double H) {
+        this.H = H;
+    }
        
     
     // empty constructor
@@ -85,6 +98,30 @@ public class rozpatie {
         LCcoordinates2[1]= LCcoordinates1[1]; // y
         LCcoordinates2[2]=0; // z
         
+    }
+
+    public boolean isIsV1V2base() {
+        return isV1V2base;
+    }
+
+    public void setIsV1V2base(boolean isV1V2base) {
+        this.isV1V2base = isV1V2base;
+    }
+
+    public double getV1base() {
+        return V1base;
+    }
+
+    public void setV1base(double V1base) {
+        this.V1base = V1base;
+    }
+
+    public double getV2base() {
+        return V2base;
+    }
+
+    public void setV2base(double V2base) {
+        this.V2base = V2base;
     }
 
     public String getMenoProjektu() {
@@ -540,8 +577,12 @@ public class rozpatie {
 //    System.out.println();
 //}
     }
-    
-     public void calculateTau_OLD() throws DelaunayError{
+     /**
+      * pocita Toue
+      * @param aproxx true aproximovana rovina , false perpendicular projektic vypočet vyška vodiča nad terenom
+      * @throws DelaunayError 
+      */
+     public void calculateTau_OLD(boolean aproxx) throws DelaunayError{
         
         // docasne testovacie
         
@@ -559,6 +600,7 @@ public class rozpatie {
         ArrayList<Double> U_image_list = new ArrayList<Double>();
         ArrayList<Integer> polohy_lan  = new ArrayList<Integer>();
         ArrayList<Double> polomery_lan  = new ArrayList<Double>();
+        ArrayList<Double> beta  = new ArrayList<Double>();
         
         //iteratory
         int iterator_lan = 0;
@@ -598,7 +640,8 @@ public class rozpatie {
                                   U_real_list.add(get_real(getRetazovkaList().get(cl1).getU_over(), getRetazovkaList().get(cl1).getPhi_over() )/Math.sqrt(3));
                                   U_image_list.add(get_image(getRetazovkaList().get(cl1).getU_over(), getRetazovkaList().get(cl1).getPhi_over() )/Math.sqrt(3)); 
                                   polomery_lan.add(getRetazovkaList().get(cl1).getR_over() ); 
-                       
+                                  beta.add(getRetazovkaList().get(cl1).getBeta_over());
+                                  
                         iterator_lan = iterator_lan + 1;
                     }
          
@@ -634,7 +677,12 @@ public class rozpatie {
                  for (int j = 0; j < P_koef.getRowDimension(); j++) {
                      double koeficient = 0;
                      if (k == j) {
-                         koeficient = get_Pkk(K, ListOfR0.get(j).get(element_iterator).getY(), polomery_lan.get(k));
+                         
+                       double vyska_vod_nad = 0;
+                       if (aproxx==false) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)).getY();
+                       if (aproxx==true) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1).getY();
+                        
+                       koeficient = get_Pkk(K, vyska_vod_nad, polomery_lan.get(k));
                      } else { // PKJ   
 
                          koeficient = get_Pkj(K, get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0_mirror.get(j).get(element_iterator)), get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0.get(j).get(element_iterator))); //inverzna matica funguje

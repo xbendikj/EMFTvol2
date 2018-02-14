@@ -130,22 +130,22 @@ public class Observer {
     //TU POJDU FUNKCIE NA VYPOCET I a EMOD. Z Ba E 
    public void calculateI(double KE,double KB,double epsi0,double epsi1,double sigma0,double f){
         
-        double JeXR = KE*epsi0*epsi1*2*Math.PI*f*E.getX_Real();
-        double JeXI = KE*epsi0*epsi1*2*Math.PI*f*E.getX_Imaginary();  
-        double JeYR = KE*epsi0*epsi1*2*Math.PI*f*E.getY_Real();  
-        double JeYI = KE*epsi0*epsi1*2*Math.PI*f*E.getY_Imaginary();  
-        double JeZR = KE*epsi0*epsi1*2*Math.PI*f*E.getZ_Real();
-        double JeZI = KE*epsi0*epsi1*2*Math.PI*f*E.getZ_Imaginary();
+        double JeXR = KE*epsi0*epsi1*2*Math.PI*f*E.getX_ABS();
+       // double JeXI = KE*epsi0*epsi1*2*Math.PI*f*E.getX_Imaginary();  
+        double JeYR = KE*epsi0*epsi1*2*Math.PI*f*E.getY_ABS();  
+       // double JeYI = KE*epsi0*epsi1*2*Math.PI*f*E.getY_Imaginary();  
+        double JeZR = KE*epsi0*epsi1*2*Math.PI*f*E.getZ_ABS();
+      //  double JeZI = KE*epsi0*epsi1*2*Math.PI*f*E.getZ_Imaginary();
         
-        double JbXR = KB*sigma0*2*Math.PI*f*B.getX_Real();
-        double JbXI = KB*sigma0*2*Math.PI*f*B.getX_Imaginary();  
-        double JbYR = KB*sigma0*2*Math.PI*f*B.getY_Real();  
-        double JbYI = KB*sigma0*2*Math.PI*f*B.getY_Imaginary();  
-        double JbZR = KB*sigma0*2*Math.PI*f*B.getZ_Real();
-        double JbZI = KB*sigma0*2*Math.PI*f*B.getZ_Imaginary();
+        double JbXR = KB*sigma0*2*Math.PI*f*B.getX_ABS();
+      //  double JbXI = KB*sigma0*2*Math.PI*f*B.getX_Imaginary();  
+        double JbYR = KB*sigma0*2*Math.PI*f*B.getY_ABS();  
+      //  double JbYI = KB*sigma0*2*Math.PI*f*B.getY_Imaginary();  
+        double JbZR = KB*sigma0*2*Math.PI*f*B.getZ_ABS();
+      //  double JbZI = KB*sigma0*2*Math.PI*f*B.getZ_Imaginary();
         
-        I = new FazorVektor( new Complex(JeXR+JbXR,JeXI+ JbXI), new Complex(JeYR+JbYR,JeYI+ JbYI), new Complex(JeZR+JbZR,JeZI+JbZI));
-        
+        I = new FazorVektor( new Complex(JeXR+JbXR,0), new Complex(JeYR+JbYR,0), new Complex(JeZR+JbZR,0));
+        //System.out.println(B.getX().getReal() +"  " +E.getX().getReal() +"  " +I.getX().getReal()  +"  "+ (KE*epsi0*epsi1*2*Math.PI*f)+"  "+ (KB*sigma0*2*Math.PI*f) );
     }
     public void calculateEmod(double KE,double KB,double epsi0,double epsi1,double sigma0,double f){
         
@@ -161,24 +161,24 @@ public class Observer {
         
         double GR = K*( (A+X*B)/(menovatel)   );
         double GI = K*( (X*A -B)/(menovatel)   );
-        
-        double E1XR = GR*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getX_Real();
-        double E1XI = GI*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getX_Imaginary();
-        double E1YR = GR*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getY_Real(); 
-        double E1YI = GI*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getY_Imaginary();
-        double E1ZR = GR*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getZ_Real();
-        double E1ZI = GI*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getZ_Imaginary();
+        double filter= Math.sqrt(Math.pow(GR, 2) + Math.pow(GI, 2) );
+        double E1XR = filter  *2*Math.sqrt(2)*KB*Math.PI*f* this.B.getX_ABS();
+        //double E1XI = GI*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getX_Imaginary();
+        double E1YR = filter*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getY_ABS(); 
+       // double E1YI = GI*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getY_Imaginary();
+        double E1ZR = filter*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getZ_ABS();
+       // double E1ZI = GI*2*Math.sqrt(2)*KB*Math.PI*f* this.B.getZ_Imaginary();
         
         double nasobok = (epsi0*epsi1)/(sigma0);;
         
-        double E2XR = nasobok*GR*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getX_Real();
-        double E2XI = nasobok*GI*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getX_Imaginary();
-        double E2YR = nasobok*GR*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getY_Real(); 
-        double E2YI = nasobok*GI*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getY_Imaginary();
-        double E2ZR = nasobok*GR*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getZ_Real();
-        double E2ZI = nasobok*GI*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getZ_Imaginary();
+        double E2XR = nasobok*filter*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getX_ABS();
+      //  double E2XI = nasobok*GI*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getX_Imaginary();
+        double E2YR = nasobok*filter*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getY_ABS(); 
+      //  double E2YI = nasobok*GI*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getY_Imaginary();
+        double E2ZR = nasobok*filter*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getZ_ABS();
+      //  double E2ZI = nasobok*GI*2*Math.sqrt(2)*KE*Math.PI*f* this.E.getZ_Imaginary();
         
-        Emod = new FazorVektor( new Complex( E1XR+ E2XR,E1XI+ E2XI), new Complex(E1YR+ E2YR,E1YI+ E2YI), new Complex(E1ZR+ E2ZR,E1ZI+ E2ZI));
+        Emod = new FazorVektor( new Complex( E1XR+ E2XR,0), new Complex(E1YR+ E2YR,0), new Complex(E1ZR+ E2ZR,0));
         
     }
     

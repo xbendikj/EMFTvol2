@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JCheckBox;
+import tools.help;
 
 /**
  *
@@ -24,6 +25,8 @@ public class calculation_Settings extends javax.swing.JFrame {
         seticon();
         setLocationRelativeTo(null);
         about_JframeIsOpen=true;
+        presnostCH.setText(String.valueOf(constants.getPresnostCH()));
+        divergencia.setText(String.valueOf(constants.getDivergencia_pocet()));
          addWindowListener(new WindowAdapter() // listener na krizik zabretie okna
         {
             @Override
@@ -99,6 +102,10 @@ public class calculation_Settings extends javax.swing.JFrame {
         EmirrorOff = new javax.swing.JCheckBox();
         I = new javax.swing.JCheckBox();
         Emod = new javax.swing.JCheckBox();
+        presnostCH = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        divergencia = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -145,21 +152,44 @@ public class calculation_Settings extends javax.swing.JFrame {
             }
         });
 
-        I.setText("indukovana prudova hustota");
-        EmirrorOff.setToolTipText(language_main_frame.LangLabel(constants.getLanguage_option(), 25));
+        I.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 61));
         I.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IActionPerformed(evt);
             }
         });
 
-        Emod.setText("E modifikovane");
-        EmirrorOff.setToolTipText(language_main_frame.LangLabel(constants.getLanguage_option(), 25));
+        Emod.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 62));
         Emod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EmodActionPerformed(evt);
             }
         });
+
+        presnostCH.setText("jTextField1");
+        presnostCH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                presnostCHActionPerformed(evt);
+            }
+        });
+        presnostCH.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                presnostCHKeyReleased(evt);
+            }
+        });
+
+        jLabel4.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 63));
+        jLabel4.setToolTipText(language_main_frame.LangLabel(constants.getLanguage_option(), 64));
+
+        divergencia.setText("jTextField1");
+        divergencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                divergenciaKeyReleased(evt);
+            }
+        });
+
+        jLabel5.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 65));
+        jLabel5.setToolTipText(language_main_frame.LangLabel(constants.getLanguage_option(), 66));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -180,9 +210,20 @@ public class calculation_Settings extends javax.swing.JFrame {
                                         .addComponent(EmirrorA, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                                         .addComponent(EmirrorB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(EmirrorOff, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(I, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Emod, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 275, Short.MAX_VALUE)))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(Emod, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(divergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(I, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(44, 44, 44)
+                                            .addComponent(presnostCH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 49, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -204,9 +245,16 @@ public class calculation_Settings extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EmirrorOff)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(I)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(I)
+                    .addComponent(presnostCH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Emod)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Emod)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(divergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -232,6 +280,18 @@ public class calculation_Settings extends javax.swing.JFrame {
     private void EmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmodActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EmodActionPerformed
+
+    private void presnostCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presnostCHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_presnostCHActionPerformed
+
+    private void presnostCHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_presnostCHKeyReleased
+         constants.setPresnostCH( help.ReadCheckDouble(presnostCH , 0.0001));
+    }//GEN-LAST:event_presnostCHKeyReleased
+
+    private void divergenciaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_divergenciaKeyReleased
+       constants.setDivergencia_pocet((int)help.ReadCheckDouble(divergencia ,10));
+    }//GEN-LAST:event_divergenciaKeyReleased
 
    
 
@@ -283,10 +343,14 @@ public class calculation_Settings extends javax.swing.JFrame {
     private static javax.swing.JCheckBox Emod;
     private static javax.swing.JCheckBox I;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField divergencia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField presnostCH;
     // End of variables declaration//GEN-END:variables
     public static boolean about_JframeIsOpen;
 

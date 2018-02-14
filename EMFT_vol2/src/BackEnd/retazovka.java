@@ -60,6 +60,9 @@ public class retazovka {
     private double Phi_over;
 
     private boolean isUtopeny = false;
+    private boolean isV1V2setted =false;
+    private double V1_tower_zaklad = 0;
+    private double V2_tower_zaklad = 0;
     private ArrayList<DTriangle> terenTriangles_over;
     private ArrayList<DPoint> Ro_vectors = new ArrayList<>(0);
     private ArrayList<DPoint> Ro_mirror_vectors = new ArrayList<>(0);
@@ -94,7 +97,7 @@ public class retazovka {
             double W1, double W2, double X1, double X2,
             int bundle, double alpha, double distance,
             double HC, boolean CorH, double r,
-            double U, double I, double Phi, ArrayList<DTriangle> terenTriangles
+            double U, double I, double Phi, ArrayList<DTriangle> terenTriangles,boolean isV1V2strick, double V1base, double V2base
     ) throws DelaunayError {
         V1_over = V1;
         V2_over = V2;
@@ -127,6 +130,9 @@ public class retazovka {
         P1_over.setZ(W1_over);
         P2_over.setZ(W2_over);
 
+        isV1V2setted = isV1V2strick;
+        V1_tower_zaklad=V1base;
+        V2_tower_zaklad=V2base;
         generate(HC_over, CorH_over);
         //zvazkovanie a generovanie konštant
         generateBundleConstants();
@@ -177,6 +183,14 @@ public class retazovka {
 
     }
 
+    public boolean isIsV1V2setted() {
+        return isV1V2setted;
+    }
+
+    public void setIsV1V2setted(boolean isV1V2setted) {
+        this.isV1V2setted = isV1V2setted;
+    }
+
     public retazovka(retazovka R, ArrayList<DTriangle> terenTriangles2) throws DelaunayError {
 
         I1_over = R.getI1_over();
@@ -222,12 +236,18 @@ public class retazovka {
     private void generate(double HC, boolean CorH) throws DelaunayError {
 
         Tfield BOD = new Tfield(terenTriangles_over);  // zober trojuholniky najdy  v ktorom s nachadza bod dopočitaj jeho vyšku vzhladom na teren
+       
+        if(isV1V2setted==false){
         P1_over = BOD.getYaboveTer(P1_over);       // najdy vysku zavesneho bodu na terene above teren vzdialenost od nuly vyskovej
-        P2_over = BOD.getYaboveTer(P2_over);      // najdy vysku zavesneho bodu na terene above teren  vzdialenost od nuly vyskovej
-
+        P2_over = BOD.getYaboveTer(P2_over);
+        }
+        if(isV1V2setted==true){
+        P1_over = new DPoint(P1_over.getX(), P1_over.getY() + V1_tower_zaklad, P1_over.getZ());       // najdy vysku zavesneho bodu na terene above teren vzdialenost od nuly vyskovej
+        P2_over = new DPoint(P2_over.getX(), P2_over.getY() + V2_tower_zaklad, P2_over.getZ());
+        }
+            
         P1_over.setY(P1_over.getY() - I1_over); // zniž zavesny bod a vyšku izolatora
         P2_over.setY(P2_over.getY() - I2_over); // zniž zavesny bod a vyšku izolatora
-
         Amod_over = Amod(P1_over, P2_over); // AMOD
         Beta_over = Beta(P1_over, P2_over); // Beta angle caltulation
 
@@ -670,7 +690,7 @@ public class retazovka {
             pozicna_konstanta = 0; // začiatok elementu lana
         }
         R0.setX(cl1 * elementLength * Math.cos(this.Beta_over) + this.X1_over + elementLength * Math.cos(this.Beta_over) * pozicna_konstanta);
-        R0.setY(this.C_over * (Math.cosh(((cl1 * elementLength - elementLength * pozicna_konstanta) - this.A1_over) / this.C_over)) - this.C_over + this.H_over);
+        R0.setY(this.C_over * (Math.cosh(((cl1 * elementLength + elementLength * pozicna_konstanta) - this.A1_over) / this.C_over)) - this.C_over + this.H_over);
         R0.setZ(cl1 * elementLength * Math.sin(this.Beta_over) + this.W1_over + elementLength * Math.sin(this.Beta_over) * pozicna_konstanta);
        // System.out.println(R0);
         return R0;
