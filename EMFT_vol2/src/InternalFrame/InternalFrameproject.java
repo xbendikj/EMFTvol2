@@ -432,6 +432,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (outputPanel2.getTxT_long().isSelected() == true) {
                     make_TxT(Rozpätie, 0, BE, "POKUS", false);
                 }
+                try {
+                         if (TxT_JFrame.getB_GeoMat().isSelected() == true) {
+                    make_TxTGEOMAT(Rozpätie, BE, "POKUS");
+                }  
+                } catch(NullPointerException E){
+                    
+                }
+                   
 
             }
 
@@ -1357,10 +1365,16 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     //prepocitaj auto polohy pozorovatela
     private void changeValueAtObserverPanelXp() {
-        double val = Rozpätie.getRetazovkaList().get(0).getA1_over();
+       try{ double val = Rozpätie.getRetazovkaList().get(0).getA1_over();
         if (observerPanel1.X_precne_auto.isSelected() == true) {
             observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
         }
+       }catch (IndexOutOfBoundsException S){
+           double val = Rozpätie.getA()/2;
+           if (observerPanel1.X_precne_auto.isSelected() == true) {
+            observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
+        }
+       }
     }
 
     private void changeValueAtObserverPanelZp() {
@@ -3710,24 +3724,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
                 }
             };
 
-            fw.println("----------------------------------------------");
-            fw.println("CATENARY INFORMTIONS");
-             fw.println("");
-            fw.println("Catenary" + " " + "   c[m] " + " " + "h_rel[m]" + " " + "  h_0[m]" + " " + " Amod[m]"+ " " + "   A1[m]");
-            
-            
-            for (int i = 0; i < Rozpätie.getRetazovkaList().size(); i++) {
-              fw.println(String.format(cF,(double)i ) + " " +
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getC_over() ) + " " +
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getHter_over())+ " " + 
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getH_over())+ " " +
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getAmod_over())+ " " +
-                       String.format(cF,Rozpätie.getRetazovkaList().get(i).getA1_over())+ " " 
-              
-              
-              );
-       
-            }
+         printCatenaryinformation(cF, fw);
             fw.println("END OF FILE");
             fw.close();
 
@@ -5139,6 +5136,148 @@ double value = ((cl1p + 1) * 100 / pocet_P);
         return hlavicka;
     }
 
+     /**
+     * funkcia vytvara kratky vystup
+     *
+     * @param roz rozpatie
+     * @param B_E_I_EMOD 0=B, 1 =E, 2 = B E , 3 = B E I , 4 = B E Emod, 5 = B E
+     * I Emod
+     * @param BE databaza
+     * @param Sufix pripona pre subory
+     * @param Short of true kratky vystup if False dlhy
+     * @throws IOException
+     */
+    private void make_TxTGEOMAT(rozpatie roz,  databaza BE, String Sufix) throws IOException {
+
+        String fF = "%18.8E"; // https://stackoverflow.com/questions/2944822/format-double-value-in-scientific-notation
+        String cF = "%8.3f"; // https://dzone.com/articles/java-string-format-examples
+        String YaxisVal = "";
+        String BorE = "";
+        String file_recognition = "";
+
+        
+            file_recognition = "_GEOmat_";
+       
+
+      
+
+        Date todaysDate = new Date();
+        DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+        DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        File subor = new File(outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + file_recognition + ".TxT");
+        try {
+            PrintWriter fw = new PrintWriter(subor);
+           
+                fw.println("EMFT2 - Long TxT GEOMAT output for given calculation");
+            
+           
+            fw.println("----------------------------------------------");
+            fw.println("Time of the calculation       : " + df3.format(todaysDate));
+            fw.println("Type of the calculation       : " + BorE);
+            fw.println("Name of the project           : " + meno_projektu);
+            fw.println("Name of the span              : " + meno_rozpatia);
+            fw.println("");
+            fw.println("Total number of wires      : " + roz.getPocet_lan());
+            fw.println("Number of phase conductors : " + (roz.getPocet_lan() - roz.getPocet_zemnych_lan()));
+            fw.println("Number of ground wires     : " + roz.getPocet_zemnych_lan());
+            fw.println("----------------------------------------------");
+            fw.println("RESULTS MAXIMUM VALUES");
+            ;
+
+            if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
+                fw.println("");
+                fw.println("Perpendicular solution");
+
+           
+                
+                mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_priecne());
+                
+               
+            }
+            if (observerPanel1.P1Dpozdlzne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
+                fw.println("");
+                fw.println("Paralel solution");
+             mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_pozdlzne());
+              
+            };
+            if (observerPanel1.P1D.isSelected() == true && observerPanel1.P1D_free.isSelected() == true) {
+                fw.println("");
+                fw.println("Free position solution");
+                mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_neurcite());
+              
+            };
+            if (observerPanel1.P1D_par.isSelected() == true) {
+                fw.println("");
+                fw.println("parameter Solution");
+                 mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_parameter());
+             
+            };
+           
+            
+
+            printCatenaryinformation(cF, fw);
+            fw.println("END OF FILE");
+            fw.close();
+
+        } catch (FileNotFoundException ex) {
+
+        }
+
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().edit(subor);
+        } else {
+            // dunno, up to you to handle this
+        }
+
+    }
+
+    private void printCatenaryinformation(String cF,PrintWriter fw){
+            fw.println("----------------------------------------------");
+            fw.println("CATENARY INFORMTIONS");
+             fw.println("");
+            fw.println("Catenary" + " " + "   c[m] " + " " + "h_rel[m]" + " " + "  h_0[m]" + " " + " Amod[m]"+ " " + "   A1[m]");
+            
+            
+            for (int i = 0; i < Rozpätie.getRetazovkaList().size(); i++) {
+              fw.println(String.format(cF,(double)i ) + " " +
+                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getC_over() ) + " " +
+                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getHter_over())+ " " + 
+                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getH_over())+ " " +
+                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getAmod_over())+ " " +
+                       String.format(cF,Rozpätie.getRetazovkaList().get(i).getA1_over())+ " " 
+              
+              
+              );
+       
+            }
+        
+    }
+    
+    private void mateTXT_long_GEOMATE_futra(String cF,String dF,PrintWriter fw, ArrayList<Observer[]> X){
+        
+     
+      
+    
+        
+          for (int i = 0; i < X.size(); i++) {
+                    for (int j = 0; j < X.get(i).length; j++) {
+                
+                       fw.println("   X[m] " + " " + "   Y[m] " + " " + "   Z[m] "  );
+                       fw.println(String.format(cF, X.get(i)[j].getPoloha().getX()) + " " + String.format(cF, X.get(i)[j].getPoloha().getY()) + " " + String.format(cF, X.get(i)[j].getPoloha().getZ()) );
+                       fw.println("");
+                        fw.println("  |       Ax       |" + " " + "|       Ay       |" + " " + "|       Az       |"  ); 
+                      for (int cl1 = 0; cl1 < X.get(i)[j].getGeoMatrix_A().getColumnDimension(); cl1++) {
+                    for (int cl2 = 0; cl2 < X.get(i)[j].getGeoMatrix_A().getRowDimension(); cl2++) {
+                       fw.print(String.format(dF,X.get(i)[j].getGeoMatrix_A().getData()[cl2][cl1]) + " ");
+                    }
+                     fw.println("");
+                }  
+         fw.println("");
+        
+    
+        
+        
+    }}}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private InternalFrame.BasicInfoPanel basicInfoPanel;

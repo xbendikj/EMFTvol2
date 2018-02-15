@@ -6,8 +6,13 @@
 package emft_vol2;
 
 import InternalFrame.InternalFrameproject;
+import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -49,6 +54,9 @@ public class main_Jframe extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu_help = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,7 +177,27 @@ public class main_Jframe extends javax.swing.JFrame {
         });
         jMenu_help.add(jMenuItem2);
 
+        jMenuItem6.setText(language_main_frame.LangLabel(constants.getLanguage_option(),69) );
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu_help.add(jMenuItem6);
+
         jMenuBar.add(jMenu_help);
+
+        jMenu1.setText(language_main_frame.LangLabel(constants.getLanguage_option(),70) );
+
+        jMenuItem7.setText(language_main_frame.LangLabel(constants.getLanguage_option(),71) );
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
+
+        jMenuBar.add(jMenu1);
 
         setJMenuBar(jMenuBar);
 
@@ -272,6 +300,23 @@ public class main_Jframe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+       if( Harmonicka_analyza.about_JframeIsOpen == false){
+          
+            String[] args = null;
+            Harmonicka_analyza.main(args);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        try {
+            String userhome = System.getProperty("user.dir"); 
+            Desktop.getDesktop().open(new File(userhome +"/src/module/harm_simple.xlsx"));
+        } catch (IOException ex) {
+            Logger.getLogger(main_Jframe.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -323,12 +368,15 @@ public class main_Jframe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane JDesktop;
     private javax.swing.JLabel jLabel_STATUS;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem_load;
     private javax.swing.JMenuItem jMenuItem_new;
     private javax.swing.JMenu jMenu_help;
@@ -355,7 +403,7 @@ class language_main_frame {
  */    
 static void constructor(){
               /*SK*/                /*CZ*/              /*EN*/   
- /*0*/   SK.add("EMFT sim 2 verzia 1.0 vydane dňa 8.2.2018");  
+ /*0*/   SK.add("EMFT sim 2 verzia 1.1 vydane dna 8.2.2018");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");                       //language String value  at position 
  /*1*/   SK.add("Projekt");  
@@ -562,6 +610,16 @@ static void constructor(){
  /*68*/  SK.add("Riadok 2");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release"); 
+ /*69*/  SK.add("Harmonicka Analýza");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*70*/  SK.add("Moduly");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
+/*71*/  SK.add("Linearna harmonicka analyza E&B - xlsx");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");         
+                  
          
  // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
  inicializovane = true;
