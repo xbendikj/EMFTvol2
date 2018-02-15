@@ -3,7 +3,7 @@
  */
 package BackEnd;
 
-import com.sun.xml.internal.fastinfoset.algorithm.IEEE754FloatingPointEncodingAlgorithm;
+//import com.sun.xml.internal.fastinfoset.algorithm.IEEE754FloatingPointEncodingAlgorithm;
 import emft_vol2.constants;
 import java.util.ArrayList;
 import java.util.Scanner;

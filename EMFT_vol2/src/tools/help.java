@@ -424,4 +424,32 @@ public class help {
         double val = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2) + Math.pow(Z, 2));
         return val;
     }
+    
+    /**
+     * najvacsia hodnota v arrayi (double)
+     * @param arr
+     * @return 
+     */
+    public static double arrayMax(double[] arr) {
+        double max = Double.NEGATIVE_INFINITY;
+
+        for(double cur: arr)
+            max = Math.max(max, cur);
+
+        return max;
+    }
+    
+    /**
+     * najvacsia hodnota v arrayi (int)
+     * @param arr
+     * @return 
+     */
+    public static int arrayMax(int[] arr) {
+        int max = Integer.MIN_VALUE;
+
+        for(int cur: arr)
+            max = Math.max(max, cur);
+
+        return max;
+    }
 }
