@@ -18,8 +18,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import org.apache.commons.math3.complex.Complex;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 
@@ -451,5 +450,40 @@ public class help {
             max = Math.max(max, cur);
 
         return max;
+    }
+    
+    /**
+     *  
+     * @param c complex number
+     * @param x double number
+     * @return complex c^x
+     */
+    public static Complex cpow(Complex c, double x){
+        return c.pow(x);
+    }
+    
+    public static Complex cpow(Complex c, int x){
+        return c.pow(x);
+    }
+    
+    public static Complex csub(Complex a, double b){
+        return a.subtract(b);
+    }
+    
+    public static Complex csub(double a, Complex b){
+        Complex aux = new Complex(a);
+        return aux.subtract(b);
+    }
+    
+    public static Complex csub(Complex a, Complex b){
+        return a.subtract(b);
+    }
+    
+    public static Complex cadd(Complex a, double b){
+        return a.add(b);
+    }
+    
+    public static Complex cadd(Complex a, Complex b){
+        return a.add(b);
     }
 }
