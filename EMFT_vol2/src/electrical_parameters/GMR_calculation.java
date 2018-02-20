@@ -74,10 +74,8 @@ public class GMR_calculation {
         this.xi = calc_GMR_double()/(this.Al_d/2);
     }
     
-    /**
-     * Private functions area
-     */
-    
+    //Private function area
+
     private double calc_GMR_double(){
         int Al_structure[] = new int[Al_layers]; 
         double GMR_final;
@@ -111,9 +109,7 @@ public class GMR_calculation {
         return ((n*r1)/3)*pow(2.3364,1/n);
     }
 
-    /**
-     * Getters & Setters area
-     */
+    //Getters & Setters area
     
     public int getAl_layers() {
         return Al_layers;
