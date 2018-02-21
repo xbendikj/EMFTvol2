@@ -7,6 +7,7 @@ package BackEnd;
 import emft_vol2.constants;
 import java.util.ArrayList;
 import java.util.Scanner;
+import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.jdelaunay.delaunay.error.DelaunayError;
@@ -679,8 +680,13 @@ public class rozpatie {
                      if (k == j) {
                          
                        double vyska_vod_nad = 0;
-                       if (aproxx==false) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)).getY();
-                       if (aproxx==true) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1).getY();
+                       
+                        if (aproxx==false) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)));
+                       if (aproxx==true) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1));
+                      
+                       // stary koncept asi zly
+                      // if (aproxx==false) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)).getY();
+                      // if (aproxx==true) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1).getY();
                         
                        koeficient = get_Pkk(K, vyska_vod_nad, polomery_lan.get(k));
                      } else { // PKJ   
@@ -739,6 +745,222 @@ public class rozpatie {
      
     }
     
+     /**
+      * Univerzalna funkcia na vypocet vvsetkyh veci na tom papiry
+      * @param diagonala  tzp diagonaly  "a" "b" "c" "d"
+      * @param Matrix  typ diagonaly  "A" "B" "C" "D" "E"
+      * @param aproxx true aproximovana rovina , false perpendicular projektic vypočet vyška vodiča nad terenom
+      * @param bundle true pocita aj bundle , false = jebe na bundle
+      * @param p koeficient
+      * @param Alpha koeficient
+      * @param Betta koeficient
+      * @return
+      * @throws DelaunayError 
+      */ 
+     public ArrayList calculateMatrix_opt_XX(String diagonala,String Matrix, boolean aproxx,boolean bundle, Complex p, double Alpha, double Betta) throws DelaunayError{
+        
+        // docasne testovacie
+        
+        
+        //int myint = 1;
+        //prv arraylist , vo vnorenom, lano druhy vektor
+        ArrayList<ArrayList<DPoint>> ListOfR0 = new ArrayList<ArrayList<DPoint>>();
+        ArrayList<ArrayList<DPoint>> ListOfR0_mirror = new ArrayList<ArrayList<DPoint>>();  
+        ArrayList<Integer> polohy_lan  = new ArrayList<Integer>();   
+        ArrayList<Double> beta  = new ArrayList<Double>();
+        
+        //iteratory
+        int iterator_lan = 0;
+        int elementarny_iterator=0;
+        //basic priprava vektorov pre okienka matice
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+
+                    //cyklus bundle   
+                    //podienky pre bundle
+                    int bundle_cyklus= 1; 
+                    if (bundle == true) bundle_cyklus = getRetazovkaList().get(cl1).getBundle_over();
+                    for (int cl2 = 0; cl2 < bundle_cyklus; cl2++) {
+
+                              ArrayList<DPoint> R0_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_vectors()); // nacitam jedno lano a upravim ho podla bundle konstant
+                              ArrayList<DPoint> R0_mirror_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_mirror_vectors());
+                              polohy_lan.add(elementarny_iterator);
+                             // cyklus 
+                             for ( int cl3=0;cl3<getRetazovka(cl1).getRo_vectors().size();cl3++){
+
+                                   //  bundle korektura pre jeden druhy SMER  a korekcia
+                                   
+                                   double Y = 0;
+                                   double Z  = 0;
+                                   double X  = 0;
+                                  
+                                   
+                                   if (bundle == true){
+                                      
+                                   Y = (double) R0_vectors_per_lano.get(cl3).getY() + (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                   Z = (double) R0_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   X = (double) R0_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                  
+                                       
+                                   }else{
+                                   
+                                   Y = (double) R0_vectors_per_lano.get(cl3).getY() ;
+                                   Z = (double) R0_vectors_per_lano.get(cl3).getZ() ;
+                                   X = (double) R0_vectors_per_lano.get(cl3).getX();
+                                       
+                                       
+                                   }
+                                   
+                                   
+                                   
+                                   DPoint R0 = new DPoint(X, Y, Z);
+                                   R0_vectors_per_lano.set(cl3, R0);
+                                   
+                                   //mirrorovanie len jedneho rozmeru pozor
+                                   
+                                   
+                                   
+                                   double Ym = 0;
+                                   double Zm  = 0;
+                                   double Xm  = 0;
+                                  
+                                   
+                                   if (bundle == true){
+                                      
+                                    Ym = (double) R0_mirror_vectors_per_lano.get(cl3).getY() - (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                    Zm = (double) R0_mirror_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                    Xm = (double) R0_mirror_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   
+                                  
+                                       
+                                   }else{
+                                   
+                                   Ym = (double) R0_mirror_vectors_per_lano.get(cl3).getY() ;
+                                    Zm = (double) R0_mirror_vectors_per_lano.get(cl3).getZ() ;
+                                    Xm = (double) R0_mirror_vectors_per_lano.get(cl3).getX() ;
+                                   
+                                       
+                                       
+                                   }
+   
+                                   
+                                   DPoint R0m = new DPoint(Xm, Ym, Zm);
+                                   R0_mirror_vectors_per_lano.set(cl3, R0m); 
+                                   
+                                  
+                                 
+                                  elementarny_iterator = elementarny_iterator + 1; 
+                               }
+                                  ListOfR0.add( new ArrayList<DPoint>(R0_vectors_per_lano)); 
+                                  ListOfR0_mirror.add(new ArrayList<DPoint>(R0_mirror_vectors_per_lano));
+                                
+                                 // polomery_lan.add(getRetazovkaList().get(cl1).getR_over() ); 
+                                  beta.add(getRetazovkaList().get(cl1).getBeta_over());
+                                  
+                        iterator_lan = iterator_lan + 1;
+                    }
+         
+                }
+             polohy_lan.add(elementarny_iterator); // posledna hodnota 
+       
+   
+        //algoritmus generovania matice
+        //*****************************
+       ArrayList<Object> results = new ArrayList<Object>();
+       //For cyklus elementov
+         for (int element_iterator = 0; element_iterator < getRetazovka(0).getRo_vectors().size(); element_iterator++) {
+        RealMatrix  D_koef_real = new Array2DRowRealMatrix(new double[iterator_lan][iterator_lan]);
+        RealMatrix  D_koef_image = new Array2DRowRealMatrix(new double[iterator_lan][iterator_lan]);
+        ArrayList<Double> dialonala_real = new ArrayList<Double>();
+        ArrayList<Double> dialonala_image = new ArrayList<Double>();
+        RealMatrix  angle_realny = new Array2DRowRealMatrix(new double[iterator_lan][iterator_lan]);
+        
+             // pocitanie matice matice
+             for (int k = 0; k <  D_koef_real.getRowDimension(); k++) {
+
+                 for (int j = 0; j <  D_koef_real.getRowDimension(); j++) {
+                     Complex koeficientcomplex = new Complex(0, 0);
+                     double angle= 0;
+                     if (k == j) {
+                         
+                       double vyska_vod_nad = 0;
+                       if (aproxx==false) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)));
+                       if (aproxx==true) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1));
+                       
+                      Complex Hi= new Complex(vyska_vod_nad, 0);
+                      
+                      /*opt A*/if (diagonala == "a") koeficientcomplex= Hi.multiply(2);  
+                      /*opt B*/if (diagonala == "b")  koeficientcomplex= (Hi.add(p)).multiply(2);  
+                      /*opt C*/if (diagonala == "c")  koeficientcomplex= (Hi.add(p.multiply(Alpha))).multiply(2);  
+                      /*opt D*/ if (diagonala == "d") koeficientcomplex= (Hi.add(p.multiply(Betta))).multiply(2); 
+                     
+                     dialonala_real.add(koeficientcomplex.getReal());
+                     dialonala_image.add(koeficientcomplex.getImaginary());
+                     
+                     } else { // PKJ   
+
+                       double vyska_vod_nad = 0;
+                       if (aproxx==false) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)));
+                       if (aproxx==true) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1));
+                       Complex Hi= new Complex(vyska_vod_nad, 0);
+                      
+                       double vyska_vod_nad2 = 0;
+                       if (aproxx==false) vyska_vod_nad2 = get_distance(ListOfR0.get(k).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(k).get(element_iterator)));
+                       if (aproxx==true) vyska_vod_nad2 = get_distance(ListOfR0.get(k).get(element_iterator), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(k).get(element_iterator),beta.get(k),1));
+                       Complex Hj= new Complex(vyska_vod_nad2, 0);
+                      
+                       double distamce = 0;
+                       if (aproxx==false) distamce = get_distance(pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)) ,pole.getPerpendicularProjection(ListOfR0.get(k).get(element_iterator)));
+                       if (aproxx==true)  distamce = get_distance(pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(k).get(element_iterator),beta.get(k),1));
+                       Complex djk2= new Complex(distamce, 0);
+                               djk2 = djk2.multiply(djk2);   // mocnime
+                               
+                        Complex futro = new Complex(0, 0);
+                        
+                       /*opt A*/ if (Matrix == "A") {  futro = Hi.subtract(Hj);   koeficientcomplex =  ( ((futro).multiply(futro)).add(djk2) ).sqrt()  ;}
+                       /*opt B*/ if (Matrix == "B") {  futro = Hi.add(Hj);   koeficientcomplex =  ( ((futro).multiply(futro)).add(djk2) ).sqrt()  ;}
+                       /*opt C*/ if (Matrix == "C") {  futro = Hi.add(Hj).add( p.multiply(2) ) ;   koeficientcomplex =  ( ((futro).multiply(futro)).add(djk2) ).sqrt()  ;}
+                        /*opt D*/ if (Matrix == "D") {  futro = Hi.add(Hj).add( p.multiply(2).multiply(Alpha) ) ;   koeficientcomplex =  ( ((futro).multiply(futro)).add(djk2) ).sqrt()  ;}
+                         /*opt E*/if (Matrix == "E") {   futro = Hi.add(Hj).add( p.multiply(2).multiply(Betta) ) ;   koeficientcomplex =  ( ((futro).multiply(futro)).add(djk2) ).sqrt()  ;}
+                        
+                         angle = get_angleatFirst(ListOfR0.get(j).get(element_iterator), // vypocitaj uhol
+                                                  ListOfR0_mirror.get(j).get(element_iterator),
+                                                  ListOfR0_mirror.get(k).get(element_iterator));
+                    
+                         
+                     }
+                      D_koef_real.addToEntry(k, j, koeficientcomplex.getReal());
+                      D_koef_image.addToEntry(k, j, koeficientcomplex.getImaginary());
+                      angle_realny.addToEntry(k, j, angle);
+                      
+                      
+                 }
+
+             }
+             
+ 
+//                   System.out.println("BackEnd.rozpatie.calculateTau() real posledne" );
+//            for (int i = 0; i < Tau_real.getRowDimension(); i++) {
+//            for (int j = 0; j < Tau_real.getColumnDimension(); j++) {
+//                System.out.print(Tau_real.getData()[i][j] + " ");
+//            }
+//
+//            System.out.println();
+//
+
+             
+         //AK budu rovnake cisla vsade treba rozdeklarovat    
+         Object[] O = new Object[]{ (RealMatrix) D_koef_real,(RealMatrix) D_koef_image,(ArrayList) dialonala_real,(ArrayList) dialonala_image ,(RealMatrix) angle_realny  };
+         results.add(O);
+         
+           
+         }
+
+        return results;
+     
+    }
+   
+     
+     
     public int getPocet_lan() {
 
         int iterator_lan = 0;
@@ -790,6 +1012,38 @@ public class rozpatie {
         double val = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2)  +Math.pow(Z, 2)   );
         return val;
     } 
-    
-    
+        /**
+         * vypocita uhol pri vektore A
+         * @param A Dpoint
+         * @param B Dpoint
+         * @param C Dpoint
+         * @return uhol trujuholnika BAC
+         * @throws DelaunayError 
+         */
+        private double get_angleatFirst(DPoint A,DPoint B,DPoint C) throws DelaunayError{
+        //https://www.youtube.com/watch?v=4hIh8ujylWE
+        //https://www.youtube.com/watch?v=zsTp3YeI5dg
+         DPoint AB = new DPoint(B.getX()-A.getX(), B.getY()-A.getY(), B.getZ()-A.getZ());
+         DPoint AC = new DPoint(C.getX()-A.getX(), C.getY()-A.getY(), C.getZ()-A.getZ());
+         double lengthAB = get_distance(A, B); 
+         double lengthAC = get_distance(A, C);
+         double dot = dotproduct(AB, AC);
+         double angle = Math.acos( dot/(lengthAB * lengthAC ) );
+
+        return angle;
+    } 
+        /**
+         *  vypocita dot produkt
+         * @param A Dpoint 
+         * @param B Dpoint
+         * @return 
+         */
+        private double dotproduct(DPoint A,DPoint B){
+        double X = B.getX() + A.getX();
+        double Y = B.getY() + A.getY();
+        double Z = B.getZ() + A.getZ();
+        double val =   X+Z+Y;
+        return val;
+    } 
+        
 }
