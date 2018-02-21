@@ -865,7 +865,7 @@ public class rozpatie {
    
         //algoritmus generovania matice
         //*****************************
-       ArrayList<Object> results = new ArrayList<Object>();
+       ArrayList<Object[]> results = new ArrayList<Object[]>();
        //For cyklus elementov
          for (int element_iterator = 0; element_iterator < getRetazovka(0).getRo_vectors().size(); element_iterator++) {
         RealMatrix  D_koef_real = new Array2DRowRealMatrix(new double[iterator_lan][iterator_lan]);
