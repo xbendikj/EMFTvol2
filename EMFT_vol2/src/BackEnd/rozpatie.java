@@ -757,7 +757,13 @@ public class rozpatie {
       * @return
       * @throws DelaunayError 
       */ 
-     public ArrayList calculateMatrix_opt_XX(String diagonala,String Matrix, boolean aproxx,boolean bundle, Complex p, double Alpha, double Betta) throws DelaunayError{
+     public ArrayList calculateMatrix_opt_XX(   String diagonala,
+                                                String Matrix, 
+                                                boolean aproxx,
+                                                boolean bundle, 
+                                                Complex p, 
+                                                double Alpha, 
+                                                double Betta) throws DelaunayError{
         
         // docasne testovacie
         
