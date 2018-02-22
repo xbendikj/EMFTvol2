@@ -6,6 +6,7 @@
 package tools;
 
 import Databazes.SQLlite_constants;
+import static InternalFrame.InternalFrameproject.Rozpätie;
 import emft_vol2.constants;
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math3.complex.Complex;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
@@ -452,6 +454,22 @@ public class help {
         return max;
     }
     
+    public static double arraySum(int[] arr){
+        double res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            res = res + arr[i];
+        }
+        return res;
+    }
+    
+    public static double arraySum(double[] arr){
+        double res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            res = res + arr[i];
+        }
+        return res;
+    }
+    
     /**
      *  
      * @param c complex number
@@ -463,7 +481,7 @@ public class help {
     }
     
     public static Complex cpow(Complex c, int x){
-        return c.pow(x);
+        return c.pow((double)x);
     }
     
     public static Complex csub(Complex a, double b){
@@ -471,7 +489,7 @@ public class help {
     }
     
     public static Complex csub(double a, Complex b){
-        Complex aux = new Complex(a);
+        Complex aux = new Complex(a,0);
         return aux.subtract(b);
     }
     
@@ -485,5 +503,29 @@ public class help {
     
     public static Complex cadd(Complex a, Complex b){
         return a.add(b);
+    }
+    
+    public static double[] ArrList2Arr(ArrayList arr) {
+        double[] res = new double[arr.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = (double) arr.get(i);
+        }
+        return res;
+    }
+    
+    public static void printRealMatrix(RealMatrix mtx){
+        for (int i = 0; i < mtx.getRowDimension(); i++) {
+            for (int j = 0; j < mtx.getColumnDimension(); j++) {
+                System.out.print(mtx.getData()[i][j] + " ");
+            }
+        System.out.println();
+        }
+    }
+    
+    public static void printDoubleArr(double[] arr){
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+        System.out.println();
     }
 }

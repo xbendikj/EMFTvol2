@@ -39,7 +39,7 @@ public class Rac_calculation {
      * @param f frekvencia [Hz]
      * @param Rdc jednosmerny odpor vodica [Ohm/km]
      */
-    public Rac_calculation(double rho, double D, double D1, int f, double Rdc){
+    public Rac_calculation(double rho, double D, double D1, double f, double Rdc){
         this.rho = rho;
         this.D = D;
         this.D1 = D1;
@@ -70,17 +70,18 @@ public class Rac_calculation {
     
     private Complex Bessel_0(Complex x){
         Complex aux;
-        aux = csub(1,cpow(x.divide(2),2)); 
-        aux = cadd(aux,cpow(x.divide(2),4).multiply(1/4));
-        aux = csub(aux,cpow(x.divide(2),6).multiply(1/36));
+        aux = csub(1,cpow(x.divide((double)2),2)); 
+        aux = cadd(aux,cpow(x.divide((double)2),4).multiply((double)1/4));
+        aux = csub(aux,cpow(x.divide((double)2),6).multiply((double)1/36));
         return aux;
     }
     
     private Complex Bessel_1(Complex x){
         Complex aux;
-        aux = csub(x.divide(2),cpow(x.divide(2),3).multiply(1/2)); 
-        aux = cadd(aux,cpow(x.divide(2),5).multiply(1/12));
-        aux = csub(aux,cpow(x.divide(2),7).multiply(1/144));
+        aux = x.divide((double)2);
+        aux = csub(aux,cpow(x.divide((double)2),3).multiply((double)1/2));
+        aux = cadd(aux,cpow(x.divide((double)2),5).multiply((double)1/12));
+        aux = csub(aux,cpow(x.divide((double)2),7).multiply((double)1/144));
         return aux;
     }
     
@@ -95,14 +96,26 @@ public class Rac_calculation {
         x = y.multiply(D).divide(2*delta);
         a = y.multiply(rho).divide(D*Math.PI*delta);
         b = Bessel_0(x).divide(Bessel_1(x));
+        
+//        System.out.println("delta");
+//        System.out.println(delta);
+//        System.out.println("x");
+//        System.out.println(x);
+//        System.out.println("EIR");
+//        System.out.println(a.multiply(b).getReal());
+        
         return a.multiply(b).getReal();
     }
     
     private double k_sk_d(double rho, double D, double f){
+//        System.out.println("k_sk_d");
+//        System.out.println((pow(D,2)*Math.PI*EIR(rho,D,f))/(4*rho));
         return (pow(D,2)*Math.PI*EIR(rho,D,f))/(4*rho);
     }
     
     private double k_sk_tube(double rho, double D, double D1, double f){
+//        System.out.println("k_sk_tube");
+//        System.out.println(1+(k_sk_d(rho, D, f)-1)*(1-D1/D));
         return 1+(k_sk_d(rho, D, f)-1)*(1-D1/D);
     }
 

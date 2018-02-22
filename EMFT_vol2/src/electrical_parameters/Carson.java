@@ -7,6 +7,7 @@ package electrical_parameters;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 
 /**
@@ -16,24 +17,24 @@ import org.apache.commons.math.linear.RealMatrix;
 public class Carson {
     
     //inputs
-    RealMatrix Dik;
-    RealMatrix Dik_mirror;
-    RealMatrix Fik;
+    RealMatrix Dik = new Array2DRowRealMatrix();
+    RealMatrix Dik_mirror = new Array2DRowRealMatrix();
+    RealMatrix Fik = new Array2DRowRealMatrix();
     double[] hx2;
     double GMR;
     double R;
     double f;
-    double rho_cnd;
+    double rho_gnd;
     
     //results
-    public static RealMatrix Rg;
-    public static RealMatrix Xg;
-    public static RealMatrix R_no_gnd;
-    public static RealMatrix R_gnd;
-    public static RealMatrix L_no_gnd;
-    public static RealMatrix L_gnd;
-    public static RealMatrix X_no_gnd;
-    public static RealMatrix X_gnd;
+    public static RealMatrix Rg = new Array2DRowRealMatrix();
+    public static RealMatrix Xg = new Array2DRowRealMatrix();
+    public static RealMatrix R_no_gnd = new Array2DRowRealMatrix();
+    public static RealMatrix R_gnd = new Array2DRowRealMatrix();
+    public static RealMatrix L_no_gnd = new Array2DRowRealMatrix();
+    public static RealMatrix L_gnd = new Array2DRowRealMatrix();
+    public static RealMatrix X_no_gnd = new Array2DRowRealMatrix();
+    public static RealMatrix X_gnd = new Array2DRowRealMatrix();
     
     //partial results
     RealMatrix kik;
@@ -68,7 +69,7 @@ public class Carson {
         this.GMR = cnd.getGMR();   
         this.R = cnd2.getRac();     
         this.f = Conductor.getF();
-        this.rho_cnd = Conductor.getRho_conductor();
+        this.rho_gnd = Conductor.getRho_conductor();
     }
     
     //public functions
@@ -159,9 +160,9 @@ public class Carson {
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
-                    this.L_no_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR));
+                    Carson.L_no_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR));
                 } else {
-                    this.L_no_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)));
+                    Carson.L_no_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)));
                 }
             }
         }
@@ -221,7 +222,7 @@ public class Carson {
     private void calckik(){
         for (int i = 0; i < this.Dik_mirror.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik_mirror.getColumnDimension(); j++) {
-                this.kik.setEntry(i,j,(4e-4)*Math.PI*sqrt(5)*sqrt(this.f/this.rho_cnd)*this.Dik_mirror.getEntry(i,j));
+                this.kik.setEntry(i,j,(4e-4)*Math.PI*sqrt(5)*sqrt(this.f/this.rho_gnd)*this.Dik_mirror.getEntry(i,j));
             }
         }
     }
@@ -328,12 +329,12 @@ public class Carson {
         this.f = f;
     }
 
-    public double getRho_cnd() {
-        return rho_cnd;
+    public double getRho_gnd() {
+        return rho_gnd;
     }
 
-    public void setRho_cnd(double rho_cnd) {
-        this.rho_cnd = rho_cnd;
+    public void setRho_gnd(double rho_cnd) {
+        this.rho_gnd = rho_gnd;
     }
 
     public static RealMatrix getRg() {

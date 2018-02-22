@@ -6,7 +6,6 @@
 package InternalFrame;
 
 import BackEnd.B_calculation;
-import BackEnd.ColorColumnRenderer;
 import BackEnd.E_Spheres_calculation;
 import BackEnd.E_calculation;
 import BackEnd.E_old_calculation;
@@ -16,54 +15,44 @@ import BackEnd.databaza;
 import BackEnd.retazovka;
 import BackEnd.rozpatie;
 import static InternalFrame.CatenaryPanel.isListener;
-import static de.dislin.Dislin.graf3;
 import dislin.plot_1D;
 import dislin.plot_2D;
+import electrical_parameters.Carson;
+import electrical_parameters.GMR_calculation;
+import electrical_parameters.Rac_calculation;
+import electrical_parameters.elpam_input_conductor;
 import emft_vol2.Dislin_Settings;
 import emft_vol2.TxT_JFrame;
 import emft_vol2.calculation_Settings;
 import java.util.ArrayList;
 
 import emft_vol2.constants;
-import static emft_vol2.constants_Jframe.constants_JframeIsOpen;
 import emft_vol2.main_Jframe;
 import static emft_vol2.main_Jframe.iscalculation_Settings;
-import emft_vol2.main_class;
-import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.accessibility.AccessibleContext;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
+import static tools.help.ArrList2Arr;
+import static tools.help.printDoubleArr;
+import static tools.help.printRealMatrix;
 
 /**
  *
@@ -1432,22 +1421,119 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
               // ****************************
               
               
-             
-             Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, true, new Complex(1,0),  12 , 12);
-              
-              
-              
-                            System.out.println("BackEnd.rozpatie.calculate DIK REAL" );
-            for (int i = 0; i <  Rozpätie.getPAr_Dik_REAL().get(0).getRowDimension(); i++) {
-            for (int j = 0; j < Rozpätie.getPAr_Dik_REAL().get(0).getColumnDimension(); j++) {
-                System.out.print(Rozpätie.getPAr_Dik_REAL().get(0).getData()[i][j] + " ");
-            }
-            System.out.println();
-
-        }
-
-               
-
+                //calc matice
+                /**
+                 * prva pozicia "a"-"d" [String], potom na vystupe:
+                 *  a - 2*hi [double]
+                 *  b - 2*(hi+p) [complex]
+                 *  c - 2*(hi+alpha*p) [complex]
+                 *  d - 2*(hi+beta*p) [complex]
+                 * 
+                 * druha pozicia "A"-"E" [String], potom na vystupe:
+                 *  A - Dik
+                 *  B - Dik_Carson
+                 *  C - Dik_CDER
+                 *  D - Dik_alpha
+                 *  E - Dik_beta
+                 * 
+                 * tretia pozicia [boolean], potom na vystupe:
+                 *  true - naozajstny teren
+                 *  false - aproximovany teren
+                 * 
+                 * stvrta pozicia [boolean], potom na vystupe:
+                 *  true - uvazovat zvazok
+                 *  false - neuvazovat zvazok
+                 * 
+                 * piata pozicia p [Complex]
+                 *  jednoducha komplexna hlbka CDER
+                 * 
+                 * siesta pozicia alpha [double]
+                 *  Taku Noda koeficient = 0,26244
+                 * 
+                 * siedma pozicia beta [double]
+                 *  Taku noda koeficient = 1,12385
+                 */
+                Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, true, new Complex(1,0),0.26244,1.12385);
+                                
+                //testovaci vypis
+                System.out.println("BackEnd.rozpatie.calculate DIK REAL" );
+                for (int i = 0; i < Rozpätie.getPAr_Dik_REAL().get(0).getRowDimension(); i++) {
+                    for (int j = 0; j < Rozpätie.getPAr_Dik_REAL().get(0).getColumnDimension(); j++) {
+                        System.out.print(Rozpätie.getPAr_Dik_REAL().get(0).getData()[i][j] + " ");
+                    }
+                System.out.println();
+                }
+            
+                //Rozpätie.getRetazovkaList().get(0).getR_over()
+                elpam_input_conductor test_cnd = new elpam_input_conductor();
+                test_cnd.setF(constants.getFrequency());
+                //AlFe180/59
+                test_cnd.setD(0.0358);
+                test_cnd.setT(0.012);
+                test_cnd.setRho_conductor(2.65e-8);
+                test_cnd.setRho_ground(100);
+                test_cnd.setRdc(0.0425);
+                test_cnd.setAl_layers(3);
+                test_cnd.setAl_start(12);
+                test_cnd.setAl_d(0.004);
+                
+                //GMR & Rac calc
+                GMR_calculation myGMR = new GMR_calculation(test_cnd);
+                Rac_calculation myRac = new Rac_calculation(test_cnd);
+                myGMR.calc_GMR();
+                myGMR.calc_xi();
+                myRac.calc_Rac();
+                
+                System.out.println();
+                System.out.println("GMR - AlFe 180/59");
+                System.out.println(myGMR.getGMR());
+                System.out.println("xi - AlFe 180/59");
+                System.out.println(myGMR.getXi());
+                System.out.println("Rdc - AlFe 180/59");
+                System.out.println(myRac.getRdc());
+                System.out.println("Rac - AlFe 180/59");
+                System.out.println(myRac.getRac());
+                System.out.println();
+                
+                //definovanie realmatrix premennych - zistovanie ich velkosti
+                int rows = Rozpätie.getPAr_Dik_REAL().get(0).getRowDimension();
+                int cols = Rozpätie.getPAr_Dik_REAL().get(0).getColumnDimension();
+                
+                RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Dik_mirror_imag = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
+                double[] hx2 = new double[rows];
+                
+                //Carson
+                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385);
+                Dik = Rozpätie.getPAr_Dik_REAL().get(0);
+                Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,true,Complex.ONE,0.26244,1.12385);
+                Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(0);
+                Fik = Rozpätie.getPAr_Alpha_real().get(0);
+                hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(0));
+                
+                printRealMatrix(Dik);
+                printRealMatrix(Dik_mirror_real);
+                printRealMatrix(Fik);
+                printDoubleArr(hx2);
+                
+                Carson test_carson = new Carson();
+                test_carson.setDik(Dik);
+                test_carson.setDik_mirror(Dik_mirror_real);
+                test_carson.setFik(Fik);
+                test_carson.setGMR(myGMR.getGMR());
+                test_carson.setR(myRac.getRac());
+                test_carson.setHx2(hx2);
+                test_carson.setF(constants.getFrequency());
+                test_carson.setRho_gnd(test_cnd.getRho_ground());
+                
+                test_carson.calcL_no_gnd();
+                test_carson.calcL_gnd();
+                
+                printRealMatrix(Carson.getL_no_gnd());
+                printRealMatrix(Carson.getL_gnd());
+                        
             }
 
         } catch (DelaunayError ex) {

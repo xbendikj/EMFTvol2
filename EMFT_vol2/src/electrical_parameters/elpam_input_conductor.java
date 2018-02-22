@@ -40,20 +40,20 @@ public class elpam_input_conductor {
                                     int Al_layers, 
                                     int Al_start, 
                                     double Al_d){
-        this.f = f;
-        this.D = D;
-        this.T = T;
-        this.rho_conductor = rho_cnd;
-        this.rho_ground = rho_gnd;
-        this.Rdc = Rdc;
-        this.Al_layers = Al_layers;
-        this.Al_start = Al_start;
-        this.Al_d = Al_d;
+        elpam_input_conductor.f = f;
+        elpam_input_conductor.D = D;
+        elpam_input_conductor.T = T;
+        elpam_input_conductor.rho_conductor = rho_cnd;
+        elpam_input_conductor.rho_ground = rho_gnd;
+        elpam_input_conductor.Rdc = Rdc;
+        elpam_input_conductor.Al_layers = Al_layers;
+        elpam_input_conductor.Al_start = Al_start;
+        elpam_input_conductor.Al_d = Al_d;
         
         //aby bolo jasne ze nie su ete dopocitane
-        this.GMR = -1;
-        this.xi = -1;
-        this.Rac = -1;
+        elpam_input_conductor.GMR = -1;
+        elpam_input_conductor.xi = -1;
+        elpam_input_conductor.Rac = -1;
     }
     
     public void elpam_input_conductor(String name ,
@@ -66,21 +66,21 @@ public class elpam_input_conductor {
                                     int Al_layers, 
                                     int Al_start, 
                                     double Al_d){
-        this.name = name;
-        this.f = f;
-        this.D = D;
-        this.T = T;
-        this.rho_conductor = rho_cnd;
-        this.rho_ground = rho_gnd;
-        this.Rdc = Rdc;
-        this.Al_layers = Al_layers;
-        this.Al_start = Al_start;
-        this.Al_d = Al_d;
+        elpam_input_conductor.name = name;
+        elpam_input_conductor.f = f;
+        elpam_input_conductor.D = D;
+        elpam_input_conductor.T = T;
+        elpam_input_conductor.rho_conductor = rho_cnd;
+        elpam_input_conductor.rho_ground = rho_gnd;
+        elpam_input_conductor.Rdc = Rdc;
+        elpam_input_conductor.Al_layers = Al_layers;
+        elpam_input_conductor.Al_start = Al_start;
+        elpam_input_conductor.Al_d = Al_d;
         
         //aby bolo jasne ze nie su ete dopocitane
-        this.GMR = -1;
-        this.xi = -1;
-        this.Rac = -1;
+        elpam_input_conductor.GMR = -1;
+        elpam_input_conductor.xi = -1;
+        elpam_input_conductor.Rac = -1;
     }
 
     public String getName() {
@@ -88,7 +88,7 @@ public class elpam_input_conductor {
     }
 
     public void setName(String name) {
-        this.name = name;
+        elpam_input_conductor.name = name;
     }
 
     public double getF() {
@@ -96,7 +96,7 @@ public class elpam_input_conductor {
     }
 
     public void setF(double f) {
-        this.f = f;
+        elpam_input_conductor.f = f;
     }
 
     public double getD() {
@@ -104,7 +104,7 @@ public class elpam_input_conductor {
     }
 
     public void setD(double D) {
-        this.D = D;
+        elpam_input_conductor.D = D;
     }
 
     public double getT() {
@@ -112,7 +112,7 @@ public class elpam_input_conductor {
     }
 
     public void setT(double T) {
-        this.T = T;
+        elpam_input_conductor.T = T;
     }
 
     public double getRho_conductor() {
@@ -120,7 +120,7 @@ public class elpam_input_conductor {
     }
 
     public void setRho_conductor(double rho_conductor) {
-        this.rho_conductor = rho_conductor;
+        elpam_input_conductor.rho_conductor = rho_conductor;
     }
 
     public double getRho_ground() {
@@ -128,7 +128,7 @@ public class elpam_input_conductor {
     }
 
     public void setRho_ground(double rho_ground) {
-        this.rho_ground = rho_ground;
+        elpam_input_conductor.rho_ground = rho_ground;
     }
 
     public double getRdc() {
@@ -136,7 +136,7 @@ public class elpam_input_conductor {
     }
 
     public void setRdc(double Rdc) {
-        this.Rdc = Rdc;
+        elpam_input_conductor.Rdc = Rdc;
     }
 
     public int getAl_layers() {
@@ -144,7 +144,7 @@ public class elpam_input_conductor {
     }
 
     public void setAl_layers(int Al_layers) {
-        this.Al_layers = Al_layers;
+        elpam_input_conductor.Al_layers = Al_layers;
     }
 
     public int getAl_start() {
@@ -152,7 +152,7 @@ public class elpam_input_conductor {
     }
 
     public void setAl_start(int Al_start) {
-        this.Al_start = Al_start;
+        elpam_input_conductor.Al_start = Al_start;
     }
 
     public double getAl_d() {
@@ -160,7 +160,7 @@ public class elpam_input_conductor {
     }
 
     public void setAl_d(double Al_d) {
-        this.Al_d = Al_d;
+        elpam_input_conductor.Al_d = Al_d;
     }
 
     public double getGMR() {
@@ -168,7 +168,7 @@ public class elpam_input_conductor {
     }
 
     public void setGMR(double GMR) {
-        this.GMR = GMR;
+        elpam_input_conductor.GMR = GMR;
     }
 
     public double getXi() {
@@ -176,7 +176,7 @@ public class elpam_input_conductor {
     }
 
     public void setXi(double xi) {
-        this.xi = xi;
+        elpam_input_conductor.xi = xi;
     }
 
     public double getRac() {
@@ -184,7 +184,7 @@ public class elpam_input_conductor {
     }
 
     public void setRac(double Rac) {
-        this.Rac = Rac;
+        elpam_input_conductor.Rac = Rac;
     }
     
     

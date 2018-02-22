@@ -5,9 +5,8 @@
  */
 package electrical_parameters;
 
-import static java.lang.Math.pow;
-import java.util.stream.IntStream;
 import static tools.help.arrayMax;
+import static tools.help.arraySum;
 
 /**
  * Sluzi na vypocet GMR a xi vodica
@@ -35,8 +34,8 @@ public class GMR_calculation {
      * valid constructor
      * @param Al_layers pocet vrstiev Al
      * @param Al_start pocet vodicov v prvej vrstve Al (smer zvnutra von)
-     * @param Al_d mm - priemer Al drotov   ->skontrolovat ci mozu byt aj metre
-     * @param d_cond mm - priemer vodica    ->skontrolovat ci mozu byt aj metre
+     * @param Al_d priemer Al drotov [m]
+     * @param d_cond priemer vodica [m]
      */
     public GMR_calculation(int Al_layers, int Al_start, double Al_d, double d_cond){
         this.Al_d = Al_d;
@@ -66,19 +65,35 @@ public class GMR_calculation {
     public void calc_GMR(){
         int Al_structure[] = new int[Al_layers]; 
         double GMR_final;
-        int n, m;
+        int n; 
+        int m;
         
-        for (int i = 1; i < Al_layers; i++) {
-            Al_structure[i] = Al_start + (i-1)*6;
+        for (int i = 0; i < Al_layers; i++) {
+            Al_structure[i] = Al_start + i*6;
         }
         
         GMR_final = 1;
         n = arrayMax(Al_structure);
-        m = IntStream.of(Al_structure).sum();
-        for (int i = 0; i < Al_layers-1; i++) {
-            GMR_final = GMR_final*gmr_layer(n-6*i, Al_d/2);
-            if (i != Al_layers-1) {
-                GMR_final = GMR_final*pow(gmr_between(n-6*i,Al_d/2),exp(n-6*i,m));
+        m = (int) arraySum(Al_structure);
+        
+        for (int i = 0; i < Al_layers; i++) {
+            GMR_final = GMR_final * Math.pow(gmr_layer(n-6*i, Al_d/2),Math.pow((double)(n-6*i)/m,2));
+//            System.out.println("GMR_final");
+//            System.out.println(GMR_final);
+//            System.out.println(n);
+//            System.out.println(m);
+//            System.out.println(i);
+//            System.out.println(n-6*i);
+//            System.out.println(((double) n-6*i)/m);
+//            System.out.println(Math.pow((n-6*i)/m,2));
+        }
+        for (int i = 0; i < Al_layers; i++) {
+            for (int j = 0; j < Al_layers; j++) {
+                if (i < j) {
+                GMR_final = GMR_final*Math.pow(gmr_between(n-6*i,Al_d/2),exp(n-6*i,m,j-i));
+                System.out.println("GMR_final");
+                System.out.println(GMR_final);
+                }
             }
         }
         this.GMR = GMR_final;
@@ -88,42 +103,29 @@ public class GMR_calculation {
      * Calculate xi of conductor
      */
     public void calc_xi(){
-        this.xi = calc_GMR_double()/(this.Al_d/2);
+        calc_GMR();
+        this.xi = this.GMR/(this.d_cond/2);
     }
     
     //Private function area
-
-    private double calc_GMR_double(){
-        int Al_structure[] = new int[Al_layers]; 
-        double GMR_final;
-        int n, m;
-        
-        for (int i = 1; i < Al_layers; i++) {
-            Al_structure[i] = Al_start + (i-1)*6;
-        }
-        
-        GMR_final = 1;
-        n = arrayMax(Al_structure);
-        m = IntStream.of(Al_structure).sum();
-        for (int i = 0; i < Al_layers-1; i++) {
-            GMR_final = GMR_final*gmr_layer(n-6*i, Al_d/2);
-            if (i != Al_layers-1) {
-                GMR_final = GMR_final*pow(gmr_between(n-6*i,Al_d/2),exp(n-6*i,m));
-            }
-        }
-        return GMR_final;
-    }
     
-    private double exp(double n_max, double n_total){
-        return (2*n_max*(n_max-6))/pow(n_total,2);
+    private double exp(double n_max, double n_total, int i){
+        System.out.println("exp");
+        System.out.println((2*n_max*(n_max-6*i))/Math.pow(n_total,2));
+        return (2*n_max*(n_max-6*i))/Math.pow(n_total,2);
+        
     }
     
     private double gmr_between(double n, double r1){
+        System.out.println("gmr_between");
+        System.out.println((n*r1)/3);
         return (n*r1)/3;
     }
     
     private double gmr_layer(double n, double r1){
-        return ((n*r1)/3)*pow(2.3364,1/n);
+        System.out.println("gmr_layer");
+        System.out.println(((n*r1)/3)*Math.pow(2.3364,1/n));
+        return ((n*r1)/3)*Math.pow(2.3364,1/n);
     }
 
     //Getters & Setters area
