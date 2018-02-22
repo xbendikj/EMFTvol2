@@ -22,6 +22,8 @@ public class GMR_calculation {
     
     double GMR;
     double xi;
+    double GMR_default;
+    double xi_default;
     
     /**
      * void constructor
@@ -33,14 +35,29 @@ public class GMR_calculation {
      * valid constructor
      * @param Al_layers pocet vrstiev Al
      * @param Al_start pocet vodicov v prvej vrstve Al (smer zvnutra von)
-     * @param Al_d mm - priemer Al drotov
-     * @param d_cond mm - priemer vodica
+     * @param Al_d mm - priemer Al drotov   ->skontrolovat ci mozu byt aj metre
+     * @param d_cond mm - priemer vodica    ->skontrolovat ci mozu byt aj metre
      */
     public GMR_calculation(int Al_layers, int Al_start, double Al_d, double d_cond){
         this.Al_d = Al_d;
         this.Al_layers = Al_layers;
         this.Al_start = Al_start;
         this.d_cond = d_cond;
+        this.GMR_default = 0.7788*Al_d/2;
+        this.xi_default = 0.7788;
+    }
+    
+    /**
+     * valid constructor from elpam_input_conductor class
+     * @param Conductor 
+     */
+    public GMR_calculation(elpam_input_conductor Conductor){
+        this.Al_d = Conductor.getAl_d();    //[m]
+        this.Al_layers = Conductor.getAl_layers();
+        this.Al_start = Conductor.getAl_start();
+        this.d_cond = Conductor.getD();     //[m]
+        this.GMR_default = 0.7788*Al_d/2;
+        this.xi_default = 0.7788;
     }
     
     /**

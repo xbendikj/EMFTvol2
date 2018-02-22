@@ -19,9 +19,9 @@ public class elpam_input_conductor {
     public static double rho_conductor;   //rezistivita Al plasta [Ohm.m]
     public static double rho_ground;      //rezistivita zeme [Omh.m]
     public static double Rdc;             //jednosmerny odpor vodica [Ohm/km]
-    public static int Al_layers;
-    public static int Al_start;
-    public static double Al_d;
+    public static int Al_layers;          //pocet vrstiev Al
+    public static int Al_start;           //pocet vodicov v prvej vrstve Al (smer zvnutra von)
+    public static double Al_d;            //priemer Al drotov [m]
 
     //possible partial outputs
     public static double GMR;             //geometric mean radius [m]

@@ -48,6 +48,18 @@ public class Rac_calculation {
     }
     
     /**
+     * valid constructor from elpam_input_conductor class
+     * @param Conductor 
+     */
+    public Rac_calculation(elpam_input_conductor Conductor){
+        this.rho = elpam_input_conductor.rho_conductor;
+        this.D = elpam_input_conductor.D;
+        this.D1 = elpam_input_conductor.T;
+        this.f = elpam_input_conductor.f;
+        this.Rdc = elpam_input_conductor.Rdc;
+    }
+    
+    /**
      * Valid mainly for 2+ layers of Al coating in ACSR conductor
      */
     public void calc_Rac(){
