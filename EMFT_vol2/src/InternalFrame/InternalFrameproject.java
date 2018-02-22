@@ -1518,21 +1518,20 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 printRealMatrix(Fik);
                 printDoubleArr(hx2);
                 
-                Carson test_carson = new Carson();
-                test_carson.setDik(Dik);
-                test_carson.setDik_mirror(Dik_mirror_real);
-                test_carson.setFik(Fik);
-                test_carson.setGMR(myGMR.getGMR());
-                test_carson.setR(myRac.getRac());
-                test_carson.setHx2(hx2);
-                test_carson.setF(constants.getFrequency());
-                test_carson.setRho_gnd(test_cnd.getRho_ground());
+                Carson test_carson = new Carson(Dik,
+                                                Dik_mirror_real,
+                                                Fik,
+                                                hx2,
+                                                test_cnd,
+                                                true,
+                                                true
+                                                );
                 
                 test_carson.calcL_no_gnd();
                 test_carson.calcL_gnd();
                 
-                printRealMatrix(Carson.getL_no_gnd());
-                printRealMatrix(Carson.getL_gnd());
+                printRealMatrix(test_carson.getL_no_gnd());
+                printRealMatrix(test_carson.getL_gnd());
                         
             }
 

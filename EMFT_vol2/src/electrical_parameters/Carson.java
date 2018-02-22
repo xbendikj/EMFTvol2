@@ -7,8 +7,8 @@ package electrical_parameters;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
+import static tools.help.clearMatrix;
 
 /**
  * Carsonova vypoctova metoda elektrickych parametrov
@@ -17,9 +17,9 @@ import org.apache.commons.math.linear.RealMatrix;
 public class Carson {
     
     //inputs
-    RealMatrix Dik = new Array2DRowRealMatrix();
-    RealMatrix Dik_mirror = new Array2DRowRealMatrix();
-    RealMatrix Fik = new Array2DRowRealMatrix();
+    RealMatrix Dik;
+    RealMatrix Dik_mirror;
+    RealMatrix Fik;
     double[] hx2;
     double GMR;
     double R;
@@ -27,25 +27,25 @@ public class Carson {
     double rho_gnd;
     
     //results
-    public static RealMatrix Rg = new Array2DRowRealMatrix();
-    public static RealMatrix Xg = new Array2DRowRealMatrix();
-    public static RealMatrix R_no_gnd = new Array2DRowRealMatrix();
-    public static RealMatrix R_gnd = new Array2DRowRealMatrix();
-    public static RealMatrix L_no_gnd = new Array2DRowRealMatrix();
-    public static RealMatrix L_gnd = new Array2DRowRealMatrix();
-    public static RealMatrix X_no_gnd = new Array2DRowRealMatrix();
-    public static RealMatrix X_gnd = new Array2DRowRealMatrix();
+    public RealMatrix Rg;
+    public RealMatrix Xg;
+    public RealMatrix R_no_gnd;
+    public RealMatrix R_gnd;
+    public RealMatrix L_no_gnd;
+    public RealMatrix L_gnd;
+    public RealMatrix X_no_gnd;
+    public RealMatrix X_gnd;
     
     //partial results
     RealMatrix kik;
     
-    public void Carson( RealMatrix Dik,
-                        RealMatrix Dik_mirror,
-                        RealMatrix Fik,
-                        double[] hx2,
-                        elpam_input_conductor Conductor,
-                        boolean exact_GMR,
-                        boolean exact_Rac
+    public Carson(  RealMatrix Dik,
+                    RealMatrix Dik_mirror,
+                    RealMatrix Fik,
+                    double[] hx2,
+                    elpam_input_conductor Conductor,
+                    boolean exact_GMR,
+                    boolean exact_Rac
     ){
         GMR_calculation cnd = new GMR_calculation(Conductor);
         Rac_calculation cnd2 = new Rac_calculation(Conductor);
@@ -69,12 +69,31 @@ public class Carson {
         this.GMR = cnd.getGMR();   
         this.R = cnd2.getRac();     
         this.f = Conductor.getF();
-        this.rho_gnd = Conductor.getRho_conductor();
+        this.rho_gnd = Conductor.getRho_ground();
+        
+        this.Rg = this.Dik.copy();
+        this.Rg = clearMatrix(this.Rg);
+        this.Xg = this.Dik.copy();
+        this.Xg = clearMatrix(this.Xg);
+        this.L_no_gnd = this.Dik.copy();
+        this.L_no_gnd = clearMatrix(this.L_no_gnd);
+        this.X_no_gnd = this.Dik.copy();
+        this.X_no_gnd = clearMatrix(this.X_no_gnd);
+        this.R_no_gnd = this.Dik.copy();
+        this.R_no_gnd = clearMatrix(this.R_no_gnd);
+        this.R_gnd = this.Dik.copy();
+        this.R_gnd = clearMatrix(this.R_gnd);
+        this.L_gnd = this.Dik.copy();
+        this.L_gnd = clearMatrix(this.L_gnd);
+        this.X_gnd = this.Dik.copy();
+        this.X_gnd = clearMatrix(this.X_gnd);
     }
     
     //public functions
     
     public void calcRg(){
+//        this.Rg = this.Dik.copy();
+//        this.Rg = clearMatrix(this.Rg);
         double[] b;
         double[] c;
         double[] d;
@@ -116,6 +135,8 @@ public class Carson {
     }
     
     public void calcXg(){
+//        this.Xg = this.Dik.copy();
+//        this.Xg = clearMatrix(this.Xg);
         double[] b;
         double[] c;
         double[] d;
@@ -157,23 +178,29 @@ public class Carson {
     }
     
     public void calcL_no_gnd(){
+//        this.L_no_gnd = this.Dik.copy();
+//        this.L_no_gnd = clearMatrix(this.L_no_gnd);
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
-                    Carson.L_no_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR));
+                    this.L_no_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR));
                 } else {
-                    Carson.L_no_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)));
+                    this.L_no_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)));
                 }
             }
         }
     }
     
     public void calcX_no_gnd(){
+//        this.X_no_gnd = this.Dik.copy();
+//        this.X_no_gnd = clearMatrix(this.X_no_gnd);
         calcL_no_gnd();
-        this.X_no_gnd = this.L_no_gnd.scalarMultiply(2*Math.PI*this.f);
+        this.X_no_gnd = this.L_no_gnd.copy().scalarMultiply(2*Math.PI*this.f);
     }
     
     public void calcR_no_gnd(){
+//        this.R_no_gnd = this.Dik.copy();
+//        this.R_no_gnd = clearMatrix(this.R_no_gnd);
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
@@ -186,6 +213,8 @@ public class Carson {
     }
     
     public void calcR_gnd(){
+//        this.R_gnd = this.Dik.copy();
+//        this.R_gnd = clearMatrix(this.R_gnd);
         calcRg();
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
@@ -199,6 +228,8 @@ public class Carson {
     }
     
     public void calcL_gnd(){
+//        this.L_gnd = this.Dik.copy();
+//        this.L_gnd = clearMatrix(this.L_gnd);
         calcXg();
         double omega = 2*Math.PI*this.f;
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
@@ -213,6 +244,8 @@ public class Carson {
     }
     
     public void calcX_gnd(){
+//        this.X_gnd = this.Dik.copy();
+//        this.X_gnd = clearMatrix(this.X_gnd);
         calcL_gnd();
         this.X_gnd = this.L_gnd.scalarMultiply(2*Math.PI*this.f);
     }
@@ -220,6 +253,8 @@ public class Carson {
     //private functions
     
     private void calckik(){
+        this.kik = this.Dik.copy();
+        this.kik = clearMatrix(this.kik);
         for (int i = 0; i < this.Dik_mirror.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik_mirror.getColumnDimension(); j++) {
                 this.kik.setEntry(i,j,(4e-4)*Math.PI*sqrt(5)*sqrt(this.f/this.rho_gnd)*this.Dik_mirror.getEntry(i,j));
@@ -337,68 +372,68 @@ public class Carson {
         this.rho_gnd = rho_gnd;
     }
 
-    public static RealMatrix getRg() {
+    public RealMatrix getRg() {
         return Rg;
     }
 
-    public static void setRg(RealMatrix Rg) {
-        Carson.Rg = Rg;
+    public void setRg(RealMatrix Rg) {
+        this.Rg = Rg;
     }
 
-    public static RealMatrix getXg() {
+    public RealMatrix getXg() {
         return Xg;
     }
 
-    public static void setXg(RealMatrix Xg) {
-        Carson.Xg = Xg;
+    public void setXg(RealMatrix Xg) {
+        this.Xg = Xg;
     }
 
-    public static RealMatrix getR_no_gnd() {
+    public RealMatrix getR_no_gnd() {
         return R_no_gnd;
     }
 
-    public static void setR_no_gnd(RealMatrix R_no_gnd) {
-        Carson.R_no_gnd = R_no_gnd;
+    public void setR_no_gnd(RealMatrix R_no_gnd) {
+        this.R_no_gnd = R_no_gnd;
     }
 
-    public static RealMatrix getR_gnd() {
+    public RealMatrix getR_gnd() {
         return R_gnd;
     }
 
-    public static void setR_gnd(RealMatrix R_gnd) {
-        Carson.R_gnd = R_gnd;
+    public void setR_gnd(RealMatrix R_gnd) {
+        this.R_gnd = R_gnd;
     }
 
-    public static RealMatrix getL_no_gnd() {
+    public RealMatrix getL_no_gnd() {
         return L_no_gnd;
     }
 
-    public static void setL_no_gnd(RealMatrix L_no_gnd) {
-        Carson.L_no_gnd = L_no_gnd;
+    public void setL_no_gnd(RealMatrix L_no_gnd) {
+        this.L_no_gnd = L_no_gnd;
     }
 
-    public static RealMatrix getL_gnd() {
+    public RealMatrix getL_gnd() {
         return L_gnd;
     }
 
-    public static void setL_gnd(RealMatrix L_gnd) {
-        Carson.L_gnd = L_gnd;
+    public void setL_gnd(RealMatrix L_gnd) {
+        this.L_gnd = L_gnd;
     }
 
-    public static RealMatrix getX_no_gnd() {
+    public RealMatrix getX_no_gnd() {
         return X_no_gnd;
     }
 
-    public static void setX_no_gnd(RealMatrix X_no_gnd) {
-        Carson.X_no_gnd = X_no_gnd;
+    public void setX_no_gnd(RealMatrix X_no_gnd) {
+        this.X_no_gnd = X_no_gnd;
     }
 
-    public static RealMatrix getX_gnd() {
+    public RealMatrix getX_gnd() {
         return X_gnd;
     }
 
-    public static void setX_gnd(RealMatrix X_gnd) {
-        Carson.X_gnd = X_gnd;
+    public void setX_gnd(RealMatrix X_gnd) {
+        this.X_gnd = X_gnd;
     }
 
     public RealMatrix getKik() {

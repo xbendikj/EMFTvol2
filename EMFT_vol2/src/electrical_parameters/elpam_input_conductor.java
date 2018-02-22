@@ -78,9 +78,9 @@ public class elpam_input_conductor {
         elpam_input_conductor.Al_d = Al_d;
         
         //aby bolo jasne ze nie su ete dopocitane
-        elpam_input_conductor.GMR = -1;
-        elpam_input_conductor.xi = -1;
-        elpam_input_conductor.Rac = -1;
+        elpam_input_conductor.GMR = -9999;
+        elpam_input_conductor.xi = -9999;
+        elpam_input_conductor.Rac = -9999;
     }
 
     public String getName() {

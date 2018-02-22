@@ -528,4 +528,13 @@ public class help {
         }
         System.out.println();
     }
+    
+    public static RealMatrix clearMatrix(RealMatrix mtx){
+        for (int i = 0; i < mtx.getRowDimension(); i++) {
+            for (int j = 0; j < mtx.getColumnDimension(); j++) {
+                mtx.setEntry(i, j, 0.0);
+            }
+        }
+        return mtx;
+    }
 }

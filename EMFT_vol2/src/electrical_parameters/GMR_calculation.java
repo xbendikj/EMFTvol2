@@ -91,8 +91,8 @@ public class GMR_calculation {
             for (int j = 0; j < Al_layers; j++) {
                 if (i < j) {
                 GMR_final = GMR_final*Math.pow(gmr_between(n-6*i,Al_d/2),exp(n-6*i,m,j-i));
-                System.out.println("GMR_final");
-                System.out.println(GMR_final);
+//                System.out.println("GMR_final");
+//                System.out.println(GMR_final);
                 }
             }
         }
@@ -110,21 +110,21 @@ public class GMR_calculation {
     //Private function area
     
     private double exp(double n_max, double n_total, int i){
-        System.out.println("exp");
-        System.out.println((2*n_max*(n_max-6*i))/Math.pow(n_total,2));
+//        System.out.println("exp");
+//        System.out.println((2*n_max*(n_max-6*i))/Math.pow(n_total,2));
         return (2*n_max*(n_max-6*i))/Math.pow(n_total,2);
         
     }
     
     private double gmr_between(double n, double r1){
-        System.out.println("gmr_between");
-        System.out.println((n*r1)/3);
+//        System.out.println("gmr_between");
+//        System.out.println((n*r1)/3);
         return (n*r1)/3;
     }
     
     private double gmr_layer(double n, double r1){
-        System.out.println("gmr_layer");
-        System.out.println(((n*r1)/3)*Math.pow(2.3364,1/n));
+//        System.out.println("gmr_layer");
+//        System.out.println(((n*r1)/3)*Math.pow(2.3364,1/n));
         return ((n*r1)/3)*Math.pow(2.3364,1/n);
     }
 
