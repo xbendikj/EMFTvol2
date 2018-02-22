@@ -116,6 +116,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         calcBaE = new javax.swing.JButton();
         save1 = new javax.swing.JButton();
         jProgressBar = new javax.swing.JProgressBar();
+        calc_MATRIX = new javax.swing.JButton();
         outputPanel2 = new InternalFrame.outputPanel();
 
         jMenuItem1.setText("jMenuItem1");
@@ -204,6 +205,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         jProgressBar.setStringPainted(true);
 
+        calc_MATRIX.setBackground(new java.awt.Color(255, 51, 51));
+        calc_MATRIX.setText("Matrix Test");
+        calc_MATRIX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calc_MATRIXActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -225,7 +234,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calcBaE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +250,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(calcE_OLD, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(calcBaE, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(calcBaE, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -386,7 +398,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculate_B_2D_hor(BE, cl0);
                     }
                     if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true) {
-                        calculate_B_2D_ver(BE, (int)Rozpätie.getH());
+                        calculate_B_2D_ver(BE, (int) Rozpätie.getH());
                     }
                     if (observerPanel1.P1D_par.isSelected() == true) {
                         calculate_B_parameter(BE, cl0);
@@ -433,13 +445,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     make_TxT(Rozpätie, 0, BE, "POKUS", false);
                 }
                 try {
-                         if (TxT_JFrame.getB_GeoMat().isSelected() == true) {
-                    make_TxTGEOMAT(Rozpätie, BE, "POKUS");
-                }  
-                } catch(NullPointerException E){
-                    
+                    if (TxT_JFrame.getB_GeoMat().isSelected() == true) {
+                        make_TxTGEOMAT(Rozpätie, BE, "POKUS");
+                    }
+                } catch (NullPointerException E) {
+
                 }
-                   
 
             }
 
@@ -490,7 +501,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                 }
 
-                plot_1D graf2 = new plot_1D(BE.getXray1D("Z", BE.getFromList1D(0, 0)), BE.getYray1DList("E", "RMS E", BE.getP1D_priecne()), constants.getROW1(), constants.getROW2(), "ROW1", "ROW2", BE.getYray_height_name(BE.getP1D_priecne(),Rozpätie.getPole()));
+                plot_1D graf2 = new plot_1D(BE.getXray1D("Z", BE.getFromList1D(0, 0)), BE.getYray1DList("E", "RMS E", BE.getP1D_priecne()), constants.getROW1(), constants.getROW2(), "ROW1", "ROW2", BE.getYray_height_name(BE.getP1D_priecne(), Rozpätie.getPole()));
                 // graf2.setunits(1000000);
                 graf2.draw_1D_yn();
 
@@ -546,6 +557,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (main_Jframe.iscalculation_Settings == true) {
                     if (calculation_Settings.getEmirrorA().isSelected() == true) {
                         Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                        aproxx = false;
                     }
                     if (calculation_Settings.getEmirrorB().isSelected() == true) {
                         Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
@@ -580,7 +592,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculate_E_OLD_2D_hor(BE, cl0);
                     }
                     if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true) {
-                        calculate_E_OLD_2D_ver(BE, (int)Rozpätie.getH());
+                        calculate_E_OLD_2D_ver(BE, (int) Rozpätie.getH());
                     }
                     if (observerPanel1.P1D_par.isSelected() == true) {
                         calculate_E_old_parameter(BE, cl0);
@@ -667,6 +679,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (main_Jframe.iscalculation_Settings == true) {
                     if (calculation_Settings.getEmirrorA().isSelected() == true) {
                         Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                        aproxx = false;
                     }
                     if (calculation_Settings.getEmirrorB().isSelected() == true) {
                         Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
@@ -700,7 +713,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculate_E_OLD_plus_2D_hor(BEplus, cl0);
                     }
                     if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true) {
-                        calculate_E_OLD_plus_2D_ver(BEplus, (int)Rozpätie.getH());
+                        calculate_E_OLD_plus_2D_ver(BEplus, (int) Rozpätie.getH());
                     }
                     if (observerPanel1.P1D_par.isSelected() == true) {
                         calculate_E_old_parameter(BEplus, cl0);
@@ -797,7 +810,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                 }
 
-                plot_1D graf2 = new plot_1D(BE.getXray1D("Z", BE.getFromList1D(0, 0)), BE.getYray1DList("E", "RMS E", BE.getP1D_priecne()), constants.getROW1(), constants.getROW2(), "ROW1", "ROW2", BE.getYray_height_name(BE.getP1D_priecne(),Rozpätie.getPole()));
+                plot_1D graf2 = new plot_1D(BE.getXray1D("Z", BE.getFromList1D(0, 0)), BE.getYray1DList("E", "RMS E", BE.getP1D_priecne()), constants.getROW1(), constants.getROW2(), "ROW1", "ROW2", BE.getYray_height_name(BE.getP1D_priecne(), Rozpätie.getPole()));
                 // graf2.setunits(1000000);
                 graf2.draw_1D_yn();
 
@@ -1036,6 +1049,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (main_Jframe.iscalculation_Settings == true) {
                     if (calculation_Settings.getEmirrorA().isSelected() == true) {
                         Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                        aproxx = false;
                     }
                     if (calculation_Settings.getEmirrorB().isSelected() == true) {
                         Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
@@ -1081,7 +1095,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculate_B_2D_hor(BE, cl0);
                     }
                     if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true) {
-                        calculate_B_2D_ver(BE, (int)Rozpätie.getH());
+                        calculate_B_2D_ver(BE, (int) Rozpätie.getH());
                     }
                     if (observerPanel1.P1D_par.isSelected() == true) {
                         calculate_B_parameter(BE, cl0);
@@ -1098,9 +1112,11 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         if (main_Jframe.iscalculation_Settings == true) {
                             if (calculation_Settings.getEmirrorA().isSelected() == true) {
                                 Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                                aproxx = false;
                             }
                             if (calculation_Settings.getEmirrorB().isSelected() == true) {
                                 Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
+                                aproxx = true;
                             }
                             if (calculation_Settings.getEmirrorOff().isSelected() == true) {
                                 Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_OFF(elementh);
@@ -1363,18 +1379,83 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_save1ActionPerformed
 
+    private void calc_MATRIXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIXActionPerformed
+
+        try {
+
+            catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+            // nacitaj velkost elementu
+            double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
+            // ochrana či je vobec co pocitat
+            boolean sulana = true;
+            boolean aproxx = true;
+            if (Rozpätie.getRetazovkaList().size() == 0) {
+                sulana = false;
+            }
+
+            // Priprava vektorov
+            for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
+
+                //vyber metody zrkaldnia // priprav vsetky vektory R0_mirror
+                if (main_Jframe.iscalculation_Settings == false) {
+                    Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh); // priprav vsetky vektory R0_mirror
+                }
+                if (main_Jframe.iscalculation_Settings == true) {
+                    if (calculation_Settings.getEmirrorA().isSelected() == true) {
+                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                        aproxx = false;
+                    }
+                    if (calculation_Settings.getEmirrorB().isSelected() == true) {
+                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
+                        aproxx = true;
+                    }
+                    if (calculation_Settings.getEmirrorOff().isSelected() == true) {
+                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_OFF(elementh);
+                    }
+
+                }
+
+            }
+
+            if (sulana == true) {
+                //START MAIN
+                // cyklus vysok Cl0
+               // BE.clear(); // predkaždym startom sa databaza vyčisti
+               
+              // ****************************
+              //DEKLARUJ
+              // ****************************
+              
+              
+              ArrayList<Object[]> KOKOT = new ArrayList<Object[]>();
+              KOKOT = Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, true, new Complex(1,0),  12 , 12);
+              
+
+               
+
+            }
+
+        } catch (DelaunayError ex) {
+            Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_calc_MATRIXActionPerformed
+
     //prepocitaj auto polohy pozorovatela
     private void changeValueAtObserverPanelXp() {
-       try{ double val = Rozpätie.getRetazovkaList().get(0).getA1_over();
-        if (observerPanel1.X_precne_auto.isSelected() == true) {
-            observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
+        try {
+            double val = Rozpätie.getRetazovkaList().get(0).getA1_over();
+            if (observerPanel1.X_precne_auto.isSelected() == true) {
+                observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
+            }
+        } catch (IndexOutOfBoundsException S) {
+            double val = Rozpätie.getA() / 2;
+            if (observerPanel1.X_precne_auto.isSelected() == true) {
+                observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
+            }
         }
-       }catch (IndexOutOfBoundsException S){
-           double val = Rozpätie.getA()/2;
-           if (observerPanel1.X_precne_auto.isSelected() == true) {
-            observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
-        }
-       }
     }
 
     private void changeValueAtObserverPanelZp() {
@@ -1738,15 +1819,15 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }
 
     private void updatePB(int val) {
-        if (jProgressBar.getValue() == 100 ) {
+        if (jProgressBar.getValue() == 100) {
             jProgressBar.setValue(0);
-        jProgressBar.update(jProgressBar.getGraphics());;
-        }else if(Math.abs(jProgressBar.getValue()-val)>2){
-            
+            jProgressBar.update(jProgressBar.getGraphics());;
+        } else if (Math.abs(jProgressBar.getValue() - val) > 2) {
+
             jProgressBar.setValue(val);
-        jProgressBar.update(jProgressBar.getGraphics());;
+            jProgressBar.update(jProgressBar.getGraphics());;
         }
-        
+
     }
 
     private void calculate_E_OLD_plus_priecne(databaza BEplus, int cl0) throws DelaunayError {
@@ -2224,10 +2305,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 //                     System.out.println( " A= " +geometrickaMaticaB[0][cl4] + " B= " + geometrickaMaticaB[1][cl4] +" C= "+ geometrickaMaticaB[2][cl4] );
 //                     }
                     vektor_observerov[cl01] = BOD;
-                    
+
                 }
-double value = ((cl1p + 1) * 100 / pocet_P);
-                    updatePB((int) value);                
+                double value = ((cl1p + 1) * 100 / pocet_P);
+                updatePB((int) value);
 // vloznie do databazy
                 BE.addToList2D(vektor_observerov, 0); // nula je horizontal
             }
@@ -2300,10 +2381,10 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 //                     System.out.println( " A= " +geometrickaMaticaB[0][cl4] + " B= " + geometrickaMaticaB[1][cl4] +" C= "+ geometrickaMaticaB[2][cl4] );
 //                     }
                     vektor_observerov[cl01] = BOD;
-                    
+
                 }
                 double value = ((cl1p + 1) * 100 / pocet_P);
-                    updatePB((int) value);
+                updatePB((int) value);
                 // vloznie do databazy
                 BEplus.addToList2D(vektor_observerov, 0); // nula je horizontal
             }
@@ -2376,10 +2457,10 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 //                     System.out.println( " A= " +geometrickaMaticaB[0][cl4] + " B= " + geometrickaMaticaB[1][cl4] +" C= "+ geometrickaMaticaB[2][cl4] );
 //                     }
                     vektor_observerov[cl01] = BOD;
-                    
+
                 }
                 double value = ((cl1p + 1) * 100 / pocet_P);
-                    updatePB((int) value);
+                updatePB((int) value);
                 // vloznie do databazy
                 BE.addToList2D(vektor_observerov, 1); // nula je horizontal
             }
@@ -2452,10 +2533,10 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 //                     System.out.println( " A= " +geometrickaMaticaB[0][cl4] + " B= " + geometrickaMaticaB[1][cl4] +" C= "+ geometrickaMaticaB[2][cl4] );
 //                     }
                     vektor_observerov[cl01] = BOD;
-                   
+
                 }
                 double value = ((cl1p + 1) * 100 / pocet_P);
-                    updatePB((int) value);
+                updatePB((int) value);
                 // vloznie do databazy
                 BEplus.addToList2D(vektor_observerov, 1); // nula je horizontal
             }
@@ -2748,10 +2829,10 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 //                     System.out.println( " A= " +geometrickaMaticaB[0][cl4] + " B= " + geometrickaMaticaB[1][cl4] +" C= "+ geometrickaMaticaB[2][cl4] );
 //                     }
                     vektor_observerov[cl01] = BOD;
-                    
+
                 }
                 double value = ((cl1p + 1) * 100 / pocet_P);
-                    updatePB((int) value);
+                updatePB((int) value);
                 // vloznie do databazy
                 BE.addToList2D(vektor_observerov, 0); // nula je horizontal
             }
@@ -2825,10 +2906,10 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 //                     System.out.println( " A= " +geometrickaMaticaB[0][cl4] + " B= " + geometrickaMaticaB[1][cl4] +" C= "+ geometrickaMaticaB[2][cl4] );
 //                     }
                     vektor_observerov[cl01] = BOD;
-                    
+
                 }
                 double value = ((cl1p + 1) * 100 / pocet_P);
-                    updatePB((int) value);
+                updatePB((int) value);
                 // vloznie do databazy
                 BE.addToList2D(vektor_observerov, 1); // nula je horizontal
             }
@@ -2985,6 +3066,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
                     if (main_Jframe.iscalculation_Settings == true) {
                         if (calculation_Settings.getEmirrorA().isSelected() == true) {
                             Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                            aproxx = false;
                         }
                         if (calculation_Settings.getEmirrorB().isSelected() == true) {
                             Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
@@ -3100,6 +3182,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
                     if (main_Jframe.iscalculation_Settings == true) {
                         if (calculation_Settings.getEmirrorA().isSelected() == true) {
                             Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                            aproxx = false;
                         }
                         if (calculation_Settings.getEmirrorB().isSelected() == true) {
                             Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
@@ -3324,7 +3407,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 
         if (typ == "priecne") {
 
-            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_priecne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_priecne(),Rozpätie.getPole()));
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_priecne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_priecne(), Rozpätie.getPole()));
             if (BorE == "B") {
                 graf2.setunits(outputPanel2.BscaleFactor());
             }
@@ -3359,7 +3442,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 
         if (typ == "pozdlzne") {
 
-            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_pozdlzne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_pozdlzne(),Rozpätie.getPole()));
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_pozdlzne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_pozdlzne(), Rozpätie.getPole()));
             if (BorE == "B") {
                 graf2.setunits(outputPanel2.BscaleFactor());
             }
@@ -3393,7 +3476,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 
         if (typ == "neurcite") {
 
-            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_neurcite()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_neurcite(),Rozpätie.getPole()));
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_neurcite()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_neurcite(), Rozpätie.getPole()));
             if (BorE == "B") {
                 graf2.setunits(outputPanel2.BscaleFactor());
             }
@@ -3427,7 +3510,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 
         if (typ == "parametricke") {
 
-            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(),Rozpätie.getPole()));
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
             if (BorE == "B") {
                 graf2.setunits(outputPanel2.BscaleFactor());
             }
@@ -3724,7 +3807,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
                 }
             };
 
-         printCatenaryinformation(cF, fw);
+            printCatenaryinformation(cF, fw);
             fw.println("END OF FILE");
             fw.close();
 
@@ -5136,7 +5219,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
         return hlavicka;
     }
 
-     /**
+    /**
      * funkcia vytvara kratky vystup
      *
      * @param roz rozpatie
@@ -5147,7 +5230,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
      * @param Short of true kratky vystup if False dlhy
      * @throws IOException
      */
-    private void make_TxTGEOMAT(rozpatie roz,  databaza BE, String Sufix) throws IOException {
+    private void make_TxTGEOMAT(rozpatie roz, databaza BE, String Sufix) throws IOException {
 
         String fF = "%18.8E"; // https://stackoverflow.com/questions/2944822/format-double-value-in-scientific-notation
         String cF = "%8.3f"; // https://dzone.com/articles/java-string-format-examples
@@ -5155,11 +5238,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
         String BorE = "";
         String file_recognition = "";
 
-        
-            file_recognition = "_GEOmat_";
-       
-
-      
+        file_recognition = "_GEOmat_";
 
         Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -5167,10 +5246,9 @@ double value = ((cl1p + 1) * 100 / pocet_P);
         File subor = new File(outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + file_recognition + ".TxT");
         try {
             PrintWriter fw = new PrintWriter(subor);
-           
-                fw.println("EMFT2 - Long TxT GEOMAT output for given calculation");
-            
-           
+
+            fw.println("EMFT2 - Long TxT GEOMAT output for given calculation");
+
             fw.println("----------------------------------------------");
             fw.println("Time of the calculation       : " + df3.format(todaysDate));
             fw.println("Type of the calculation       : " + BorE);
@@ -5188,32 +5266,27 @@ double value = ((cl1p + 1) * 100 / pocet_P);
                 fw.println("");
                 fw.println("Perpendicular solution");
 
-           
-                
-                mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_priecne());
-                
-               
+                mateTXT_long_GEOMATE_futra(cF, fF, fw, BE.getP1D_priecne());
+
             }
             if (observerPanel1.P1Dpozdlzne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
                 fw.println("");
                 fw.println("Paralel solution");
-             mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_pozdlzne());
-              
+                mateTXT_long_GEOMATE_futra(cF, fF, fw, BE.getP1D_pozdlzne());
+
             };
             if (observerPanel1.P1D.isSelected() == true && observerPanel1.P1D_free.isSelected() == true) {
                 fw.println("");
                 fw.println("Free position solution");
-                mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_neurcite());
-              
+                mateTXT_long_GEOMATE_futra(cF, fF, fw, BE.getP1D_neurcite());
+
             };
             if (observerPanel1.P1D_par.isSelected() == true) {
                 fw.println("");
                 fw.println("parameter Solution");
-                 mateTXT_long_GEOMATE_futra(cF,fF, fw, BE.getP1D_parameter());
-             
+                mateTXT_long_GEOMATE_futra(cF, fF, fw, BE.getP1D_parameter());
+
             };
-           
-            
 
             printCatenaryinformation(cF, fw);
             fw.println("END OF FILE");
@@ -5231,53 +5304,45 @@ double value = ((cl1p + 1) * 100 / pocet_P);
 
     }
 
-    private void printCatenaryinformation(String cF,PrintWriter fw){
-            fw.println("----------------------------------------------");
-            fw.println("CATENARY INFORMTIONS");
-             fw.println("");
-            fw.println("Catenary" + " " + "   c[m] " + " " + "h_rel[m]" + " " + "  h_0[m]" + " " + " Amod[m]"+ " " + "   A1[m]");
-            
-            
-            for (int i = 0; i < Rozpätie.getRetazovkaList().size(); i++) {
-              fw.println(String.format(cF,(double)i ) + " " +
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getC_over() ) + " " +
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getHter_over())+ " " + 
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getH_over())+ " " +
-                      String.format(cF,Rozpätie.getRetazovkaList().get(i).getAmod_over())+ " " +
-                       String.format(cF,Rozpätie.getRetazovkaList().get(i).getA1_over())+ " " 
-              
-              
-              );
-       
-            }
-        
+    private void printCatenaryinformation(String cF, PrintWriter fw) {
+        fw.println("----------------------------------------------");
+        fw.println("CATENARY INFORMTIONS");
+        fw.println("");
+        fw.println("Catenary" + " " + "   c[m] " + " " + "h_rel[m]" + " " + "  h_0[m]" + " " + " Amod[m]" + " " + "   A1[m]");
+
+        for (int i = 0; i < Rozpätie.getRetazovkaList().size(); i++) {
+            fw.println(String.format(cF, (double) i) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getC_over()) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getHter_over()) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getH_over()) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getAmod_over()) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getA1_over()) + " "
+            );
+
+        }
+
     }
-    
-    private void mateTXT_long_GEOMATE_futra(String cF,String dF,PrintWriter fw, ArrayList<Observer[]> X){
-        
-     
-      
-    
-        
-          for (int i = 0; i < X.size(); i++) {
-                    for (int j = 0; j < X.get(i).length; j++) {
-                
-                       fw.println("   X[m] " + " " + "   Y[m] " + " " + "   Z[m] "  );
-                       fw.println(String.format(cF, X.get(i)[j].getPoloha().getX()) + " " + String.format(cF, X.get(i)[j].getPoloha().getY()) + " " + String.format(cF, X.get(i)[j].getPoloha().getZ()) );
-                       fw.println("");
-                        fw.println("  |       Ax       |" + " " + "|       Ay       |" + " " + "|       Az       |"  ); 
-                      for (int cl1 = 0; cl1 < X.get(i)[j].getGeoMatrix_A().getColumnDimension(); cl1++) {
+
+    private void mateTXT_long_GEOMATE_futra(String cF, String dF, PrintWriter fw, ArrayList<Observer[]> X) {
+
+        for (int i = 0; i < X.size(); i++) {
+            for (int j = 0; j < X.get(i).length; j++) {
+
+                fw.println("   X[m] " + " " + "   Y[m] " + " " + "   Z[m] ");
+                fw.println(String.format(cF, X.get(i)[j].getPoloha().getX()) + " " + String.format(cF, X.get(i)[j].getPoloha().getY()) + " " + String.format(cF, X.get(i)[j].getPoloha().getZ()));
+                fw.println("");
+                fw.println("  |       Ax       |" + " " + "|       Ay       |" + " " + "|       Az       |");
+                for (int cl1 = 0; cl1 < X.get(i)[j].getGeoMatrix_A().getColumnDimension(); cl1++) {
                     for (int cl2 = 0; cl2 < X.get(i)[j].getGeoMatrix_A().getRowDimension(); cl2++) {
-                       fw.print(String.format(dF,X.get(i)[j].getGeoMatrix_A().getData()[cl2][cl1]) + " ");
+                        fw.print(String.format(dF, X.get(i)[j].getGeoMatrix_A().getData()[cl2][cl1]) + " ");
                     }
-                     fw.println("");
-                }  
-         fw.println("");
-        
-    
-        
-        
-    }}}
+                    fw.println("");
+                }
+                fw.println("");
+
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private InternalFrame.BasicInfoPanel basicInfoPanel;
@@ -5286,6 +5351,7 @@ double value = ((cl1p + 1) * 100 / pocet_P);
     private javax.swing.JButton calcBaE;
     private javax.swing.JButton calcE_OLD;
     public static javax.swing.JButton calcE_OLD_plus;
+    private javax.swing.JButton calc_MATRIX;
     private InternalFrame.CatenaryPanel catenaryPanel1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
