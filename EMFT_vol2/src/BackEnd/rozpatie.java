@@ -49,6 +49,13 @@ public class rozpatie {
     private ArrayList<RealMatrix> Tau_real_mat = new ArrayList<RealMatrix>();
     private ArrayList<RealMatrix> Tau_image_mat = new ArrayList<RealMatrix>();
 
+    private ArrayList<RealMatrix> PAr_Dik_REAL= new ArrayList<RealMatrix>();
+    private ArrayList<RealMatrix> PAr_Dik_Image = new ArrayList<RealMatrix>();
+    private ArrayList<RealMatrix> PAr_Alpha_real = new ArrayList<RealMatrix>();
+    private ArrayList<ArrayList>  PAr_diagonala_real = new  ArrayList<>();
+    private ArrayList<ArrayList>  PAr_diagonala_image = new  ArrayList<>();
+    
+    
     private  boolean isV1V2base = false; // catenary panel parametre
     private  double V1base = 0;
     private  double V2base = 0;
@@ -99,6 +106,54 @@ public class rozpatie {
         LCcoordinates2[1]= LCcoordinates1[1]; // y
         LCcoordinates2[2]=0; // z
         
+    }
+
+    public ArrayList<retazovka> getRetazovka() {
+        return Retazovka;
+    }
+
+    public void setRetazovka(ArrayList<retazovka> Retazovka) {
+        this.Retazovka = Retazovka;
+    }
+
+    public ArrayList<RealMatrix> getPAr_Dik_REAL() {
+        return PAr_Dik_REAL;
+    }
+
+    public void setPAr_Dik_REAL(ArrayList<RealMatrix> PAr_Dik_REAL) {
+        this.PAr_Dik_REAL = PAr_Dik_REAL;
+    }
+
+    public ArrayList<RealMatrix> getPAr_Dik_Image() {
+        return PAr_Dik_Image;
+    }
+
+    public void setPAr_Dik_Image(ArrayList<RealMatrix> PAr_Dik_Image) {
+        this.PAr_Dik_Image = PAr_Dik_Image;
+    }
+
+    public ArrayList<RealMatrix> getPAr_Alpha_real() {
+        return PAr_Alpha_real;
+    }
+
+    public void setPAr_Alpha_real(ArrayList<RealMatrix> PAr_Alpha_real) {
+        this.PAr_Alpha_real = PAr_Alpha_real;
+    }
+
+    public ArrayList<ArrayList> getPAr_diagonala_real() {
+        return PAr_diagonala_real;
+    }
+
+    public void setPAr_diagonala_real(ArrayList<ArrayList> PAr_diagonala_real) {
+        this.PAr_diagonala_real = PAr_diagonala_real;
+    }
+
+    public ArrayList<ArrayList> getPAr_diagonala_image() {
+        return PAr_diagonala_image;
+    }
+
+    public void setPAr_diagonala_image(ArrayList<ArrayList> PAr_diagonala_image) {
+        this.PAr_diagonala_image = PAr_diagonala_image;
     }
 
     public boolean isIsV1V2base() {
@@ -757,7 +812,7 @@ public class rozpatie {
       * @return
       * @throws DelaunayError 
       */ 
-     public ArrayList calculateMatrix_opt_XX(   String diagonala,
+     public void calculateMatrix_opt_XX(   String diagonala,
                                                 String Matrix, 
                                                 boolean aproxx,
                                                 boolean bundle, 
@@ -765,7 +820,14 @@ public class rozpatie {
                                                 double Alpha, 
                                                 double Betta) throws DelaunayError{
         
-        // docasne testovacie
+        // premazanie
+        
+        this.PAr_Dik_REAL.clear();
+        this.PAr_Dik_Image.clear();
+        this.PAr_diagonala_image.clear();
+        this.PAr_diagonala_real.clear();
+        this.PAr_Alpha_real.clear();  
+        
         
         
         //int myint = 1;
@@ -955,13 +1017,18 @@ public class rozpatie {
 
              
          //AK budu rovnake cisla vsade treba rozdeklarovat    
-         Object[] O = new Object[]{ (RealMatrix) D_koef_real,(RealMatrix) D_koef_image,(ArrayList) dialonala_real,(ArrayList) dialonala_image ,(RealMatrix) angle_realny  };
-         results.add(O);
+         this.PAr_Dik_REAL.add(D_koef_real);
+         this.PAr_Dik_Image.add(D_koef_image);
+         this.PAr_diagonala_image.add(dialonala_image);
+         this.PAr_diagonala_real.add(dialonala_real);
+         this.PAr_Alpha_real.add(angle_realny);
+         
+         
          
            
          }
 
-        return results;
+       
      
     }
    

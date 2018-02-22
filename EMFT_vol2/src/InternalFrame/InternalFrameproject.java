@@ -59,6 +59,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.RealMatrix;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
@@ -1430,9 +1432,19 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
               // ****************************
               
               
-              ArrayList<Object[]> KOKOT = new ArrayList<Object[]>();
-              KOKOT = Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, true, new Complex(1,0),  12 , 12);
+             
+             Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, true, new Complex(1,0),  12 , 12);
               
+              
+              
+                            System.out.println("BackEnd.rozpatie.calculate DIK REAL" );
+            for (int i = 0; i <  Rozpätie.getPAr_Dik_REAL().get(0).getRowDimension(); i++) {
+            for (int j = 0; j < Rozpätie.getPAr_Dik_REAL().get(0).getColumnDimension(); j++) {
+                System.out.print(Rozpätie.getPAr_Dik_REAL().get(0).getData()[i][j] + " ");
+            }
+            System.out.println();
+
+        }
 
                
 
