@@ -68,6 +68,17 @@ public class retazovka {
     private ArrayList<DPoint> Ro_mirror_vectors = new ArrayList<>(0);
     private ArrayList<DPoint> Dl_vectors = new ArrayList<>(0);
 
+    //vstupy pre elektricke parametre
+    private double elpam_f;         //frekvencia [Hz]
+    private double elpam_D;         //priemer vodica [m]           
+    private double elpam_T;         //hrubka Al plasta [m] 
+    private double elpam_rho_cnd;   //rezistivita Al plasta [Ohm.m]  
+    private double elpam_rho_gnd;   //rezistivita zeme [Omh.m]
+    private double elpam_Rdc;       //jednosmerny odpor vodica [Ohm/km]
+    private int elpam_Al_layers; //pocet vrstiev Al
+    private int elpam_Al_start;  //pocet vodicov v prvej vrstve Al (smer zvnutra von)
+    private double elpam_Al_d;      //priemer Al drotov [m]
+    
     //constructor
     /**
      *
@@ -853,6 +864,78 @@ public class retazovka {
              modelovana_dlzka=iterator*elementLength;
         }
 
+    }
+
+    public double getElpam_f() {
+        return elpam_f;
+    }
+
+    public void setElpam_f(double elpam_f) {
+        this.elpam_f = elpam_f;
+    }
+
+    public double getElpam_D() {
+        return elpam_D;
+    }
+
+    public void setElpam_D(double elpam_D) {
+        this.elpam_D = elpam_D;
+    }
+
+    public double getElpam_T() {
+        return elpam_T;
+    }
+
+    public void setElpam_T(double elpam_T) {
+        this.elpam_T = elpam_T;
+    }
+
+    public double getElpam_rho_cnd() {
+        return elpam_rho_cnd;
+    }
+
+    public void setElpam_rho_cnd(double elpam_rho_cnd) {
+        this.elpam_rho_cnd = elpam_rho_cnd;
+    }
+
+    public double getElpam_rho_gnd() {
+        return elpam_rho_gnd;
+    }
+
+    public void setElpam_rho_gnd(double elpam_rho_gnd) {
+        this.elpam_rho_gnd = elpam_rho_gnd;
+    }
+
+    public double getElpam_Rdc() {
+        return elpam_Rdc;
+    }
+
+    public void setElpam_Rdc(double elpam_Rdc) {
+        this.elpam_Rdc = elpam_Rdc;
+    }
+
+    public int getElpam_Al_layers() {
+        return elpam_Al_layers;
+    }
+
+    public void setElpam_Al_layers(int elpam_Al_layers) {
+        this.elpam_Al_layers = elpam_Al_layers;
+    }
+
+    public int getElpam_Al_start() {
+        return elpam_Al_start;
+    }
+
+    public void setElpam_Al_start(int elpam_Al_start) {
+        this.elpam_Al_start = elpam_Al_start;
+    }
+
+    public double getElpam_Al_d() {
+        return elpam_Al_d;
+    }
+
+    public void setElpam_Al_d(double elpam_Al_d) {
+        this.elpam_Al_d = elpam_Al_d;
     }
     
     

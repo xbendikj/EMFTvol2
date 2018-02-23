@@ -1112,9 +1112,9 @@ public class rozpatie {
          * @return 
          */
         private double dotproduct(DPoint A,DPoint B){
-        double X = B.getX() + A.getX();
-        double Y = B.getY() + A.getY();
-        double Z = B.getZ() + A.getZ();
+        double X = B.getX() * A.getX();
+        double Y = B.getY() * A.getY();
+        double Z = B.getZ() * A.getZ();
         double val =   X+Z+Y;
         return val;
     } 

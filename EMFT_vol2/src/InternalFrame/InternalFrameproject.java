@@ -1453,29 +1453,31 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  * siedma pozicia beta [double]
                  *  Taku noda koeficient = 1,12385
                  */
-                Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, true, new Complex(1,0),0.26244,1.12385);
-                                
-                //testovaci vypis
-                System.out.println("BackEnd.rozpatie.calculate DIK REAL" );
-                for (int i = 0; i < Rozpätie.getPAr_Dik_REAL().get(0).getRowDimension(); i++) {
-                    for (int j = 0; j < Rozpätie.getPAr_Dik_REAL().get(0).getColumnDimension(); j++) {
-                        System.out.print(Rozpätie.getPAr_Dik_REAL().get(0).getData()[i][j] + " ");
-                    }
-                System.out.println();
-                }
+                
+                //v buducnosti z InternalFrame
+                Rozpätie.getRetazovkaList().get(0).setElpam_f(50);              //je
+                Rozpätie.getRetazovkaList().get(0).setElpam_D(0.02175);         //je
+                Rozpätie.getRetazovkaList().get(0).setElpam_T(0.0069);          
+                Rozpätie.getRetazovkaList().get(0).setElpam_rho_cnd(2.65e-8);
+                Rozpätie.getRetazovkaList().get(0).setElpam_rho_gnd(100);
+                Rozpätie.getRetazovkaList().get(0).setElpam_Rdc(0.1181);
+                Rozpätie.getRetazovkaList().get(0).setElpam_Al_layers(2);
+                Rozpätie.getRetazovkaList().get(0).setElpam_Al_start(10);
+                Rozpätie.getRetazovkaList().get(0).setElpam_Al_d(0.00345);
+                
             
                 //Rozpätie.getRetazovkaList().get(0).getR_over()
                 elpam_input_conductor test_cnd = new elpam_input_conductor();
                 test_cnd.setF(constants.getFrequency());
-                //AlFe180/59
-                test_cnd.setD(0.0358);
-                test_cnd.setT(0.012);
-                test_cnd.setRho_conductor(2.65e-8);
-                test_cnd.setRho_ground(100);
-                test_cnd.setRdc(0.0425);
-                test_cnd.setAl_layers(3);
-                test_cnd.setAl_start(12);
-                test_cnd.setAl_d(0.004);
+                //AlFe240/39
+                test_cnd.setD(Rozpätie.getRetazovkaList().get(0).getElpam_D());
+                test_cnd.setT(Rozpätie.getRetazovkaList().get(0).getElpam_T());
+                test_cnd.setRho_conductor(Rozpätie.getRetazovkaList().get(0).getElpam_rho_cnd());
+                test_cnd.setRho_ground(Rozpätie.getRetazovkaList().get(0).getElpam_rho_gnd());
+                test_cnd.setRdc(Rozpätie.getRetazovkaList().get(0).getElpam_Rdc());
+                test_cnd.setAl_layers(Rozpätie.getRetazovkaList().get(0).getElpam_Al_layers());
+                test_cnd.setAl_start(Rozpätie.getRetazovkaList().get(0).getElpam_Al_start());
+                test_cnd.setAl_d(Rozpätie.getRetazovkaList().get(0).getElpam_Al_d());
                 
                 //GMR & Rac calc
                 GMR_calculation myGMR = new GMR_calculation(test_cnd);
@@ -1495,9 +1497,11 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 System.out.println(myRac.getRac());
                 System.out.println();
                 
-                //definovanie realmatrix premennych - zistovanie ich velkosti
-                int rows = Rozpätie.getPAr_Dik_REAL().get(0).getRowDimension();
-                int cols = Rozpätie.getPAr_Dik_REAL().get(0).getColumnDimension();
+                //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
+                int element = 150; //nastavenie useku v retazovke
+                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385); //nutne pre stanovenie velkosti matic
+                int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
                 
                 RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
@@ -1507,11 +1511,11 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 
                 //Carson
                 Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385);
-                Dik = Rozpätie.getPAr_Dik_REAL().get(0);
+                Dik = Rozpätie.getPAr_Dik_REAL().get(element);
                 Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,true,Complex.ONE,0.26244,1.12385);
-                Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(0);
-                Fik = Rozpätie.getPAr_Alpha_real().get(0);
-                hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(0));
+                Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                Fik = Rozpätie.getPAr_Alpha_real().get(element);
+                hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
                 
                 printRealMatrix(Dik);
                 printRealMatrix(Dik_mirror_real);
@@ -1527,11 +1531,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                                 true
                                                 );
                 
-                test_carson.calcL_no_gnd();
-                test_carson.calcL_gnd();
-                
-                printRealMatrix(test_carson.getL_no_gnd());
-                printRealMatrix(test_carson.getL_gnd());
+                test_carson.calcAll();
+                test_carson.printAll();
                         
             }
 

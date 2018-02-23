@@ -7,8 +7,11 @@ package electrical_parameters;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import java.time.LocalTime;
 import org.apache.commons.math.linear.RealMatrix;
 import static tools.help.clearMatrix;
+import static tools.help.printDoubleArr;
+import static tools.help.printRealMatrix;
 
 /**
  * Carsonova vypoctova metoda elektrickych parametrov
@@ -28,6 +31,7 @@ public class Carson {
     
     //results
     public RealMatrix Rg;
+    public RealMatrix Lg;
     public RealMatrix Xg;
     public RealMatrix R_no_gnd;
     public RealMatrix R_gnd;
@@ -73,6 +77,8 @@ public class Carson {
         
         this.Rg = this.Dik.copy();
         this.Rg = clearMatrix(this.Rg);
+        this.Lg = this.Dik.copy();
+        this.Lg = clearMatrix(this.Lg);
         this.Xg = this.Dik.copy();
         this.Xg = clearMatrix(this.Xg);
         this.L_no_gnd = this.Dik.copy();
@@ -90,6 +96,47 @@ public class Carson {
     }
     
     //public functions
+    
+    public void printAll(){
+        System.out.println("Cas generovania");
+        System.out.println(LocalTime.now());
+//        System.out.println("b-cka");
+//        printDoubleArr(b());
+//        System.out.println("c-cka");
+//        printDoubleArr(c());
+//        System.out.println("d-cka");
+//        printDoubleArr(d());
+        System.out.println("Rg [Ohm/km]");
+        printRealMatrix(this.Rg);
+        System.out.println("Lg [mH/km]");
+        printRealMatrix(this.Lg.scalarMultiply(1000));
+        System.out.println("Xg [Ohm/km]");
+        printRealMatrix(this.Xg);
+        System.out.println("R_no_gnd [Ohm/km]");
+        printRealMatrix(this.R_no_gnd);
+        System.out.println("L_no_gnd [mH/km]");
+        printRealMatrix(this.L_no_gnd.scalarMultiply(1000));
+        System.out.println("X_no_gnd [Ohm/km]");
+        printRealMatrix(this.X_no_gnd);
+        System.out.println("R_gnd [Ohm/km]");
+        printRealMatrix(this.R_gnd);
+        System.out.println("L_gnd [mH/km]");
+        printRealMatrix(this.L_gnd.scalarMultiply(1000));
+        System.out.println("X_gnd [Ohm/km]");
+        printRealMatrix(this.X_gnd);
+    }
+    
+    public void calcAll(){
+        calcRg();
+        calcLg();
+        calcXg();
+        calcR_no_gnd();
+        calcL_no_gnd();
+        calcX_no_gnd();
+        calcR_gnd();
+        calcL_gnd();
+        calcX_gnd();
+    }
     
     public void calcRg(){
 //        this.Rg = this.Dik.copy();
@@ -154,7 +201,7 @@ public class Carson {
                 fik = this.Fik.getEntry(i,j);
                 kik = this.kik.getEntry(i,j);
                 this.Xg.setEntry(i,j,    (4e-4)*omega*(
-                                         (1/2) * (0.6159315 - Math.log(kik)) 
+                                         ((double)1/2) * (0.6159315 - Math.log(kik)) 
                                         + b[0] * kik * Math.cos(fik)
                                         - d[1] * pow(kik,2) * Math.cos(2*fik)
                                         + b[2] * pow(kik,3) * Math.cos(3*fik)
@@ -175,6 +222,17 @@ public class Carson {
                 );
             }
         }
+    }
+    
+    public void calcLg(){
+        calcXg();
+        double omega = (double)2*Math.PI*this.f;
+        this.Lg = this.Xg.scalarMultiply((double)1/omega);
+//        for (int i = 0; i < this.Lg.getRowDimension(); i++) {
+//            for (int j = 0; j < this.Lg.getColumnDimension(); j++) {
+//                this.Lg.setEntry(i, j, this.Xg.getEntry(j, j)/omega);
+//            }
+//        }
     }
     
     public void calcL_no_gnd(){
@@ -230,14 +288,13 @@ public class Carson {
     public void calcL_gnd(){
 //        this.L_gnd = this.Dik.copy();
 //        this.L_gnd = clearMatrix(this.L_gnd);
-        calcXg();
-        double omega = 2*Math.PI*this.f;
+        calcLg();
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
-                    this.L_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR) + this.Xg.getEntry(i,j)/omega);
+                    this.L_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR) + this.Lg.getEntry(i,j));
                 } else {
-                    this.L_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)) + this.Xg.getEntry(i,j)/omega);
+                    this.L_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)) + this.Lg.getEntry(i,j));
                 }
             }
         }
@@ -265,7 +322,7 @@ public class Carson {
     private double[] b(){
         double[] result = new double[8];
         result[0] = sqrt(2)/6;
-        result[1] = 1/16;
+        result[1] = (double)1/16;
         result[2] = result[0]/15;
         result[3] = result[1]/24;
         result[4] = -result[2]/35;
@@ -290,20 +347,20 @@ public class Carson {
         result[0] = 0;
         result[1] = 1.3659315;
         result[2] = 0;
-        result[3] = result[1]+1/4+1/6;
+        result[3] = result[1]+(double)1/4+(double)1/6;
         result[4] = 0;
-        result[5] = result[3]+1/6+1/8;
+        result[5] = result[3]+(double)1/6+(double)1/8;
         result[6] = 0;
-        result[7] = result[5]+1/8+1/10;
+        result[7] = result[5]+(double)1/8+(double)1/10;
         return result;
     }
     
     private double Lii(double hx2, double GMR){
-        return (2e-4) * Math.log(hx2/GMR); //[H/km]
+        return Math.abs((2e-4) * Math.log(hx2/GMR)); //[H/km]
     }
     
     private double Lik(double Dik, double Dik_mirror){
-        return (2e-4) * Math.log(Dik/Dik_mirror);
+        return Math.abs((2e-4) * Math.log(Dik/Dik_mirror));
     }
     
     //Getters and Setters area
