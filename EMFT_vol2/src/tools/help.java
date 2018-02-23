@@ -6,7 +6,6 @@
 package tools;
 
 import Databazes.SQLlite_constants;
-import static InternalFrame.InternalFrameproject.Rozpätie;
 import emft_vol2.constants;
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -505,6 +504,18 @@ public class help {
         return a.add(b);
     }
     
+    public static Complex cdiv(Complex a, Complex b){
+        return a.divide(b);
+    }
+    
+    public static Complex cdiv(Complex a, double b){
+        return a.divide(b);
+    }
+    
+    public static Complex cdiv(double a, Complex b){
+        return new Complex(a,0).divide(b);
+    }
+    
     public static double[] ArrList2Arr(ArrayList arr) {
         double[] res = new double[arr.size()];
         for (int i = 0; i < res.length; i++) {
@@ -536,5 +547,21 @@ public class help {
             }
         }
         return mtx;
+    }
+    
+    /**
+     * initialize matrix with zero values based on size of another matrix
+     * @param source_mtx matrix defining the size of the initiating matrix
+     * @return matrix with zero values with size of source_mtx
+     */
+    public static RealMatrix initMatrix(RealMatrix source_mtx){
+        RealMatrix final_mtx = source_mtx.copy();
+        return clearMatrix(final_mtx);
+        
+        
+    }
+
+    public Complex calcComplexP(double rho_gnd, double omega, double mu){
+        return cdiv(rho_gnd,new Complex(0,omega*mu)).sqrt();
     }
 }

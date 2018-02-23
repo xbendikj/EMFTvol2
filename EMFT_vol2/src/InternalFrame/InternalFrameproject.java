@@ -1531,8 +1531,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                                 true
                                                 );
                 
-                test_carson.calcAll();
-                test_carson.printAll();
+//                test_carson.calcAll();
+//                test_carson.printAll();
                         
             }
 

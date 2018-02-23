@@ -10,7 +10,7 @@ import static java.lang.Math.sqrt;
 import java.time.LocalTime;
 import org.apache.commons.math.linear.RealMatrix;
 import static tools.help.clearMatrix;
-import static tools.help.printDoubleArr;
+import static tools.help.initMatrix;
 import static tools.help.printRealMatrix;
 
 /**
@@ -75,24 +75,15 @@ public class Carson {
         this.f = Conductor.getF();
         this.rho_gnd = Conductor.getRho_ground();
         
-        this.Rg = this.Dik.copy();
-        this.Rg = clearMatrix(this.Rg);
-        this.Lg = this.Dik.copy();
-        this.Lg = clearMatrix(this.Lg);
-        this.Xg = this.Dik.copy();
-        this.Xg = clearMatrix(this.Xg);
-        this.L_no_gnd = this.Dik.copy();
-        this.L_no_gnd = clearMatrix(this.L_no_gnd);
-        this.X_no_gnd = this.Dik.copy();
-        this.X_no_gnd = clearMatrix(this.X_no_gnd);
-        this.R_no_gnd = this.Dik.copy();
-        this.R_no_gnd = clearMatrix(this.R_no_gnd);
-        this.R_gnd = this.Dik.copy();
-        this.R_gnd = clearMatrix(this.R_gnd);
-        this.L_gnd = this.Dik.copy();
-        this.L_gnd = clearMatrix(this.L_gnd);
-        this.X_gnd = this.Dik.copy();
-        this.X_gnd = clearMatrix(this.X_gnd);
+        this.Rg = initMatrix(Dik);
+        this.Lg = initMatrix(Dik);
+        this.Xg = initMatrix(Dik);
+        this.L_no_gnd = initMatrix(Dik);
+        this.X_no_gnd = initMatrix(Dik);
+        this.R_no_gnd = initMatrix(Dik);
+        this.R_gnd = initMatrix(Dik);
+        this.L_gnd = initMatrix(Dik);
+        this.X_gnd = initMatrix(Dik);
     }
     
     //public functions
@@ -310,8 +301,7 @@ public class Carson {
     //private functions
     
     private void calckik(){
-        this.kik = this.Dik.copy();
-        this.kik = clearMatrix(this.kik);
+        this.kik = initMatrix(Dik);
         for (int i = 0; i < this.Dik_mirror.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik_mirror.getColumnDimension(); j++) {
                 this.kik.setEntry(i,j,(4e-4)*Math.PI*sqrt(5)*sqrt(this.f/this.rho_gnd)*this.Dik_mirror.getEntry(i,j));
