@@ -142,7 +142,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
         
     if(isListener == true){
     isCatenarydatachanged=true; // zmenili sa udaje v tabulke    
-    if(e.getColumn()!=11 && e.getColumn()!=20 && e.getColumn()!=21){ // podmienka pre checkbox riadky    
+    if(e.getColumn()!=11 && e.getColumn()!=20 && e.getColumn()!=21 && e.getColumn()!=22){ // podmienka pre checkbox riadky    
           try {String hodnota1 =String.valueOf(Table.getValueAt(Table.getEditingRow(), Table.getEditingColumn()));
          
           Table.getModel().removeTableModelListener(this);
@@ -221,7 +221,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
 
         },
         new String [] {
-            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "null"
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
         }
     ) {
         Class[] types = new Class [] {
@@ -314,6 +314,9 @@ public class CatenaryPanel extends javax.swing.JPanel {
         );
         Table.getColumnModel().getColumn(21).setResizable(false);
         Table.getColumnModel().getColumn(21).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 51));
+        Table.getColumnModel().getColumn(22).setResizable(false);
+        Table.getColumnModel().getColumn(22).setPreferredWidth(200);
+        Table.getColumnModel().getColumn(22).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 57));
         Table.getColumnModel().getColumn(22).setCellEditor(null);
     }
 
@@ -400,7 +403,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
                     .addComponent(T2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jLabel4)
-                    .addGap(0, 196, Short.MAX_VALUE)))
+                    .addGap(0, 251, Short.MAX_VALUE)))
             .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -622,6 +625,46 @@ public class CatenaryPanel extends javax.swing.JPanel {
         }
     }
    
+    /**
+     * nahodi parametre do vodiča
+     * poradie j pre subor conductor.txt kde su ulozene parametre
+     * setElpam_D
+       setElpam_T;          
+       setElpam_rho_cnd;
+       setElpam_rho_gnd;
+       setElpam_Rdc;
+       setElpam_Al_layers;
+       setElpam_Al_start;
+       setElpam_Al_d;
+     */
+    public void add_parametre_to_conductor(){
+        
+        int rows = Table.getRowCount();
+        for(int i=0;i<rows-1;i++){ 
+        
+        //tu musi ist niečo čo najde 
+        String porovnavacka = String.valueOf(DTMTable.getValueAt(i, 22));
+        int index = 0;
+            for (int j = 0; j < conductor_Name_Matrix.size(); j++) {
+                
+                if(porovnavacka.equals(conductor_Name_Matrix.get(i))) index = i;
+            }
+            
+        InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_f(constants.getFrequency());
+        
+         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_D(conductor_parameters_Matrix.get(index)[0]);         //je
+         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_T(conductor_parameters_Matrix.get(index)[0]);          
+         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_rho_cnd(conductor_parameters_Matrix.get(index)[0]);
+              InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_rho_gnd(conductor_parameters_Matrix.get(index)[0]);
+              InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Rdc(conductor_parameters_Matrix.get(index)[0]);
+                InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_layers( conductor_parameters_Matrix.get(index)[0].intValue() );
+               InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_start(conductor_parameters_Matrix.get(index)[0].intValue() );
+               InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_d(conductor_parameters_Matrix.get(index)[0]);
+                
+                
+        }
+        
+    }
 
 //diferent tool tip for every calumn https://coderanch.com/t/336281/java/Adding-Tooltip-JTable-header
     class ColumnHeaderToolTips extends MouseMotionAdapter {
@@ -770,6 +813,11 @@ public class CatenaryPanel extends javax.swing.JPanel {
            if(c== 21){
 
              tips.setToolTip(col,language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 52));
+
+        }
+           if(c== 22){
+
+             tips.setToolTip(col,language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 58));
 
         }
       
@@ -999,7 +1047,13 @@ static void constructor(){
 /*56*/   SK.add("Výška stožiara 1 nad absolutnou nulou.  ");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
-      
+/*57*/   SK.add("vodič ");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
+/*58*/   SK.add("Vodič potrebne pre vypočet parametrov");  
+         CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
+         EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");          
+                
 
 }
  

@@ -14,6 +14,7 @@ import BackEnd.Observer;
 import BackEnd.databaza;
 import BackEnd.retazovka;
 import BackEnd.rozpatie;
+import static InternalFrame.CatenaryPanel.Table;
 import static InternalFrame.CatenaryPanel.isListener;
 import dislin.plot_1D;
 import dislin.plot_2D;
@@ -255,7 +256,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(catenaryPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(catenaryPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(outputPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1465,6 +1466,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Rozpätie.getRetazovkaList().get(0).setElpam_Al_start(10);
                 Rozpätie.getRetazovkaList().get(0).setElpam_Al_d(0.00345);
                 
+                catenaryPanel1.add_parametre_to_conductor(); 
             
                 //Rozpätie.getRetazovkaList().get(0).getR_over()
                 elpam_input_conductor test_cnd = new elpam_input_conductor();
