@@ -1,0 +1,15 @@
+EMFT2 conductor file - made for MATIICKY
+6
+350 ALFE 6
+1 1 1 1 1 1 1 1
+350 ALFE 7
+1 1 1 1 1 1 1 1
+350 ALFE 8
+1 1 1 1 1 1 1 1
+350 ALFE 9
+1 1 1 1 1 1 1 1
+350 ALFE 10
+1 1 1 1 1 1 1 1
+350 ALFE 11
+1 1 1 1 1 1 1 1
+END of FILE

@@ -21,11 +21,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.scene.input.KeyCode.T;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -48,20 +51,30 @@ public class CatenaryPanel extends javax.swing.JPanel {
     /**
      * Creates new form BasicInfoPanel
      */
-    public CatenaryPanel() {
+    public CatenaryPanel()  {
         initComponents();
+         Locale.setDefault(new Locale("en", "US"));
         setToolTipsForColumnHeader();
         T1.setText(String.valueOf(InternalFrameproject.Rozpätie.getV1base()));
         T2.setText(String.valueOf(InternalFrameproject.Rozpätie.getV1base()));
         Table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); // confirm Table of lost of focus
         this.DTMTable =(DefaultTableModel) Table.getModel();
     
+        nacitaj_dat_lan();
+       
+        // nahod vodiče do combdodoxu
+        JComboBox jComboBox_conductor = new JComboBox();
+         jComboBox_conductor.removeAllItems();
+        for (int i = 0; i < conductor_Name_Matrix.size(); i++) {
+        jComboBox_conductor.addItem(conductor_Name_Matrix.get(i));    
+        }
         
         
+        Table.getColumnModel().getColumn(22).setCellEditor(new DefaultCellEditor(jComboBox_conductor));
 
         
         for (int cl1 = 0; cl1<DTMTable.getColumnCount() ;cl1 ++){
-          if(cl1!= 11 && cl1!= 20 && cl1!= 21){  
+          if(cl1!= 11 && cl1!= 20 && cl1!= 21 && cl1!= 22){  
              TableColumn col = Table.getColumnModel().getColumn(cl1); // default cell editor for one columnt
         col.setCellEditor( new MyCellEditor());
          if(cl1== 17 || cl1== 18 || cl1== 19){
@@ -208,14 +221,14 @@ public class CatenaryPanel extends javax.swing.JPanel {
 
         },
         new String [] {
-            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "null"
         }
     ) {
         Class[] types = new Class [] {
-            java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+            java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
         };
         boolean[] canEdit = new boolean [] {
-            true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, true, true
+            true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, true, true, true
         };
 
         public Class getColumnClass(int columnIndex) {
@@ -301,6 +314,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
         );
         Table.getColumnModel().getColumn(21).setResizable(false);
         Table.getColumnModel().getColumn(21).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 51));
+        Table.getColumnModel().getColumn(22).setCellEditor(null);
     }
 
     deffX.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 43));
@@ -571,6 +585,42 @@ public class CatenaryPanel extends javax.swing.JPanel {
         calculatecatenary.doClick();
     }
 
+    /**
+     * nacita datazabu lan predtzm premaže staru
+     */
+    void nacitaj_dat_lan(){
+        this.conductor_Name_Matrix.clear();
+        this.conductor_parameters_Matrix.clear();
+        String userhome = System.getProperty("user.dir");
+        File subor = new File(userhome   + "\\conductors.txt");
+        Scanner input;
+        try {
+            input = new Scanner(subor);
+            input.nextLine();
+            int pocet_vod_v_databaze = input.nextInt();
+            input.nextLine();
+            //cyklus nacitavania do databazy
+            for (int i = 0; i < pocet_vod_v_databaze; i++) {
+                this.conductor_Name_Matrix.add( input.nextLine());
+                
+                Double[] parametre = new Double[8];
+                parametre[0] = input.nextDouble();
+                parametre[1] = input.nextDouble();
+                parametre[2] = input.nextDouble();
+                parametre[3] = input.nextDouble();
+                parametre[4] = input.nextDouble();
+                parametre[5] = input.nextDouble();
+                parametre[6] = input.nextDouble();
+                parametre[7] = input.nextDouble();
+                input.nextLine();
+                this.conductor_parameters_Matrix.add(parametre);
+            }
+            input.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CatenaryPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
    
 
 //diferent tool tip for every calumn https://coderanch.com/t/336281/java/Adding-Tooltip-JTable-header
@@ -748,6 +798,25 @@ public class CatenaryPanel extends javax.swing.JPanel {
  DefaultTableModel DTMTable ;
   static boolean isListener = true;
   static boolean isCatenarydatachanged = false;
+  private ArrayList<String> conductor_Name_Matrix = new ArrayList<String>();
+  
+
+    public ArrayList<String> getConductor_Name_Matrix() {
+        return conductor_Name_Matrix;
+    }
+
+    public void setConductor_Name_Matrix(ArrayList<String> conductor_Name_Matrix) {
+        this.conductor_Name_Matrix = conductor_Name_Matrix;
+    }
+
+    public ArrayList<Double[]> getConductor_parameters_Matrix() {
+        return conductor_parameters_Matrix;
+    }
+
+    public void setConductor_parameters_Matrix(ArrayList<Double[]> conductor_parameters_Matrix) {
+        this.conductor_parameters_Matrix = conductor_parameters_Matrix;
+    }
+  private ArrayList<Double[]> conductor_parameters_Matrix = new ArrayList<Double[]>();
 }
 
 class language_internal_frame_catenary_Panel {
