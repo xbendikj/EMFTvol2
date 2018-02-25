@@ -5,7 +5,6 @@
  */
 package electrical_parameters;
 
-import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import java.time.LocalTime;
 import org.apache.commons.math.linear.RealMatrix;
@@ -13,10 +12,10 @@ import static tools.help.initMatrix;
 import static tools.help.printRealMatrix;
 
 /**
- * Carsonova vypoctova metoda elektrickych parametrov
+ * Carsonova vypoctova metoda elektrickych parametrov, do uvahy brany len prvy clen nekonecneho rozvoja radu
  * @author Mattto
  */
-public class Carson {
+public class CarsonModified {
     
     //inputs
     RealMatrix Dik;
@@ -42,7 +41,7 @@ public class Carson {
     //partial results
     RealMatrix kik;
     
-    public Carson(  RealMatrix Dik,
+    public CarsonModified(  RealMatrix Dik,
                     RealMatrix Dik_mirror,
                     RealMatrix Fik,
                     double[] hx2,
@@ -147,26 +146,7 @@ public class Carson {
             for (int j = 0; j < this.kik.getColumnDimension(); j++) {
                 fik = this.Fik.getEntry(i,j);
                 kik_rg = this.kik.getEntry(i,j);
-                this.Rg.setEntry(i,j,   (4e-4)*omega*(
-                                        Math.PI/8 
-                                        - b[0] * kik_rg * Math.cos(fik)
-                                        + b[1] *(
-                                                (c[1] - Math.log(kik_rg))  
-                                                * pow(kik_rg,2) * Math.cos(2*fik)                   
-                                                + fik*pow(kik_rg,2) * Math.sin(2*fik)            
-                                                )
-                                        + b[2] * pow(kik_rg,3) * Math.cos(3*fik)
-                                        - d[3] * pow(kik_rg,4) * Math.cos(4*fik)
-                                        - b[4] * kik_rg * Math.cos(fik)
-                                        + b[5] *(
-                                                (c[5] - Math.log(kik_rg))  
-                                                * pow(kik_rg,2) * Math.cos(2*fik)                   
-                                                + fik * pow(kik_rg,2) * Math.sin(2*fik)            
-                                                )
-                                        + b[6] * pow(kik_rg,3) * Math.cos(3*fik)
-                                        - d[7] * pow(kik_rg,4) * Math.cos(4*fik)
-                                        )
-                );
+                this.Rg.setEntry(i,j,(4e-4)*omega*(Math.PI/8 - b[0] * kik_rg * Math.cos(fik)));
             }
         }
     }
@@ -190,26 +170,8 @@ public class Carson {
             for (int j = 0; j < this.kik.getColumnDimension(); j++) {
                 fik = this.Fik.getEntry(i,j);
                 kik_xg = this.kik.getEntry(i,j);
-                this.Xg.setEntry(i,j,    (4e-4)*omega*(
-                                         ((double)1/2) * (0.6159315 - Math.log(kik_xg)) 
-                                        + b[0] * kik_xg * Math.cos(fik)
-                                        - d[1] * pow(kik_xg,2) * Math.cos(2*fik)
-                                        + b[2] * pow(kik_xg,3) * Math.cos(3*fik)
-                                        - b[3] *(
-                                                (c[3] - Math.log(kik_xg))  
-                                                * pow(kik_xg,4) * Math.cos(4*fik)                   
-                                                + fik * pow(kik_xg,4) * Math.sin(4*fik)            
-                                                )
-                                        + b[4] * kik_xg * Math.cos(fik)
-                                        - d[5] * pow(kik_xg,2) * Math.cos(2*fik)
-                                        + b[6] * pow(kik_xg,3) * Math.cos(3*fik)
-                                        - b[7] *(
-                                                (c[7] - Math.log(kik_xg))  
-                                                * pow(kik_xg,4) * Math.cos(4*fik)                   
-                                                + fik * pow(kik_xg,4) * Math.sin(4*fik)            
-                                                )
-                                        )
-                );
+                this.Xg.setEntry(i,j,(4e-4)*omega*(((double)1/2) * (0.6159315 - Math.log(kik_xg))
+                                    + b[0] * kik_xg * Math.cos(fik)));
             }
         }
     }

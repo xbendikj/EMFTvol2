@@ -96,15 +96,15 @@ public class CDER {
             for (int j = 0; j < this.cols; j++) {
                 if (i==j){
                     Complex hx = new Complex(this.hx2_real[i],this.hx2_imag[i]);
-                    this.Ln_real.setEntry(rows, cols, help.cdiv(hx,this.GMR).log().getReal());
-                    this.Ln_imag.setEntry(rows, cols, help.cdiv(hx,this.GMR).log().getImaginary());
+                    this.Ln_real.setEntry(i, j, help.cdiv(hx,this.GMR).log().getReal());
+                    this.Ln_imag.setEntry(i, j, help.cdiv(hx,this.GMR).log().getImaginary());
                 } else {
-                    double Dik_real = this.Dik.getEntry(rows, cols);
-                    double D_m_real = this.Dik_mirror_CDER_real.getEntry(rows, cols);
-                    double D_m_imag = this.Dik_mirror_CDER_imag.getEntry(rows, cols);
+                    double Dik_real = this.Dik.getEntry(i, j);
+                    double D_m_real = this.Dik_mirror_CDER_real.getEntry(i, j);
+                    double D_m_imag = this.Dik_mirror_CDER_imag.getEntry(i, j);
                     Complex Dik_mirr = new Complex(D_m_real,D_m_imag);
-                    this.Ln_real.setEntry(rows, cols, help.cdiv(Dik_real, Dik_mirr).log().getReal());
-                    this.Ln_imag.setEntry(rows, cols, help.cdiv(Dik_real, Dik_mirr).log().getImaginary());
+                    this.Ln_real.setEntry(i, j, help.cdiv(Dik_mirr, Dik_real).log().getReal());
+                    this.Ln_imag.setEntry(i, j, help.cdiv(Dik_mirr, Dik_real).log().getImaginary());
                 }
             }
         }
@@ -114,8 +114,8 @@ public class CDER {
         calcLn();
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                this.L_real.setEntry(this.rows, this.cols, this.Ln_real.getEntry(this.rows, this.cols)*this.mu2pi);
-                this.L_imag.setEntry(this.rows, this.cols, this.Ln_imag.getEntry(this.rows, this.cols)*this.mu2pi);
+                this.L_real.setEntry(i, j, this.Ln_real.getEntry(i, j)*this.mu2pi);
+                this.L_imag.setEntry(i, j, this.Ln_imag.getEntry(i, j)*this.mu2pi);
             }
         }
     }
@@ -124,8 +124,8 @@ public class CDER {
         calcL();
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                this.X_real.setEntry(this.rows, this.cols, this.L_real.getEntry(this.rows, this.cols)*this.omega);
-                this.X_imag.setEntry(this.rows, this.cols, this.L_imag.getEntry(this.rows, this.cols)*this.omega);
+                this.X_real.setEntry(i, j, this.L_real.getEntry(i, j)*this.omega);
+                this.X_imag.setEntry(i, j, this.L_imag.getEntry(i, j)*this.omega);
             }
         }
     }
@@ -134,7 +134,11 @@ public class CDER {
         calcX();
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                this.R_real.setEntry(this.rows, this.cols, this.R + this.X_real.getEntry(this.rows, this.cols));
+                if (i==j) {
+                    this.R_real.setEntry(i, j, this.R + this.X_real.getEntry(i, j));
+                } else {
+                    this.R_real.setEntry(i, j, this.X_real.getEntry(i, j));
+                }
             }
         }
     }
