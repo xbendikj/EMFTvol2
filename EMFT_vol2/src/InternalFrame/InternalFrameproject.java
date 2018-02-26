@@ -19,6 +19,7 @@ import static InternalFrame.CatenaryPanel.isListener;
 import dislin.plot_1D;
 import dislin.plot_2D;
 import electrical_parameters.Carson;
+import electrical_parameters.CarsonModified;
 import electrical_parameters.GMR_calculation;
 import electrical_parameters.Rac_calculation;
 import electrical_parameters.elpam_input_conductor;
@@ -1455,16 +1456,16 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  *  Taku noda koeficient = 1,12385
                  */
                 
-                //v buducnosti z InternalFrame
-                Rozpätie.getRetazovkaList().get(0).setElpam_f(50);              //je
-                Rozpätie.getRetazovkaList().get(0).setElpam_D(0.02175);         //je
-                Rozpätie.getRetazovkaList().get(0).setElpam_T(0.0069);          
-                Rozpätie.getRetazovkaList().get(0).setElpam_rho_cnd(2.65e-8);
-                Rozpätie.getRetazovkaList().get(0).setElpam_rho_gnd(100);
-                Rozpätie.getRetazovkaList().get(0).setElpam_Rdc(0.1181);
-                Rozpätie.getRetazovkaList().get(0).setElpam_Al_layers(2);
-                Rozpätie.getRetazovkaList().get(0).setElpam_Al_start(10);
-                Rozpätie.getRetazovkaList().get(0).setElpam_Al_d(0.00345);
+//                //v buducnosti z InternalFrame
+//                Rozpätie.getRetazovkaList().get(0).setElpam_f(50);              //je
+//                Rozpätie.getRetazovkaList().get(0).setElpam_D(0.02175);         //je
+//                Rozpätie.getRetazovkaList().get(0).setElpam_T(0.0069);          
+//                Rozpätie.getRetazovkaList().get(0).setElpam_rho_cnd(2.65e-8);
+//                Rozpätie.getRetazovkaList().get(0).setElpam_rho_gnd(100);
+//                Rozpätie.getRetazovkaList().get(0).setElpam_Rdc(0.1181);
+//                Rozpätie.getRetazovkaList().get(0).setElpam_Al_layers(2);
+//                Rozpätie.getRetazovkaList().get(0).setElpam_Al_start(10);
+//                Rozpätie.getRetazovkaList().get(0).setElpam_Al_d(0.00345);
                 
                 catenaryPanel1.add_parametre_to_conductor(); 
             
@@ -1489,13 +1490,13 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 myRac.calc_Rac();
                 
                 System.out.println();
-                System.out.println("GMR - AlFe 180/59");
+                System.out.println("GMR - AlFe 240/39");
                 System.out.println(myGMR.getGMR());
-                System.out.println("xi - AlFe 180/59");
+                System.out.println("xi - AlFe 240/39");
                 System.out.println(myGMR.getXi());
-                System.out.println("Rdc - AlFe 180/59");
+                System.out.println("Rdc - AlFe 240/39");
                 System.out.println(myRac.getRdc());
-                System.out.println("Rac - AlFe 180/59");
+                System.out.println("Rac - AlFe 240/39");
                 System.out.println(myRac.getRac());
                 System.out.println();
                 
@@ -1533,8 +1534,22 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                                 true
                                                 );
                 
-//                test_carson.calcAll();
-//                test_carson.printAll();
+                CarsonModified test_carson_mod = new CarsonModified(Dik,
+                                                                    Dik_mirror_real,
+                                                                    Fik,
+                                                                    hx2,
+                                                                    test_cnd,
+                                                                    true,
+                                                                    true
+                                                                    );
+                
+                System.out.println("Carson standard");
+                test_carson.calcAll();
+                test_carson.printAll();
+                System.out.println("Carson modified");
+                test_carson_mod.calcAll();
+                test_carson_mod.printAll();
+                
                         
             }
 
