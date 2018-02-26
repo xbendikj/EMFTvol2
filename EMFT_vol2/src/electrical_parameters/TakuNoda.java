@@ -5,10 +5,14 @@
  */
 package electrical_parameters;
 
+import emft_vol2.constants;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math3.complex.Complex;
 import tools.help;
 import static tools.help.initMatrix;
+import static tools.help.printRealMatrix;
 
 /**
  * vypoctova metoda od T.Noda - obsahuje dve komplexne navratove cesty prudu v zemi
@@ -16,23 +20,25 @@ import static tools.help.initMatrix;
  */
 public class TakuNoda {
      //constants
-    double omega = (double)2*Math.PI*this.f;
-    double mu = (4e-7)*Math.PI; //na [km] -> preto 4e-7 a nie 4e-4
-    double mu2pi = (mu/(2*Math.PI));
-    int rows = this.Dik.getRowDimension();
-    int cols = this.Dik.getColumnDimension();
-    double A = 0.131836;
+    double omega =0;
+    double mu = 0;
+    double mu2pi = 0;
+    int rows = 0;
+    int cols = 0;
+    double A = 0;
     
     //inputs
     RealMatrix Dik;
-    RealMatrix Dik_mirror_TakuNoda_real;
-    RealMatrix Dik_mirror_TakuNoda_imag;
+    RealMatrix Dik_mirror_real_alpha;
+    RealMatrix Dik_mirror_imag_alpha;
+    RealMatrix Dik_mirror_real_beta;
+    RealMatrix Dik_mirror_imag_beta;
     double[] hx2_alpha_real;
     double[] hx2_alpha_imag;
     double[] hx2_beta_real;
     double[] hx2_beta_imag;
-    double GMR;
-    double R;
+    double[] GMR;
+    double[] R;
     double f;
     
     //results
@@ -51,47 +57,69 @@ public class TakuNoda {
     RealMatrix Ln_imag;
 
     public TakuNoda(RealMatrix Dik,
-                    RealMatrix Dik_mirror_real,
-                    RealMatrix Dik_mirror_imag,
+                    RealMatrix Dik_mirror_real_alpha,
+                    RealMatrix Dik_mirror_imag_alpha,
+                    RealMatrix Dik_mirror_real_beta,
+                    RealMatrix Dik_mirror_imag_beta,
                     double[] hx2_alpha_real,
                     double[] hx2_alpha_imag,
                     double[] hx2_beta_real,
                     double[] hx2_beta_imag,
-                    elpam_input_conductor Conductor,
+                    ArrayList<elpam_input_conductor> cnd_list,
                     boolean exact_GMR,
                     boolean exact_Rac
                 ){
-        GMR_calculation cnd = new GMR_calculation(Conductor);
-        Rac_calculation cnd2 = new Rac_calculation(Conductor);
+//        GMR_calculation cnd = new GMR_calculation(Conductor);
+//        Rac_calculation cnd2 = new Rac_calculation(Conductor);
         
+        this.rows = Dik.getRowDimension();
+        this.cols = Dik.getColumnDimension();
+        this.GMR = new double[cnd_list.size()];
+        this.R = new double[cnd_list.size()];
+
         if (exact_GMR) {
-            cnd.calc_GMR();
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.GMR[i] = cnd_list.get(i).getGMR();
+            }
         } else {
-            cnd.setGMR(cnd.GMR_default);  //v [m]
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.GMR[i] = cnd_list.get(i).getGMR_default();
+            }
         }
         
         if (exact_Rac) {
-            cnd2.calc_Rac();
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.R[i] = cnd_list.get(i).getRac();
+            }
         } else {
-            cnd2.setRac(Conductor.getRdc());
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.R[i] = cnd_list.get(i).getRdc();
+            }
         }
 
         this.Dik = Dik;
-        this.Dik_mirror_TakuNoda_real = Dik_mirror_real;
-        this.Dik_mirror_TakuNoda_imag = Dik_mirror_imag;
+        this.Dik_mirror_real_alpha = Dik_mirror_real_alpha;
+        this.Dik_mirror_imag_alpha = Dik_mirror_imag_alpha;
+        this.Dik_mirror_real_beta = Dik_mirror_real_beta;
+        this.Dik_mirror_imag_beta = Dik_mirror_imag_beta;
         this.hx2_alpha_real = hx2_alpha_real;
         this.hx2_alpha_imag = hx2_alpha_imag;
         this.hx2_beta_real = hx2_beta_real;
         this.hx2_beta_imag = hx2_beta_imag;
-        this.GMR = cnd.getGMR();   
-        this.R = cnd2.getRac();     
-        this.f = Conductor.getF();
+        this.f = constants.getFrequency();
         
         this.R_real = initMatrix(Dik);
         this.L_real = initMatrix(Dik);
         this.L_imag = initMatrix(Dik);
         this.X_real = initMatrix(Dik);
         this.X_imag = initMatrix(Dik);
+        
+        this.omega = (double)2*Math.PI*this.f;
+        this.mu = (4e-4)*Math.PI; 
+        this.mu2pi = (mu/(2*Math.PI));
+        this.rows = Dik.getRowDimension();
+        this.cols = Dik.getColumnDimension();
+        this.A = 0.131836;
     }
     
     /**
@@ -106,15 +134,15 @@ public class TakuNoda {
             for (int j = 0; j < this.cols; j++) {
                 if (i==j){
                     Complex hx = new Complex(this.hx2_alpha_real[i],this.hx2_alpha_imag[i]);
-                    this.Ln_alpha_real.setEntry(rows, cols, help.cdiv(hx,this.GMR).log().getReal());
-                    this.Ln_alpha_imag.setEntry(rows, cols, help.cdiv(hx,this.GMR).log().getImaginary());
+                    this.Ln_alpha_real.setEntry(i, j, help.cdiv(hx,this.GMR[i]).log().getReal());
+                    this.Ln_alpha_imag.setEntry(i, j, help.cdiv(hx,this.GMR[i]).log().getImaginary());
                 } else {
-                    double Dik_real = this.Dik.getEntry(rows, cols);
-                    double D_m_real = this.Dik_mirror_TakuNoda_real.getEntry(rows, cols);
-                    double D_m_imag = this.Dik_mirror_TakuNoda_imag.getEntry(rows, cols);
+                    double Dik_real = this.Dik.getEntry(i, j);
+                    double D_m_real = this.Dik_mirror_real_alpha.getEntry(i, j);
+                    double D_m_imag = this.Dik_mirror_imag_alpha.getEntry(i, j);
                     Complex Dik_mirr = new Complex(D_m_real,D_m_imag);
-                    this.Ln_alpha_real.setEntry(rows, cols, help.cdiv(Dik_real, Dik_mirr).log().getReal());
-                    this.Ln_alpha_imag.setEntry(rows, cols, help.cdiv(Dik_real, Dik_mirr).log().getImaginary());
+                    this.Ln_alpha_real.setEntry(i, j, (double)-1*help.cdiv(Dik_real, Dik_mirr).log().getReal());        //znamienko minus kvoli i^2 = -1
+                    this.Ln_alpha_imag.setEntry(i, j, (double)-1*help.cdiv(Dik_real, Dik_mirr).log().getImaginary());   //znamienko minus kvoli i^2 = -1
                 }
             }
         }
@@ -132,15 +160,15 @@ public class TakuNoda {
             for (int j = 0; j < this.cols; j++) {
                 if (i==j){
                     Complex hx = new Complex(this.hx2_beta_real[i],this.hx2_beta_imag[i]);
-                    this.Ln_beta_real.setEntry(i, j, help.cdiv(hx,this.GMR).log().getReal());
-                    this.Ln_beta_imag.setEntry(i, j, help.cdiv(hx,this.GMR).log().getImaginary());
+                    this.Ln_beta_real.setEntry(i, j, help.cdiv(hx,this.GMR[i]).log().getReal());
+                    this.Ln_beta_imag.setEntry(i, j, help.cdiv(hx,this.GMR[i]).log().getImaginary());
                 } else {
                     double Dik_real = this.Dik.getEntry(i, j);
-                    double D_m_real = this.Dik_mirror_TakuNoda_real.getEntry(i, j);
-                    double D_m_imag = this.Dik_mirror_TakuNoda_imag.getEntry(i, j);
+                    double D_m_real = this.Dik_mirror_real_beta.getEntry(i, j);
+                    double D_m_imag = this.Dik_mirror_imag_beta.getEntry(i, j);
                     Complex Dik_mirr = new Complex(D_m_real,D_m_imag);
-                    this.Ln_beta_real.setEntry(i, j, help.cdiv(Dik_mirr, Dik_real).log().getReal());
-                    this.Ln_beta_imag.setEntry(i, j, help.cdiv(Dik_mirr, Dik_real).log().getImaginary());
+                    this.Ln_beta_real.setEntry(i, j, help.cdiv(Dik_mirr, Dik_real).log().getReal());         //znamienko minus kvoli i^2 = -1    
+                    this.Ln_beta_imag.setEntry(i, j, help.cdiv(Dik_mirr, Dik_real).log().getImaginary());    //znamienko minus kvoli i^2 = -1
                 }
             }
         }
@@ -191,9 +219,9 @@ public class TakuNoda {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 if (i==j) {
-                    this.R_real.setEntry(i, j, this.R + this.X_real.getEntry(i, j));
+                    this.R_real.setEntry(i, j, this.R[i] - this.X_imag.getEntry(i, j)); // minus kvoli i^2 = -1
                 } else {
-                    this.R_real.setEntry(i, j,this.X_real.getEntry(i, j));
+                    this.R_real.setEntry(i, j,(double)-1*this.X_imag.getEntry(i, j));
                 }
             }
         }
@@ -203,6 +231,21 @@ public class TakuNoda {
         calcR();
         calcL();
         calcX();
+    }
+    
+    public void printAll(){
+        System.out.println("Cas generovania");
+        System.out.println(LocalTime.now());
+        System.out.println("R [Ohm/km]");
+        printRealMatrix(this.R_real);
+        System.out.println("L [mH/km]");
+        printRealMatrix(this.L_real.scalarMultiply(1000));
+//        System.out.println("L_imag [mH/km]");
+//        printRealMatrix(this.L_imag.scalarMultiply(1000));
+        System.out.println("X [Ohm/km]");
+        printRealMatrix(this.X_real);
+//        System.out.println("X_imag [Ohm/km]");
+//        printRealMatrix(this.X_imag);
     }
 
     public double getOmega() {
@@ -261,21 +304,39 @@ public class TakuNoda {
         this.Dik = Dik;
     }
 
-    public RealMatrix getDik_mirror_TakuNoda_real() {
-        return Dik_mirror_TakuNoda_real;
+    public RealMatrix getDik_mirror_real_alpha() {
+        return Dik_mirror_real_alpha;
     }
 
-    public void setDik_mirror_TakuNoda_real(RealMatrix Dik_mirror_TakuNoda_real) {
-        this.Dik_mirror_TakuNoda_real = Dik_mirror_TakuNoda_real;
+    public void setDik_mirror_real_alpha(RealMatrix Dik_mirror_real_alpha) {
+        this.Dik_mirror_real_alpha = Dik_mirror_real_alpha;
     }
 
-    public RealMatrix getDik_mirror_TakuNoda_imag() {
-        return Dik_mirror_TakuNoda_imag;
+    public RealMatrix getDik_mirror_imag_alpha() {
+        return Dik_mirror_imag_alpha;
     }
 
-    public void setDik_mirror_TakuNoda_imag(RealMatrix Dik_mirror_TakuNoda_imag) {
-        this.Dik_mirror_TakuNoda_imag = Dik_mirror_TakuNoda_imag;
+    public void setDik_mirror_imag_alpha(RealMatrix Dik_mirror_imag_alpha) {
+        this.Dik_mirror_imag_alpha = Dik_mirror_imag_alpha;
     }
+
+    public RealMatrix getDik_mirror_real_beta() {
+        return Dik_mirror_real_beta;
+    }
+
+    public void setDik_mirror_real_beta(RealMatrix Dik_mirror_real_beta) {
+        this.Dik_mirror_real_beta = Dik_mirror_real_beta;
+    }
+
+    public RealMatrix getDik_mirror_imag_beta() {
+        return Dik_mirror_imag_beta;
+    }
+
+    public void setDik_mirror_imag_beta(RealMatrix Dik_mirror_imag_beta) {
+        this.Dik_mirror_imag_beta = Dik_mirror_imag_beta;
+    }
+
+   
 
     public double[] getHx2_alpha_real() {
         return hx2_alpha_real;
@@ -309,19 +370,19 @@ public class TakuNoda {
         this.hx2_beta_imag = hx2_beta_imag;
     }
 
-    public double getGMR() {
+    public double[] getGMR() {
         return GMR;
     }
 
-    public void setGMR(double GMR) {
+    public void setGMR(double[] GMR) {
         this.GMR = GMR;
     }
 
-    public double getR() {
+    public double[] getR() {
         return R;
     }
 
-    public void setR(double R) {
+    public void setR(double[] R) {
         this.R = R;
     }
 

@@ -5,10 +5,13 @@
  */
 package electrical_parameters;
 
+import emft_vol2.constants;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import org.apache.commons.math.linear.RealMatrix;
+import static tools.help.arraySum;
 import static tools.help.initMatrix;
 import static tools.help.printRealMatrix;
 
@@ -23,10 +26,10 @@ public class Carson {
     RealMatrix Dik_mirror;
     RealMatrix Fik;
     double[] hx2;
-    double GMR;
-    double R;
+    double[] GMR;
+    double[] R;
     double f;
-    double rho_gnd;
+    double[] rho_gnd;
     
     //results
     public RealMatrix Rg;
@@ -46,33 +49,47 @@ public class Carson {
                     RealMatrix Dik_mirror,
                     RealMatrix Fik,
                     double[] hx2,
-                    elpam_input_conductor Conductor,
+                    ArrayList<elpam_input_conductor> cnd_list,
                     boolean exact_GMR,
                     boolean exact_Rac
     ){
-        GMR_calculation cnd = new GMR_calculation(Conductor);
-        Rac_calculation cnd2 = new Rac_calculation(Conductor);
+//        GMR_calculation cnd = new GMR_calculation(Conductor);
+//        Rac_calculation cnd2 = new Rac_calculation(Conductor);
         
+        this.GMR = new double[cnd_list.size()];
+        this.hx2 = new double[cnd_list.size()];
+        this.R = new double[cnd_list.size()];
+        this.GMR = new double[cnd_list.size()];
+        this.rho_gnd = new double[cnd_list.size()];
+
         if (exact_GMR) {
-            cnd.calc_GMR();
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.GMR[i] = cnd_list.get(i).getGMR();
+            }
         } else {
-            cnd.setGMR(cnd.GMR_default);  //v [m]
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.GMR[i] = cnd_list.get(i).getGMR_default();
+            }
         }
         
         if (exact_Rac) {
-            cnd2.calc_Rac();
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.R[i] = cnd_list.get(i).getRac();
+            }
         } else {
-            cnd2.setRac(Conductor.getRdc());
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.R[i] = cnd_list.get(i).getRdc();
+            }
         }
 
         this.Dik = Dik;
         this.Dik_mirror = Dik_mirror;
         this.Fik = Fik;
         this.hx2 = hx2;
-        this.GMR = cnd.getGMR();   
-        this.R = cnd2.getRac();     
-        this.f = Conductor.getF();
-        this.rho_gnd = Conductor.getRho_ground();
+        this.f = constants.getFrequency();
+        for (int i = 0; i < cnd_list.size(); i++) {
+            this.rho_gnd[i] = cnd_list.get(i).getRho_ground();
+        }
         
         this.Rg = initMatrix(Dik);
         this.Lg = initMatrix(Dik);
@@ -231,7 +248,7 @@ public class Carson {
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
-                    this.L_no_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR));
+                    this.L_no_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR[i]));
                 } else {
                     this.L_no_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)));
                 }
@@ -252,7 +269,7 @@ public class Carson {
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
-                    this.R_no_gnd.setEntry(i, j, this.R);
+                    this.R_no_gnd.setEntry(i, j, this.R[i]);
                 } else {
                     this.R_no_gnd.setEntry(i, j, 0);
                 }
@@ -267,7 +284,7 @@ public class Carson {
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
-                    this.R_gnd.setEntry(i, j, this.R + this.Rg.getEntry(i, j));
+                    this.R_gnd.setEntry(i, j, this.R[i] + this.Rg.getEntry(i, j));
                 } else {
                     this.R_gnd.setEntry(i, j, this.Rg.getEntry(i, j));
                 }
@@ -282,7 +299,7 @@ public class Carson {
         for (int i = 0; i < this.Dik.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik.getRowDimension(); j++) {
                 if (i==j) {
-                    this.L_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR) + this.Lg.getEntry(i,j));
+                    this.L_gnd.setEntry(i, j, Lii(this.hx2[i],this.GMR[i]) + this.Lg.getEntry(i,j));
                 } else {
                     this.L_gnd.setEntry(i, j, Lik(this.Dik.getEntry(i, j), this.Dik_mirror.getEntry(i, j)) + this.Lg.getEntry(i,j));
                 }
@@ -300,10 +317,12 @@ public class Carson {
     //private functions
     
     private void calckik(){
+        //make average of ground resistivity
+        double gnd = arraySum(this.rho_gnd)/this.rho_gnd.length;
         this.kik = initMatrix(Dik);
         for (int i = 0; i < this.Dik_mirror.getRowDimension(); i++) {
             for (int j = 0; j < this.Dik_mirror.getColumnDimension(); j++) {
-                this.kik.setEntry(i,j,(4e-4)*Math.PI*sqrt(5)*sqrt(this.f/this.rho_gnd)*this.Dik_mirror.getEntry(i,j));
+                this.kik.setEntry(i,j,(4e-4)*Math.PI*sqrt(5)*sqrt(this.f/gnd)*this.Dik_mirror.getEntry(i,j));
             }
         }
     }
@@ -386,19 +405,19 @@ public class Carson {
         this.hx2 = hx2;
     }
 
-    public double getGMR() {
+    public double[] getGMR() {
         return GMR;
     }
 
-    public void setGMR(double GMR) {
+    public void setGMR(double[] GMR) {
         this.GMR = GMR;
     }
 
-    public double getR() {
+    public double[] getR() {
         return R;
     }
 
-    public void setR(double R) {
+    public void setR(double[] R) {
         this.R = R;
     }
 
@@ -410,7 +429,7 @@ public class Carson {
         this.f = f;
     }
 
-    public double getRho_gnd() {
+    public double[] getRho_gnd() {
         return rho_gnd;
     }
 

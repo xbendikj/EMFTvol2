@@ -8,8 +8,12 @@
 package BackEnd;
 
 import InternalFrame.InternalFrameproject;
+import electrical_parameters.GMR_calculation;
+import electrical_parameters.Rac_calculation;
+import electrical_parameters.elpam_input_conductor;
 import emft_vol2.constants;
 import java.util.ArrayList;
+import java.util.Set;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import org.jdelaunay.delaunay.geometries.DTriangle;
@@ -75,9 +79,14 @@ public class retazovka {
     private double elpam_rho_cnd;   //rezistivita Al plasta [Ohm.m]  
     private double elpam_rho_gnd;   //rezistivita zeme [Omh.m]
     private double elpam_Rdc;       //jednosmerny odpor vodica [Ohm/km]
-    private int elpam_Al_layers; //pocet vrstiev Al
-    private int elpam_Al_start;  //pocet vodicov v prvej vrstve Al (smer zvnutra von)
+    private int elpam_Al_layers;    //pocet vrstiev Al
+    private int elpam_Al_start;     //pocet vodicov v prvej vrstve Al (smer zvnutra von)
     private double elpam_Al_d;      //priemer Al drotov [m]
+    private double elpam_Rac;
+    private double elpam_GMR;
+    private double elpam_xi;
+    private double elpam_GMR_default;
+    private double elpam_xi_default;
     
     //constructor
     /**
@@ -937,6 +946,73 @@ public class retazovka {
     public void setElpam_Al_d(double elpam_Al_d) {
         this.elpam_Al_d = elpam_Al_d;
     }
+    
+    public void calcGMR_Rac_xi(){
+        elpam_input_conductor cnd = new elpam_input_conductor();
+        cnd.setAl_d(this.elpam_Al_d);
+        cnd.setAl_layers(this.elpam_Al_layers);
+        cnd.setAl_start(this.elpam_Al_start);
+        cnd.setD(this.elpam_D);
+        cnd.setT(this.elpam_T);
+        cnd.setF(constants.getFrequency());
+        cnd.setRdc(this.elpam_Rdc);
+        cnd.setRho_conductor(this.elpam_rho_cnd);
+        cnd.setRho_ground(this.elpam_rho_gnd);
+        
+        GMR_calculation myGMR = new GMR_calculation(cnd);
+        Rac_calculation myRac = new Rac_calculation(cnd);
+        myGMR.calc_GMR();
+        myGMR.calc_xi();
+        myRac.calc_Rac();
+        
+        this.elpam_GMR = myGMR.getGMR();
+        this.elpam_Rac = myRac.getRac();
+        this.elpam_xi = myGMR.getXi();
+        this.elpam_GMR_default = myGMR.getGMR_default();
+        this.elpam_xi_default = myGMR.getXi_default();
+    }
+
+    public double getElpam_xi() {
+        return elpam_xi;
+    }
+
+    public void setElpam_xi(double elpam_xi) {
+        this.elpam_xi = elpam_xi;
+    }
+
+    public double getElpam_Rac() {
+        return elpam_Rac;
+    }
+
+    public void setElpam_Rac(double elpam_Rac) {
+        this.elpam_Rac = elpam_Rac;
+    }
+
+    public double getElpam_GMR() {
+        return elpam_GMR;
+    }
+
+    public void setElpam_GMR(double elpam_GMR) {
+        this.elpam_GMR = elpam_GMR;
+    }
+
+    public double getElpam_GMR_default() {
+        return elpam_GMR_default;
+    }
+
+    public void setElpam_GMR_default(double elpam_GMR_default) {
+        this.elpam_GMR_default = elpam_GMR_default;
+    }
+
+    public double getElpam_xi_default() {
+        return elpam_xi_default;
+    }
+
+    public void setElpam_xi_default(double elpam_xi_default) {
+        this.elpam_xi_default = elpam_xi_default;
+    }
+    
+    
     
     
 }

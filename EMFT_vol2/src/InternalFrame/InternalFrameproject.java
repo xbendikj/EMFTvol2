@@ -14,14 +14,14 @@ import BackEnd.Observer;
 import BackEnd.databaza;
 import BackEnd.retazovka;
 import BackEnd.rozpatie;
-import static InternalFrame.CatenaryPanel.Table;
 import static InternalFrame.CatenaryPanel.isListener;
 import dislin.plot_1D;
 import dislin.plot_2D;
+import electrical_parameters.Basic;
+import electrical_parameters.CDER;
 import electrical_parameters.Carson;
 import electrical_parameters.CarsonModified;
-import electrical_parameters.GMR_calculation;
-import electrical_parameters.Rac_calculation;
+import electrical_parameters.TakuNoda;
 import electrical_parameters.elpam_input_conductor;
 import emft_vol2.Dislin_Settings;
 import emft_vol2.TxT_JFrame;
@@ -53,8 +53,6 @@ import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
 import static tools.help.ArrList2Arr;
-import static tools.help.printDoubleArr;
-import static tools.help.printRealMatrix;
 
 /**
  *
@@ -1467,41 +1465,63 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 //                Rozpätie.getRetazovkaList().get(0).setElpam_Al_start(10);
 //                Rozpätie.getRetazovkaList().get(0).setElpam_Al_d(0.00345);
                 
+                //nacitanie z mainframeu do retazovky
                 catenaryPanel1.add_parametre_to_conductor(); 
             
-                //Rozpätie.getRetazovkaList().get(0).getR_over()
-                elpam_input_conductor test_cnd = new elpam_input_conductor();
-                test_cnd.setF(constants.getFrequency());
-                //AlFe240/39
-                test_cnd.setD(Rozpätie.getRetazovkaList().get(0).getElpam_D());
-                test_cnd.setT(Rozpätie.getRetazovkaList().get(0).getElpam_T());
-                test_cnd.setRho_conductor(Rozpätie.getRetazovkaList().get(0).getElpam_rho_cnd());
-                test_cnd.setRho_ground(Rozpätie.getRetazovkaList().get(0).getElpam_rho_gnd());
-                test_cnd.setRdc(Rozpätie.getRetazovkaList().get(0).getElpam_Rdc());
-                test_cnd.setAl_layers(Rozpätie.getRetazovkaList().get(0).getElpam_Al_layers());
-                test_cnd.setAl_start(Rozpätie.getRetazovkaList().get(0).getElpam_Al_start());
-                test_cnd.setAl_d(Rozpätie.getRetazovkaList().get(0).getElpam_Al_d());
+                //vytvorenie zoznamu vodicov ako su pouzite v mainframe
+                int pocet_vodicov = Rozpätie.getRetazovkaList().size();
+                ArrayList<elpam_input_conductor> cnd_list = new ArrayList<elpam_input_conductor>();
+
+                for (int i = 0; i < pocet_vodicov; i++) {
+                    elpam_input_conductor cnd2add = new elpam_input_conductor(); //treba vzdy definovat nanovo nech neprepisuje ArrayList!!!!!!!!!!!!
+                    Rozpätie.getRetazovkaList().get(i).calcGMR_Rac_xi();
+                    cnd2add.setF(constants.getFrequency());
+                    cnd2add.setD(Rozpätie.getRetazovkaList().get(i).getElpam_D());
+                    cnd2add.setT(Rozpätie.getRetazovkaList().get(i).getElpam_T());
+                    cnd2add.setRho_conductor(Rozpätie.getRetazovkaList().get(i).getElpam_rho_cnd());
+                    cnd2add.setRho_ground(Rozpätie.getRetazovkaList().get(i).getElpam_rho_gnd());
+                    cnd2add.setRdc(Rozpätie.getRetazovkaList().get(i).getElpam_Rdc());
+                    cnd2add.setAl_layers(Rozpätie.getRetazovkaList().get(i).getElpam_Al_layers());
+                    cnd2add.setAl_start(Rozpätie.getRetazovkaList().get(i).getElpam_Al_start());
+                    cnd2add.setAl_d(Rozpätie.getRetazovkaList().get(i).getElpam_Al_d());
+                    cnd2add.setGMR(Rozpätie.getRetazovkaList().get(i).getElpam_GMR());
+                    cnd2add.setRac(Rozpätie.getRetazovkaList().get(i).getElpam_Rac());
+                    cnd2add.setXi(Rozpätie.getRetazovkaList().get(i).getElpam_xi());
+                    cnd2add.setGMR_default(Rozpätie.getRetazovkaList().get(i).getElpam_GMR_default());
+                    cnd2add.setXi_default(Rozpätie.getRetazovkaList().get(i).getElpam_xi_default());
+                    cnd_list.add(i, cnd2add);
+                }
                 
-                //GMR & Rac calc
-                GMR_calculation myGMR = new GMR_calculation(test_cnd);
-                Rac_calculation myRac = new Rac_calculation(test_cnd);
-                myGMR.calc_GMR();
-                myGMR.calc_xi();
-                myRac.calc_Rac();
+//                //GMR & Rac calc
+//                GMR_calculation myGMR = new GMR_calculation(test_cnd);
+//                Rac_calculation myRac = new Rac_calculation(test_cnd);
+//                myGMR.calc_GMR();
+//                myGMR.calc_xi();
+//                myRac.calc_Rac();
                 
-                System.out.println();
-                System.out.println("GMR - AlFe 240/39");
-                System.out.println(myGMR.getGMR());
-                System.out.println("xi - AlFe 240/39");
-                System.out.println(myGMR.getXi());
-                System.out.println("Rdc - AlFe 240/39");
-                System.out.println(myRac.getRdc());
-                System.out.println("Rac - AlFe 240/39");
-                System.out.println(myRac.getRac());
-                System.out.println();
+//                System.out.println();
+//                System.out.println("GMRs");
+//                for (int i = 0; i < cnd_list.size(); i++) {
+//                    System.out.println(cnd_list.get(i).getGMR());
+//                }
+//                System.out.println("XIs");
+//                for (int i = 0; i < cnd_list.size(); i++) {
+//                    System.out.println(cnd_list.get(i).getXi());
+//                }
+//                System.out.println("Rdcs");
+//                for (int i = 0; i < cnd_list.size(); i++) {
+//                    System.out.println(cnd_list.get(i).getRdc());
+//                }
+//                System.out.println("Racs");
+//                for (int i = 0; i < cnd_list.size(); i++) {
+//                    System.out.println(cnd_list.get(i).getRac());
+//                }
+                
                 
                 //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
-                int element = 150; //nastavenie useku v retazovke
+                int element = 0; //nastavenie useku v retazovke
+                boolean exactGMR = true; //pocitat presne GMR?
+                boolean exactRAC = true; //pocitat presne Rac?
                 Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385); //nutne pre stanovenie velkosti matic
                 int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
                 int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
@@ -1509,10 +1529,22 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_imag = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Dik_mirror_real_CDER = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Dik_mirror_imag_CDER = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
                 double[] hx2 = new double[rows];
+                double[] hx2_real = new double[rows];
+                double[] hx2_imag = new double[rows];
+                double[] hx2_real_alpha = new double[rows];
+                double[] hx2_imag_alpha = new double[rows];
+                double[] hx2_real_beta = new double[rows];
+                double[] hx2_imag_beta = new double[rows];
+                RealMatrix Dik_mirror_real_alpha = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Dik_mirror_imag_alpha = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Dik_mirror_real_beta = new Array2DRowRealMatrix(rows,cols);
+                RealMatrix Dik_mirror_imag_beta = new Array2DRowRealMatrix(rows,cols);
                 
-                //Carson
+                //Carson & Acrson Modified & Basic
                 Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385);
                 Dik = Rozpätie.getPAr_Dik_REAL().get(element);
                 Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,true,Complex.ONE,0.26244,1.12385);
@@ -1520,35 +1552,77 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Fik = Rozpätie.getPAr_Alpha_real().get(element);
                 hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
                 
-                printRealMatrix(Dik);
-                printRealMatrix(Dik_mirror_real);
-                printRealMatrix(Fik);
-                printDoubleArr(hx2);
+                //complex const
+                double omega = (double)2*Math.PI*constants.getFrequency();
+                double mu = (4e-7)*Math.PI;
+                Complex p;
+                p = new Complex(cnd_list.get(0).getRho_ground(),0).divide(new Complex(0,omega*mu)).sqrt();
                 
-                Carson test_carson = new Carson(Dik,
-                                                Dik_mirror_real,
-                                                Fik,
-                                                hx2,
-                                                test_cnd,
-                                                true,
-                                                true
-                                                );
+                //CDER
+                Rozpätie.calculateMatrix_opt_XX("b","A",aproxx,true,p,0.26244,1.12385);
+                Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                Rozpätie.calculateMatrix_opt_XX("b","C",aproxx,true,p,0.26244,1.12385);
+                Dik_mirror_real_CDER = Rozpätie.getPAr_Dik_REAL().get(element);
+                Dik_mirror_imag_CDER = Rozpätie.getPAr_Dik_Image().get(element);
+                hx2_real = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                hx2_imag = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
                 
-                CarsonModified test_carson_mod = new CarsonModified(Dik,
-                                                                    Dik_mirror_real,
-                                                                    Fik,
-                                                                    hx2,
-                                                                    test_cnd,
-                                                                    true,
-                                                                    true
-                                                                    );
+                //Taku Noda
+                //Dik
+                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,p,0.26244,1.12385);
+                Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                //alpha
+                Rozpätie.calculateMatrix_opt_XX("c","D",aproxx,true,p,0.26244,1.12385);
+                hx2_real_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                hx2_imag_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
+                Dik_mirror_real_alpha = Rozpätie.getPAr_Dik_REAL().get(element);
+                Dik_mirror_imag_alpha = Rozpätie.getPAr_Dik_Image().get(element);
+                //beta
+                Rozpätie.calculateMatrix_opt_XX("d","E",aproxx,true,p,0.26244,1.12385);
+                hx2_real_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                hx2_imag_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
+                Dik_mirror_real_beta = Rozpätie.getPAr_Dik_REAL().get(element);
+                Dik_mirror_imag_beta = Rozpätie.getPAr_Dik_Image().get(element);
                 
+                
+
+                Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
+                                                hx2, cnd_list, exactGMR, exactRAC);
+                
+                CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
+                                                                    hx2, cnd_list, exactGMR, exactRAC);
+                
+                Basic test_basic = new Basic(Dik, cnd_list, exactGMR, exactRAC);
+                
+                CDER cder_test = new CDER(Dik, Dik_mirror_real_CDER, Dik_mirror_imag_CDER, 
+                                            hx2_real, hx2_imag, cnd_list, exactGMR, exactRAC);
+                
+                TakuNoda tn_test = new TakuNoda(Dik, Dik_mirror_real_alpha, Dik_mirror_imag_alpha, 
+                                                Dik_mirror_real_beta, Dik_mirror_imag_beta,
+                                                hx2_real_alpha, hx2_imag_alpha, 
+                                                hx2_real_beta, hx2_imag_beta, 
+                                                cnd_list, exactGMR, exactRAC);
+                
+                System.out.print(" ");
                 System.out.println("Carson standard");
                 test_carson.calcAll();
                 test_carson.printAll();
+                System.out.print(" ");
                 System.out.println("Carson modified");
                 test_carson_mod.calcAll();
                 test_carson_mod.printAll();
+                System.out.print(" ");
+                System.out.println("Basic");
+                test_basic.calcAll();
+                test_basic.printAll();
+                System.out.print(" ");
+                System.out.println("CDER");
+                cder_test.calcAll();
+                cder_test.printAll();
+                System.out.print(" ");
+                System.out.println("TakuNoda");
+                tn_test.calcAll();
+                tn_test.printAll();
                 
                         
             }

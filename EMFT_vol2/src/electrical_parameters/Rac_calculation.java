@@ -52,11 +52,11 @@ public class Rac_calculation {
      * @param Conductor 
      */
     public Rac_calculation(elpam_input_conductor Conductor){
-        this.rho = elpam_input_conductor.rho_conductor;
-        this.D = elpam_input_conductor.D;
-        this.D1 = elpam_input_conductor.T;
-        this.f = elpam_input_conductor.f;
-        this.Rdc = elpam_input_conductor.Rdc;
+        this.rho = Conductor.rho_conductor;
+        this.D = Conductor.D;
+        this.D1 = Conductor.T;
+        this.f = Conductor.f;
+        this.Rdc = Conductor.Rdc;
     }
     
     /**

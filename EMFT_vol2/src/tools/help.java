@@ -6,6 +6,7 @@
 package tools;
 
 import Databazes.SQLlite_constants;
+import electrical_parameters.elpam_input_conductor;
 import emft_vol2.constants;
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -561,7 +562,4 @@ public class help {
         
     }
 
-    public Complex calcComplexP(double rho_gnd, double omega, double mu){
-        return cdiv(rho_gnd,new Complex(0,omega*mu)).sqrt();
-    }
 }

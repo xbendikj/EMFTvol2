@@ -5,10 +5,14 @@
  */
 package electrical_parameters;
 
+import emft_vol2.constants;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import tools.help;
 import static tools.help.initMatrix;
+import static tools.help.printRealMatrix;
 
 /**
  *
@@ -17,11 +21,11 @@ import static tools.help.initMatrix;
 public class CDER {
     
     //constants
-    double omega = (double)2*Math.PI*this.f;
-    double mu = (4e-7)*Math.PI; //na [km] -> preto 4e-7 a nie 4e-4
-    double mu2pi = (mu/(2*Math.PI));
-    int rows = this.Dik.getRowDimension();
-    int cols = this.Dik.getColumnDimension();
+    double omega = 0;
+    double mu = 0;
+    double mu2pi = 0;
+    int rows = 0;
+    int cols = 0;
     
     //inputs
     RealMatrix Dik;
@@ -29,9 +33,10 @@ public class CDER {
     RealMatrix Dik_mirror_CDER_imag;
     double[] hx2_real;
     double[] hx2_imag;
-    double GMR;
-    double R;
+    double[] GMR;
+    double[] R_cnd;
     double f;
+    ArrayList<elpam_input_conductor> cnd_list = new ArrayList<>();
     
     //results
     public RealMatrix R_real;
@@ -49,23 +54,36 @@ public class CDER {
                     RealMatrix Dik_mirror_imag,
                     double[] hx2_real,
                     double[] hx2_imag,
-                    elpam_input_conductor Conductor,
+                    ArrayList<elpam_input_conductor> cnd_list,
                     boolean exact_GMR,
                     boolean exact_Rac
                 ){
-        GMR_calculation cnd = new GMR_calculation(Conductor);
-        Rac_calculation cnd2 = new Rac_calculation(Conductor);
+//        GMR_calculation cnd = new GMR_calculation(Conductor);
+//        Rac_calculation cnd2 = new Rac_calculation(Conductor);
         
+        this.rows = Dik.getRowDimension();
+        this.cols = Dik.getColumnDimension();
+        this.GMR = new double[cnd_list.size()];
+        this.R_cnd = new double[cnd_list.size()];
+
         if (exact_GMR) {
-            cnd.calc_GMR();
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.GMR[i] = cnd_list.get(i).getGMR();
+            }
         } else {
-            cnd.setGMR(cnd.GMR_default);  //v [m]
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.GMR[i] = cnd_list.get(i).getGMR_default();
+            }
         }
         
         if (exact_Rac) {
-            cnd2.calc_Rac();
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.R_cnd[i] = cnd_list.get(i).getRac();
+            }
         } else {
-            cnd2.setRac(Conductor.getRdc());
+            for (int i = 0; i < cnd_list.size(); i++) {
+                this.R_cnd[i] = cnd_list.get(i).getRdc();
+            }
         }
 
         this.Dik = Dik;
@@ -73,15 +91,20 @@ public class CDER {
         this.Dik_mirror_CDER_imag = Dik_mirror_imag;
         this.hx2_real = hx2_real;
         this.hx2_imag = hx2_imag;
-        this.GMR = cnd.getGMR();   
-        this.R = cnd2.getRac();     
-        this.f = Conductor.getF();
+        this.f = constants.getFrequency();
+
         
         this.R_real = initMatrix(Dik);
         this.L_real = initMatrix(Dik);
         this.L_imag = initMatrix(Dik);
         this.X_real = initMatrix(Dik);
         this.X_imag = initMatrix(Dik);
+        
+        this.omega = (double)2*Math.PI*this.f;
+        this.mu = (4e-4)*Math.PI; 
+        this.mu2pi = (mu/(2*Math.PI));
+        this.rows = Dik.getRowDimension();
+        this.cols = Dik.getColumnDimension();
     }
     
     /**
@@ -96,8 +119,8 @@ public class CDER {
             for (int j = 0; j < this.cols; j++) {
                 if (i==j){
                     Complex hx = new Complex(this.hx2_real[i],this.hx2_imag[i]);
-                    this.Ln_real.setEntry(i, j, help.cdiv(hx,this.GMR).log().getReal());
-                    this.Ln_imag.setEntry(i, j, help.cdiv(hx,this.GMR).log().getImaginary());
+                    this.Ln_real.setEntry(i, j, help.cdiv(hx,this.GMR[i]).log().getReal());
+                    this.Ln_imag.setEntry(i, j, help.cdiv(hx,this.GMR[i]).log().getImaginary());
                 } else {
                     double Dik_real = this.Dik.getEntry(i, j);
                     double D_m_real = this.Dik_mirror_CDER_real.getEntry(i, j);
@@ -135,9 +158,9 @@ public class CDER {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 if (i==j) {
-                    this.R_real.setEntry(i, j, this.R + this.X_real.getEntry(i, j));
+                    this.R_real.setEntry(i, j, this.R_cnd[i] - this.X_imag.getEntry(i, j)); // minus kvoli i^2 = -1
                 } else {
-                    this.R_real.setEntry(i, j, this.X_real.getEntry(i, j));
+                    this.R_real.setEntry(i, j, (double)-1*this.X_imag.getEntry(i, j));
                 }
             }
         }
@@ -147,6 +170,21 @@ public class CDER {
         calcR();
         calcL();
         calcX();
+    }
+    
+    public void printAll(){
+        System.out.println("Cas generovania");
+        System.out.println(LocalTime.now());
+        System.out.println("R [Ohm/km]");
+        printRealMatrix(this.R_real);
+        System.out.println("L [mH/km]");
+        printRealMatrix(this.L_real.scalarMultiply(1000));
+//        System.out.println("L_imag [mH/km]");
+//        printRealMatrix(this.L_imag.scalarMultiply(1000));
+        System.out.println("X [Ohm/km]");
+        printRealMatrix(this.X_real);
+//        System.out.println("X_imag [Ohm/km]");
+//        printRealMatrix(this.X_imag);
     }
 
     public RealMatrix getDik() {
@@ -189,20 +227,12 @@ public class CDER {
         this.hx2_imag = hx2_imag;
     }
 
-    public double getGMR() {
+    public double[] getGMR() {
         return GMR;
     }
 
-    public void setGMR(double GMR) {
+    public void setGMR(double[] GMR) {
         this.GMR = GMR;
-    }
-
-    public double getR() {
-        return R;
-    }
-
-    public void setR(double R) {
-        this.R = R;
     }
 
     public double getF() {
@@ -268,4 +298,22 @@ public class CDER {
     public void setLn_imag(RealMatrix Ln_imag) {
         this.Ln_imag = Ln_imag;
     }
+
+    public double[] getR_cnd() {
+        return R_cnd;
+    }
+
+    public void setR_cnd(double[] R_cnd) {
+        this.R_cnd = R_cnd;
+    }
+
+    public ArrayList<elpam_input_conductor> getCnd_list() {
+        return cnd_list;
+    }
+
+    public void setCnd_list(ArrayList<elpam_input_conductor> cnd_list) {
+        this.cnd_list = cnd_list;
+    }
+    
+    
 }

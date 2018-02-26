@@ -177,6 +177,22 @@ public class GMR_calculation {
     public void setXi(double xi) {
         this.xi = xi;
     }
+
+    public double getGMR_default() {
+        return GMR_default;
+    }
+
+    public void setGMR_default(double GMR_default) {
+        this.GMR_default = GMR_default;
+    }
+
+    public double getXi_default() {
+        return xi_default;
+    }
+
+    public void setXi_default(double xi_default) {
+        this.xi_default = xi_default;
+    }
     
     
 }
