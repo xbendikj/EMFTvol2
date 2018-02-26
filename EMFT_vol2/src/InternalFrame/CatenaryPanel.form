@@ -297,9 +297,7 @@
                   <Title editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                     <Connection code="language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 57)" type="code"/>
                   </Title>
-                  <Editor editor="org.netbeans.modules.form.ComponentChooserEditor">
-                    <ComponentRef name="null"/>
-                  </Editor>
+                  <Editor/>
                   <Renderer/>
                 </Column>
               </TableColumnModel>

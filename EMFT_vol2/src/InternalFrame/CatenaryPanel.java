@@ -647,19 +647,19 @@ public class CatenaryPanel extends javax.swing.JPanel {
         int index = 0;
             for (int j = 0; j < conductor_Name_Matrix.size(); j++) {
                 
-                if(porovnavacka.equals(conductor_Name_Matrix.get(i))) index = i;
+                if(porovnavacka.equals(conductor_Name_Matrix.get(j))) index = j;
             }
             
         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_f(constants.getFrequency());
         
          InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_D(conductor_parameters_Matrix.get(index)[0]);         //je
-         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_T(conductor_parameters_Matrix.get(index)[0]);          
-         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_rho_cnd(conductor_parameters_Matrix.get(index)[0]);
-              InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_rho_gnd(conductor_parameters_Matrix.get(index)[0]);
-              InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Rdc(conductor_parameters_Matrix.get(index)[0]);
-                InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_layers( conductor_parameters_Matrix.get(index)[0].intValue() );
-               InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_start(conductor_parameters_Matrix.get(index)[0].intValue() );
-               InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_d(conductor_parameters_Matrix.get(index)[0]);
+         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_T(conductor_parameters_Matrix.get(index)[1]);          
+         InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_rho_cnd(conductor_parameters_Matrix.get(index)[2]);
+              InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_rho_gnd(conductor_parameters_Matrix.get(index)[3]);
+              InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Rdc(conductor_parameters_Matrix.get(index)[4]);
+                InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_layers( conductor_parameters_Matrix.get(index)[5].intValue() );
+               InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_start(conductor_parameters_Matrix.get(index)[6].intValue() );
+               InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_d(conductor_parameters_Matrix.get(index)[7]);
                 
                 
         }
