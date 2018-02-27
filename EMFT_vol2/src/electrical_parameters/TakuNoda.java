@@ -6,12 +6,15 @@
 package electrical_parameters;
 
 import emft_vol2.constants;
+import flanagan.complex.ComplexMatrix;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math3.complex.Complex;
 import tools.help;
+import static tools.help.initComplexMatrix;
 import static tools.help.initMatrix;
+import static tools.help.makeComplexMatrix;
 import static tools.help.printRealMatrix;
 
 /**
@@ -47,6 +50,7 @@ public class TakuNoda {
     public RealMatrix L_imag;
     public RealMatrix X_real;
     public RealMatrix X_imag;
+    public ComplexMatrix Z;
     
     //partial results
     RealMatrix Ln_alpha_real;
@@ -113,6 +117,7 @@ public class TakuNoda {
         this.L_imag = initMatrix(Dik);
         this.X_real = initMatrix(Dik);
         this.X_imag = initMatrix(Dik);
+        this.Z = initComplexMatrix(Dik);
         
         this.omega = (double)2*Math.PI*this.f;
         this.mu = (4e-4)*Math.PI; 
@@ -228,9 +233,13 @@ public class TakuNoda {
     }
     
     public void calcAll(){
+        calcZ();
+    }
+    
+    public void calcZ(){
         calcR();
-        calcL();
         calcX();
+        this.Z = makeComplexMatrix(this.R_real,this.X_real);
     }
     
     public void printAll(){

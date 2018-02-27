@@ -6,13 +6,16 @@
 package electrical_parameters;
 
 import emft_vol2.constants;
+import flanagan.complex.ComplexMatrix;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import org.apache.commons.math.linear.RealMatrix;
 import static tools.help.arraySum;
+import static tools.help.initComplexMatrix;
 import static tools.help.initMatrix;
+import static tools.help.makeComplexMatrix;
 import static tools.help.printRealMatrix;
 
 /**
@@ -41,6 +44,8 @@ public class Carson {
     public RealMatrix L_gnd;
     public RealMatrix X_no_gnd;
     public RealMatrix X_gnd;
+    public ComplexMatrix Z_no_gnd;
+    public ComplexMatrix Z_gnd;
     
     //partial results
     RealMatrix kik;
@@ -100,6 +105,8 @@ public class Carson {
         this.R_gnd = initMatrix(Dik);
         this.L_gnd = initMatrix(Dik);
         this.X_gnd = initMatrix(Dik);
+        this.Z_gnd = initComplexMatrix(Dik);
+        this.Z_no_gnd = initComplexMatrix(Dik);
     }
     
     //public functions
@@ -134,15 +141,20 @@ public class Carson {
     }
     
     public void calcAll(){
-        calcRg();
-        calcLg();
-        calcXg();
-        calcR_no_gnd();
-        calcL_no_gnd();
-        calcX_no_gnd();
+        calcZ_gnd();
+        calcZ_no_gnd();
+    }
+    
+    public void calcZ_gnd(){
         calcR_gnd();
-        calcL_gnd();
         calcX_gnd();
+        this.Z_gnd = makeComplexMatrix(this.R_gnd, this.X_gnd);
+    }
+    
+    public void calcZ_no_gnd(){
+        calcR_no_gnd();
+        calcX_no_gnd();
+        this.Z_no_gnd = makeComplexMatrix(this.R_no_gnd, this.X_no_gnd);
     }
     
     public void calcRg(){
@@ -509,5 +521,19 @@ public class Carson {
         this.kik = kik;
     }
     
+    public ComplexMatrix getZ_gnd() {
+        return Z_gnd;
+    }
+
+    public void setZ_gnd(ComplexMatrix Z_gnd) {
+        this.Z_gnd = Z_gnd;
+    }
     
+    public ComplexMatrix getZ_no_gnd() {
+        return Z_no_gnd;
+    }
+
+    public void setZ_no_gnd(ComplexMatrix Z_no_gnd) {
+        this.Z_no_gnd = Z_no_gnd;
+    }
 }

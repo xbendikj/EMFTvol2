@@ -6,8 +6,8 @@
 package tools;
 
 import Databazes.SQLlite_constants;
-import electrical_parameters.elpam_input_conductor;
 import emft_vol2.constants;
+import flanagan.complex.ComplexMatrix;
 import java.awt.Color;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -558,8 +558,73 @@ public class help {
     public static RealMatrix initMatrix(RealMatrix source_mtx){
         RealMatrix final_mtx = source_mtx.copy();
         return clearMatrix(final_mtx);
+    }
+    
+    //kniznice nizsie pouzite
+    //https://www.ee.ucl.ac.uk/~mflanaga/java/
+    //https://www.ee.ucl.ac.uk/~mflanaga/java/ComplexMatrix.html
+    public static ComplexMatrix initComplexMatrix(RealMatrix source_real_mtx){
+        return new ComplexMatrix(source_real_mtx.getRowDimension(), source_real_mtx.getColumnDimension());
+    }
+    
+    public static ComplexMatrix makeComplexMatrix(RealMatrix real, RealMatrix imag){
+        int rows_real = real.getRowDimension();
+        int rows_imag = imag.getRowDimension();
+        int cols_real = real.getColumnDimension();
+        int cols_imag = imag.getColumnDimension();
         
+        if(rows_imag == rows_real && cols_real == cols_imag){
+            ComplexMatrix myMatrix = new ComplexMatrix(rows_real,cols_real);
+            for (int i = 0; i < real.getRowDimension(); i++) {
+                for (int j = 0; j < real.getColumnDimension(); j++) {
+                    flanagan.complex.Complex cmplx = new flanagan.complex.Complex(real.getEntry(i, j), imag.getEntry(i, j));
+                    myMatrix.setElement(i, j, cmplx);
+                }
+            }
+            return myMatrix;
+        }else{
+            return null;
+        }
+    }
+    
+    /**
+     * ground wires need to be the bottom rows of the ComplexMatrix
+     * @param source source ComplexMatrix
+     * @param ground_wires number of ground wires (counting from bottom)
+     * @return 
+     */
+    public static ComplexMatrix makeComplexKronReduction(ComplexMatrix source, int ground_wires){
+        int rows_total = source.getNrow();
+        int cols_total = source.getNcol();
+        int nn_rows = rows_total - ground_wires;
+        int nn_cols = cols_total - ground_wires;
+        int nm_rows = rows_total - ground_wires;
+        int nm_cols = ground_wires;
+        int mn_rows = ground_wires;
+        int mn_cols = cols_total - ground_wires;
+        int mm_rows = ground_wires;
+        int mm_cols = ground_wires;
         
+        ComplexMatrix NN = new ComplexMatrix(nn_rows, nn_cols);
+        ComplexMatrix MN = new ComplexMatrix(mn_rows, mn_cols);
+        ComplexMatrix NM = new ComplexMatrix(nm_rows, nm_cols);
+        ComplexMatrix MM = new ComplexMatrix(mm_rows, mm_cols);
+        
+        for (int i = 0; i < rows_total; i++) {
+            for (int j = 0; j < cols_total; j++) {
+                if (i <= nn_rows && j <= nn_cols) {
+                    NN.setElement(i, j, source.getElementCopy(i, j));
+                } else if (i > nn_rows && j <= nn_cols) {
+                    MN.setElement(i, j, source.getElementCopy(i, j));
+                } else if (i <= nn_rows && j > nn_cols) {
+                    NM.setElement(i, j, source.getElementCopy(i, j));
+                } else if (i > nn_rows && j > nn_cols) {
+                    MM.setElement(i, j, source.getElementCopy(i, j));
+                }
+            }
+        }
+        
+        return NN.minus(NM.times(MM.inverse()).times(MN));
     }
 
 }
