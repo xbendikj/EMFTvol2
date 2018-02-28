@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import emft_vol2.constants;
 import emft_vol2.main_Jframe;
 import static emft_vol2.main_Jframe.iscalculation_Settings;
+import flanagan.complex.ComplexMatrix;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +54,7 @@ import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
 import static tools.help.ArrList2Arr;
+import static tools.help.makeComplexKronReduction;
 
 /**
  *
@@ -1603,28 +1605,41 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                                 hx2_real_beta, hx2_imag_beta, 
                                                 cnd_list, exactGMR, exactRAC);
                 
-                System.out.print(" ");
+                System.out.print("\n");
                 System.out.println("Carson standard");
                 test_carson.calcAll();
                 test_carson.printAll();
-                System.out.print(" ");
+                System.out.print("\n");
                 System.out.println("Carson modified");
                 test_carson_mod.calcAll();
                 test_carson_mod.printAll();
-                System.out.print(" ");
+                System.out.print("\n");
                 System.out.println("Basic");
                 test_basic.calcAll();
                 test_basic.printAll();
-                System.out.print(" ");
+                System.out.print("\n");
                 System.out.println("CDER");
                 cder_test.calcAll();
                 cder_test.printAll();
-                System.out.print(" ");
+                System.out.print("\n");
                 System.out.println("TakuNoda");
                 tn_test.calcAll();
                 tn_test.printAll();
                 
-                        
+                int gw = Rozpätie.getPocet_zemnych_lan();
+                int fv = Rozpätie.getPocet_lan() - gw;
+                ComplexMatrix Z_red_Carson_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_red_Carson_no_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_red_Carson_mod_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_red_Carson_mod_no_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_red_Basic = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_red_CDER = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_red_TakuNoda = new ComplexMatrix(fv, fv);
+                
+                //tu hadze error -> ALE PRECO?!?!
+                Z_red_Carson_gnd = makeComplexKronReduction(test_carson.getZ_gnd(), gw);
+                
+                
             }
 
         } catch (DelaunayError ex) {

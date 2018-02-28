@@ -612,19 +612,21 @@ public class help {
         
         for (int i = 0; i < rows_total; i++) {
             for (int j = 0; j < cols_total; j++) {
-                if (i <= nn_rows && j <= nn_cols) {
+                if (i < nn_rows && j < nn_cols) {
                     NN.setElement(i, j, source.getElementCopy(i, j));
-                } else if (i > nn_rows && j <= nn_cols) {
-                    MN.setElement(i, j, source.getElementCopy(i, j));
-                } else if (i <= nn_rows && j > nn_cols) {
-                    NM.setElement(i, j, source.getElementCopy(i, j));
-                } else if (i > nn_rows && j > nn_cols) {
-                    MM.setElement(i, j, source.getElementCopy(i, j));
+                } else if (i >= nn_rows && j < nn_cols) {
+                    MN.setElement(i-nn_rows, j, source.getElementCopy(i, j));
+                } else if (i < nn_rows && j >= nn_cols) {
+                    NM.setElement(i, j-nn_cols, source.getElementCopy(i, j));
+                } else if (i >= nn_rows && j >= nn_cols) {
+                    MM.setElement(i-nn_rows, j-nn_cols, source.getElementCopy(i, j));
                 }
             }
         }
         
-        return NN.minus(NM.times(MM.inverse()).times(MN));
+        ComplexMatrix result = new ComplexMatrix(nn_rows, nn_cols);
+        result = NN.minus(NM.times(MM.inverse()).times(MN));
+        return result;
     }
 
 }
