@@ -963,7 +963,7 @@ static void constructor(){
          /*28*/   SK.add("Otočenia zväzku");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-         /*29*/   SK.add("polomer zväzku");  
+         /*29*/   SK.add("krok zväzku vzdialenost medzi dvoma vodičmi");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
          /*30*/   SK.add("True = c | False = H ");  

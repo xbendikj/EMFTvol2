@@ -135,14 +135,16 @@ public class retazovka {
         terenTriangles_over = terenTriangles;
         X1_over = X1;
         X2_over = X2;
-        distance_over = distance;
+        if (alpha == 0) distance_over = distance/(2*Math.sin(Math.PI/1));
+        if (alpha != 0) distance_over = distance/(2*Math.sin(Math.PI/bundle)); 
+        
         CorH_over = CorH;
 
         P1_over = new DPoint(0, 0, 0);
         P2_over = new DPoint(0, 0, 0);
 
         P1_over.setX(X1_over);
-        P2_over.setX(X2_over);
+        P2_over.setX(X2_over); 
 
         P1_over.setY(V1_over);
         P2_over.setY(V2_over);
@@ -173,7 +175,8 @@ public class retazovka {
         I2_over = I1;
         bundle_over = bundle;
         alpha_over = alpha;
-        distance_over = distance;
+        if (alpha == 0) distance_over = distance/(2*Math.sin(Math.PI/1));
+        if (alpha != 0) distance_over = distance/(2*Math.sin(Math.PI/bundle)); 
         HC_over = HC;
         r_over = r;
         U_over = U;
