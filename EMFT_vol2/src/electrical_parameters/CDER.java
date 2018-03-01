@@ -9,13 +9,19 @@ import emft_vol2.constants;
 import flanagan.complex.ComplexMatrix;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import tools.help;
 import static tools.help.initComplexMatrix;
 import static tools.help.initMatrix;
+import static tools.help.makeComplexKronReduction;
 import static tools.help.makeComplexMatrix;
+import static tools.help.printComplexMatrix;
 import static tools.help.printRealMatrix;
+import static tools.help.printSymmComplexMatrix;
+import static tools.help.printSymmRealMatrix;
+import static tools.help.symm2phase;
 
 /**
  *
@@ -29,6 +35,8 @@ public class CDER {
     double mu2pi = 0;
     int rows = 0;
     int cols = 0;
+    int fv = 0;
+    int gw = 0;
     
     //inputs
     RealMatrix Dik;
@@ -49,6 +57,16 @@ public class CDER {
     public RealMatrix X_imag;
     public ComplexMatrix Z;
     
+    public RealMatrix R_red;
+    public RealMatrix L_red;
+    public RealMatrix X_red;
+    public ComplexMatrix Z_red;
+    
+    public RealMatrix R_red_symm;
+    public RealMatrix L_red_symm;
+    public RealMatrix X_red_symm;
+    public ComplexMatrix Z_red_symm;
+    
     //partial results
     RealMatrix Ln_real;
     RealMatrix Ln_imag;
@@ -60,7 +78,8 @@ public class CDER {
                     double[] hx2_imag,
                     ArrayList<elpam_input_conductor> cnd_list,
                     boolean exact_GMR,
-                    boolean exact_Rac
+                    boolean exact_Rac,
+                    int fv, int gw
                 ){
 //        GMR_calculation cnd = new GMR_calculation(Conductor);
 //        Rac_calculation cnd2 = new Rac_calculation(Conductor);
@@ -69,6 +88,8 @@ public class CDER {
         this.cols = Dik.getColumnDimension();
         this.GMR = new double[cnd_list.size()];
         this.R_cnd = new double[cnd_list.size()];
+        this.fv = fv;
+        this.gw = gw;
 
         if (exact_GMR) {
             for (int i = 0; i < cnd_list.size(); i++) {
@@ -96,7 +117,6 @@ public class CDER {
         this.hx2_real = hx2_real;
         this.hx2_imag = hx2_imag;
         this.f = constants.getFrequency();
-
         
         this.R_real = initMatrix(Dik);
         this.L_real = initMatrix(Dik);
@@ -104,6 +124,16 @@ public class CDER {
         this.X_real = initMatrix(Dik);
         this.X_imag = initMatrix(Dik);
         this.Z = initComplexMatrix(Dik);
+        
+        this.R_red = new Array2DRowRealMatrix(fv, fv);
+        this.L_red = new Array2DRowRealMatrix(fv, fv);
+        this.X_red = new Array2DRowRealMatrix(fv, fv);
+        this.Z_red = new ComplexMatrix(fv, fv);
+        
+        this.R_red_symm = new Array2DRowRealMatrix(fv, fv);
+        this.L_red_symm = new Array2DRowRealMatrix(fv, fv);
+        this.X_red_symm = new Array2DRowRealMatrix(fv, fv);
+        this.Z_red_symm = new ComplexMatrix(fv, fv);
         
         this.omega = (double)2*Math.PI*this.f;
         this.mu = (4e-4)*Math.PI; 
@@ -177,8 +207,54 @@ public class CDER {
         this.Z = makeComplexMatrix(this.R_real, this.X_real);
     }
     
-    public void calcAll(){
+    public void calcXred(){
+        calcZred();
+        for (int i = 0; i < this.Z_red.getNrow(); i++) {
+            for (int j = 0; j < this.Z_red.getNcol(); j++) {
+                this.X_red.setEntry(i, j, this.Z_red.getElementCopy(i, j).getImag());
+            }
+        }
+    }
+    
+    public void calcLred(){
+        calcXred();
+        for (int i = 0; i < this.X_red.getRowDimension(); i++) {
+            for (int j = 0; j < this.X_red.getColumnDimension(); j++) {
+                this.L_red.setEntry(i, j, this.X_red.getEntry(i, j) / this.omega);
+            }
+        }
+    }
+    
+    public void calcRred(){
+        calcZred();
+        for (int i = 0; i < this.Z_red.getNrow(); i++) {
+            for (int j = 0; j < this.Z_red.getNcol(); j++) {
+                this.R_red.setEntry(i, j, this.Z_red.getElementCopy(i, j).getReal());
+            }
+        }
+    }
+    
+    public void calcZred(){
         calcZ();
+        this.Z_red = makeComplexKronReduction(this.Z, gw);
+    }
+    
+    public void calcSymm(){
+        calcRred();
+        calcLred();
+        this.Z_red_symm = symm2phase(this.Z_red);
+        
+        for (int i = 0; i < this.fv; i++) {
+            for (int j = 0; j < this.fv; j++) {
+                this.R_red_symm.setEntry(i, j, this.Z_red_symm.getElementCopy(i, j).getReal());
+                this.X_red_symm.setEntry(i, j, this.Z_red_symm.getElementCopy(i, j).getImag());
+                this.L_red_symm.setEntry(i, j, this.X_red_symm.getEntry(i, j) / this.omega);
+            }
+        }
+    }
+    
+    public void calcAll(){
+        calcSymm();
     }
     
     public void printAll(){
@@ -188,12 +264,26 @@ public class CDER {
         printRealMatrix(this.R_real);
         System.out.println("L [mH/km]");
         printRealMatrix(this.L_real.scalarMultiply(1000));
-//        System.out.println("L_imag [mH/km]");
-//        printRealMatrix(this.L_imag.scalarMultiply(1000));
-        System.out.println("X [Ohm/km]");
-        printRealMatrix(this.X_real);
-//        System.out.println("X_imag [Ohm/km]");
-//        printRealMatrix(this.X_imag);
+//        System.out.println("X [Ohm/km]");
+//        printRealMatrix(this.X_real);
+        
+        System.out.println("Rred [Ohm/km]");
+        printRealMatrix(this.R_red);
+        System.out.println("Lred [mH/km]");
+        printRealMatrix(this.L_red.scalarMultiply(1000));
+//        System.out.println("Xred [Ohm/km]");
+//        printRealMatrix(this.X_red);
+//        System.out.println("Zred [Ohm/km]");
+//        printComplexMatrix(this.Z_red);
+        
+        System.out.println("Rred_symm [Ohm/km]");
+        printSymmRealMatrix(this.R_red_symm);
+        System.out.println("Lred_symm [mH/km]");
+        printSymmRealMatrix(this.L_red_symm.scalarMultiply(1000));
+//        System.out.println("Xred_symm [Ohm/km]");
+//        printSymmRealMatrix(this.X_red_symm);
+//        System.out.println("Zred_symm [Ohm/km]");
+//        printSymmComplexMatrix(this.Z_red_symm);
     }
 
     public RealMatrix getDik() {
@@ -330,6 +420,30 @@ public class CDER {
 
     public void setZ(ComplexMatrix Z) {
         this.Z = Z;
+    }
+
+    public RealMatrix getR_red() {
+        return R_red;
+    }
+
+    public void setR_red(RealMatrix R_red) {
+        this.R_red = R_red;
+    }
+
+    public RealMatrix getL_red() {
+        return L_red;
+    }
+
+    public void setL_red(RealMatrix L_red) {
+        this.L_red = L_red;
+    }
+
+    public ComplexMatrix getZ_red() {
+        return Z_red;
+    }
+
+    public void setZ_red(ComplexMatrix Z_red) {
+        this.Z_red = Z_red;
     }
     
     

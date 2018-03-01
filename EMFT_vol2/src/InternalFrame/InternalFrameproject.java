@@ -55,6 +55,7 @@ import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
 import static tools.help.ArrList2Arr;
 import static tools.help.makeComplexKronReduction;
+import static tools.help.printComplexMatrix;
 
 /**
  *
@@ -1527,6 +1528,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385); //nutne pre stanovenie velkosti matic
                 int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
                 int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                int gw = Rozpätie.getPocet_zemnych_lan();
+                int fv = Rozpätie.getPocet_lan() - gw;
                 
                 RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
@@ -1589,56 +1592,42 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 
 
                 Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
-                                                hx2, cnd_list, exactGMR, exactRAC);
+                                                hx2, cnd_list, exactGMR, exactRAC, fv, gw);
                 
                 CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
-                                                                    hx2, cnd_list, exactGMR, exactRAC);
+                                                                    hx2, cnd_list, exactGMR, exactRAC, fv, gw);
                 
-                Basic test_basic = new Basic(Dik, cnd_list, exactGMR, exactRAC);
+                Basic test_basic = new Basic(Dik, cnd_list, exactGMR, exactRAC, fv, gw);
                 
                 CDER cder_test = new CDER(Dik, Dik_mirror_real_CDER, Dik_mirror_imag_CDER, 
-                                            hx2_real, hx2_imag, cnd_list, exactGMR, exactRAC);
+                                            hx2_real, hx2_imag, cnd_list, exactGMR, exactRAC, fv, gw);
                 
                 TakuNoda tn_test = new TakuNoda(Dik, Dik_mirror_real_alpha, Dik_mirror_imag_alpha, 
                                                 Dik_mirror_real_beta, Dik_mirror_imag_beta,
                                                 hx2_real_alpha, hx2_imag_alpha, 
                                                 hx2_real_beta, hx2_imag_beta, 
-                                                cnd_list, exactGMR, exactRAC);
+                                                cnd_list, exactGMR, exactRAC, fv, gw);
                 
-                System.out.print("\n");
+                System.out.println();
                 System.out.println("Carson standard");
                 test_carson.calcAll();
                 test_carson.printAll();
-                System.out.print("\n");
+                System.out.println();
                 System.out.println("Carson modified");
                 test_carson_mod.calcAll();
                 test_carson_mod.printAll();
-                System.out.print("\n");
+                System.out.println();
                 System.out.println("Basic");
                 test_basic.calcAll();
                 test_basic.printAll();
-                System.out.print("\n");
+                System.out.println();
                 System.out.println("CDER");
                 cder_test.calcAll();
                 cder_test.printAll();
-                System.out.print("\n");
+                System.out.println();
                 System.out.println("TakuNoda");
                 tn_test.calcAll();
                 tn_test.printAll();
-                
-                int gw = Rozpätie.getPocet_zemnych_lan();
-                int fv = Rozpätie.getPocet_lan() - gw;
-                ComplexMatrix Z_red_Carson_gnd = new ComplexMatrix(fv, fv);
-                ComplexMatrix Z_red_Carson_no_gnd = new ComplexMatrix(fv, fv);
-                ComplexMatrix Z_red_Carson_mod_gnd = new ComplexMatrix(fv, fv);
-                ComplexMatrix Z_red_Carson_mod_no_gnd = new ComplexMatrix(fv, fv);
-                ComplexMatrix Z_red_Basic = new ComplexMatrix(fv, fv);
-                ComplexMatrix Z_red_CDER = new ComplexMatrix(fv, fv);
-                ComplexMatrix Z_red_TakuNoda = new ComplexMatrix(fv, fv);
-                
-                //tu hadze error -> ALE PRECO?!?!
-                Z_red_Carson_gnd = makeComplexKronReduction(test_carson.getZ_gnd(), gw);
-                
                 
             }
 

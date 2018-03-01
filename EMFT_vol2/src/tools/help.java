@@ -29,6 +29,7 @@ import org.jdelaunay.delaunay.geometries.DPoint;
  * @author Jozef
  */
 public class help {
+    static DecimalFormat df5 = new DecimalFormat("0.00000");
 
     //private static String printer;
     //private static boolean printPrinter = false;  
@@ -528,7 +529,7 @@ public class help {
     public static void printRealMatrix(RealMatrix mtx){
         for (int i = 0; i < mtx.getRowDimension(); i++) {
             for (int j = 0; j < mtx.getColumnDimension(); j++) {
-                System.out.print(mtx.getData()[i][j] + " ");
+                System.out.print(df5.format(mtx.getData()[i][j]) + " ");
             }
         System.out.println();
         }
@@ -536,7 +537,7 @@ public class help {
     
     public static void printDoubleArr(double[] arr){
         for (int i = 0; i < arr.length; i++) {
-            System.out.println(arr[i]);
+            System.out.println(df5.format(arr[i]));
         }
         System.out.println();
     }
@@ -559,6 +560,7 @@ public class help {
         RealMatrix final_mtx = source_mtx.copy();
         return clearMatrix(final_mtx);
     }
+    
     
     //kniznice nizsie pouzite
     //https://www.ee.ucl.ac.uk/~mflanaga/java/
@@ -594,39 +596,170 @@ public class help {
      * @return 
      */
     public static ComplexMatrix makeComplexKronReduction(ComplexMatrix source, int ground_wires){
-        int rows_total = source.getNrow();
-        int cols_total = source.getNcol();
-        int nn_rows = rows_total - ground_wires;
-        int nn_cols = cols_total - ground_wires;
-        int nm_rows = rows_total - ground_wires;
-        int nm_cols = ground_wires;
-        int mn_rows = ground_wires;
-        int mn_cols = cols_total - ground_wires;
-        int mm_rows = ground_wires;
-        int mm_cols = ground_wires;
-        
-        ComplexMatrix NN = new ComplexMatrix(nn_rows, nn_cols);
-        ComplexMatrix MN = new ComplexMatrix(mn_rows, mn_cols);
-        ComplexMatrix NM = new ComplexMatrix(nm_rows, nm_cols);
-        ComplexMatrix MM = new ComplexMatrix(mm_rows, mm_cols);
-        
-        for (int i = 0; i < rows_total; i++) {
-            for (int j = 0; j < cols_total; j++) {
-                if (i < nn_rows && j < nn_cols) {
-                    NN.setElement(i, j, source.getElementCopy(i, j));
-                } else if (i >= nn_rows && j < nn_cols) {
-                    MN.setElement(i-nn_rows, j, source.getElementCopy(i, j));
-                } else if (i < nn_rows && j >= nn_cols) {
-                    NM.setElement(i, j-nn_cols, source.getElementCopy(i, j));
-                } else if (i >= nn_rows && j >= nn_cols) {
-                    MM.setElement(i-nn_rows, j-nn_cols, source.getElementCopy(i, j));
+        if (ground_wires == 0){
+            //no Kron Reduction needed
+            return source;
+        } else {
+            int rows_total = source.getNrow();
+            int cols_total = source.getNcol();
+            int nn_rows = rows_total - ground_wires;
+            int nn_cols = cols_total - ground_wires;
+            int nm_rows = rows_total - ground_wires;
+            int nm_cols = ground_wires;
+            int mn_rows = ground_wires;
+            int mn_cols = cols_total - ground_wires;
+            int mm_rows = ground_wires;
+            int mm_cols = ground_wires;
+
+            ComplexMatrix NN = new ComplexMatrix(nn_rows, nn_cols);
+            ComplexMatrix MN = new ComplexMatrix(mn_rows, mn_cols);
+            ComplexMatrix NM = new ComplexMatrix(nm_rows, nm_cols);
+            ComplexMatrix MM = new ComplexMatrix(mm_rows, mm_cols);
+
+            for (int i = 0; i < rows_total; i++) {
+                for (int j = 0; j < cols_total; j++) {
+                    if (i < nn_rows && j < nn_cols) {
+                        NN.setElement(i, j, source.getElementCopy(i, j));
+                    } else if (i >= nn_rows && j < nn_cols) {
+                        MN.setElement(i-nn_rows, j, source.getElementCopy(i, j));
+                    } else if (i < nn_rows && j >= nn_cols) {
+                        NM.setElement(i, j-nn_cols, source.getElementCopy(i, j));
+                    } else if (i >= nn_rows && j >= nn_cols) {
+                        MM.setElement(i-nn_rows, j-nn_cols, source.getElementCopy(i, j));
+                    }
                 }
             }
+            return NN.minus(NM.times(MM.inverse()).times(MN));
         }
-        
-        ComplexMatrix result = new ComplexMatrix(nn_rows, nn_cols);
-        result = NN.minus(NM.times(MM.inverse()).times(MN));
-        return result;
     }
-
+    
+    public static ComplexMatrix copyComplexMatrix(ComplexMatrix source){
+        ComplexMatrix newMatrix = new ComplexMatrix(source.getNrow(), source.getNcol());
+        for (int i = 0; i < source.getNrow(); i++) {
+            for (int j = 0; j < source.getNcol(); j++) {
+                newMatrix.setElement(i, j, source.getElementCopy(i, j));
+            }
+        }
+        return newMatrix;
+    }
+    
+    public static void printComplexMatrix(ComplexMatrix mtx){
+        for (int i = 0; i < mtx.getNrow(); i++) {
+            for (int j = 0; j < mtx.getNcol(); j++) {
+                System.out.print(df5.format(mtx.getElementCopy(i, j).getReal()) + " ");
+                System.out.print(df5.format(mtx.getElementCopy(i, j).getImag()) + "i   ");
+            }
+        System.out.println();
+        }
+    }
+    
+    public static ComplexMatrix phase2symm(ComplexMatrix phase){
+        int rows = phase.getNrow();
+        int cols = phase.getNcol();
+        flanagan.complex.Complex[][] T = setT();
+        flanagan.complex.Complex[][] T1 = setT1();
+        
+        
+        //checking if data in correct format [square N x 3 phase format matrix]
+        if ((rows % 3) == 0 && (cols % 3) == 0 && rows == cols){
+            int times = rows/3;
+            ComplexMatrix T_total = new ComplexMatrix(rows, cols);
+            ComplexMatrix T1_total = new ComplexMatrix(rows, cols);
+            for (int i = 0; i < times; i++) {
+                T_total.setSubMatrix(i*3, i*3, T);
+                T1_total.setSubMatrix(i*3, i*3, T1);
+            }
+            ComplexMatrix symm = T1_total.times(phase).times(T);
+            return symm;
+        } else {
+            System.out.println("Zly vstupny format do vypoctu zloziek");
+            return null;
+        }
+    }
+    
+    public static ComplexMatrix symm2phase(ComplexMatrix symm){
+        int rows = symm.getNrow();
+        int cols = symm.getNcol();
+        flanagan.complex.Complex[][] T = setT();
+        flanagan.complex.Complex[][] T1 = setT1();
+        
+        
+        //checking if data in correct format [square N x 3 phase format matrix]
+        if ((rows % 3) == 0 && (cols % 3) == 0 && rows == cols){
+            int times = rows/3;
+            ComplexMatrix T_total = new ComplexMatrix(rows, cols);
+            ComplexMatrix T1_total = new ComplexMatrix(rows, cols);
+            for (int i = 0; i < times; i++) {
+                T_total.setSubMatrix(i*3, i*3, T);
+                T1_total.setSubMatrix(i*3, i*3, T1);
+            }
+            ComplexMatrix phase = T1_total.times(symm).times(T);
+            return phase;
+        } else {
+            System.out.println("Zly vstupny format do vypoctu zloziek");
+            return null;
+        }
+    }
+    
+    private static flanagan.complex.Complex[][] setT(){
+        flanagan.complex.Complex one = new flanagan.complex.Complex(1, 0);
+        flanagan.complex.Complex a = new flanagan.complex.Complex(-0.5, Math.sqrt(3)/2);
+        flanagan.complex.Complex a2 = new flanagan.complex.Complex(-0.5, -Math.sqrt(3)/2);
+        flanagan.complex.Complex[][] T = new flanagan.complex.Complex[3][3];
+        
+        T[0][0] = one;
+        T[1][0] = one;
+        T[2][0] = one;
+        T[0][1] = one;
+        T[0][2] = one;
+        T[1][1] = a2;
+        T[2][2] = a2;
+        T[1][2] = a;
+        T[2][1] = a;
+        
+        return T;
+    }
+    
+    private static flanagan.complex.Complex[][] setT1(){
+        flanagan.complex.Complex one = new flanagan.complex.Complex(1, 0);
+        flanagan.complex.Complex a = new flanagan.complex.Complex(-0.5, Math.sqrt(3)/2);
+        flanagan.complex.Complex a2 = new flanagan.complex.Complex(-0.5, -Math.sqrt(3)/2);
+        flanagan.complex.Complex[][] T1 = new flanagan.complex.Complex[3][3];
+        
+        T1[0][0] = one.times((double)1/3);
+        T1[1][0] = one.times((double)1/3);
+        T1[2][0] = one.times((double)1/3);
+        T1[0][1] = one.times((double)1/3);
+        T1[0][2] = one.times((double)1/3);
+        T1[1][1] = a.times((double)1/3);
+        T1[2][2] = a.times((double)1/3);
+        T1[1][2] = a2.times((double)1/3);
+        T1[2][1] = a2.times((double)1/3);
+        
+        return T1;
+    }
+    
+    public static void printSymmRealMatrix(RealMatrix mtx){
+        for (int i = 0; i < mtx.getRowDimension(); i++) {
+            for (int j = 0; j < mtx.getColumnDimension(); j++) {
+                if (i == j) {
+                    System.out.print( i + " " + df5.format(mtx.getData()[i][j]) + " ");
+                }
+            }
+        System.out.println();
+        }
+    }
+    
+    public static void printSymmComplexMatrix(ComplexMatrix mtx){
+        for (int i = 0; i < mtx.getNrow(); i++) {
+            for (int j = 0; j < mtx.getNcol(); j++) {
+                if (i==j){
+                    System.out.print(i + " " + df5.format(mtx.getElementCopy(i, j).getReal()) + "   ");
+                    System.out.print(df5.format(mtx.getElementCopy(i, j).getImag()) + "i   ");
+                }
+            }
+        System.out.println();
+        }
+    }
+    
 }

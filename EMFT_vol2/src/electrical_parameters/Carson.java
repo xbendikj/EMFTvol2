@@ -11,12 +11,16 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import static tools.help.arraySum;
 import static tools.help.initComplexMatrix;
 import static tools.help.initMatrix;
+import static tools.help.makeComplexKronReduction;
 import static tools.help.makeComplexMatrix;
 import static tools.help.printRealMatrix;
+import static tools.help.printSymmRealMatrix;
+import static tools.help.symm2phase;
 
 /**
  * Carsonova vypoctova metoda elektrickych parametrov
@@ -33,6 +37,9 @@ public class Carson {
     double[] R;
     double f;
     double[] rho_gnd;
+    int fv = 0;
+    int gw = 0;
+    double omega =0;
     
     //results
     public RealMatrix Rg;
@@ -47,6 +54,24 @@ public class Carson {
     public ComplexMatrix Z_no_gnd;
     public ComplexMatrix Z_gnd;
     
+    public RealMatrix R_red_gnd;
+    public RealMatrix L_red_gnd;
+    public RealMatrix X_red_gnd;
+    public ComplexMatrix Z_red_gnd;
+    public RealMatrix R_red_no_gnd;
+    public RealMatrix L_red_no_gnd;
+    public RealMatrix X_red_no_gnd;
+    public ComplexMatrix Z_red_no_gnd;
+    
+    public ComplexMatrix Z_red_gnd_symm;
+    public RealMatrix L_red_gnd_symm;
+    public RealMatrix R_red_gnd_symm;
+    public RealMatrix X_red_gnd_symm;
+    public ComplexMatrix Z_red_no_gnd_symm;
+    public RealMatrix L_red_no_gnd_symm;
+    public RealMatrix R_red_no_gnd_symm;
+    public RealMatrix X_red_no_gnd_symm;
+    
     //partial results
     RealMatrix kik;
     
@@ -56,7 +81,7 @@ public class Carson {
                     double[] hx2,
                     ArrayList<elpam_input_conductor> cnd_list,
                     boolean exact_GMR,
-                    boolean exact_Rac
+                    boolean exact_Rac, int fv, int gw
     ){
 //        GMR_calculation cnd = new GMR_calculation(Conductor);
 //        Rac_calculation cnd2 = new Rac_calculation(Conductor);
@@ -66,6 +91,10 @@ public class Carson {
         this.R = new double[cnd_list.size()];
         this.GMR = new double[cnd_list.size()];
         this.rho_gnd = new double[cnd_list.size()];
+        this.f = constants.getFrequency();
+        this.omega = (double)2*Math.PI*this.f;
+        this.fv = fv;
+        this.gw = gw;
 
         if (exact_GMR) {
             for (int i = 0; i < cnd_list.size(); i++) {
@@ -91,7 +120,6 @@ public class Carson {
         this.Dik_mirror = Dik_mirror;
         this.Fik = Fik;
         this.hx2 = hx2;
-        this.f = constants.getFrequency();
         for (int i = 0; i < cnd_list.size(); i++) {
             this.rho_gnd[i] = cnd_list.get(i).getRho_ground();
         }
@@ -107,6 +135,25 @@ public class Carson {
         this.X_gnd = initMatrix(Dik);
         this.Z_gnd = initComplexMatrix(Dik);
         this.Z_no_gnd = initComplexMatrix(Dik);
+        
+        this.R_red_gnd = new Array2DRowRealMatrix(fv, fv);
+        this.L_red_gnd = new Array2DRowRealMatrix(fv, fv);
+        this.X_red_gnd = new Array2DRowRealMatrix(fv, fv);
+        this.Z_red_gnd = new ComplexMatrix(fv, fv);
+        this.R_red_no_gnd = new Array2DRowRealMatrix(fv, fv);
+        this.L_red_no_gnd = new Array2DRowRealMatrix(fv, fv);
+        this.X_red_no_gnd = new Array2DRowRealMatrix(fv, fv);
+        this.Z_red_no_gnd = new ComplexMatrix(fv, fv);
+        
+        this.L_red_gnd_symm = new Array2DRowRealMatrix(fv, fv);
+        this.R_red_gnd_symm = new Array2DRowRealMatrix(fv, fv);
+        this.X_red_gnd_symm = new Array2DRowRealMatrix(fv, fv);
+        this.Z_red_gnd_symm = new ComplexMatrix(fv, fv);
+        this.L_red_no_gnd_symm = new Array2DRowRealMatrix(fv, fv);
+        this.R_red_no_gnd_symm = new Array2DRowRealMatrix(fv, fv);
+        this.X_red_no_gnd_symm = new Array2DRowRealMatrix(fv, fv);
+        this.Z_red_no_gnd_symm = new ComplexMatrix(fv, fv);
+        
     }
     
     //public functions
@@ -114,35 +161,155 @@ public class Carson {
     public void printAll(){
         System.out.println("Cas generovania");
         System.out.println(LocalTime.now());
-//        System.out.println("b-cka");
-//        printDoubleArr(b());
-//        System.out.println("c-cka");
-//        printDoubleArr(c());
-//        System.out.println("d-cka");
-//        printDoubleArr(d());
         System.out.println("Rg [Ohm/km]");
-        printRealMatrix(this.Rg);
-        System.out.println("Lg [mH/km]");
-        printRealMatrix(this.Lg.scalarMultiply(1000));
-        System.out.println("Xg [Ohm/km]");
-        printRealMatrix(this.Xg);
-        System.out.println("R_no_gnd [Ohm/km]");
-        printRealMatrix(this.R_no_gnd);
-        System.out.println("L_no_gnd [mH/km]");
-        printRealMatrix(this.L_no_gnd.scalarMultiply(1000));
-        System.out.println("X_no_gnd [Ohm/km]");
-        printRealMatrix(this.X_no_gnd);
+//        printRealMatrix(this.Rg);
+//        System.out.println("Lg [mH/km]");
+//        printRealMatrix(this.Lg.scalarMultiply(1000));
+//        System.out.println("Xg [Ohm/km]");
+//        printRealMatrix(this.Xg);
+//        
+//        System.out.println("R_no_gnd [Ohm/km]");
+//        printRealMatrix(this.R_no_gnd);
+//        System.out.println("L_no_gnd [mH/km]");
+//        printRealMatrix(this.L_no_gnd.scalarMultiply(1000));
+//        System.out.println("X_no_gnd [Ohm/km]");
+//        printRealMatrix(this.X_no_gnd);
+//        System.out.println("Z_no_gnd [Ohm/km]");
+//        printComplexMatrix(this.Z_no_gnd);
+        
         System.out.println("R_gnd [Ohm/km]");
         printRealMatrix(this.R_gnd);
         System.out.println("L_gnd [mH/km]");
         printRealMatrix(this.L_gnd.scalarMultiply(1000));
-        System.out.println("X_gnd [Ohm/km]");
-        printRealMatrix(this.X_gnd);
+//        System.out.println("X_gnd [Ohm/km]");
+//        printRealMatrix(this.X_gnd);
+//        System.out.println("Z_gnd [Ohm/km]");
+//        printComplexMatrix(this.Z_gnd);
+        
+//        System.out.println("Rred_no_gnd [Ohm/km]");
+//        printRealMatrix(this.R_red_no_gnd);
+//        System.out.println("Lred_no_gnd [mH/km]");
+//        printRealMatrix(this.L_red_no_gnd.scalarMultiply(1000));
+//        System.out.println("Xred_no_gnd [Ohm/km]");
+//        printRealMatrix(this.X_red_no_gnd);
+//        System.out.println("Zred_no_gnd [Ohm/km]");
+//        printComplexMatrix(this.Z_red_no_gnd);
+        
+        System.out.println("Rred_gnd [Ohm/km]");
+        printRealMatrix(this.R_red_gnd);
+        System.out.println("Lred_gnd [mH/km]");
+        printRealMatrix(this.L_red_gnd.scalarMultiply(1000));
+//        System.out.println("Xred_gnd [Ohm/km]");
+//        printRealMatrix(this.X_red_gnd);
+//        System.out.println("Zred_gnd [Ohm/km]");
+//        printComplexMatrix(this.Z_red_gnd);
+        
+//        System.out.println("Rred_no_gnd_symm [Ohm/km]");
+//        printRealMatrix(this.R_red_no_gnd_symm);
+//        System.out.println("Lred_no_gnd_symm [mH/km]");
+//        printRealMatrix(this.L_red_no_gnd_symm.scalarMultiply(1000));
+//        System.out.println("Xred_no_gnd_symm [Ohm/km]");
+//        printRealMatrix(this.X_red_no_gnd_symm);
+//        System.out.println("Zred_no_gnd_symm [Ohm/km]");
+//        printComplexMatrix(this.Z_red_no_gnd_symm);
+        
+        System.out.println("Rred_gnd_symm [Ohm/km]");
+        printSymmRealMatrix(this.R_red_gnd_symm);
+        System.out.println("Lred_gnd_symm [mH/km]");
+        printSymmRealMatrix(this.L_red_gnd_symm.scalarMultiply(1000));
+//        System.out.println("Xred_gnd_symm [Ohm/km]");
+//        printRealMatrix(this.X_red_gnd_symm);
+//        System.out.println("Zred_gnd_symm [Ohm/km]");
+//        printComplexMatrix(this.Z_red_gnd_symm);
+
     }
     
     public void calcAll(){
+        calcSymm();
+    }
+    
+    public void calcSymm(){
+        calcRred_gnd();
+        calcLred_gnd();
+        calcRred_no_gnd();
+        calcLred_no_gnd();
+        this.Z_red_gnd_symm = symm2phase(this.Z_red_gnd);
+        this.Z_red_no_gnd_symm = symm2phase(this.Z_red_no_gnd);
+        
+        for (int i = 0; i < this.fv; i++) {
+            for (int j = 0; j < this.fv; j++) {
+                this.R_red_no_gnd_symm.setEntry(i, j, this.Z_red_no_gnd_symm.getElementCopy(i, j).getReal());
+                this.X_red_no_gnd_symm.setEntry(i, j, this.Z_red_no_gnd_symm.getElementCopy(i, j).getImag());
+                this.L_red_no_gnd_symm.setEntry(i, j, this.X_red_no_gnd_symm.getEntry(i, j) / this.omega);
+                this.R_red_gnd_symm.setEntry(i, j, this.Z_red_gnd_symm.getElementCopy(i, j).getReal());
+                this.X_red_gnd_symm.setEntry(i, j, this.Z_red_gnd_symm.getElementCopy(i, j).getImag());
+                this.L_red_gnd_symm.setEntry(i, j, this.X_red_gnd_symm.getEntry(i, j) / this.omega);
+            }
+        }
+    }
+    
+    public void calcXred_gnd(){
+        calcZred_gnd();
+        for (int i = 0; i < this.Z_red_gnd.getNrow(); i++) {
+            for (int j = 0; j < this.Z_red_gnd.getNcol(); j++) {
+                this.X_red_gnd.setEntry(i, j, this.Z_red_gnd.getElementCopy(i, j).getImag());
+            }
+        }
+    }
+    
+    public void calcLred_gnd(){
+        calcXred_gnd();
+        for (int i = 0; i < this.X_red_gnd.getRowDimension(); i++) {
+            for (int j = 0; j < this.X_red_gnd.getColumnDimension(); j++) {
+                this.L_red_gnd.setEntry(i, j, this.X_red_gnd.getEntry(i, j) / this.omega);
+            }
+        }
+    }
+    
+    public void calcRred_gnd(){
+        calcZred_gnd();
+        for (int i = 0; i < this.Z_red_gnd.getNrow(); i++) {
+            for (int j = 0; j < this.Z_red_gnd.getNcol(); j++) {
+                this.R_red_gnd.setEntry(i, j, this.Z_red_gnd.getElementCopy(i, j).getReal());
+            }
+        }
+    }
+    
+    public void calcZred_gnd(){
         calcZ_gnd();
+        this.Z_red_gnd = makeComplexKronReduction(this.Z_gnd, gw);
+    }
+    
+    public void calcXred_no_gnd(){
+        calcZred_no_gnd();
+        for (int i = 0; i < this.Z_red_no_gnd.getNrow(); i++) {
+            for (int j = 0; j < this.Z_red_no_gnd.getNcol(); j++) {
+                this.X_red_no_gnd.setEntry(i, j, this.Z_red_no_gnd.getElementCopy(i, j).getImag());
+            }
+        }
+    }
+    
+    public void calcLred_no_gnd(){
+        calcXred_no_gnd();
+        for (int i = 0; i < this.X_red_no_gnd.getRowDimension(); i++) {
+            for (int j = 0; j < this.X_red_no_gnd.getColumnDimension(); j++) {
+                this.L_red_no_gnd.setEntry(i, j, this.X_red_no_gnd.getEntry(i, j) / this.omega);
+            }
+        }
+    }
+    
+    public void calcRred_no_gnd(){
+        calcZred_no_gnd();
+        for (int i = 0; i < this.Z_red_no_gnd.getNrow(); i++) {
+            for (int j = 0; j < this.Z_red_no_gnd.getNcol(); j++) {
+                this.R_red_no_gnd.setEntry(i, j, this.Z_red_no_gnd.getElementCopy(i, j).getReal());
+            }
+        }
+    }
+    
+    public void calcZred_no_gnd(){
         calcZ_no_gnd();
+        this.Z_red_no_gnd = makeComplexKronReduction(this.Z_no_gnd, gw);
     }
     
     public void calcZ_gnd(){
@@ -536,4 +703,62 @@ public class Carson {
     public void setZ_no_gnd(ComplexMatrix Z_no_gnd) {
         this.Z_no_gnd = Z_no_gnd;
     }
+
+    public RealMatrix getR_red_gnd() {
+        return R_red_gnd;
+    }
+
+    public void setR_red_gnd(RealMatrix R_red_gnd) {
+        this.R_red_gnd = R_red_gnd;
+    }
+
+    public RealMatrix getL_red_gnd() {
+        return L_red_gnd;
+    }
+
+    public void setL_red_gnd(RealMatrix L_red_gnd) {
+        this.L_red_gnd = L_red_gnd;
+    }
+
+    public RealMatrix getX_red_gnd() {
+        return X_red_gnd;
+    }
+
+    public void setX_red_gnd(RealMatrix X_red_gnd) {
+        this.X_red_gnd = X_red_gnd;
+    }
+
+    public ComplexMatrix getZ_red_gnd() {
+        return Z_red_gnd;
+    }
+
+    public void setZ_red_gnd(ComplexMatrix Z_red_gnd) {
+        this.Z_red_gnd = Z_red_gnd;
+    }
+
+    public RealMatrix getR_red_no_gnd() {
+        return R_red_no_gnd;
+    }
+
+    public void setR_red_no_gnd(RealMatrix R_red_no_gnd) {
+        this.R_red_no_gnd = R_red_no_gnd;
+    }
+
+    public RealMatrix getL_red_no_gnd() {
+        return L_red_no_gnd;
+    }
+
+    public void setL_red_no_gnd(RealMatrix L_red_no_gnd) {
+        this.L_red_no_gnd = L_red_no_gnd;
+    }
+
+    public ComplexMatrix getZ_red_no_gnd() {
+        return Z_red_no_gnd;
+    }
+
+    public void setZ_red_no_gnd(ComplexMatrix Z_red_no_gnd) {
+        this.Z_red_no_gnd = Z_red_no_gnd;
+    }
+    
+    
 }
