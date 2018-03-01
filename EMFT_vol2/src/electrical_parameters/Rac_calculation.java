@@ -25,6 +25,9 @@ public class Rac_calculation {
     double Rdc;     //jednosmerny odpor vodica [Ohm/km]
     double Rac;     //vysledny striedavy odpor [Ohm.km] Rac = Rdc*k_sk
     
+    boolean bundle;
+    int n_zv;
+    
     /**
      * void constructor
      */
@@ -39,31 +42,40 @@ public class Rac_calculation {
      * @param f frekvencia [Hz]
      * @param Rdc jednosmerny odpor vodica [Ohm/km]
      */
-    public Rac_calculation(double rho, double D, double D1, double f, double Rdc){
+    public Rac_calculation(double rho, double D, double D1, double f, double Rdc, boolean bundle, int n_zv){
         this.rho = rho;
         this.D = D;
         this.D1 = D1;
         this.f = f;
         this.Rdc = Rdc;
+        this.bundle = bundle;
+        this.n_zv = n_zv;
     }
     
     /**
      * valid constructor from elpam_input_conductor class
      * @param Conductor 
      */
-    public Rac_calculation(elpam_input_conductor Conductor){
+    public Rac_calculation(elpam_input_conductor Conductor,int n_zv){
         this.rho = Conductor.rho_conductor;
         this.D = Conductor.D;
         this.D1 = Conductor.T;
         this.f = Conductor.f;
         this.Rdc = Conductor.Rdc;
+        this.bundle = Conductor.isBundle();
+        this.n_zv = n_zv;
     }
     
     /**
      * Valid mainly for 2+ layers of Al coating in ACSR conductor
      */
     public void calc_Rac(){
-        this.Rac = this.Rdc*k_sk_tube(this.rho, this.D, this.D1, this.f);
+        if (this.bundle){
+            this.Rac = this.Rdc*k_sk_tube(this.rho, this.D, this.D1, this.f) / this.n_zv;
+            this.Rdc = this.Rdc / this.n_zv;
+        } else {
+            this.Rac = this.Rdc*k_sk_tube(this.rho, this.D, this.D1, this.f);
+        }
     }
     
     //Private function area
@@ -168,4 +180,22 @@ public class Rac_calculation {
     public void setRac(double Rac) {
         this.Rac = Rac;
     }
+
+    public boolean isBundle() {
+        return bundle;
+    }
+
+    public void setBundle(boolean bundle) {
+        this.bundle = bundle;
+    }
+
+    public int getN_zv() {
+        return n_zv;
+    }
+
+    public void setN_zv(int n_zv) {
+        this.n_zv = n_zv;
+    }
+    
+    
 }

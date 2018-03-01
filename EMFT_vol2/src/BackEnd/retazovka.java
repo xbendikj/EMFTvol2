@@ -8,6 +8,7 @@
 package BackEnd;
 
 import InternalFrame.InternalFrameproject;
+import static InternalFrame.InternalFrameproject.Rozpätie;
 import electrical_parameters.GMR_calculation;
 import electrical_parameters.Rac_calculation;
 import electrical_parameters.elpam_input_conductor;
@@ -87,6 +88,7 @@ public class retazovka {
     private double elpam_xi;
     private double elpam_GMR_default;
     private double elpam_xi_default;
+    private boolean bundle;
     
     //constructor
     /**
@@ -135,6 +137,7 @@ public class retazovka {
         terenTriangles_over = terenTriangles;
         X1_over = X1;
         X2_over = X2;
+        //TOTO JE CHYBA PODLA MNA > ALPHA NEDEFINUJE PREDSA ZVAZOK
         if (alpha == 0) distance_over = distance/(2*Math.sin(Math.PI/1));
         if (alpha != 0) distance_over = distance/(2*Math.sin(Math.PI/bundle)); 
         
@@ -175,6 +178,7 @@ public class retazovka {
         I2_over = I1;
         bundle_over = bundle;
         alpha_over = alpha;
+        //TOTO JE CHYBA PODLA MNA > ALPHA NEDEFINUJE PREDSA ZVAZOK
         if (alpha == 0) distance_over = distance/(2*Math.sin(Math.PI/1));
         if (alpha != 0) distance_over = distance/(2*Math.sin(Math.PI/bundle)); 
         HC_over = HC;
@@ -961,15 +965,23 @@ public class retazovka {
         cnd.setRdc(this.elpam_Rdc);
         cnd.setRho_conductor(this.elpam_rho_cnd);
         cnd.setRho_ground(this.elpam_rho_gnd);
+        if(this.bundle_over > 1){
+            cnd.setBundle(true);
+            this.bundle = true;
+        }else{
+            cnd.setBundle(false);
+            this.bundle = false;
+        }
         
-        GMR_calculation myGMR = new GMR_calculation(cnd);
-        Rac_calculation myRac = new Rac_calculation(cnd);
-        myGMR.calc_GMR();
-        myGMR.calc_xi();
+        //distance_over ukazuje picoviny, nieco na nieco^15
+        GMR_calculation myGMR = new GMR_calculation(cnd, this.distance_over, this.bundle_over);
+        Rac_calculation myRac = new Rac_calculation(cnd, this.bundle_over);
+        myGMR.calc_GMR_xi();
         myRac.calc_Rac();
         
         this.elpam_GMR = myGMR.getGMR();
         this.elpam_Rac = myRac.getRac();
+        this.elpam_Rdc = myRac.getRdc(); //ak zvazky + default GMR
         this.elpam_xi = myGMR.getXi();
         this.elpam_GMR_default = myGMR.getGMR_default();
         this.elpam_xi_default = myGMR.getXi_default();
@@ -1014,8 +1026,12 @@ public class retazovka {
     public void setElpam_xi_default(double elpam_xi_default) {
         this.elpam_xi_default = elpam_xi_default;
     }
-    
-    
-    
-    
+
+    public boolean isBundle() {
+        return bundle;
+    }
+
+    public void setBundle(boolean bundle) {
+        this.bundle = bundle;
+    }
 }

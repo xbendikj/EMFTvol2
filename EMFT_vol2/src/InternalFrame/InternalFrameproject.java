@@ -1473,7 +1473,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             
                 //vytvorenie zoznamu vodicov ako su pouzite v mainframe
                 int pocet_vodicov = Rozpätie.getRetazovkaList().size();
-                ArrayList<elpam_input_conductor> cnd_list = new ArrayList<elpam_input_conductor>();
+                ArrayList<elpam_input_conductor> cnd_list = new ArrayList<>();
 
                 for (int i = 0; i < pocet_vodicov; i++) {
                     elpam_input_conductor cnd2add = new elpam_input_conductor(); //treba vzdy definovat nanovo nech neprepisuje ArrayList!!!!!!!!!!!!
@@ -1492,6 +1492,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     cnd2add.setXi(Rozpätie.getRetazovkaList().get(i).getElpam_xi());
                     cnd2add.setGMR_default(Rozpätie.getRetazovkaList().get(i).getElpam_GMR_default());
                     cnd2add.setXi_default(Rozpätie.getRetazovkaList().get(i).getElpam_xi_default());
+                    cnd2add.setBundle(Rozpätie.getRetazovkaList().get(i).isBundle());
                     cnd_list.add(i, cnd2add);
                 }
                 
@@ -1533,7 +1534,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 
                 RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
-                RealMatrix Dik_mirror_imag = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_real_CDER = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_imag_CDER = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);

@@ -12,7 +12,6 @@ package electrical_parameters;
 public class elpam_input_conductor {
     
     //strictly inputs
-    public String name;            //optional
     public double f;               //frekvencia [Hz]
     public double D;               //priemer vodica [m]
     public double T;               //hrubka Al plasta [m]  
@@ -30,6 +29,9 @@ public class elpam_input_conductor {
     public double GMR_default;
     public double xi_default;
     
+    //bundle
+    public boolean bundle;
+    
     public void elpam_input_conductor(){
     }
     
@@ -41,7 +43,8 @@ public class elpam_input_conductor {
                                     double Rdc, 
                                     int Al_layers, 
                                     int Al_start, 
-                                    double Al_d){
+                                    double Al_d,
+                                    boolean bundle){
         this.f = f;
         this.D = D;
         this.T = T;
@@ -51,46 +54,13 @@ public class elpam_input_conductor {
         this.Al_layers = Al_layers;
         this.Al_start = Al_start;
         this.Al_d = Al_d;
+        this.bundle = bundle;
+
         
         //aby bolo jasne ze nie su ete dopocitane
         this.GMR = -1;
         this.xi = -1;
         this.Rac = -1;
-    }
-    
-    public void elpam_input_conductor(String name ,
-                                    double f, 
-                                    double D, 
-                                    double T, 
-                                    double rho_cnd, 
-                                    double rho_gnd, 
-                                    double Rdc, 
-                                    int Al_layers, 
-                                    int Al_start, 
-                                    double Al_d){
-        this.name = name;
-        this.f = f;
-        this.D = D;
-        this.T = T;
-        this.rho_conductor = rho_cnd;
-        this.rho_ground = rho_gnd;
-        this.Rdc = Rdc;
-        this.Al_layers = Al_layers;
-        this.Al_start = Al_start;
-        this.Al_d = Al_d;
-        
-        //aby bolo jasne ze nie su ete dopocitane
-        this.GMR = -9999;
-        this.xi = -9999;
-        this.Rac = -9999;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getF() {
@@ -204,6 +174,15 @@ public class elpam_input_conductor {
     public void setXi_default(double xi_default) {
         this.xi_default = xi_default;
     }
+
+    public boolean isBundle() {
+        return bundle;
+    }
+
+    public void setBundle(boolean bundle) {
+        this.bundle = bundle;
+    }
+    
     
     
 }

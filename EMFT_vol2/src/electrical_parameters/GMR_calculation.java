@@ -24,6 +24,10 @@ public class GMR_calculation {
     double GMR_default;
     double xi_default;
     
+    boolean bundle;
+    double krok;
+    int n_zv;
+    
     /**
      * void constructor
      */
@@ -36,33 +40,45 @@ public class GMR_calculation {
      * @param Al_start pocet vodicov v prvej vrstve Al (smer zvnutra von)
      * @param Al_d priemer Al drotov [m]
      * @param d_cond priemer vodica [m]
+     * @param krok
+     * @param n_zv
+     * @param bundle
      */
-    public GMR_calculation(int Al_layers, int Al_start, double Al_d, double d_cond){
+    public GMR_calculation(int Al_layers, int Al_start, double Al_d, double d_cond, boolean bundle, double krok, int n_zv){
         this.Al_d = Al_d;
         this.Al_layers = Al_layers;
         this.Al_start = Al_start;
         this.d_cond = d_cond;
+        this.krok = krok;
+        this.n_zv = n_zv;
         this.GMR_default = 0.7788*Al_d/2;
         this.xi_default = 0.7788;
+        this.bundle = bundle;
+        
     }
     
     /**
      * valid constructor from elpam_input_conductor class
      * @param Conductor 
+     * @param krok 
+     * @param n_zv 
      */
-    public GMR_calculation(elpam_input_conductor Conductor){
+    public GMR_calculation(elpam_input_conductor Conductor, double krok, int n_zv){
         this.Al_d = Conductor.getAl_d();    //[m]
         this.Al_layers = Conductor.getAl_layers();
         this.Al_start = Conductor.getAl_start();
         this.d_cond = Conductor.getD();     //[m]
+        this.krok = krok;
+        this.n_zv = n_zv;
         this.GMR_default = 0.7788*Al_d/2;
         this.xi_default = 0.7788;
+        this.bundle = Conductor.isBundle();
     }
     
     /**
      * Calculate GMR of conductor
      */
-    public void calc_GMR(){
+    public void calc_GMR_xi(){
         int Al_structure[] = new int[Al_layers]; 
         double GMR_final;
         int n; 
@@ -96,15 +112,18 @@ public class GMR_calculation {
                 }
             }
         }
-        this.GMR = GMR_final;
-    }
-
-    /**
-     * Calculate xi of conductor
-     */
-    public void calc_xi(){
-        calc_GMR();
-        this.xi = this.GMR/(this.d_cond/2);
+        
+        //bundle?
+        if(this.bundle){
+            this.xi = this.GMR/(this.d_cond/2);
+            double rho = this.krok/(2*Math.sin(Math.PI/this.n_zv));
+            double r_zv = Math.pow(this.n_zv * (this.d_cond/2) * Math.pow(rho, this.n_zv-1), (double)1/this.n_zv);
+            this.GMR = Math.pow(this.xi, (double)1/this.n_zv) * r_zv;
+            this.GMR_default = Math.pow(this.xi_default, (double)1/this.n_zv) * r_zv;
+        } else {
+            this.xi = this.GMR/(this.d_cond/2);
+            this.GMR = GMR_final;
+        }
     }
     
     //Private function area
@@ -193,6 +212,31 @@ public class GMR_calculation {
     public void setXi_default(double xi_default) {
         this.xi_default = xi_default;
     }
+
+    public boolean isBundle() {
+        return bundle;
+    }
+
+    public void setBundle(boolean bundle) {
+        this.bundle = bundle;
+    }
+
+    public double getKrok() {
+        return krok;
+    }
+
+    public void setKrok(double krok) {
+        this.krok = krok;
+    }
+
+    public int getN_zv() {
+        return n_zv;
+    }
+
+    public void setN_zv(int n_zv) {
+        this.n_zv = n_zv;
+    }
+    
     
     
 }
