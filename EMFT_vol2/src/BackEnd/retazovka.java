@@ -89,6 +89,7 @@ public class retazovka {
     private double elpam_GMR_default;
     private double elpam_xi_default;
     private boolean bundle;
+    private double krok;
     
     //constructor
     /**
@@ -140,6 +141,7 @@ public class retazovka {
        
         if (bundle_over == 0) distance_over = distance/(2*Math.sin((Math.PI/1)));
         if (bundle_over != 0) distance_over = distance/(2*Math.sin((Math.PI/bundle))); 
+        krok = distance;
         
         CorH_over = CorH;
 
@@ -973,7 +975,7 @@ public class retazovka {
         }
         
         //distance_over ukazuje picoviny, nieco na nieco^15
-        GMR_calculation myGMR = new GMR_calculation(cnd, this.distance_over, this.bundle_over);
+        GMR_calculation myGMR = new GMR_calculation(cnd, this.krok, this.bundle_over);
         Rac_calculation myRac = new Rac_calculation(cnd, this.bundle_over);
         myGMR.calc_GMR_xi();
         myRac.calc_Rac();

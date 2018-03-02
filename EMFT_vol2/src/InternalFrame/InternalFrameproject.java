@@ -1535,13 +1535,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 
                 //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
                 int element = 0; //nastavenie useku v retazovke
+                boolean bundle = false;  //false -> uvazuje klasicky prepocet cez r_zv, true -> vodice vo zvazku ako nove lana v systeme
                 boolean exactGMR = true; //pocitat presne GMR?
                 boolean exactRAC = true; //pocitat presne Rac?
-                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385); //nutne pre stanovenie velkosti matic
+                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385); //nutne pre stanovenie velkosti matic
                 int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
                 int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
-                int gw = Rozpätie.getPocet_zemnych_lan();
-                int fv = Rozpätie.getPocet_lan() - gw;
+                int gw = Rozpätie.getPocet_zemnych_lan_bez_zvazkov();
+                int fv = Rozpätie.getPocet_faz();
                 
                 RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
                 RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
@@ -1561,9 +1562,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 RealMatrix Dik_mirror_imag_beta = new Array2DRowRealMatrix(rows,cols);
                 
                 //Carson & Acrson Modified & Basic
-                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,Complex.ONE,0.26244,1.12385);
+                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
                 Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,true,Complex.ONE,0.26244,1.12385);
+                Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
                 Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
                 Fik = Rozpätie.getPAr_Alpha_real().get(element);
                 hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
@@ -1575,9 +1576,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 p = new Complex(cnd_list.get(0).getRho_ground(),0).divide(new Complex(0,omega*mu)).sqrt();
                 
                 //CDER
-                Rozpätie.calculateMatrix_opt_XX("b","A",aproxx,true,p,0.26244,1.12385);
+                Rozpätie.calculateMatrix_opt_XX("b","A",aproxx,bundle,p,0.26244,1.12385);
                 Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                Rozpätie.calculateMatrix_opt_XX("b","C",aproxx,true,p,0.26244,1.12385);
+                Rozpätie.calculateMatrix_opt_XX("b","C",aproxx,bundle,p,0.26244,1.12385);
                 Dik_mirror_real_CDER = Rozpätie.getPAr_Dik_REAL().get(element);
                 Dik_mirror_imag_CDER = Rozpätie.getPAr_Dik_Image().get(element);
                 hx2_real = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
@@ -1585,16 +1586,16 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 
                 //Taku Noda
                 //Dik
-                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,true,p,0.26244,1.12385);
+                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,p,0.26244,1.12385);
                 Dik = Rozpätie.getPAr_Dik_REAL().get(element);
                 //alpha
-                Rozpätie.calculateMatrix_opt_XX("c","D",aproxx,true,p,0.26244,1.12385);
+                Rozpätie.calculateMatrix_opt_XX("c","D",aproxx,bundle,p,0.26244,1.12385);
                 hx2_real_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
                 hx2_imag_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
                 Dik_mirror_real_alpha = Rozpätie.getPAr_Dik_REAL().get(element);
                 Dik_mirror_imag_alpha = Rozpätie.getPAr_Dik_Image().get(element);
                 //beta
-                Rozpätie.calculateMatrix_opt_XX("d","E",aproxx,true,p,0.26244,1.12385);
+                Rozpätie.calculateMatrix_opt_XX("d","E",aproxx,bundle,p,0.26244,1.12385);
                 hx2_real_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
                 hx2_imag_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
                 Dik_mirror_real_beta = Rozpätie.getPAr_Dik_REAL().get(element);

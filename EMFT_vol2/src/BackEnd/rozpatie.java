@@ -1048,7 +1048,7 @@ public class rozpatie {
         return iterator_lan;
     }
     
-       public int getPocet_zemnych_lan() {
+    public int getPocet_zemnych_lan() {
 
         int iterator_lan = 0;
 
@@ -1058,6 +1058,26 @@ public class rozpatie {
 
                if(getRetazovkaList().get(cl1).getU_over()== 0) iterator_lan = iterator_lan + 1;
             }
+        }
+        return iterator_lan;
+    }
+    
+    public int getPocet_zemnych_lan_bez_zvazkov() {
+
+        int iterator_lan = 0;
+
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+            if(getRetazovkaList().get(cl1).getU_over()== 0) iterator_lan = iterator_lan + 1;
+        }
+        return iterator_lan;
+    }
+    
+    public int getPocet_faz() {
+
+        int iterator_lan = 0;
+
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+            if(getRetazovkaList().get(cl1).getU_over()!= 0) iterator_lan = iterator_lan + 1;
         }
         return iterator_lan;
     }

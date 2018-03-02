@@ -332,7 +332,6 @@ public class Carson {
         double[] d;
         double kik_rg;
         double fik;
-        double omega = 2*Math.PI*f;
         
         b = b();
         c = c();
@@ -375,7 +374,6 @@ public class Carson {
         double[] d;
         double kik_xg;
         double fik;
-        double omega = 2*Math.PI*f;
         
         b = b();
         c = c();
@@ -412,7 +410,6 @@ public class Carson {
     
     public void calcLg(){
         calcXg();
-        double omega = (double)2*Math.PI*this.f;
         this.Lg = this.Xg.scalarMultiply((double)1/omega);
 //        for (int i = 0; i < this.Lg.getRowDimension(); i++) {
 //            for (int j = 0; j < this.Lg.getColumnDimension(); j++) {

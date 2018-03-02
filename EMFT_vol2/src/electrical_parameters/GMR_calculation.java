@@ -115,14 +115,14 @@ public class GMR_calculation {
         
         //bundle?
         if(this.bundle){
-            this.xi = this.GMR/(this.d_cond/2);
+            this.xi = GMR_final/(this.d_cond/2);
             double rho = this.krok/(2*Math.sin(Math.PI/this.n_zv));
             double r_zv = Math.pow(this.n_zv * (this.d_cond/2) * Math.pow(rho, this.n_zv-1), (double)1/this.n_zv);
             this.GMR = Math.pow(this.xi, (double)1/this.n_zv) * r_zv;
             this.GMR_default = Math.pow(this.xi_default, (double)1/this.n_zv) * r_zv;
         } else {
-            this.xi = this.GMR/(this.d_cond/2);
             this.GMR = GMR_final;
+            this.xi = this.GMR/(this.d_cond/2);
         }
     }
     
