@@ -137,9 +137,9 @@ public class retazovka {
         terenTriangles_over = terenTriangles;
         X1_over = X1;
         X2_over = X2;
-        //TOTO JE CHYBA PODLA MNA > ALPHA NEDEFINUJE PREDSA ZVAZOK
-        if (alpha == 0) distance_over = distance/(2*Math.sin(Math.PI/1));
-        if (alpha != 0) distance_over = distance/(2*Math.sin(Math.PI/bundle)); 
+       
+        if (bundle_over == 0) distance_over = distance/(2*Math.sin((Math.PI/1)));
+        if (bundle_over != 0) distance_over = distance/(2*Math.sin((Math.PI/bundle))); 
         
         CorH_over = CorH;
 
@@ -178,9 +178,8 @@ public class retazovka {
         I2_over = I1;
         bundle_over = bundle;
         alpha_over = alpha;
-        //TOTO JE CHYBA PODLA MNA > ALPHA NEDEFINUJE PREDSA ZVAZOK
-        if (alpha == 0) distance_over = distance/(2*Math.sin(Math.PI/1));
-        if (alpha != 0) distance_over = distance/(2*Math.sin(Math.PI/bundle)); 
+        if (bundle_over == 0) distance_over = distance/(2*Math.sin((Math.PI/1)));
+        if (bundle_over != 0) distance_over = distance/(2*Math.sin((Math.PI/bundle))); 
         HC_over = HC;
         r_over = r;
         U_over = U;

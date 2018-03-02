@@ -650,8 +650,13 @@ public class CatenaryPanel extends javax.swing.JPanel {
                 if(porovnavacka.equals(conductor_Name_Matrix.get(j))) index = j;
             }
             
-        InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_f(constants.getFrequency());
+            
+         boolean  isChecked = Boolean.valueOf(String.valueOf(Table.getValueAt(i, 20))); 
         
+    
+            if(isChecked){    
+            
+        InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_f(constants.getFrequency());   
          InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_D(conductor_parameters_Matrix.get(index)[0]);         //je
          InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_T(conductor_parameters_Matrix.get(index)[1]);          
          InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_rho_cnd(conductor_parameters_Matrix.get(index)[2]);
@@ -661,7 +666,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
                InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_start(conductor_parameters_Matrix.get(index)[6].intValue() );
                InternalFrameproject.Rozpätie.getRetazovkaList().get(i).setElpam_Al_d(conductor_parameters_Matrix.get(index)[7]);
                 
-                
+            }   
         }
         
     }

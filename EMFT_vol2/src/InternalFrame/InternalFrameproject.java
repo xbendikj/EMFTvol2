@@ -911,12 +911,21 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 double I = input.nextDouble();
                 double Phi = input.nextDouble();
                 int pocitaj = input.nextInt();
+                String lano = input.nextLine();
+                lano=lano.substring(1);
                 boolean poc = false;
                 if (pocitaj == 1) {
                     poc = true;
                 }
 
-                catenaryPanel1.DTMTable.addRow(new Object[]{V1, V2, I1, I2, W1, W2, X1, X2, zvazok, alpha, d, ch, val, r, U, I, Phi, "-", "-", "-", poc});
+                // najdi lano v databaze
+                int index = 0;
+            for (int j = 0; j < catenaryPanel1.getConductor_Name_Matrix().size(); j++) {
+                
+                if(lano.equals(catenaryPanel1.getConductor_Name_Matrix().get(j))) index = j;
+            }
+                
+                catenaryPanel1.DTMTable.addRow(new Object[]{V1, V2, I1, I2, W1, W2, X1, X2, zvazok, alpha, d, ch, val, r, U, I, Phi, "-", "-", "-", poc,false,lano});
                 catenaryPanel1.isListener = true;
             }
             catenaryPanel1.isListener = false;
@@ -1000,7 +1009,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     poc = 1;
                 }
 
-                fw.println(V1 + " " + V2 + " " + I1 + " " + I2 + " " + W1 + " " + W2 + " " + X1 + " " + X2 + " " + zvazok + " " + alpha + " " + d + " " + CH + " " + val + " " + r + " " + U + " " + I + " " + Phi + " " + poc);
+                String lano = String.valueOf(catenaryPanel1.DTMTable.getValueAt(i, 22));
+                
+                fw.println(V1 + " " + V2 + " " + I1 + " " + I2 + " " + W1 + " " + W2 + " " + X1 + " " + X2 + " " + zvazok + " " + alpha + " " + d + " " + CH + " " + val + " " + r + " " + U + " " + I + " " + Phi + " " + poc + " " + lano);
 
             }
 
