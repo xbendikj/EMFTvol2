@@ -5,6 +5,7 @@
  */
 package BackEnd;
 
+import flanagan.complex.ComplexMatrix;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
@@ -23,8 +24,28 @@ public class Observer {
     private FazorVektor I;
     private FazorVektor Emod;
     private double parameter;
-    
     private DPoint poloha;
+    
+    //electrical parameters
+    ComplexMatrix Z;
+    ComplexMatrix Y;
+    RealMatrix R;
+    RealMatrix L;
+    RealMatrix C;
+    
+    public Observer(ComplexMatrix Z, ComplexMatrix Y, double parameter){
+        this.Z = Z;
+        this.Y = Y;
+        this.parameter = parameter;
+    }
+    
+    public Observer(RealMatrix R, RealMatrix L, RealMatrix C, double parameter){
+        this.R = R;
+        this.L = L;
+        this.C = C;
+        this.parameter = parameter;
+    }
+    
     /**
      * bod pozorovatela zo všetkym čo tam ma byt
      * @param B indukcia mag pola ako fazorvektor TESLA
@@ -35,8 +56,9 @@ public class Observer {
         this.B = B;
         this.E = E;
         this.poloha = poloha;
-    }   
-/**
+    }
+    
+    /**
      * bod pozorovatela zo všetkym čo tam ma byt
      * @param B indukcia mag pola ako fazorvektor TESLA
      * @param E intenzita el pola ako fazorvektor V/m
@@ -52,7 +74,6 @@ public class Observer {
     }
     
     public Observer() {
-       
     }
     
      public Observer(FazorVektor B, FazorVektor E, DPoint poloha,double[][] GeoMatrix_A,double parameter) {

@@ -756,6 +756,79 @@ public class Carson {
     public void setZ_red_no_gnd(ComplexMatrix Z_red_no_gnd) {
         this.Z_red_no_gnd = Z_red_no_gnd;
     }
+
+    public RealMatrix getX_red_no_gnd() {
+        return X_red_no_gnd;
+    }
+
+    public void setX_red_no_gnd(RealMatrix X_red_no_gnd) {
+        this.X_red_no_gnd = X_red_no_gnd;
+    }
+
+    public ComplexMatrix getZ_red_gnd_symm() {
+        return Z_red_gnd_symm;
+    }
+
+    public void setZ_red_gnd_symm(ComplexMatrix Z_red_gnd_symm) {
+        this.Z_red_gnd_symm = Z_red_gnd_symm;
+    }
+
+    public RealMatrix getL_red_gnd_symm() {
+        return L_red_gnd_symm;
+    }
+
+    public void setL_red_gnd_symm(RealMatrix L_red_gnd_symm) {
+        this.L_red_gnd_symm = L_red_gnd_symm;
+    }
+
+    public RealMatrix getR_red_gnd_symm() {
+        return R_red_gnd_symm;
+    }
+
+    public void setR_red_gnd_symm(RealMatrix R_red_gnd_symm) {
+        this.R_red_gnd_symm = R_red_gnd_symm;
+    }
+
+    public RealMatrix getX_red_gnd_symm() {
+        return X_red_gnd_symm;
+    }
+
+    public void setX_red_gnd_symm(RealMatrix X_red_gnd_symm) {
+        this.X_red_gnd_symm = X_red_gnd_symm;
+    }
+
+    public ComplexMatrix getZ_red_no_gnd_symm() {
+        return Z_red_no_gnd_symm;
+    }
+
+    public void setZ_red_no_gnd_symm(ComplexMatrix Z_red_no_gnd_symm) {
+        this.Z_red_no_gnd_symm = Z_red_no_gnd_symm;
+    }
+
+    public RealMatrix getL_red_no_gnd_symm() {
+        return L_red_no_gnd_symm;
+    }
+
+    public void setL_red_no_gnd_symm(RealMatrix L_red_no_gnd_symm) {
+        this.L_red_no_gnd_symm = L_red_no_gnd_symm;
+    }
+
+    public RealMatrix getR_red_no_gnd_symm() {
+        return R_red_no_gnd_symm;
+    }
+
+    public void setR_red_no_gnd_symm(RealMatrix R_red_no_gnd_symm) {
+        this.R_red_no_gnd_symm = R_red_no_gnd_symm;
+    }
+
+    public RealMatrix getX_red_no_gnd_symm() {
+        return X_red_no_gnd_symm;
+    }
+
+    public void setX_red_no_gnd_symm(RealMatrix X_red_no_gnd_symm) {
+        this.X_red_no_gnd_symm = X_red_no_gnd_symm;
+    }
+    
     
     
 }

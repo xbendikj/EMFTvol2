@@ -582,6 +582,78 @@ public class TakuNoda {
     public void setLn_imag(RealMatrix Ln_imag) {
         this.Ln_imag = Ln_imag;
     }
+
+    public ComplexMatrix getZ() {
+        return Z;
+    }
+
+    public void setZ(ComplexMatrix Z) {
+        this.Z = Z;
+    }
+
+    public RealMatrix getR_red() {
+        return R_red;
+    }
+
+    public void setR_red(RealMatrix R_red) {
+        this.R_red = R_red;
+    }
+
+    public RealMatrix getL_red() {
+        return L_red;
+    }
+
+    public void setL_red(RealMatrix L_red) {
+        this.L_red = L_red;
+    }
+
+    public RealMatrix getX_red() {
+        return X_red;
+    }
+
+    public void setX_red(RealMatrix X_red) {
+        this.X_red = X_red;
+    }
+
+    public ComplexMatrix getZ_red() {
+        return Z_red;
+    }
+
+    public void setZ_red(ComplexMatrix Z_red) {
+        this.Z_red = Z_red;
+    }
+
+    public RealMatrix getR_red_symm() {
+        return R_red_symm;
+    }
+
+    public void setR_red_symm(RealMatrix R_red_symm) {
+        this.R_red_symm = R_red_symm;
+    }
+
+    public RealMatrix getL_red_symm() {
+        return L_red_symm;
+    }
+
+    public void setL_red_symm(RealMatrix L_red_symm) {
+        this.L_red_symm = L_red_symm;
+    }
+
+    public RealMatrix getX_red_symm() {
+        return X_red_symm;
+    }
+
+    public void setX_red_symm(RealMatrix X_red_symm) {
+        this.X_red_symm = X_red_symm;
+    }
+
+    public ComplexMatrix getZ_red_symm() {
+        return Z_red_symm;
+    }
+
+    public void setZ_red_symm(ComplexMatrix Z_red_symm) {
+        this.Z_red_symm = Z_red_symm;
+    }
     
     
 }

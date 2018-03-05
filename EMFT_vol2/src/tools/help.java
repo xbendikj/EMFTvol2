@@ -19,6 +19,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math3.complex.Complex;
 import org.jdelaunay.delaunay.error.DelaunayError;
@@ -630,6 +631,44 @@ public class help {
                 }
             }
             return NN.minus(NM.times(MM.inverse()).times(MN));
+        }
+    }
+    
+    public static RealMatrix makeRealKronReduction(RealMatrix source, int ground_wires){
+        if (ground_wires == 0){
+            //no Kron Reduction needed
+            return source;
+        } else {
+            int rows_total = source.getRowDimension();
+            int cols_total = source.getColumnDimension();
+            int nn_rows = rows_total - ground_wires;
+            int nn_cols = cols_total - ground_wires;
+            int nm_rows = rows_total - ground_wires;
+            int nm_cols = ground_wires;
+            int mn_rows = ground_wires;
+            int mn_cols = cols_total - ground_wires;
+            int mm_rows = ground_wires;
+            int mm_cols = ground_wires;
+
+            RealMatrix NN = new Array2DRowRealMatrix(nn_rows, nn_cols);
+            RealMatrix MN = new Array2DRowRealMatrix(mn_rows, mn_cols);
+            RealMatrix NM = new Array2DRowRealMatrix(nm_rows, nm_cols);
+            RealMatrix MM = new Array2DRowRealMatrix(mm_rows, mm_cols);
+
+            for (int i = 0; i < rows_total; i++) {
+                for (int j = 0; j < cols_total; j++) {
+                    if (i < nn_rows && j < nn_cols) {
+                        NN.setEntry(i, j, source.getEntry(i, j));
+                    } else if (i >= nn_rows && j < nn_cols) {
+                        MN.setEntry(i-nn_rows, j, source.getEntry(i, j));
+                    } else if (i < nn_rows && j >= nn_cols) {
+                        NM.setEntry(i, j-nn_cols, source.getEntry(i, j));
+                    } else if (i >= nn_rows && j >= nn_cols) {
+                        MM.setEntry(i-nn_rows, j-nn_cols, source.getEntry(i, j));
+                    }
+                }
+            }
+            return NN.subtract(NM.multiply(MM.inverse()).multiply(MN));
         }
     }
     

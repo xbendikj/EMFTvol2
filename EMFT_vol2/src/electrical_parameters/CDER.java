@@ -445,6 +445,46 @@ public class CDER {
     public void setZ_red(ComplexMatrix Z_red) {
         this.Z_red = Z_red;
     }
+
+    public RealMatrix getX_red() {
+        return X_red;
+    }
+
+    public void setX_red(RealMatrix X_red) {
+        this.X_red = X_red;
+    }
+
+    public RealMatrix getR_red_symm() {
+        return R_red_symm;
+    }
+
+    public void setR_red_symm(RealMatrix R_red_symm) {
+        this.R_red_symm = R_red_symm;
+    }
+
+    public RealMatrix getL_red_symm() {
+        return L_red_symm;
+    }
+
+    public void setL_red_symm(RealMatrix L_red_symm) {
+        this.L_red_symm = L_red_symm;
+    }
+
+    public RealMatrix getX_red_symm() {
+        return X_red_symm;
+    }
+
+    public void setX_red_symm(RealMatrix X_red_symm) {
+        this.X_red_symm = X_red_symm;
+    }
+
+    public ComplexMatrix getZ_red_symm() {
+        return Z_red_symm;
+    }
+
+    public void setZ_red_symm(ComplexMatrix Z_red_symm) {
+        this.Z_red_symm = Z_red_symm;
+    }
     
     
     

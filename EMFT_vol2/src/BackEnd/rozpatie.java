@@ -14,6 +14,7 @@ import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import org.jdelaunay.delaunay.geometries.DTriangle;
 import tools.help;
+import static tools.help.makeRealKronReduction;
 
 /**
  * 
@@ -1037,12 +1038,10 @@ public class rozpatie {
       * pocita kapacitne koeficienty
       * @param aproxx true aproximovana rovina , false perpendicular projektic vypočet vyška vodiča nad terenom
       * @param bundle false =  nepocitaj bundle ingonuj to co je v interface, true = pocitaj bundle
+     * @return 
       * @throws DelaunayError 
       */
-     public ArrayList calculate_kapacity(boolean aproxx,boolean bundle ) throws DelaunayError{
-        
-        // docasne testovacie
-        
+     public ArrayList calculate_kapacity(boolean aproxx,boolean bundle) throws DelaunayError{
         
         //int myint = 1;
         //prv arraylist , vo vnorenom, lano druhy vektor
@@ -1129,17 +1128,12 @@ public class rozpatie {
                                   
                         iterator_lan = iterator_lan + 1;
                     }
-         
                 }
              polohy_lan.add(elementarny_iterator); // posledna hodnota 
        
         //inicializacia matic
         RealMatrix  P_koef = new Array2DRowRealMatrix(new double[iterator_lan][iterator_lan]);//matica Pkoeficientov vsetkych ROW COLUMN
         ArrayList<RealMatrix> kapacity_mat = new ArrayList<RealMatrix>();
-      
-        
-      
-        
 
         //algoritmus generovania matice
         //*****************************
@@ -1155,38 +1149,27 @@ public class rozpatie {
                          
                        double vyska_vod_nad = 0;
                        
-                        if (aproxx==false) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)));
+                       if (aproxx==false) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)));
                        if (aproxx==true) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1));
                       
                        // stary koncept asi zly
-                      // if (aproxx==false) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)).getY();
-                      // if (aproxx==true) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1).getY();
+                       // if (aproxx==false) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)).getY();
+                       // if (aproxx==true) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1).getY();
                         
                        koeficient = get_Pkk(K, vyska_vod_nad, polomery_lan.get(k));
                      } else { // PKJ   
-
                          koeficient = get_Pkj(K, get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0_mirror.get(j).get(element_iterator)), get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0.get(j).get(element_iterator))); //inverzna matica funguje
-                         
                      }
                      P_koef.addToEntry(k, j, koeficient);
                  }
-
              }
-             
-       
-             
-             P_koef = P_koef.inverse();
-             kapacity_mat.add(P_koef);
-             
-            
-
-             
-        
+             //perform kron reduction on p_koef
+             RealMatrix P_koef_red = new Array2DRowRealMatrix();
+             P_koef_red = makeRealKronReduction(P_koef, getPocet_zemnych_lan_bez_zvazkov()).inverse();
+             //add capacitance coefficients matrix
+             kapacity_mat.add(P_koef_red);
          }
-
          return kapacity_mat;
-        
-     
     }
      
      
@@ -1238,56 +1221,56 @@ public class rozpatie {
         return iterator_lan;
     }
        
-        private double get_real(double value,double phase){
-        double real = value*Math.cos(phase*(Math.PI/180));
-        return real;
-    }
-        private double get_image(double value,double phase){
-        double image = value*Math.sin(phase*(Math.PI/180));
-        return image;
-    }
-        private double get_Pkk(double K,double Hk,double Rk){
-        double val= K*Math.log((2*Hk)/Rk);
-        return val;
-    }
-        private double get_Pkj(double K,double Dkj_image,double Dkj){
-        double val= K*Math.log((Dkj_image)/Dkj);
-        return val;
-    }
-        private double get_distance(DPoint A,DPoint B){
-        double X = B.getX() - A.getX();
-        double Y = B.getY() - A.getY();
-        double Z = B.getZ() - A.getZ();
-        double val = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2)  +Math.pow(Z, 2)   );
-        return val;
-    } 
-        /**
-         * vypocita uhol pri vektore A
-         * @param A Dpoint
-         * @param B Dpoint
-         * @param C Dpoint
-         * @return uhol trujuholnika BAC
-         * @throws DelaunayError 
-         */
-        private double get_angleatFirst(DPoint A,DPoint B,DPoint C) throws DelaunayError{
-        //https://www.youtube.com/watch?v=4hIh8ujylWE
-        //https://www.youtube.com/watch?v=zsTp3YeI5dg
-         DPoint AB = new DPoint(B.getX()-A.getX(), B.getY()-A.getY(), B.getZ()-A.getZ());
-         DPoint AC = new DPoint(C.getX()-A.getX(), C.getY()-A.getY(), C.getZ()-A.getZ());
-         double lengthAB = get_distance(A, B); 
-         double lengthAC = get_distance(A, C);
-         double dot = dotproduct(AB, AC);
-         double angle = Math.acos( dot/(lengthAB * lengthAC ) );
+    private double get_real(double value,double phase){
+    double real = value*Math.cos(phase*(Math.PI/180));
+    return real;
+}
+    private double get_image(double value,double phase){
+    double image = value*Math.sin(phase*(Math.PI/180));
+    return image;
+}
+    private double get_Pkk(double K,double Hk,double Rk){
+    double val= K*Math.log((2*Hk)/Rk);
+    return val;
+}
+    private double get_Pkj(double K,double Dkj_image,double Dkj){
+    double val= K*Math.log((Dkj_image)/Dkj);
+    return val;
+}
+    private double get_distance(DPoint A,DPoint B){
+    double X = B.getX() - A.getX();
+    double Y = B.getY() - A.getY();
+    double Z = B.getZ() - A.getZ();
+    double val = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2)  +Math.pow(Z, 2)   );
+    return val;
+} 
+    /**
+     * vypocita uhol pri vektore A
+     * @param A Dpoint
+     * @param B Dpoint
+     * @param C Dpoint
+     * @return uhol trujuholnika BAC
+     * @throws DelaunayError 
+     */
+    private double get_angleatFirst(DPoint A,DPoint B,DPoint C) throws DelaunayError{
+    //https://www.youtube.com/watch?v=4hIh8ujylWE
+    //https://www.youtube.com/watch?v=zsTp3YeI5dg
+     DPoint AB = new DPoint(B.getX()-A.getX(), B.getY()-A.getY(), B.getZ()-A.getZ());
+     DPoint AC = new DPoint(C.getX()-A.getX(), C.getY()-A.getY(), C.getZ()-A.getZ());
+     double lengthAB = get_distance(A, B); 
+     double lengthAC = get_distance(A, C);
+     double dot = dotproduct(AB, AC);
+     double angle = Math.acos( dot/(lengthAB * lengthAC ) );
 
-        return angle;
-    } 
-        /**
-         *  vypocita dot produkt
-         * @param A Dpoint 
-         * @param B Dpoint
-         * @return 
-         */
-        private double dotproduct(DPoint A,DPoint B){
+    return angle;
+} 
+    /**
+     *  vypocita dot produkt
+     * @param A Dpoint 
+     * @param B Dpoint
+     * @return 
+     */
+    private double dotproduct(DPoint A,DPoint B){
         double X = B.getX() * A.getX();
         double Y = B.getY() * A.getY();
         double Z = B.getZ() * A.getZ();
