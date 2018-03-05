@@ -117,7 +117,7 @@ public class Observer {
      public void merge(Observer X) {
         this.B.AddToFazorVektor(X.getB());
         this.E.AddToFazorVektor(X.getE());
-        this.GeoMatrix_A.add(X.getGeoMatrix_A()) ; 
+      //  this.GeoMatrix_A.add(X.getGeoMatrix_A()) ; 
     }
 
     public RealMatrix getGeoMatrix_A() {

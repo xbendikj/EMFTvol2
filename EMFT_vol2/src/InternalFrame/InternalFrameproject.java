@@ -4401,12 +4401,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         }
         if (BorE == "B & E") {
-            make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
+            make_TXT_long_futro_futraParameter("B", Parameter, fw, cF, fF, X);
             fw.println("");
             make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
         }
         if (BorE == "B & E & I") {
-            make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
+            make_TXT_long_futro_futraParameter("B", Parameter, fw, cF, fF, X);
             fw.println("");
             make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
             fw.println("");
@@ -4414,7 +4414,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         }
         if (BorE == "B & E & Emod") {
-            make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
+            make_TXT_long_futro_futraParameter("B", Parameter, fw, cF, fF, X);
             fw.println("");
             make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
             fw.println("");
@@ -4422,7 +4422,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         }
         if (BorE == "B & E & I & Emod") {
-            make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
+            make_TXT_long_futro_futraParameter("B", Parameter, fw, cF, fF, X);
             fw.println("");
             make_TXT_long_futro_futraParameter("E", Parameter, fw, cF, fF, X);
             fw.println("");

@@ -1032,6 +1032,162 @@ public class rozpatie {
      
     }
    
+    
+     /**
+      * pocita kapacitne koeficienty
+      * @param aproxx true aproximovana rovina , false perpendicular projektic vypočet vyška vodiča nad terenom
+      * @param bundle false =  nepocitaj bundle ingonuj to co je v interface, true = pocitaj bundle
+      * @throws DelaunayError 
+      */
+     public ArrayList calculate_kapacity(boolean aproxx,boolean bundle ) throws DelaunayError{
+        
+        // docasne testovacie
+        
+        
+        //int myint = 1;
+        //prv arraylist , vo vnorenom, lano druhy vektor
+        ArrayList<ArrayList<DPoint>> ListOfR0 = new ArrayList<ArrayList<DPoint>>();
+        ArrayList<ArrayList<DPoint>> ListOfR0_mirror = new ArrayList<ArrayList<DPoint>>();
+        
+       
+        
+        ArrayList<Integer> polohy_lan  = new ArrayList<Integer>();
+        ArrayList<Double> polomery_lan  = new ArrayList<Double>();
+        ArrayList<Double> beta  = new ArrayList<Double>();
+        
+        //iteratory
+        int iterator_lan = 0;
+        int elementarny_iterator=0;
+        //basic priprava vektorov pre okienka matice
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+
+                    //cyklus bundle
+                    int bundle_cyklus= 1; 
+                    if (bundle == true) bundle_cyklus = getRetazovkaList().get(cl1).getBundle_over();
+                    for (int cl2 = 0; cl2 < bundle_cyklus; cl2++) {
+
+                              ArrayList<DPoint> R0_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_vectors()); // nacitam jedno lano a upravim ho podla bundle konstant
+                              ArrayList<DPoint> R0_mirror_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_mirror_vectors());
+                              polohy_lan.add(elementarny_iterator);
+                             // cyklus 
+                             for ( int cl3=0;cl3<getRetazovka(cl1).getRo_vectors().size();cl3++){
+
+                                   double Y = 0;
+                                   double Z  = 0;
+                                   double X  = 0;
+                                  
+                                   
+                                   if (bundle == true){
+                                      
+                                   Y = (double) R0_vectors_per_lano.get(cl3).getY() + (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                   Z = (double) R0_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   X = (double) R0_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                  
+                                       
+                                   }else{
+                                   
+                                   Y = (double) R0_vectors_per_lano.get(cl3).getY() ;
+                                   Z = (double) R0_vectors_per_lano.get(cl3).getZ() ;
+                                   X = (double) R0_vectors_per_lano.get(cl3).getX();
+                                       
+                                       
+                                   }
+                                   
+                                    DPoint R0 = new DPoint(X, Y, Z);
+                                   R0_vectors_per_lano.set(cl3, R0);
+                                   
+                                   //mirrorovanie len jedneho rozmeru pozor
+                                  
+                                   double Ym = 0;
+                                   double Zm  = 0;
+                                   double Xm  = 0;
+                                   
+                                   if (bundle == true){
+                                      
+                                    Ym = (double) R0_mirror_vectors_per_lano.get(cl3).getY() - (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                    Zm = (double) R0_mirror_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                    Xm = (double) R0_mirror_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   
+                                  }else{
+                                   
+                                   Ym = (double) R0_mirror_vectors_per_lano.get(cl3).getY() ;
+                                    Zm = (double) R0_mirror_vectors_per_lano.get(cl3).getZ() ;
+                                    Xm = (double) R0_mirror_vectors_per_lano.get(cl3).getX() ;
+                                 
+                                   }
+                                  
+                                   DPoint R0m = new DPoint(Xm, Ym, Zm);
+                                   R0_mirror_vectors_per_lano.set(cl3, R0m); 
+                              
+                                  elementarny_iterator = elementarny_iterator + 1; 
+                               }
+                                  ListOfR0.add( new ArrayList<DPoint>(R0_vectors_per_lano)); 
+                                  ListOfR0_mirror.add(new ArrayList<DPoint>(R0_mirror_vectors_per_lano));
+                                 
+                                  polomery_lan.add(getRetazovkaList().get(cl1).getR_over() ); 
+                                  beta.add(getRetazovkaList().get(cl1).getBeta_over());
+                                  
+                        iterator_lan = iterator_lan + 1;
+                    }
+         
+                }
+             polohy_lan.add(elementarny_iterator); // posledna hodnota 
+       
+        //inicializacia matic
+        RealMatrix  P_koef = new Array2DRowRealMatrix(new double[iterator_lan][iterator_lan]);//matica Pkoeficientov vsetkych ROW COLUMN
+        ArrayList<RealMatrix> kapacity_mat = new ArrayList<RealMatrix>();
+      
+        
+      
+        
+
+        //algoritmus generovania matice
+        //*****************************
+        double K = 1/(2*Math.PI*constants.getEpsi0()*constants.getEpsi1()); // konštanta
+        // /* TEST HORAK */ K = 1;
+         for (int element_iterator = 0; element_iterator < getRetazovka(0).getRo_vectors().size(); element_iterator++) {
+             // pocitanie potenialovej matice matice
+             for (int k = 0; k < P_koef.getRowDimension(); k++) {
+
+                 for (int j = 0; j < P_koef.getRowDimension(); j++) {
+                     double koeficient = 0;
+                     if (k == j) {
+                         
+                       double vyska_vod_nad = 0;
+                       
+                        if (aproxx==false) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)));
+                       if (aproxx==true) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1));
+                      
+                       // stary koncept asi zly
+                      // if (aproxx==false) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)).getY();
+                      // if (aproxx==true) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1).getY();
+                        
+                       koeficient = get_Pkk(K, vyska_vod_nad, polomery_lan.get(k));
+                     } else { // PKJ   
+
+                         koeficient = get_Pkj(K, get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0_mirror.get(j).get(element_iterator)), get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0.get(j).get(element_iterator))); //inverzna matica funguje
+                         
+                     }
+                     P_koef.addToEntry(k, j, koeficient);
+                 }
+
+             }
+             
+       
+             
+             P_koef = P_koef.inverse();
+             kapacity_mat.add(P_koef);
+             
+            
+
+             
+        
+         }
+
+         return kapacity_mat;
+        
+     
+    }
      
      
     public int getPocet_lan() {
