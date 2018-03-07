@@ -1561,7 +1561,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  * 6 - CDER
                  * 7 - TakuNoda
                  */
-                int method = 1;
+                int method = 2;
                 String type = "all";
                 
                 //ArrLists for Impedance/Admittance - phase matrices, symmetrical components matrices
@@ -1668,9 +1668,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     //writin into file
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Complex2RealMatrix(Z_total_Carson_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
                                 Z_total_Carson_no_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Complex2RealMatrix(Z_total_Carson_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
                                 Z_total_Carson_no_gnd_symm_final, Y_total_symm_final);
                     } catch (IOException ex) {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
@@ -1728,7 +1728,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
                     RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
                     double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < Y_total.size(); i++) {
+                    for (int i = 0; i < number_of_elements; i++) {
                         Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
                         ComplexMatrix aux_phase = Y_total.get(i);
                         ComplexMatrix aux_symm = phase2symm(aux_phase);
@@ -1774,9 +1774,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     //writin into file
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_gnd_final), Complex2ImagMatrix(Z_total_Carson_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Complex2RealMatrix(Z_total_Carson_gnd_final), Complex2ImagMatrix(Z_total_Carson_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
                                 Z_total_Carson_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Complex2RealMatrix(Z_total_Carson_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
                                 Z_total_Carson_gnd_symm_final, Y_total_symm_final);
                     } catch (IOException ex) {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
@@ -1833,7 +1833,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
                     RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
                     double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < Y_total.size(); i++) {
+                    for (int i = 0; i < number_of_elements; i++) {
                         Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
                         ComplexMatrix aux_phase = Y_total.get(i);
                         ComplexMatrix aux_symm = phase2symm(aux_phase);
@@ -1879,9 +1879,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     //writin into file
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
                                 Z_total_Carson_mod_no_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
                                 Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final);
                     } catch (IOException ex) {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
@@ -1939,7 +1939,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
                     RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
                     double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < Y_total.size(); i++) {
+                    for (int i = 0; i < number_of_elements; i++) {
                         Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
                         ComplexMatrix aux_phase = Y_total.get(i);
                         ComplexMatrix aux_symm = phase2symm(aux_phase);
@@ -1985,9 +1985,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     //writin into file
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_mod_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Complex2RealMatrix(Z_total_Carson_mod_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
                                 Z_total_Carson_mod_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_mod_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Complex2RealMatrix(Z_total_Carson_mod_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
                                 Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final);
                     } catch (IOException ex) {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
@@ -2036,7 +2036,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
                     RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
                     double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < C_total.size(); i++) {
+                    for (int i = 0; i < number_of_elements; i++) {
                         Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
                         ComplexMatrix aux_phase = Y_total.get(i);
                         ComplexMatrix aux_symm = phase2symm(aux_phase);
@@ -2082,9 +2082,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     //writin into file
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Basic_final), Complex2ImagMatrix(Z_total_Basic_final), Complex2ImagMatrix(Y_total_final), 
+                                Complex2RealMatrix(Z_total_Basic_final), Complex2ImagMatrix(Z_total_Basic_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
                                 Z_total_Basic_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Basic_symm_final), Complex2ImagMatrix(Z_total_Basic_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Complex2RealMatrix(Z_total_Basic_symm_final), Complex2ImagMatrix(Z_total_Basic_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
                                 Z_total_Basic_symm_final, Y_total_symm_final);
                     } catch (IOException ex) {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
@@ -2149,7 +2149,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
                     RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
                     double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < Y_total.size(); i++) {
+                    for (int i = 0; i < number_of_elements; i++) {
                         Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
                         ComplexMatrix aux_phase = Y_total.get(i);
                         ComplexMatrix aux_symm = phase2symm(aux_phase);
@@ -2195,9 +2195,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     //writin into file
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_CDER_final), Complex2ImagMatrix(Z_total_CDER_final), Complex2ImagMatrix(Y_total_final), 
+                                Complex2RealMatrix(Z_total_CDER_final), Complex2ImagMatrix(Z_total_CDER_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
                                 Z_total_CDER_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_CDER_symm_final), Complex2ImagMatrix(Z_total_CDER_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Complex2RealMatrix(Z_total_CDER_symm_final), Complex2ImagMatrix(Z_total_CDER_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
                                 Z_total_CDER_symm_final, Y_total_symm_final);
                     } catch (IOException ex) {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
@@ -2277,7 +2277,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
                     RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
                     double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < Y_total.size(); i++) {
+                    for (int i = 0; i < number_of_elements; i++) {
                         Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
                         ComplexMatrix aux_phase = Y_total.get(i);
                         ComplexMatrix aux_symm = phase2symm(aux_phase);
@@ -2323,9 +2323,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     //writin into file
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_TakuNoda_final), Complex2ImagMatrix(Z_total_TakuNoda_final), Complex2ImagMatrix(Y_total_final), 
+                                Complex2RealMatrix(Z_total_TakuNoda_final), Complex2ImagMatrix(Z_total_TakuNoda_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
                                 Z_total_TakuNoda_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_TakuNoda_symm_final), Complex2ImagMatrix(Z_total_TakuNoda_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Complex2RealMatrix(Z_total_TakuNoda_symm_final), Complex2ImagMatrix(Z_total_TakuNoda_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
                                 Z_total_TakuNoda_symm_final, Y_total_symm_final);
                     } catch (IOException ex) {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
@@ -4640,14 +4640,19 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 fw.println();
                 fw.println("R [Ohm/km]");
                 print2fileRealMatrix(R,fw,df5);
+                fw.println();
                 fw.println("L [mH/km]");
                 print2fileRealMatrix(L.scalarMultiply(1e3),fw,df5);
-                fw.println("C [nF/km]");
-                print2fileRealMatrix(C.scalarMultiply(1e9),fw,df5);
+                fw.println();
+                fw.println("C [F/km]");
+                print2fileRealMatrix(C,fw,dfE3);
+                fw.println();
                 fw.println("Z [Ohm/km]");
                 print2fileComplexMatrix(Z,fw,df5);
+                fw.println();
                 fw.println("Y [S/km]");
-                print2fileComplexMatrix(Y,fw,df5);
+                print2fileComplexMatrix(Y,fw,dfE3);
+                fw.println();
             } else if (type.equals("symm")) {
                 //print all symm matrices to file
                 fw.println();
@@ -4655,28 +4660,38 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 fw.println();
                 fw.println("R [Ohm/km]");
                 print2fileSymmRealMatrix(Rs,fw,df5);
+                fw.println();
                 fw.println("L [mH/km]");
                 print2fileSymmRealMatrix(Ls.scalarMultiply(1e3),fw,df5);
-                fw.println("C [nF/km]");
-                print2fileSymmRealMatrix(Cs.scalarMultiply(1e9),fw,df5);
+                fw.println();
+                fw.println("C [F/km]");
+                print2fileSymmRealMatrix(Cs,fw,dfE3);
+                fw.println();
                 fw.println("Z [Ohm/km]");
                 print2fileSymmComplexMatrix(Zs,fw,df5);
+                fw.println();
                 fw.println("Y [S/km]");
-                print2fileSymmComplexMatrix(Ys,fw,df5);
+                print2fileSymmComplexMatrix(Ys,fw,dfE3);
+                fw.println();
             } else if (type.equals("all")) {
                 //print all phase matrices to file
                 fw.println("--- PHASE MATRICES ---");
                 fw.println();
                 fw.println("R [Ohm/km]");
                 print2fileRealMatrix(R,fw,df5);
+                fw.println();
                 fw.println("L [mH/km]");
                 print2fileRealMatrix(L.scalarMultiply(1e3),fw,df5);
-                fw.println("C [nF/km]");
-                print2fileRealMatrix(C.scalarMultiply(1e9),fw,df5);
+                fw.println();
+                fw.println("C [F/km]");
+                print2fileRealMatrix(C,fw,dfE3);
+                fw.println();
                 fw.println("Z [Ohm/km]");
                 print2fileComplexMatrix(Z,fw,df5);
+                fw.println();
                 fw.println("Y [S/km]");
-                print2fileComplexMatrix(Y,fw,df5);
+                print2fileComplexMatrix(Y,fw,dfE3);
+                fw.println();
                 
                 //print all symm matrices to file
                 fw.println();
@@ -4684,14 +4699,19 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 fw.println();
                 fw.println("R [Ohm/km]");
                 print2fileSymmRealMatrix(Rs,fw,df5);
+                fw.println();
                 fw.println("L [mH/km]");
                 print2fileSymmRealMatrix(Ls.scalarMultiply(1e3),fw,df5);
-                fw.println("C [nF/km]");
-                print2fileSymmRealMatrix(Cs.scalarMultiply(1e9),fw,df5);
+                fw.println();
+                fw.println("C [F/km]");
+                print2fileSymmRealMatrix(Cs,fw,dfE3);
+                fw.println();
                 fw.println("Z [Ohm/km]");
                 print2fileSymmComplexMatrix(Zs,fw,df5);
+                fw.println();
                 fw.println("Y [S/km]");
-                print2fileSymmComplexMatrix(Ys,fw,df5);
+                print2fileSymmComplexMatrix(Ys,fw,dfE3);
+                fw.println();
             }
  
             fw.println("END OF FILE");

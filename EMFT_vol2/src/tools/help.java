@@ -852,7 +852,7 @@ public class help {
         RealMatrix aux = new Array2DRowRealMatrix(source.getNrow(), source.getNcol());
         for (int i = 0; i < source.getNrow(); i++) {
             for (int j = 0; j < source.getNcol(); j++) {
-                aux.setEntry(j, j, source.getElementCopy(i, j).getReal());
+                aux.setEntry(i, j, source.getElementCopy(i, j).getReal());
             }
         }
         return aux;
@@ -862,7 +862,7 @@ public class help {
         RealMatrix aux = new Array2DRowRealMatrix(source.getNrow(), source.getNcol());
         for (int i = 0; i < source.getNrow(); i++) {
             for (int j = 0; j < source.getNcol(); j++) {
-                aux.setEntry(j, j, source.getElementCopy(i, j).getImag());
+                aux.setEntry(i, j, source.getElementCopy(i, j).getImag());
             }
         }
         return aux;
