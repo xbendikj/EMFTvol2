@@ -38,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -54,8 +55,14 @@ import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import tools.help;
 import static tools.help.ArrList2Arr;
+import static tools.help.Complex2ImagMatrix;
+import static tools.help.Complex2RealMatrix;
 import static tools.help.makeComplexMatrix;
 import static tools.help.phase2symm;
+import static tools.help.print2fileComplexMatrix;
+import static tools.help.print2fileRealMatrix;
+import static tools.help.print2fileSymmComplexMatrix;
+import static tools.help.print2fileSymmRealMatrix;
 
 /**
  *
@@ -1554,7 +1561,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  * 6 - CDER
                  * 7 - TakuNoda
                  */
-                int method = 5;
+                int method = 1;
+                String type = "all";
                 
                 //ArrLists for Impedance/Admittance - phase matrices, symmetrical components matrices
                 //ComplexMatrices for Impedance/Admittance - phase matrices, symmetrical components matrices
@@ -1614,7 +1622,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
                     RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
                     double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < Y_total.size(); i++) {
+                    for (int i = 0; i < number_of_elements; i++) {
                         Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
                         ComplexMatrix aux_phase = Y_total.get(i);
                         ComplexMatrix aux_symm = phase2symm(aux_phase);
@@ -1627,7 +1635,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                 C_symm.setEntry(rowsC, colsC, auxC);
                             }
                         }
-                        C_total_symm.add(i, C_symm);
+                        C_total_symm.add(C_symm);
                     }
                     
                     //make average parameters from ArrayLists
@@ -1656,6 +1664,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     updatePB(100);
                     show_on_bar = 0;
+                    
+                    //writin into file
+                    try {
+                        make_TxT_elpam_noDB(Rozpätie, type, method,
+                                Complex2RealMatrix(Z_total_Carson_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Z_total_Carson_no_gnd_final, Y_total_final, 
+                                Complex2RealMatrix(Z_total_Carson_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Z_total_Carson_no_gnd_symm_final, Y_total_symm_final);
+                    } catch (IOException ex) {
+                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                 } else if (method == 2) {
                     ArrayList<ComplexMatrix> Z_total_Carson_gnd = new ArrayList<>();
@@ -1752,6 +1771,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     updatePB(100);
                     show_on_bar = 0;
                     
+                    //writin into file
+                    try {
+                        make_TxT_elpam_noDB(Rozpätie, type, method,
+                                Complex2RealMatrix(Z_total_Carson_gnd_final), Complex2ImagMatrix(Z_total_Carson_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Z_total_Carson_gnd_final, Y_total_final, 
+                                Complex2RealMatrix(Z_total_Carson_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Z_total_Carson_gnd_symm_final, Y_total_symm_final);
+                    } catch (IOException ex) {
+                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 } else if (method == 3) {
                     ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd = new ArrayList<>();
                     ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd_symm = new ArrayList<>();
@@ -1845,6 +1875,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     updatePB(100);
                     show_on_bar = 0;
+                    
+                    //writin into file
+                    try {
+                        make_TxT_elpam_noDB(Rozpätie, type, method,
+                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Z_total_Carson_mod_no_gnd_final, Y_total_final, 
+                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final);
+                    } catch (IOException ex) {
+                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                 } else if (method == 4) {
                     ArrayList<ComplexMatrix> Z_total_Carson_mod_gnd = new ArrayList<>();
@@ -1941,6 +1982,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     updatePB(100);
                     show_on_bar = 0;
                     
+                    //writin into file
+                    try {
+                        make_TxT_elpam_noDB(Rozpätie, type, method,
+                                Complex2RealMatrix(Z_total_Carson_mod_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_final), Complex2ImagMatrix(Y_total_final), 
+                                Z_total_Carson_mod_gnd_final, Y_total_final, 
+                                Complex2RealMatrix(Z_total_Carson_mod_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final);
+                    } catch (IOException ex) {
+                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 } else if (method == 5) {
                     ArrayList<ComplexMatrix> Z_total_Basic = new ArrayList<>();
                     ArrayList<ComplexMatrix> Z_total_Basic_symm = new ArrayList<>();
@@ -2026,6 +2078,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     updatePB(100);
                     show_on_bar = 0;
+                    
+                    //writin into file
+                    try {
+                        make_TxT_elpam_noDB(Rozpätie, type, method,
+                                Complex2RealMatrix(Z_total_Basic_final), Complex2ImagMatrix(Z_total_Basic_final), Complex2ImagMatrix(Y_total_final), 
+                                Z_total_Basic_final, Y_total_final, 
+                                Complex2RealMatrix(Z_total_Basic_symm_final), Complex2ImagMatrix(Z_total_Basic_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Z_total_Basic_symm_final, Y_total_symm_final);
+                    } catch (IOException ex) {
+                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                 } else if (method == 6) {
                     ArrayList<ComplexMatrix> Z_total_CDER = new ArrayList<>();
@@ -2128,6 +2191,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     updatePB(100);
                     show_on_bar = 0;
+                    
+                    //writin into file
+                    try {
+                        make_TxT_elpam_noDB(Rozpätie, type, method,
+                                Complex2RealMatrix(Z_total_CDER_final), Complex2ImagMatrix(Z_total_CDER_final), Complex2ImagMatrix(Y_total_final), 
+                                Z_total_CDER_final, Y_total_final, 
+                                Complex2RealMatrix(Z_total_CDER_symm_final), Complex2ImagMatrix(Z_total_CDER_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Z_total_CDER_symm_final, Y_total_symm_final);
+                    } catch (IOException ex) {
+                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                 } else if (method == 7) {
                     ArrayList<ComplexMatrix> Z_total_TakuNoda = new ArrayList<>();
@@ -2245,6 +2319,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     updatePB(100);
                     show_on_bar = 0;
+                    
+                    //writin into file
+                    try {
+                        make_TxT_elpam_noDB(Rozpätie, type, method,
+                                Complex2RealMatrix(Z_total_TakuNoda_final), Complex2ImagMatrix(Z_total_TakuNoda_final), Complex2ImagMatrix(Y_total_final), 
+                                Z_total_TakuNoda_final, Y_total_final, 
+                                Complex2RealMatrix(Z_total_TakuNoda_symm_final), Complex2ImagMatrix(Z_total_TakuNoda_symm_final), Complex2ImagMatrix(Y_total_symm_final),
+                                Z_total_TakuNoda_symm_final, Y_total_symm_final);
+                    } catch (IOException ex) {
+                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } 
             }
         } catch (DelaunayError ex) {
@@ -4479,6 +4564,149 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     }
 
+    private void make_TxT_elpam_noDB(rozpatie roz, String type, int method, 
+                                    RealMatrix R, RealMatrix L, RealMatrix C, 
+                                    ComplexMatrix Z, ComplexMatrix Y, 
+                                    RealMatrix Rs, RealMatrix Ls, RealMatrix Cs,
+                                    ComplexMatrix Zs, ComplexMatrix Ys) throws IOException{
+        DecimalFormat df5 = new DecimalFormat("0.00000");
+        DecimalFormat dfE3 = new DecimalFormat("0.000E0");
+        String file_recognition = "";
+        String method_name = "";
+
+        if (type.equals("phase")) {
+            file_recognition = "_Phase";
+        } else if (type.equals("symm")) {
+            file_recognition = "_Symm";
+        } else if (type.equals("all")) {
+            file_recognition = "_All";
+        }
+        
+        switch(method){
+            case 1:
+                method_name = "Carson without ground";
+                break;
+            case 2:
+                method_name = "Carson with ground";
+                break;
+            case 3:
+                method_name = "Carson modified without ground";
+                break;
+            case 4:
+                method_name = "Carson modified with ground";
+                break;
+            case 5:
+                method_name = "Basic approximated";
+                break;
+            case 6:
+                method_name = "CDER";
+                break;
+            case 7:
+                method_name = "Taku Noda";
+                break;
+            default:
+                method_name = "unknown";
+                break;
+        }
+        
+        Date todaysDate = new Date();
+        DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+        DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        File subor = new File(df2.format(todaysDate) + "_" + meno_projektu + "_" + "ELPAM" + file_recognition + ".txt");
+        try {
+            PrintWriter fw = new PrintWriter(subor);
+            if (type.equals("phase")) {
+                fw.println("--- PHASE PARAMETRICAL OUTPUT ---");
+            } else if (type.equals("symm")) {
+                fw.println("--- SYMMETRICAL COMPONENTS OUTPUT ---");
+            } else if (type.equals("all")) {
+                fw.println("--- COMPLETE PARAMETRICAL OUTPUT ---");
+            }
+            fw.println("----------------------------------------------");
+            fw.println("Time of the calculation       : " + df3.format(todaysDate));
+            fw.println("Type of the calculation       : " + method_name);
+            fw.println("Name of the project           : " + meno_projektu);
+            fw.println("Name of the span              : " + meno_rozpatia);
+            fw.println("");
+            fw.println("Total number of wires      : " + (roz.getPocet_faz() + roz.getPocet_zemnych_lan_bez_zvazkov()) );
+            fw.println("Number of phase conductors : " + roz.getPocet_faz());
+            fw.println("Number of ground wires     : " + roz.getPocet_zemnych_lan_bez_zvazkov());
+            fw.println("----------------------------------------------");
+            fw.println();
+            
+            if (type.equals("phase")) {
+                //print all phase matrices to file
+                fw.println("--- PHASE MATRICES ---");
+                fw.println();
+                fw.println("R [Ohm/km]");
+                print2fileRealMatrix(R,fw,df5);
+                fw.println("L [mH/km]");
+                print2fileRealMatrix(L.scalarMultiply(1e3),fw,df5);
+                fw.println("C [nF/km]");
+                print2fileRealMatrix(C.scalarMultiply(1e9),fw,df5);
+                fw.println("Z [Ohm/km]");
+                print2fileComplexMatrix(Z,fw,df5);
+                fw.println("Y [S/km]");
+                print2fileComplexMatrix(Y,fw,df5);
+            } else if (type.equals("symm")) {
+                //print all symm matrices to file
+                fw.println();
+                fw.println("--- SYMMETRICAL COMPONENTS ---");
+                fw.println();
+                fw.println("R [Ohm/km]");
+                print2fileSymmRealMatrix(Rs,fw,df5);
+                fw.println("L [mH/km]");
+                print2fileSymmRealMatrix(Ls.scalarMultiply(1e3),fw,df5);
+                fw.println("C [nF/km]");
+                print2fileSymmRealMatrix(Cs.scalarMultiply(1e9),fw,df5);
+                fw.println("Z [Ohm/km]");
+                print2fileSymmComplexMatrix(Zs,fw,df5);
+                fw.println("Y [S/km]");
+                print2fileSymmComplexMatrix(Ys,fw,df5);
+            } else if (type.equals("all")) {
+                //print all phase matrices to file
+                fw.println("--- PHASE MATRICES ---");
+                fw.println();
+                fw.println("R [Ohm/km]");
+                print2fileRealMatrix(R,fw,df5);
+                fw.println("L [mH/km]");
+                print2fileRealMatrix(L.scalarMultiply(1e3),fw,df5);
+                fw.println("C [nF/km]");
+                print2fileRealMatrix(C.scalarMultiply(1e9),fw,df5);
+                fw.println("Z [Ohm/km]");
+                print2fileComplexMatrix(Z,fw,df5);
+                fw.println("Y [S/km]");
+                print2fileComplexMatrix(Y,fw,df5);
+                
+                //print all symm matrices to file
+                fw.println();
+                fw.println("--- SYMMETRICAL COMPONENTS ---");
+                fw.println();
+                fw.println("R [Ohm/km]");
+                print2fileSymmRealMatrix(Rs,fw,df5);
+                fw.println("L [mH/km]");
+                print2fileSymmRealMatrix(Ls.scalarMultiply(1e3),fw,df5);
+                fw.println("C [nF/km]");
+                print2fileSymmRealMatrix(Cs.scalarMultiply(1e9),fw,df5);
+                fw.println("Z [Ohm/km]");
+                print2fileSymmComplexMatrix(Zs,fw,df5);
+                fw.println("Y [S/km]");
+                print2fileSymmComplexMatrix(Ys,fw,df5);
+            }
+ 
+            fw.println("END OF FILE");
+            fw.close();
+            
+            } catch (FileNotFoundException ex) {
+        }
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().edit(subor);
+        } else {
+            // dunno, up to you to handle this
+        }
+    }
+    
+    
     /**
      * funkcia vytvara kratky vystup
      *

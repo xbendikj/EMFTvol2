@@ -9,6 +9,9 @@ import Databazes.SQLlite_constants;
 import emft_vol2.constants;
 import flanagan.complex.ComplexMatrix;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.ResultSet;
@@ -801,4 +804,67 @@ public class help {
         }
     }
     
+    //printing to file functions
+    
+    public static void print2fileRealMatrix(RealMatrix mtx, PrintWriter fw, DecimalFormat df){
+        for (int i = 0; i < mtx.getRowDimension(); i++) {
+            for (int j = 0; j < mtx.getColumnDimension(); j++) {
+                fw.print(df.format(mtx.getData()[i][j]) + " ");
+            }
+        fw.println();
+        }
+    }
+    
+    public static void print2fileComplexMatrix(ComplexMatrix mtx, PrintWriter fw, DecimalFormat df){
+        for (int i = 0; i < mtx.getNrow(); i++) {
+            for (int j = 0; j < mtx.getNcol(); j++) {
+                fw.print(df.format(mtx.getElementCopy(i, j).getReal()) + " ");
+                fw.print(df.format(mtx.getElementCopy(i, j).getImag()) + "i   ");
+            }
+        fw.println();
+        }
+    }
+    
+    public static void print2fileSymmRealMatrix(RealMatrix mtx, PrintWriter fw, DecimalFormat df){
+        for (int i = 0; i < mtx.getRowDimension(); i++) {
+            for (int j = 0; j < mtx.getColumnDimension(); j++) {
+                if (i == j) {
+                    fw.print( i + " " + df.format(mtx.getData()[i][j]) + " ");
+                }
+            }
+        fw.println();
+        }
+    }
+    
+    public static void print2fileSymmComplexMatrix(ComplexMatrix mtx, PrintWriter fw, DecimalFormat df){
+        for (int i = 0; i < mtx.getNrow(); i++) {
+            for (int j = 0; j < mtx.getNcol(); j++) {
+                if (i==j){
+                    fw.print(i + " " + df.format(mtx.getElementCopy(i, j).getReal()) + "   ");
+                    fw.print(df.format(mtx.getElementCopy(i, j).getImag()) + "i   ");
+                }
+            }
+        fw.println();
+        }
+    }
+    
+    public static RealMatrix Complex2RealMatrix(ComplexMatrix source){
+        RealMatrix aux = new Array2DRowRealMatrix(source.getNrow(), source.getNcol());
+        for (int i = 0; i < source.getNrow(); i++) {
+            for (int j = 0; j < source.getNcol(); j++) {
+                aux.setEntry(j, j, source.getElementCopy(i, j).getReal());
+            }
+        }
+        return aux;
+    }
+    
+    public static RealMatrix Complex2ImagMatrix(ComplexMatrix source){
+        RealMatrix aux = new Array2DRowRealMatrix(source.getNrow(), source.getNcol());
+        for (int i = 0; i < source.getNrow(); i++) {
+            for (int j = 0; j < source.getNcol(); j++) {
+                aux.setEntry(j, j, source.getElementCopy(i, j).getImag());
+            }
+        }
+        return aux;
+    }
 }
