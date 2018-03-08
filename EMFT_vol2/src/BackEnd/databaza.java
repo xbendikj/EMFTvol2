@@ -565,6 +565,19 @@ public class databaza {
         
     }
     
+      public ArrayList<double[]> getYray1DListPodiel(String BE1 ,String BE2 ,String rozmer,ArrayList<Observer[]> X){
+     
+        ArrayList<double[]> yray1DList = new ArrayList<>();
+        
+        for(int cl1=0; cl1<X.size();cl1++){
+            
+            yray1DList.add(getYray1D(BE, rozmer, X.get(cl1)));
+            
+        }
+                
+        return yray1DList;
+        
+    }
     
     
     

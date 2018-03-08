@@ -193,6 +193,70 @@ public class Observer {
     public void setPoloha(DPoint poloha) {
         this.poloha = poloha;
     }
+    
+    public double getR0_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }
+    
+     public double getR1_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }
+    
+      public double getR2_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }
+    
+       public double getL0_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }
+    
+     public double getL1_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }
+    
+      public double getL2_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    } 
+      
+       public double getC0_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }
+    
+     public double getC1_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }
+    
+      public double getC2_ELPAM(){
+        double output = 0;
+        
+        
+        return output;
+    }  
+    
      /**
       * sppricitaj observera ku observerovi
       * @param X 
