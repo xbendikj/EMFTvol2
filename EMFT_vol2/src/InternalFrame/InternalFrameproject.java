@@ -1414,6 +1414,34 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     private void calc_MATRIXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIXActionPerformed
 
+       
+    }//GEN-LAST:event_calc_MATRIXActionPerformed
+
+    //prepocitaj auto polohy pozorovatela
+    private void changeValueAtObserverPanelXp() {
+        try {
+            double val = Rozpätie.getRetazovkaList().get(0).getA1_over();
+            if (observerPanel1.X_precne_auto.isSelected() == true) {
+                observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
+            }
+        } catch (IndexOutOfBoundsException S) {
+            double val = Rozpätie.getA() / 2;
+            if (observerPanel1.X_precne_auto.isSelected() == true) {
+                observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
+            }
+        }
+    }
+
+    private void changeValueAtObserverPanelZp() {
+        double val = Rozpätie.getZ() / 2;
+        if (observerPanel1.Z_pozdl_auto.isSelected() == true) {
+            observerPanel1.pozdl_Z_textfield.setText(String.valueOf(val));
+        }
+    }
+
+    private Observer calculateELPAM(int metoda,boolean bundle,boolean exactGMR ,boolean exactRAC  ){
+        Observer output = new Observer();
+        
         try {
 
             catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
@@ -1454,58 +1482,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
 
             if (sulana == true) {
-                //START MAIN
-                // cyklus vysok Cl0
-               // BE.clear(); // predkaždym startom sa databaza vyčisti
-               
-              // ****************************
-              //DEKLARUJ
-              // ****************************
               
-              
-                //calc matice
-                /**
-                 * prva pozicia "a"-"d" [String], potom na vystupe:
-                 *  a - 2*hi [double]
-                 *  b - 2*(hi+p) [complex]
-                 *  c - 2*(hi+alpha*p) [complex]
-                 *  d - 2*(hi+beta*p) [complex]
-                 * 
-                 * druha pozicia "A"-"E" [String], potom na vystupe:
-                 *  A - Dik
-                 *  B - Dik_Carson
-                 *  C - Dik_CDER
-                 *  D - Dik_alpha
-                 *  E - Dik_beta
-                 * 
-                 * tretia pozicia [boolean], potom na vystupe:
-                 *  true - naozajstny teren
-                 *  false - aproximovany teren
-                 * 
-                 * stvrta pozicia [boolean], potom na vystupe:
-                 *  true - uvazovat zvazok
-                 *  false - neuvazovat zvazok
-                 * 
-                 * piata pozicia p [Complex]
-                 *  jednoducha komplexna hlbka CDER
-                 * 
-                 * siesta pozicia alpha [double]
-                 *  Taku Noda koeficient = 0,26244
-                 * 
-                 * siedma pozicia beta [double]
-                 *  Taku noda koeficient = 1,12385
-                 */
-                
-//                //v buducnosti z InternalFrame
-//                Rozpätie.getRetazovkaList().get(0).setElpam_f(50);              //je
-//                Rozpätie.getRetazovkaList().get(0).setElpam_D(0.02175);         //je
-//                Rozpätie.getRetazovkaList().get(0).setElpam_T(0.0069);          
-//                Rozpätie.getRetazovkaList().get(0).setElpam_rho_cnd(2.65e-8);
-//                Rozpätie.getRetazovkaList().get(0).setElpam_rho_gnd(100);
-//                Rozpätie.getRetazovkaList().get(0).setElpam_Rdc(0.1181);
-//                Rozpätie.getRetazovkaList().get(0).setElpam_Al_layers(2);
-//                Rozpätie.getRetazovkaList().get(0).setElpam_Al_start(10);
-//                Rozpätie.getRetazovkaList().get(0).setElpam_Al_d(0.00345);
                 
                 //nacitanie z mainframeu do retazovky
                 catenaryPanel1.add_parametre_to_conductor(); 
@@ -1535,38 +1512,13 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     cnd_list.add(i, cnd2add);
                 }
                 
-//                //GMR & Rac calc
-//                GMR_calculation myGMR = new GMR_calculation(test_cnd);
-//                Rac_calculation myRac = new Rac_calculation(test_cnd);
-//                myGMR.calc_GMR();
-//                myGMR.calc_xi();
-//                myRac.calc_Rac();
-                
-//                System.out.println();
-//                System.out.println("GMRs");
-//                for (int i = 0; i < cnd_list.size(); i++) {
-//                    System.out.println(cnd_list.get(i).getGMR());
-//                }
-//                System.out.println("XIs");
-//                for (int i = 0; i < cnd_list.size(); i++) {
-//                    System.out.println(cnd_list.get(i).getXi());
-//                }
-//                System.out.println("Rdcs");
-//                for (int i = 0; i < cnd_list.size(); i++) {
-//                    System.out.println(cnd_list.get(i).getRdc());
-//                }
-//                System.out.println("Racs");
-//                for (int i = 0; i < cnd_list.size(); i++) {
-//                    System.out.println(cnd_list.get(i).getRac());
-//                }
-                
+
                 
                 //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
                 //int element = 0; //nastavenie useku v retazovke
                 double show_on_bar = 0;
-                boolean bundle = false;  //false -> uvazuje klasicky prepocet cez r_zv, true -> vodice vo zvazku ako nove lana v systeme
-                boolean exactGMR = true; //pocitat presne GMR?
-                boolean exactRAC = true; //pocitat presne Rac?
+                  //false -> uvazuje klasicky prepocet cez r_zv, true -> vodice vo zvazku ako nove lana v systeme
+                
                 Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385); //nutne pre stanovenie velkosti matic
                 int gw = Rozpätie.getPocet_zemnych_lan_bez_zvazkov();
                 int fv = Rozpätie.getPocet_faz();
@@ -1582,7 +1534,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  * 6 - CDER
                  * 7 - TakuNoda
                  */
-                int method = 7;
+                int method = metoda;
                 String type = "phase";
                 if (Rozpätie.getPocet_faz() % 3 == 0) {
                     type = "all";
@@ -2286,31 +2238,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         } catch (DelaunayError ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_calc_MATRIXActionPerformed
-
-    //prepocitaj auto polohy pozorovatela
-    private void changeValueAtObserverPanelXp() {
-        try {
-            double val = Rozpätie.getRetazovkaList().get(0).getA1_over();
-            if (observerPanel1.X_precne_auto.isSelected() == true) {
-                observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
-            }
-        } catch (IndexOutOfBoundsException S) {
-            double val = Rozpätie.getA() / 2;
-            if (observerPanel1.X_precne_auto.isSelected() == true) {
-                observerPanel1.priecna_X_textfield.setText(String.valueOf(val));
-            }
-        }
+        } 
+    
+    return output;
     }
-
-    private void changeValueAtObserverPanelZp() {
-        double val = Rozpätie.getZ() / 2;
-        if (observerPanel1.Z_pozdl_auto.isSelected() == true) {
-            observerPanel1.pozdl_Z_textfield.setText(String.valueOf(val));
-        }
-    }
-
+    
+    
 //.......................................
     //kalkulacky pozorovatelov
     //.......................................

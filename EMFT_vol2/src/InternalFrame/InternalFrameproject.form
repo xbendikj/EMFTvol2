@@ -53,9 +53,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="observerPanel1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="outputPanel2" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="outputPanel2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="79" max="32767" attributes="0"/>
                       <Component id="elpam_method_panel" max="-2" attributes="0"/>

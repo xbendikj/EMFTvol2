@@ -26,16 +26,22 @@ public class Observer {
     private double parameter;
     private DPoint poloha;
     
-    //electrical parameters
-    ComplexMatrix Z;
-    ComplexMatrix Y;
-    RealMatrix R;
-    RealMatrix L;
-    RealMatrix C;
+    private ComplexMatrix  Z;
+    private ComplexMatrix  Y;
+    private ComplexMatrix  Zs;
+    private ComplexMatrix  Ys;
     
-    public Observer(ComplexMatrix Z, ComplexMatrix Y, double parameter){
+    //electrical parameters
+   
+   private RealMatrix R;
+   private RealMatrix L;
+   private RealMatrix C;
+    
+    public Observer(ComplexMatrix Z, ComplexMatrix Y,ComplexMatrix Zs, ComplexMatrix Ys, double parameter){
         this.Z = Z;
         this.Y = Y;
+        this.Zs = Zs;
+        this.Ys = Ys;
         this.parameter = parameter;
     }
     
@@ -94,6 +100,62 @@ public class Observer {
 
     public FazorVektor getI() {
         return I;
+    }
+
+    public ComplexMatrix getZ() {
+        return Z;
+    }
+
+    public void setZ(ComplexMatrix Z) {
+        this.Z = Z;
+    }
+
+    public ComplexMatrix getY() {
+        return Y;
+    }
+
+    public void setY(ComplexMatrix Y) {
+        this.Y = Y;
+    }
+
+    public ComplexMatrix getZs() {
+        return Zs;
+    }
+
+    public void setZs(ComplexMatrix Zs) {
+        this.Zs = Zs;
+    }
+
+    public ComplexMatrix getYs() {
+        return Ys;
+    }
+
+    public void setYs(ComplexMatrix Ys) {
+        this.Ys = Ys;
+    }
+
+    public RealMatrix getR() {
+        return R;
+    }
+
+    public void setR(RealMatrix R) {
+        this.R = R;
+    }
+
+    public RealMatrix getL() {
+        return L;
+    }
+
+    public void setL(RealMatrix L) {
+        this.L = L;
+    }
+
+    public RealMatrix getC() {
+        return C;
+    }
+
+    public void setC(RealMatrix C) {
+        this.C = C;
     }
 
     public void setI(FazorVektor I) {
