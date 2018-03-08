@@ -1628,6 +1628,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
                     updatePB(100);
                     
+                    //write to observer
+                    output = new Observer(Z_total_Carson_no_gnd_final, Y_total_final, Z_total_Carson_no_gnd_symm_final, Y_total_symm_final, 0);
+                    
                     //writin into file
                     double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
@@ -1721,6 +1724,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     }
                     updatePB(100);
+                    
+                    //write to observer
+                    output = new Observer(Z_total_Carson_gnd_final, Y_total_final, Z_total_Carson_gnd_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
                     double omega = (double)2*Math.PI*constants.getFrequency();
@@ -1816,6 +1822,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
                     updatePB(100);
                     
+                    //write to observer
+                    output = new Observer(Z_total_Carson_mod_no_gnd_final, Y_total_final, Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final, 0);
+                    
                     //writin into file
                     double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
@@ -1908,6 +1917,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
                     updatePB(100);
                     
+                    //write to observer
+                    output = new Observer(Z_total_Carson_mod_gnd_final, Y_total_final, Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final, 0);
+                    
                     //writin into file
                     double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
@@ -1996,6 +2008,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     }
                     updatePB(100);
+                    
+                    //write to observer
+                    output = new Observer(Z_total_Basic_final, Y_total_final, Z_total_Basic_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
                     double omega = (double)2*Math.PI*constants.getFrequency();
@@ -2101,6 +2116,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     }
                     updatePB(100);
+                    
+                    //write to observer
+                    output = new Observer(Z_total_CDER_final, Y_total_final, Z_total_CDER_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
                     double omega = (double)2*Math.PI*constants.getFrequency();
@@ -2222,6 +2240,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
                     }
                     updatePB(100);
+                    
+                    //write to observer
+                    output = new Observer(Z_total_TakuNoda_final, Y_total_final, Z_total_TakuNoda_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
                     double omega = (double)2*Math.PI*constants.getFrequency();
