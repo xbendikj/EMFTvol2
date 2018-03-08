@@ -17,6 +17,7 @@ import BackEnd.rozpatie;
 import static InternalFrame.CatenaryPanel.isListener;
 import dislin.plot_1D;
 import dislin.plot_2D;
+import electrical_parameters.Admittance;
 import electrical_parameters.Basic;
 import electrical_parameters.CDER;
 import electrical_parameters.Carson;
@@ -104,6 +105,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         basicInfoPanel = new InternalFrame.BasicInfoPanel();
         basicSettingsPanel = new InternalFrame.BasicSettingsPanel();
         catenaryPanel1 = new InternalFrame.CatenaryPanel();
@@ -119,6 +121,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         jProgressBar = new javax.swing.JProgressBar();
         calc_MATRIX = new javax.swing.JButton();
         outputPanel2 = new InternalFrame.outputPanel();
+        elpam_method_panel = new javax.swing.JPanel();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -257,6 +260,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout elpam_method_panelLayout = new javax.swing.GroupLayout(elpam_method_panel);
+        elpam_method_panel.setLayout(elpam_method_panelLayout);
+        elpam_method_panelLayout.setHorizontalGroup(
+            elpam_method_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        elpam_method_panelLayout.setVerticalGroup(
+            elpam_method_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -268,14 +282,16 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     .addComponent(catenaryPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(outputPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(basicInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(basicSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(outputPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                        .addComponent(elpam_method_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -291,7 +307,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         .addComponent(basicSettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(outputPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(elpam_method_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(catenaryPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -1561,8 +1582,11 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                  * 6 - CDER
                  * 7 - TakuNoda
                  */
-                int method = 2;
-                String type = "all";
+                int method = 7;
+                String type = "phase";
+                if (Rozpätie.getPocet_faz() % 3 == 0) {
+                    type = "all";
+                } 
                 
                 //ArrLists for Impedance/Admittance - phase matrices, symmetrical components matrices
                 //ComplexMatrices for Impedance/Admittance - phase matrices, symmetrical components matrices
@@ -1597,16 +1621,21 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                       
                         Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
                                                         hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
+                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
 
                         //compute all parameters
-//                        System.out.println();
-//                        System.out.println("Carson standard");
-                        test_carson.calcAll();
-//                        test_carson.printAll();
+                        test_carson.calcAll(type);
+                        test_admittance.calcAll(type);
+                        
         
                         //store to ArrayLists
-                        Z_total_Carson_no_gnd.add(element, test_carson.getZ_red_no_gnd());
-                        Z_total_Carson_no_gnd_symm.add(element, test_carson.getZ_red_no_gnd_symm());
+                        Z_total_Carson_no_gnd.add(test_carson.getZ_red_no_gnd());
+                        Y_total.add(test_admittance.getY());
+                        if (type.equals("all")){
+                            Z_total_Carson_no_gnd_symm.add(test_carson.getZ_red_no_gnd_symm());
+                            Y_total_symm.add(test_admittance.getY_symm());
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1616,39 +1645,20 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         }
                     }
                     
-                    //compute admittance -> phase & symm
-                    ArrayList<RealMatrix> C_total = new ArrayList<>();
-                    C_total = Rozpätie.calculate_kapacity(aproxx, bundle);
-                    ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
-                    RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < number_of_elements; i++) {
-                        Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
-                        ComplexMatrix aux_phase = Y_total.get(i);
-                        ComplexMatrix aux_symm = phase2symm(aux_phase);
-                        Y_total_symm.add(i, aux_symm);
-                        //C_symm
-                        RealMatrix C_symm = new Array2DRowRealMatrix(Y_total_symm.get(i).getNrow(),Y_total_symm.get(i).getNcol());
-                        for (int rowsC = 0; rowsC < Y_total_symm.get(i).getNrow(); rowsC++) {
-                            for (int colsC = 0; colsC < Y_total_symm.get(i).getNcol(); colsC++) {
-                                double auxC = Y_total_symm.get(i).getElementCopy(rowsC, colsC).getImag()/omega;
-                                C_symm.setEntry(rowsC, colsC, auxC);
-                            }
-                        }
-                        C_total_symm.add(C_symm);
-                    }
-                    
                     //make average parameters from ArrayLists
                     ComplexMatrix cSum_Carson_no_gnd = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Carson_no_gnd_symm = new ComplexMatrix(fv, fv);
                     ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                    ComplexMatrix cSum_Carson_no_gnd_symm = new ComplexMatrix(fv, fv);
                     ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+                    
 
                     for (int i = 0; i < number_of_elements; i++) {
                         cSum_Carson_no_gnd = cSum_Carson_no_gnd.plus(Z_total_Carson_no_gnd.get(i));
-                        cSum_Carson_no_gnd_symm = cSum_Carson_no_gnd_symm.plus(Z_total_Carson_no_gnd_symm.get(i));
                         cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        if (type.equals("all")){
+                            cSum_Carson_no_gnd_symm = cSum_Carson_no_gnd_symm.plus(Z_total_Carson_no_gnd_symm.get(i));
+                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1660,12 +1670,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                     Z_total_Carson_no_gnd_final = cSum_Carson_no_gnd.times((double)1/number_of_elements);
                     Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    Z_total_Carson_no_gnd_symm_final = cSum_Carson_no_gnd_symm.times((double)1/number_of_elements);
-                    Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    if (type.equals("all")){
+                        Z_total_Carson_no_gnd_symm_final = cSum_Carson_no_gnd_symm.times((double)1/number_of_elements);
+                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    }
                     updatePB(100);
-                    show_on_bar = 0;
                     
                     //writin into file
+                    double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
                                 Complex2RealMatrix(Z_total_Carson_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
@@ -1693,7 +1705,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
                         double[] hx2 = new double[rows];
                         
-                        //Carson & Acrson Modified & Basic
+                        //Carson & Acrson Modified & Basic & Admittance
                         Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
                         Dik = Rozpätie.getPAr_Dik_REAL().get(element);
                         Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
@@ -1703,16 +1715,22 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                         Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
                                                         hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+                        
+                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
+                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
 
                         //compute all parameters
-//                        System.out.println();
-//                        System.out.println("Carson modified");
-                        test_carson.calcAll();
-//                        test_carson.printAll();
+                        test_carson.calcAll(type);
+                        test_admittance.calcAll(type);
         
                         //store to ArrayLists
-                        Z_total_Carson_gnd.add(element, test_carson.getZ_red_gnd());
-                        Z_total_Carson_gnd_symm.add(element, test_carson.getZ_red_gnd_symm());
+                        Z_total_Carson_gnd.add(test_carson.getZ_red_gnd());
+                        Y_total.add(test_admittance.getY());
+                        if (type.equals("all")){
+                            Z_total_Carson_gnd_symm.add(test_carson.getZ_red_gnd_symm());
+                            Y_total_symm.add(test_admittance.getY_symm());
+                        }
+                        
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1721,29 +1739,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                             updatePB((int) value);
                         }
                     }
-                    
-                    //compute admittance -> phase & symm
-                    ArrayList<RealMatrix> C_total = new ArrayList<>();
-                    C_total = Rozpätie.calculate_kapacity(aproxx, bundle);
-                    ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
-                    RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < number_of_elements; i++) {
-                        Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
-                        ComplexMatrix aux_phase = Y_total.get(i);
-                        ComplexMatrix aux_symm = phase2symm(aux_phase);
-                        Y_total_symm.add(i, aux_symm);
-                        //C_symm
-                        RealMatrix C_symm = new Array2DRowRealMatrix(Y_total_symm.get(i).getNrow(),Y_total_symm.get(i).getNcol());
-                        for (int rowsC = 0; rowsC < Y_total_symm.get(i).getNrow(); rowsC++) {
-                            for (int colsC = 0; colsC < Y_total_symm.get(i).getNcol(); colsC++) {
-                                double auxC = Y_total_symm.get(i).getElementCopy(rowsC, colsC).getImag()/omega;
-                                C_symm.setEntry(rowsC, colsC, auxC);
-                            }
-                        }
-                        C_total_symm.add(i, C_symm);
-                    }
-                    
+
                     //make average parameters from ArrayLists
                     ComplexMatrix cSum_Carson_gnd = new ComplexMatrix(fv, fv);
                     ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
@@ -1753,8 +1749,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     for (int i = 0; i < number_of_elements; i++) {
                         cSum_Carson_gnd = cSum_Carson_gnd.plus(Z_total_Carson_gnd.get(i));
                         cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        cSum_Carson_gnd_symm = cSum_Carson_gnd_symm.plus(Z_total_Carson_gnd_symm.get(i));
-                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        if (type.equals("all")){
+                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                            cSum_Carson_gnd_symm = cSum_Carson_gnd_symm.plus(Z_total_Carson_gnd_symm.get(i));
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1766,12 +1764,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                     Z_total_Carson_gnd_final = cSum_Carson_gnd.times((double)1/number_of_elements);
                     Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    Z_total_Carson_gnd_symm_final = cSum_Carson_gnd_symm.times((double)1/number_of_elements);
-                    Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    if (type.equals("all")){
+                        Z_total_Carson_gnd_symm_final = cSum_Carson_gnd_symm.times((double)1/number_of_elements);
+                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    }
                     updatePB(100);
-                    show_on_bar = 0;
                     
                     //writin into file
+                    double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
                                 Complex2RealMatrix(Z_total_Carson_gnd_final), Complex2ImagMatrix(Z_total_Carson_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
@@ -1808,16 +1808,22 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                         CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
                                                                             hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
+                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
 
                         //compute all parameters
 //                        System.out.println();
 //                        System.out.println("Carson modified");
-                        test_carson_mod.calcAll();
-//                        test_carson_mod.printAll();
-                       
+                        test_carson_mod.calcAll(type);
+                        test_admittance.calcAll(type);
+                        
                         //store to ArrayLists
                         Z_total_Carson_mod_no_gnd.add(element, test_carson_mod.getZ_red_no_gnd());
-                        Z_total_Carson_mod_no_gnd_symm.add(element, test_carson_mod.getZ_red_no_gnd_symm());
+                        Y_total.add(test_admittance.getY());
+                        if (type.equals("all")){
+                            Z_total_Carson_mod_no_gnd_symm.add(element, test_carson_mod.getZ_red_no_gnd_symm());
+                            Y_total_symm.add(test_admittance.getY_symm());
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1827,27 +1833,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         }
                     }
                     
-                    //compute admittance -> phase & symm
-                    ArrayList<RealMatrix> C_total = new ArrayList<>();
-                    C_total = Rozpätie.calculate_kapacity(aproxx, bundle);
-                    ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
-                    RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < number_of_elements; i++) {
-                        Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
-                        ComplexMatrix aux_phase = Y_total.get(i);
-                        ComplexMatrix aux_symm = phase2symm(aux_phase);
-                        Y_total_symm.add(i, aux_symm);
-                        //C_symm
-                        RealMatrix C_symm = new Array2DRowRealMatrix(Y_total_symm.get(i).getNrow(),Y_total_symm.get(i).getNcol());
-                        for (int rowsC = 0; rowsC < Y_total_symm.get(i).getNrow(); rowsC++) {
-                            for (int colsC = 0; colsC < Y_total_symm.get(i).getNcol(); colsC++) {
-                                double auxC = Y_total_symm.get(i).getElementCopy(rowsC, colsC).getImag()/omega;
-                                C_symm.setEntry(rowsC, colsC, auxC);
-                            }
-                        }
-                        C_total_symm.add(i, C_symm);
-                    }
                     
                     //make average parameters from ArrayLists
                     ComplexMatrix cSum_Carson_mod_no_gnd = new ComplexMatrix(fv, fv);
@@ -1858,8 +1843,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     for (int i = 0; i < number_of_elements; i++) {
                         cSum_Carson_mod_no_gnd = cSum_Carson_mod_no_gnd.plus(Z_total_Carson_mod_no_gnd.get(i));
                         cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        cSum_Carson_mod_no_gnd_symm = cSum_Carson_mod_no_gnd_symm.plus(Z_total_Carson_mod_no_gnd_symm.get(i));
-                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        if (type.equals("all")){
+                            cSum_Carson_mod_no_gnd_symm = cSum_Carson_mod_no_gnd_symm.plus(Z_total_Carson_mod_no_gnd_symm.get(i));
+                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1871,12 +1858,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                     Z_total_Carson_mod_no_gnd_final = cSum_Carson_mod_no_gnd.times((double)1/number_of_elements);
                     Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    Z_total_Carson_mod_no_gnd_symm_final = cSum_Carson_mod_no_gnd_symm.times((double)1/number_of_elements);
-                    Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    if (type.equals("all")){
+                        Z_total_Carson_mod_no_gnd_symm_final = cSum_Carson_mod_no_gnd_symm.times((double)1/number_of_elements);
+                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    }
                     updatePB(100);
-                    show_on_bar = 0;
                     
                     //writin into file
+                    double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
                                 Complex2RealMatrix(Z_total_Carson_mod_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
@@ -1914,16 +1903,20 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                         CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
                                                                             hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
+                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
 
                         //compute all parameters
-//                        System.out.println();
-//                        System.out.println("Carson modified");
-                        test_carson_mod.calcAll();
-//                        test_carson_mod.printAll();
+                        test_carson_mod.calcAll(type);
+                        test_admittance.calcAll(type);
 
                         //store to ArrayLists
-                        Z_total_Carson_mod_gnd.add(element, test_carson_mod.getZ_red_gnd());
-                        Z_total_Carson_mod_gnd_symm.add(element, test_carson_mod.getZ_red_gnd_symm());
+                        Z_total_Carson_mod_gnd.add(test_carson_mod.getZ_red_gnd());
+                        Y_total.add(test_admittance.getY());
+                        if (type.equals("all")){
+                            Z_total_Carson_mod_gnd_symm.add(test_carson_mod.getZ_red_gnd_symm());
+                            Y_total_symm.add(test_admittance.getY_symm());
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1931,28 +1924,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                             double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
                             updatePB((int) value);
                         }
-                    }
-                    
-                    //compute admittance -> phase & symm
-                    ArrayList<RealMatrix> C_total = new ArrayList<>();
-                    C_total = Rozpätie.calculate_kapacity(aproxx, bundle);
-                    ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
-                    RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < number_of_elements; i++) {
-                        Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
-                        ComplexMatrix aux_phase = Y_total.get(i);
-                        ComplexMatrix aux_symm = phase2symm(aux_phase);
-                        Y_total_symm.add(i, aux_symm);
-                        //C_symm
-                        RealMatrix C_symm = new Array2DRowRealMatrix(Y_total_symm.get(i).getNrow(),Y_total_symm.get(i).getNcol());
-                        for (int rowsC = 0; rowsC < Y_total_symm.get(i).getNrow(); rowsC++) {
-                            for (int colsC = 0; colsC < Y_total_symm.get(i).getNcol(); colsC++) {
-                                double auxC = Y_total_symm.get(i).getElementCopy(rowsC, colsC).getImag()/omega;
-                                C_symm.setEntry(rowsC, colsC, auxC);
-                            }
-                        }
-                        C_total_symm.add(i, C_symm);
                     }
                     
                     //make average parameters from ArrayLists
@@ -1964,8 +1935,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     for (int i = 0; i < number_of_elements; i++) {
                         cSum_Carson_mod_gnd = cSum_Carson_mod_gnd.plus(Z_total_Carson_mod_gnd.get(i));
                         cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        cSum_Carson_mod_gnd_symm = cSum_Carson_mod_gnd_symm.plus(Z_total_Carson_mod_gnd_symm.get(i));
-                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        if (type.equals("all")){
+                            cSum_Carson_mod_gnd_symm = cSum_Carson_mod_gnd_symm.plus(Z_total_Carson_mod_gnd_symm.get(i));
+                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -1977,12 +1950,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                     Z_total_Carson_mod_gnd_final = cSum_Carson_mod_gnd.times((double)1/number_of_elements);
                     Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    Z_total_Carson_mod_gnd_symm_final = cSum_Carson_mod_gnd_symm.times((double)1/number_of_elements);
-                    Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    if (type.equals("all")){
+                        Z_total_Carson_mod_gnd_symm_final = cSum_Carson_mod_gnd_symm.times((double)1/number_of_elements);
+                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    }
                     updatePB(100);
-                    show_on_bar = 0;
                     
                     //writin into file
+                    double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
                                 Complex2RealMatrix(Z_total_Carson_mod_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
@@ -2005,22 +1980,32 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
 
                         RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
+                        RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
+                        double[] hx2;
 
                         //Carson & Acrson Modified & Basic
                         Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
                         Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
+                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                        hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
 
                         Basic test_basic = new Basic(Dik, cnd_list, exactGMR, exactRAC, fv, gw);
+                        
+                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
+                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
 
                         //compute all parameters
-//                        System.out.println();
-//                        System.out.println("Basic");
-                        test_basic.calcAll();
-//                        test_basic.printAll();
+                        test_basic.calcAll(type);
+                        test_admittance.calcAll(type);
  
                         //store to ArrayLists
-                        Z_total_Basic.add(element, test_basic.getZ_red());
-                        Z_total_Basic_symm.add(element, test_basic.getZ_red_symm());
+                        Z_total_Basic.add(test_basic.getZ_red());
+                        Y_total.add(test_admittance.getY());
+                        if (type.equals("all")){
+                            Z_total_Basic_symm.add(test_basic.getZ_red_symm());
+                            Y_total_symm.add(test_admittance.getY_symm());
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -2028,28 +2013,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                             double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
                             updatePB((int) value);
                         }
-                    }
-                    
-                    //compute admittance -> phase & symm
-                    ArrayList<RealMatrix> C_total = new ArrayList<>();
-                    C_total = Rozpätie.calculate_kapacity(aproxx, bundle);
-                    ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
-                    RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < number_of_elements; i++) {
-                        Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
-                        ComplexMatrix aux_phase = Y_total.get(i);
-                        ComplexMatrix aux_symm = phase2symm(aux_phase);
-                        Y_total_symm.add(i, aux_symm);
-                        //C_symm
-                        RealMatrix C_symm = new Array2DRowRealMatrix(Y_total_symm.get(i).getNrow(),Y_total_symm.get(i).getNcol());
-                        for (int rowsC = 0; rowsC < Y_total_symm.get(i).getNrow(); rowsC++) {
-                            for (int colsC = 0; colsC < Y_total_symm.get(i).getNcol(); colsC++) {
-                                double auxC = Y_total_symm.get(i).getElementCopy(rowsC, colsC).getImag()/omega;
-                                C_symm.setEntry(rowsC, colsC, auxC);
-                            }
-                        }
-                        C_total_symm.add(i, C_symm);
                     }
                     
                     //make average parameters from ArrayLists
@@ -2061,8 +2024,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     for (int i = 0; i < number_of_elements; i++) {
                         cSum_Basic = cSum_Basic.plus(Z_total_Basic.get(i));
                         cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        cSum_Basic_symm = cSum_Basic_symm.plus(Z_total_Basic_symm.get(i));
-                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        if (type.equals("all")){
+                            cSum_Basic_symm = cSum_Basic_symm.plus(Z_total_Basic_symm.get(i));
+                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -2074,12 +2039,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                     Z_total_Basic_final = cSum_Basic.times((double)1/number_of_elements);
                     Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    Z_total_Basic_symm_final = cSum_Basic_symm.times((double)1/number_of_elements);
-                    Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    if (type.equals("all")){
+                        Z_total_Basic_symm_final = cSum_Basic_symm.times((double)1/number_of_elements);
+                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    }
                     updatePB(100);
-                    show_on_bar = 0;
                     
                     //writin into file
+                    double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
                                 Complex2RealMatrix(Z_total_Basic_final), Complex2ImagMatrix(Z_total_Basic_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
@@ -2104,8 +2071,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
                         RealMatrix Dik_mirror_real_CDER = new Array2DRowRealMatrix(rows,cols);
                         RealMatrix Dik_mirror_imag_CDER = new Array2DRowRealMatrix(rows,cols);
+                        RealMatrix Dik_mirror_real;
                         double[] hx2_real = new double[rows];
                         double[] hx2_imag = new double[rows];
+                        double[] hx2_kap;
 
                         //complex const
                         double omega = (double)2*Math.PI*constants.getFrequency();
@@ -2114,6 +2083,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         p = new Complex(cnd_list.get(0).getRho_ground(),0).divide(new Complex(0,omega*mu)).sqrt();
 
                         //CDER
+                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,p,0.26244,1.12385);
+                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                        hx2_kap = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
                         Rozpätie.calculateMatrix_opt_XX("b","A",aproxx,bundle,p,0.26244,1.12385);
                         Dik = Rozpätie.getPAr_Dik_REAL().get(element);
                         Rozpätie.calculateMatrix_opt_XX("b","C",aproxx,bundle,p,0.26244,1.12385);
@@ -2124,16 +2096,21 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                         CDER cder_test = new CDER(Dik, Dik_mirror_real_CDER, Dik_mirror_imag_CDER, 
                                                     hx2_real, hx2_imag, cnd_list, exactGMR, exactRAC, fv, gw);
+                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2_kap, cnd_list, 
+                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+                        
 
                         //compute all parameters
-//                        System.out.println();
-//                        System.out.println("CDER");
-                        cder_test.calcAll();
-//                        cder_test.printAll();
+                        cder_test.calcAll(type);
+                        test_admittance.calcAll(type);
 
                         //store to ArrayLists
-                        Z_total_CDER.add(element, cder_test.getZ_red());
-                        Z_total_CDER_symm.add(element, cder_test.getZ_red_symm());
+                        Z_total_CDER.add(cder_test.getZ_red());
+                        Y_total.add(test_admittance.getY());
+                        if (type.equals("all")){
+                            Z_total_CDER_symm.add(cder_test.getZ_red_symm());
+                            Y_total_symm.add(test_admittance.getY_symm());
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -2141,28 +2118,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                             double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
                             updatePB((int) value);
                         }
-                    }
-                    
-                    //compute admittance -> phase & symm
-                    ArrayList<RealMatrix> C_total = new ArrayList<>();
-                    C_total = Rozpätie.calculate_kapacity(aproxx, bundle);
-                    ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
-                    RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < number_of_elements; i++) {
-                        Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
-                        ComplexMatrix aux_phase = Y_total.get(i);
-                        ComplexMatrix aux_symm = phase2symm(aux_phase);
-                        Y_total_symm.add(i, aux_symm);
-                        //C_symm
-                        RealMatrix C_symm = new Array2DRowRealMatrix(Y_total_symm.get(i).getNrow(),Y_total_symm.get(i).getNcol());
-                        for (int rowsC = 0; rowsC < Y_total_symm.get(i).getNrow(); rowsC++) {
-                            for (int colsC = 0; colsC < Y_total_symm.get(i).getNcol(); colsC++) {
-                                double auxC = Y_total_symm.get(i).getElementCopy(rowsC, colsC).getImag()/omega;
-                                C_symm.setEntry(rowsC, colsC, auxC);
-                            }
-                        }
-                        C_total_symm.add(i, C_symm);
                     }
                     
                     //make average parameters from ArrayLists
@@ -2174,8 +2129,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     for (int i = 0; i < number_of_elements; i++) {
                         cSum_CDER = cSum_CDER.plus(Z_total_CDER.get(i));
                         cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        cSum_CDER_symm = cSum_CDER_symm.plus(Z_total_CDER_symm.get(i));
-                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        if (type.equals("all")){
+                            cSum_CDER_symm = cSum_CDER_symm.plus(Z_total_CDER_symm.get(i));
+                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -2187,12 +2144,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                     Z_total_CDER_final = cSum_CDER.times((double)1/number_of_elements);
                     Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    Z_total_CDER_symm_final = cSum_CDER_symm.times((double)1/number_of_elements);
-                    Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    if (type.equals("all")){
+                        Z_total_CDER_symm_final = cSum_CDER_symm.times((double)1/number_of_elements);
+                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    }
                     updatePB(100);
-                    show_on_bar = 0;
                     
                     //writin into file
+                    double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
                                 Complex2RealMatrix(Z_total_CDER_final), Complex2ImagMatrix(Z_total_CDER_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
@@ -2223,6 +2182,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         RealMatrix Dik_mirror_imag_alpha = new Array2DRowRealMatrix(rows,cols);
                         RealMatrix Dik_mirror_real_beta = new Array2DRowRealMatrix(rows,cols);
                         RealMatrix Dik_mirror_imag_beta = new Array2DRowRealMatrix(rows,cols);
+                        
+                        RealMatrix Dik_mirror_real;
+                        double[] hx2_kap;
 
                         //complex const
                         double omega = (double)2*Math.PI*constants.getFrequency();
@@ -2231,6 +2193,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         p = new Complex(cnd_list.get(0).getRho_ground(),0).divide(new Complex(0,omega*mu)).sqrt();
 
                         //Taku Noda
+                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,p,0.26244,1.12385);
+                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                        hx2_kap = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
                         //Dik
                         Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,p,0.26244,1.12385);
                         Dik = Rozpätie.getPAr_Dik_REAL().get(element);
@@ -2252,16 +2217,21 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                                                         hx2_real_alpha, hx2_imag_alpha, 
                                                         hx2_real_beta, hx2_imag_beta, 
                                                         cnd_list, exactGMR, exactRAC, fv, gw);
+                        
+                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2_kap, cnd_list, 
+                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
 
                         //compute all parameters
-//                        System.out.println();
-//                        System.out.println("TakuNoda");
-                        tn_test.calcAll();
-//                        tn_test.printAll();
+                        tn_test.calcAll(type);
+                        test_admittance.calcAll(type);
 
                         //store to ArrayLists
-                        Z_total_TakuNoda.add(element, tn_test.getZ_red());
-                        Z_total_TakuNoda_symm.add(element, tn_test.getZ_red_symm());
+                        Z_total_TakuNoda.add(tn_test.getZ_red());
+                        Y_total.add(test_admittance.getY());
+                        if (type.equals("all")){
+                            Z_total_TakuNoda_symm.add(tn_test.getZ_red_symm());
+                            Y_total_symm.add(test_admittance.getY_symm());
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -2269,28 +2239,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                             double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
                             updatePB((int) value);
                         }
-                    }
-                    
-                    //compute admittance -> phase & symm
-                    ArrayList<RealMatrix> C_total = new ArrayList<>();
-                    C_total = Rozpätie.calculate_kapacity(aproxx, bundle);
-                    ArrayList<RealMatrix> C_total_symm = new ArrayList<>();
-                    RealMatrix G_every = new Array2DRowRealMatrix(fv, fv); //zvod = 0 -> neuvazujem
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    for (int i = 0; i < number_of_elements; i++) {
-                        Y_total.add(makeComplexMatrix(G_every, C_total.get(i).scalarMultiply(omega)));
-                        ComplexMatrix aux_phase = Y_total.get(i);
-                        ComplexMatrix aux_symm = phase2symm(aux_phase);
-                        Y_total_symm.add(i, aux_symm);
-                        //C_symm
-                        RealMatrix C_symm = new Array2DRowRealMatrix(Y_total_symm.get(i).getNrow(),Y_total_symm.get(i).getNcol());
-                        for (int rowsC = 0; rowsC < Y_total_symm.get(i).getNrow(); rowsC++) {
-                            for (int colsC = 0; colsC < Y_total_symm.get(i).getNcol(); colsC++) {
-                                double auxC = Y_total_symm.get(i).getElementCopy(rowsC, colsC).getImag()/omega;
-                                C_symm.setEntry(rowsC, colsC, auxC);
-                            }
-                        }
-                        C_total_symm.add(i, C_symm);
                     }
                     
                     //make average parameters from ArrayLists
@@ -2302,8 +2250,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     for (int i = 0; i < number_of_elements; i++) {
                         cSum_TakuNoda = cSum_TakuNoda.plus(Z_total_TakuNoda.get(i));
                         cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        cSum_TakuNoda_symm = cSum_TakuNoda_symm.plus(Z_total_TakuNoda_symm.get(i));
-                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        if (type.equals("all")){
+                            cSum_TakuNoda_symm = cSum_TakuNoda_symm.plus(Z_total_TakuNoda_symm.get(i));
+                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        }
                         
                         //vypis no progress baru
                         show_on_bar = show_on_bar+1;
@@ -2315,12 +2265,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                     Z_total_TakuNoda_final = cSum_TakuNoda.times((double)1/number_of_elements);
                     Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    Z_total_TakuNoda_symm_final = cSum_TakuNoda_symm.times((double)1/number_of_elements);
-                    Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    if (type.equals("all")){
+                        Z_total_TakuNoda_symm_final = cSum_TakuNoda_symm.times((double)1/number_of_elements);
+                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    }
                     updatePB(100);
-                    show_on_bar = 0;
                     
                     //writin into file
+                    double omega = (double)2*Math.PI*constants.getFrequency();
                     try {
                         make_TxT_elpam_noDB(Rozpätie, type, method,
                                 Complex2RealMatrix(Z_total_TakuNoda_final), Complex2ImagMatrix(Z_total_TakuNoda_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
@@ -6404,12 +6356,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private InternalFrame.BasicInfoPanel basicInfoPanel;
     private InternalFrame.BasicSettingsPanel basicSettingsPanel;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton calcB;
     private javax.swing.JButton calcBaE;
     private javax.swing.JButton calcE_OLD;
     public static javax.swing.JButton calcE_OLD_plus;
     private javax.swing.JButton calc_MATRIX;
     private InternalFrame.CatenaryPanel catenaryPanel1;
+    private javax.swing.JPanel elpam_method_panel;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar;

@@ -224,8 +224,15 @@ public class Carson {
 
     }
     
-    public void calcAll(){
-        calcSymm();
+    public void calcAll(String type){
+        if (type.equals("all")){
+            calcSymm();
+        } else {
+            calcRred_gnd();
+            calcLred_gnd();
+            calcRred_no_gnd();
+            calcLred_no_gnd();
+        }
     }
     
     public void calcSymm(){

@@ -233,8 +233,13 @@ public class Basic {
         }
     }
     
-    public void calcAll(){
-        calcSymm();
+    public void calcAll(String type){
+        if (type.equals("all")){
+            calcSymm();
+        } else {
+            calcRred();
+            calcLred();
+        }
     }
     
     public void printAll(){

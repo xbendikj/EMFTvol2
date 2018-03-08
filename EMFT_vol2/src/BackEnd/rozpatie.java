@@ -1165,7 +1165,8 @@ public class rozpatie {
              }
              //perform kron reduction on p_koef
              RealMatrix P_koef_red = new Array2DRowRealMatrix();
-             P_koef_red = makeRealKronReduction(P_koef, getPocet_zemnych_lan_bez_zvazkov()).inverse();
+             P_koef_red = makeRealKronReduction(P_koef, getPocet_zemnych_lan_bez_zvazkov());
+             P_koef_red = P_koef_red.inverse();
              //add capacitance coefficients matrix
              kapacity_mat.add(P_koef_red);
          }
