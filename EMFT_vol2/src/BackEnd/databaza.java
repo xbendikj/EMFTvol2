@@ -30,6 +30,8 @@ public class databaza {
     private ArrayList<Observer[]> P2D_hor = new ArrayList<>();       // arraylist observerov
     private ArrayList<Observer[]> P2D_vert = new ArrayList<>();      // arraylist observerov
    
+    private ArrayList<Observer[]> P1D_parameter_ELMPAM  = new ArrayList<>();  // array observerov
+    
     // do buducna to by sa hodilo aby databaza uchovavala aj informacie .. kolko lan ake lana proste všetko orezatovke a podobne 
 
     //P ARRAYLISTE
@@ -37,6 +39,7 @@ public class databaza {
     //P1D - 1 - pozdlzne
     //P1D - 2 - neurcite
     //P1D - 3 - parameter
+    //P1D - 4 - parameter ELPAM
     public databaza() {
         
     }
@@ -52,7 +55,7 @@ public class databaza {
          if(Y==1 )  P1D_pozdlzne.add(X);
          if(Y==2 )  P1D_neurcite.add(X);
          if(Y==3 )  P1D_parameter.add(X);
-       
+         if(Y==4 )  P1D_parameter_ELMPAM.add(X);
        
     }
     /**
@@ -192,6 +195,8 @@ public class databaza {
        //P1D - 0 - priecne 
        //P1D - 1 - pozdlzne
        //P1D - 2 - neurcite
+       * //P1D - 3 - parameter
+       * //P1D - 3 - parameter_ELPAM
      * @return 
      */
     public Observer[] getFromList1D(int X,int Y){
@@ -201,6 +206,7 @@ public class databaza {
              if(Y==1 ) vystup = P1D_pozdlzne.get(X);
              if(Y==2 ) vystup = P1D_neurcite.get(X);
              if(Y==3 ) vystup = P1D_parameter.get(X);
+             if(Y==4 ) vystup = P1D_parameter_ELMPAM.get(X);
         
         return vystup;
     } 
@@ -218,7 +224,7 @@ public class databaza {
        return vystup;
     }
     /**
-     * 
+     * @param BE = "B" "E" "I" "Emod" "R0" "R1" "R2" "L0" "L1" "L2" "C0" "C1" "C2"
      * @param rozmer 
      *        "RMS B"
      *        "RMS B REAL"
@@ -329,6 +335,24 @@ public class databaza {
             if(rozmer.equals( "REAL Emod Z")) yray[cl1]=X[cl1].getEmod().getZ_Real() ;
             if(rozmer.equals( "IMAGE Emod Z")) yray[cl1]=X[cl1].getEmod().getZ_Imaginary() ;
                     
+        }if(BE == "R0"){
+            yray[cl1]=X[cl1].getR0_ELPAM();
+        }if(BE == "R1"){
+            yray[cl1]=X[cl1].getR1_ELPAM();
+        }if(BE == "R2"){
+            yray[cl1]=X[cl1].getR2_ELPAM();
+        }if(BE == "L0"){
+            yray[cl1]=X[cl1].getL0_ELPAM();
+        }if(BE == "L1"){
+            yray[cl1]=X[cl1].getL1_ELPAM();
+        }if(BE == "L2"){
+            yray[cl1]=X[cl1].getL2_ELPAM();
+        }if(BE == "C0"){
+            yray[cl1]=X[cl1].getC0_ELPAM();
+        }if(BE == "C1"){
+            yray[cl1]=X[cl1].getC1_ELPAM();
+        }if(BE == "C2"){
+            yray[cl1]=X[cl1].getC2_ELPAM();
         }
           
             
@@ -517,6 +541,14 @@ public class databaza {
     public void setP1D_parameter(ArrayList<Observer[]> P1D_parameter) {
         this.P1D_parameter = P1D_parameter;
     }
+
+    public ArrayList<Observer[]> getP1D_parameter_ELMPAM() {
+        return P1D_parameter_ELMPAM;
+    }
+
+    public void setP1D_parameter_ELMPAM(ArrayList<Observer[]> P1D_parameter_ELMPAM) {
+        this.P1D_parameter_ELMPAM = P1D_parameter_ELMPAM;
+    }
     
     
     public ArrayList<double[]> getYray1DList(String BE ,String rozmer,ArrayList<Observer[]> X){
@@ -532,6 +564,9 @@ public class databaza {
         return yray1DList;
         
     }
+    
+    
+    
     
     public String[] getYray_height_name( ArrayList<Observer[]> X,Tfield pole) throws DelaunayError {
          String[] yray=new String[X.size()];
@@ -828,6 +863,7 @@ public class databaza {
         P1D_parameter.clear();
         P2D_hor.clear();
         P2D_vert.clear();
+        P1D_parameter_ELMPAM.clear();
 
     }
     
