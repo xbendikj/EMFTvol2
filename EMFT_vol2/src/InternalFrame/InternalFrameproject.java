@@ -1413,7 +1413,56 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_save1ActionPerformed
 
     private void calc_MATRIXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIXActionPerformed
+   catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+            // nacitaj velkost elementu
+            double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
+            // ochrana či je vobec co pocitat
+            boolean sulana = true;
+            boolean aproxx = true;
+            if (Rozpätie.getRetazovkaList().size() == 0) {
+                sulana = false;
+            }
 
+            // Priprava vektorov
+            for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
+       try {
+           Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
+           Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
+           
+           //vyber metody zrkaldnia // priprav vsetky vektory R0_mirror
+           if (main_Jframe.iscalculation_Settings == false) {
+               Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh); // priprav vsetky vektory R0_mirror
+           }
+           if (main_Jframe.iscalculation_Settings == true) {
+               if (calculation_Settings.getEmirrorA().isSelected() == true) {
+                   Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                   aproxx = false;
+               }
+               if (calculation_Settings.getEmirrorB().isSelected() == true) {
+                   Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
+                   aproxx = true;
+               }
+               if (calculation_Settings.getEmirrorOff().isSelected() == true) {
+                   Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_OFF(elementh);
+               }
+               
+           }
+       } catch (DelaunayError ex) {
+           Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+       }
+
+            }
+
+            if (sulana == true) {
+              
+                
+                //nacitanie z mainframeu do retazovky
+                catenaryPanel1.add_parametre_to_conductor(); 
+                
+                calculateELPAM(1, false, aproxx, true, true);
+                
+            }
        
     }//GEN-LAST:event_calc_MATRIXActionPerformed
 
@@ -1439,53 +1488,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
     }
 
-    private Observer calculateELPAM(int metoda,boolean bundle,boolean exactGMR ,boolean exactRAC  ){
+    private Observer calculateELPAM(int metoda,boolean bundle,boolean aproxx,boolean exactGMR ,boolean exactRAC  ){
         Observer output = new Observer();
         
         try {
 
-            catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
-            // nacitaj velkost elementu
-            double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
-            // ochrana či je vobec co pocitat
-            boolean sulana = true;
-            boolean aproxx = true;
-            if (Rozpätie.getRetazovkaList().size() == 0) {
-                sulana = false;
-            }
-
-            // Priprava vektorov
-            for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
-
-                Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
-                Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
-
-                //vyber metody zrkaldnia // priprav vsetky vektory R0_mirror
-                if (main_Jframe.iscalculation_Settings == false) {
-                    Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh); // priprav vsetky vektory R0_mirror
-                }
-                if (main_Jframe.iscalculation_Settings == true) {
-                    if (calculation_Settings.getEmirrorA().isSelected() == true) {
-                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
-                        aproxx = false;
-                    }
-                    if (calculation_Settings.getEmirrorB().isSelected() == true) {
-                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
-                        aproxx = true;
-                    }
-                    if (calculation_Settings.getEmirrorOff().isSelected() == true) {
-                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_OFF(elementh);
-                    }
-
-                }
-
-            }
-
-            if (sulana == true) {
-              
-                
-                //nacitanie z mainframeu do retazovky
-                catenaryPanel1.add_parametre_to_conductor(); 
+         
             
                 //vytvorenie zoznamu vodicov ako su pouzite v mainframe
                 int pocet_vodicov = Rozpätie.getRetazovkaList().size();
@@ -2256,7 +2264,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } 
-            }
+            
         } catch (DelaunayError ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
         } 
