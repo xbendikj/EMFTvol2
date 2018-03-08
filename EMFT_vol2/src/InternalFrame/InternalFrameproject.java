@@ -1640,16 +1640,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     output = new Observer(Z_total_Carson_no_gnd_final, Y_total_final, Z_total_Carson_no_gnd_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    try {
-                        make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
-                                Z_total_Carson_no_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_no_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
-                                Z_total_Carson_no_gnd_symm_final, Y_total_symm_final);
-                    } catch (IOException ex) {
-                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    make_TXT_ELPAM_Basic(type, method, output);
                     
                 } else if (method == 2) {
                     ArrayList<ComplexMatrix> Z_total_Carson_gnd = new ArrayList<>();
@@ -1737,16 +1728,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     output = new Observer(Z_total_Carson_gnd_final, Y_total_final, Z_total_Carson_gnd_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    try {
-                        make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_gnd_final), Complex2ImagMatrix(Z_total_Carson_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
-                                Z_total_Carson_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
-                                Z_total_Carson_gnd_symm_final, Y_total_symm_final);
-                    } catch (IOException ex) {
-                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    make_TXT_ELPAM_Basic(type, method, output);
                     
                 } else if (method == 3) {
                     ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd = new ArrayList<>();
@@ -1834,16 +1816,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     output = new Observer(Z_total_Carson_mod_no_gnd_final, Y_total_final, Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    try {
-                        make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
-                                Z_total_Carson_mod_no_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_mod_no_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_no_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
-                                Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final);
-                    } catch (IOException ex) {
-                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    make_TXT_ELPAM_Basic(type, method, output);
                     
                 } else if (method == 4) {
                     ArrayList<ComplexMatrix> Z_total_Carson_mod_gnd = new ArrayList<>();
@@ -1929,16 +1902,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     output = new Observer(Z_total_Carson_mod_gnd_final, Y_total_final, Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    try {
-                        make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Carson_mod_gnd_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
-                                Z_total_Carson_mod_gnd_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Carson_mod_gnd_symm_final), Complex2ImagMatrix(Z_total_Carson_mod_gnd_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
-                                Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final);
-                    } catch (IOException ex) {
-                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    make_TXT_ELPAM_Basic(type, method, output);
                     
                 } else if (method == 5) {
                     ArrayList<ComplexMatrix> Z_total_Basic = new ArrayList<>();
@@ -2021,16 +1985,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     output = new Observer(Z_total_Basic_final, Y_total_final, Z_total_Basic_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    try {
-                        make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_Basic_final), Complex2ImagMatrix(Z_total_Basic_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
-                                Z_total_Basic_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_Basic_symm_final), Complex2ImagMatrix(Z_total_Basic_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
-                                Z_total_Basic_symm_final, Y_total_symm_final);
-                    } catch (IOException ex) {
-                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    make_TXT_ELPAM_Basic(type, method, output);
                     
                 } else if (method == 6) {
                     ArrayList<ComplexMatrix> Z_total_CDER = new ArrayList<>();
@@ -2129,16 +2084,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     output = new Observer(Z_total_CDER_final, Y_total_final, Z_total_CDER_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    try {
-                        make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_CDER_final), Complex2ImagMatrix(Z_total_CDER_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
-                                Z_total_CDER_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_CDER_symm_final), Complex2ImagMatrix(Z_total_CDER_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
-                                Z_total_CDER_symm_final, Y_total_symm_final);
-                    } catch (IOException ex) {
-                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    make_TXT_ELPAM_Basic(type, method, output);
                     
                 } else if (method == 7) {
                     ArrayList<ComplexMatrix> Z_total_TakuNoda = new ArrayList<>();
@@ -2253,16 +2199,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     output = new Observer(Z_total_TakuNoda_final, Y_total_final, Z_total_TakuNoda_symm_final, Y_total_symm_final, 0);
                     
                     //writin into file
-                    double omega = (double)2*Math.PI*constants.getFrequency();
-                    try {
-                        make_TxT_elpam_noDB(Rozpätie, type, method,
-                                Complex2RealMatrix(Z_total_TakuNoda_final), Complex2ImagMatrix(Z_total_TakuNoda_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_final).scalarMultiply(1/omega), 
-                                Z_total_TakuNoda_final, Y_total_final, 
-                                Complex2RealMatrix(Z_total_TakuNoda_symm_final), Complex2ImagMatrix(Z_total_TakuNoda_symm_final).scalarMultiply(1/omega), Complex2ImagMatrix(Y_total_symm_final).scalarMultiply(1/omega),
-                                Z_total_TakuNoda_symm_final, Y_total_symm_final);
-                    } catch (IOException ex) {
-                        Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    make_TXT_ELPAM_Basic(type, method, output);
                 } 
             
         } catch (DelaunayError ex) {
@@ -6312,6 +6249,34 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 fw.println("");
 
             }
+        }
+    }
+    
+    private void make_TXT_ELPAM_Basic(String type, int method, ComplexMatrix Z, ComplexMatrix Y, ComplexMatrix Zs, ComplexMatrix Ys){
+        //writin into file
+        double omega = (double)2*Math.PI*constants.getFrequency();
+        try {
+            make_TxT_elpam_noDB(Rozpätie, type, method,
+                    Complex2RealMatrix(Z), Complex2ImagMatrix(Z).scalarMultiply(1/omega), Complex2ImagMatrix(Y).scalarMultiply(1/omega), 
+                    Z, Y, 
+                    Complex2RealMatrix(Zs), Complex2ImagMatrix(Zs).scalarMultiply(1/omega), Complex2ImagMatrix(Ys).scalarMultiply(1/omega),
+                    Zs, Ys);
+        } catch (IOException ex) {
+            Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void make_TXT_ELPAM_Basic(String type, int method, Observer obs){
+        //writin into file
+        double omega = (double)2*Math.PI*constants.getFrequency();
+        try {
+            make_TxT_elpam_noDB(Rozpätie, type, method,
+                    Complex2RealMatrix(obs.getZ()), Complex2ImagMatrix(obs.getZ()).scalarMultiply(1/omega), Complex2ImagMatrix(obs.getY()).scalarMultiply(1/omega), 
+                    obs.getZ(), obs.getY(), 
+                    Complex2RealMatrix(obs.getZs()), Complex2ImagMatrix(obs.getZs()).scalarMultiply(1/omega), Complex2ImagMatrix(obs.getYs()).scalarMultiply(1/omega),
+                    obs.getZs(), obs.getYs());
+        } catch (IOException ex) {
+            Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
