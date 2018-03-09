@@ -26,6 +26,7 @@ import electrical_parameters.TakuNoda;
 import electrical_parameters.elpam_input_conductor;
 import emft_vol2.Dislin_Settings;
 import emft_vol2.TxT_JFrame;
+import emft_vol2.calculationELPAM_Settings;
 import emft_vol2.calculation_Settings;
 import java.util.ArrayList;
 
@@ -1413,7 +1414,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_save1ActionPerformed
 
     private void calc_MATRIXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIXActionPerformed
-   catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+   
+        if (main_Jframe.iscalculationELPAM_Settings == false) {
+                   String[] args = null;
+            calculationELPAM_Settings.main(args);
+            main_Jframe.iscalculationELPAM_Settings=true;
+                } else{
+            
+        
+        
+        
+        catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
             // nacitaj velkost elementu
             double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
             // ochrana či je vobec co pocitat
@@ -1460,8 +1471,13 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 //nacitanie z mainframeu do retazovky
                 catenaryPanel1.add_parametre_to_conductor(); 
                 
-                calculateELPAM(1, false, aproxx, true, true);
+                calculateELPAM(calculationELPAM_Settings.getmetoda(),
+                                calculationELPAM_Settings.getzvazky(),
+                                aproxx, 
+                                calculationELPAM_Settings.getEXGMR(),
+                                calculationELPAM_Settings.getEXRAC());
                 
+            }
             }
        
     }//GEN-LAST:event_calc_MATRIXActionPerformed
