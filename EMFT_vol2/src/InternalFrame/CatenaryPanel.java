@@ -642,7 +642,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
         int rows = Table.getRowCount();
         for(int i=0;i<rows-1;i++){ 
         
-        //tu musi ist niečo čo najde 
+        //hlavame aky vodic v databeze je tu  
         String porovnavacka = String.valueOf(DTMTable.getValueAt(i, 22));
         int index = 0;
             for (int j = 0; j < conductor_Name_Matrix.size(); j++) {
@@ -671,6 +671,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
         
     }
 
+  
 //diferent tool tip for every calumn https://coderanch.com/t/336281/java/Adding-Tooltip-JTable-header
     class ColumnHeaderToolTips extends MouseMotionAdapter {
   // Current column whose tooltip is being displayed.

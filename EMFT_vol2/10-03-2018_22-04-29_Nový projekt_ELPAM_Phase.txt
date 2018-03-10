@@ -1,0 +1,35 @@
+--- PHASE PARAMETRICAL OUTPUT ---
+----------------------------------------------
+Time of the calculation       : 10-03-2018 22:04:29
+Type of the calculation       : Carson modified with ground
+Name of the project           : Nový projekt
+Name of the span              : Nové rozpätie
+
+Total number of wires      : 2
+Number of phase conductors : 2
+Number of ground wires     : 0
+----------------------------------------------
+
+--- PHASE MATRICES ---
+
+R [Ohm/km]
+0.51978 0.04935 
+0.04935 0.51978 
+
+L [mH/km]
+1.36742 1.11093 
+1.11093 1.36742 
+
+C [F/km]
+2.090E-8 -1.044E-8 
+-1.044E-8 2.234E-8 
+
+Z [Ohm/km]
+0.51978 0.42959i   0.04935 0.34901i   
+0.04935 0.34901i   0.51978 0.42959i   
+
+Y [S/km]
+0.000E0 6.567E-6i   0.000E0 -3.279E-6i   
+0.000E0 -3.279E-6i   0.000E0 7.019E-6i   
+
+END OF FILE

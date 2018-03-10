@@ -252,13 +252,14 @@ public class ObserverPanel extends javax.swing.JPanel {
         if (selectedIndex == 6) nazov="    Current [A]   ";
         if (selectedIndex == 7) nazov="    Phase   [deg] ";
         if (selectedIndex == 8) nazov=" ELPAM freq. [Hz] ";
-        if (selectedIndex == 9) nazov=" ELPAM vel2 [add] ";
-        if (selectedIndex == 10) nazov=" ELPAM vel3 [add] ";
-        if (selectedIndex == 11) nazov=" ELPAM vel4 [add] ";
-        if (selectedIndex == 12) nazov=" ELPAM vel5 [add] ";
-        if (selectedIndex == 13) nazov=" ELPAM vel6 [add] ";
-        if (selectedIndex == 14) nazov=" ELPAM vel7 [add] ";
-        if (selectedIndex == 15) nazov=" ELPAM vel8 [add] ";
+        if (selectedIndex == 9) nazov=" ELPAM T    [add] ";
+        if (selectedIndex == 10) nazov=" ELP rho_cnd[add] ";
+        if (selectedIndex == 11) nazov=" ELP rho_gnd[add] ";
+        if (selectedIndex == 12) nazov=" ELPvalRdc  [add] ";
+        if (selectedIndex == 13) nazov=" EAl_layers [add] ";
+        if (selectedIndex == 14) nazov=" ElAl_start [add] ";
+        if (selectedIndex == 15) nazov=" ELalAl_d   [add] ";
+       
         
         if(selectedIndex != -1 && selectedIndex < 8 ){ 
         if (selectedIndex <3) {selectedIndex = selectedIndex + 8;}
@@ -1196,25 +1197,25 @@ static void constructor(){
  /*56*/  SK.add("ELPAM frekvencia");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*57*/  SK.add("ELPAM vel2");  
+ /*57*/  SK.add("ELPAM T");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*58*/  SK.add("ELPAM vel3");  
+ /*58*/  SK.add("ELPAM rho_cnd");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*59*/  SK.add("ELPAM vel4");  
+ /*59*/  SK.add("ELPAM rho_gnd");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*60*/  SK.add("ELPAM vel5");  
+ /*60*/  SK.add("ELPAM Rdc");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*61*/  SK.add("ELPAM vel6");  
+ /*61*/  SK.add("ELPAM Al_layers");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
- /*62*/  SK.add("ELPAM vel7");  
+ /*62*/  SK.add("ELPAM Al_start");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
-/*63*/  SK.add("ELPAM vel8");  
+/*63*/  SK.add("ELPAM Al_d");  
          CZ.add("MT3 software, SAG Elektrovod, autoři Jozef Bendík & Matej Cenký 2016 1.release"); 
          EN.add("MT3 software, SAG Elektrovod, created by Jozef Bendík & Matej Cenký 2016 1.release");
 

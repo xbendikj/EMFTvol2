@@ -750,7 +750,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculate_E_OLD_plus_2D_ver(BEplus, (int) Rozpätie.getH());
                     }
                     if (observerPanel1.P1D_par.isSelected() == true) {
-                        calculate_E_old_parameter(BEplus, cl0);
+                        calculate_E_old_plus_parameter(BEplus, cl0);
                     }
 
                 }
@@ -952,7 +952,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 double Phi = input.nextDouble();
                 int pocitaj = input.nextInt();
                 String lano = input.nextLine();
-                lano=lano.substring(1);
+                lano = lano.substring(1);
                 boolean poc = false;
                 if (pocitaj == 1) {
                     poc = true;
@@ -960,12 +960,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                 // najdi lano v databaze
                 int index = 0;
-            for (int j = 0; j < catenaryPanel1.getConductor_Name_Matrix().size(); j++) {
-                
-                if(lano.equals(catenaryPanel1.getConductor_Name_Matrix().get(j))) index = j;
-            }
-                
-                catenaryPanel1.DTMTable.addRow(new Object[]{V1, V2, I1, I2, W1, W2, X1, X2, zvazok, alpha, d, ch, val, r, U, I, Phi, "-", "-", "-", poc,false,lano});
+                for (int j = 0; j < catenaryPanel1.getConductor_Name_Matrix().size(); j++) {
+
+                    if (lano.equals(catenaryPanel1.getConductor_Name_Matrix().get(j))) {
+                        index = j;
+                    }
+                }
+
+                catenaryPanel1.DTMTable.addRow(new Object[]{V1, V2, I1, I2, W1, W2, X1, X2, zvazok, alpha, d, ch, val, r, U, I, Phi, "-", "-", "-", poc, false, lano});
                 catenaryPanel1.isListener = true;
             }
             catenaryPanel1.isListener = false;
@@ -1050,7 +1052,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 }
 
                 String lano = String.valueOf(catenaryPanel1.DTMTable.getValueAt(i, 22));
-                
+
                 fw.println(V1 + " " + V2 + " " + I1 + " " + I2 + " " + W1 + " " + W2 + " " + X1 + " " + X2 + " " + zvazok + " " + alpha + " " + d + " " + CH + " " + val + " " + r + " " + U + " " + I + " " + Phi + " " + poc + " " + lano);
 
             }
@@ -1425,17 +1427,62 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_save1ActionPerformed
 
     private void calc_MATRIXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIXActionPerformed
-   
+
         if (main_Jframe.iscalculationELPAM_Settings == false) {
-                   String[] args = null;
+            String[] args = null;
             calculationELPAM_Settings.main(args);
-            main_Jframe.iscalculationELPAM_Settings=true;
-                } else{
-            
-        
-        
-        
-        catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+            main_Jframe.iscalculationELPAM_Settings = true;
+        } else //Ak parametricke riesenie 
+        if (observerPanel1.P1D_par.isSelected() == true) {
+
+            double odVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 1));
+            double doVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
+            double krokVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 3));
+            int pocetCyklovparametrov = 0;
+            if (observerPanel1.P1D_par_A.isSelected() == true) {
+                pocetCyklovparametrov = (int) ((doVal - odVal) / krokVal);
+            }
+            if (observerPanel1.P1D_par_B.isSelected() == true) {
+                pocetCyklovparametrov = (int) help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
+            };
+
+            int selectedIndex = observerPanel1.getjComboBox_par().getSelectedIndex();
+            if (selectedIndex != -1) {
+                if (selectedIndex < 3) {
+                    selectedIndex = selectedIndex + 8;
+                } else if (selectedIndex >= 3) {
+                    selectedIndex = selectedIndex + 9;
+                }
+
+            }
+
+            //Databaza observera pre dany typ priecne mapovanie velkost ako pocet vektorov Rp
+            Observer[] vektor_observerov_ELPAM = new Observer[pocetCyklovparametrov];
+            for (int cl01 = 0; cl01 < pocetCyklovparametrov; cl01++) {
+
+                // nacitaj velkost elementu
+                double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
+                // ochrana či je vobec co pocitat
+                boolean sulana = true;
+                boolean aproxx = true;
+                if (Rozpätie.getRetazovkaList().size() == 0) {
+                    sulana = false;
+                }
+
+                calculatecatenaryParameter_ELPAM_parameter(selectedIndex, krokVal * cl01, odVal); // neupravuje hodnoty elpam
+                aproxx = priprava_vektorov(elementh, aproxx);
+
+                vektor_observerov_ELPAM[cl01] = calculateELPAM(calculationELPAM_Settings.getmetoda(),
+                        calculationELPAM_Settings.getzvazky(),
+                        aproxx,
+                        calculationELPAM_Settings.getEXGMR(),
+                        calculationELPAM_Settings.getEXRAC());
+
+            }
+
+        } else { // ak neni zaskrtnuta parametrizacia
+
+            catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
             // nacitaj velkost elementu
             double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
             // ochrana či je vobec co pocitat
@@ -1445,52 +1492,24 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 sulana = false;
             }
 
-            // Priprava vektorov
-            for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
-
-       try {
-           Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
-           Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
-           
-           //vyber metody zrkaldnia // priprav vsetky vektory R0_mirror
-           if (main_Jframe.iscalculation_Settings == false) {
-               Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh); // priprav vsetky vektory R0_mirror
-           }
-           if (main_Jframe.iscalculation_Settings == true) {
-               if (calculation_Settings.getEmirrorA().isSelected() == true) {
-                   Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
-                   aproxx = false;
-               }
-               if (calculation_Settings.getEmirrorB().isSelected() == true) {
-                   Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
-                   aproxx = true;
-               }
-               if (calculation_Settings.getEmirrorOff().isSelected() == true) {
-                   Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_OFF(elementh);
-               }
-               
-           }
-       } catch (DelaunayError ex) {
-           Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-       }
-
-            }
+            // Priprava vektorov 
+            aproxx = priprava_vektorov(elementh, aproxx);
 
             if (sulana == true) {
-              
-                
+
                 //nacitanie z mainframeu do retazovky
-                catenaryPanel1.add_parametre_to_conductor(); 
-                
+                catenaryPanel1.add_parametre_to_conductor();
+
                 calculateELPAM(calculationELPAM_Settings.getmetoda(),
-                                calculationELPAM_Settings.getzvazky(),
-                                aproxx, 
-                                calculationELPAM_Settings.getEXGMR(),
-                                calculationELPAM_Settings.getEXRAC());
-                
+                        calculationELPAM_Settings.getzvazky(),
+                        aproxx,
+                        calculationELPAM_Settings.getEXGMR(),
+                        calculationELPAM_Settings.getEXRAC());
+
             }
-            }
-       
+
+        }
+
     }//GEN-LAST:event_calc_MATRIXActionPerformed
 
     private void calc_MATRIX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX1ActionPerformed
@@ -1520,728 +1539,709 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
     }
 
-    private Observer calculateELPAM(int metoda,boolean bundle,boolean aproxx,boolean exactGMR ,boolean exactRAC  ){
+    private Observer calculateELPAM(int metoda, boolean bundle, boolean aproxx, boolean exactGMR, boolean exactRAC) {
         Observer output = new Observer();
-        
+
         try {
 
-         
-            
-                //vytvorenie zoznamu vodicov ako su pouzite v mainframe
-                int pocet_vodicov = Rozpätie.getRetazovkaList().size();
-                ArrayList<elpam_input_conductor> cnd_list = new ArrayList<>();
+            //vytvorenie zoznamu vodicov ako su pouzite v mainframe
+            int pocet_vodicov = Rozpätie.getRetazovkaList().size();
+            ArrayList<elpam_input_conductor> cnd_list = new ArrayList<>();
 
-                for (int i = 0; i < pocet_vodicov; i++) {
-                    elpam_input_conductor cnd2add = new elpam_input_conductor(); //treba vzdy definovat nanovo nech neprepisuje ArrayList!!!!!!!!!!!!
-                    Rozpätie.getRetazovkaList().get(i).calcGMR_Rac_xi();
-                    cnd2add.setF(constants.getFrequency());
-                    cnd2add.setD(Rozpätie.getRetazovkaList().get(i).getElpam_D());
-                    cnd2add.setT(Rozpätie.getRetazovkaList().get(i).getElpam_T());
-                    cnd2add.setRho_conductor(Rozpätie.getRetazovkaList().get(i).getElpam_rho_cnd());
-                    cnd2add.setRho_ground(Rozpätie.getRetazovkaList().get(i).getElpam_rho_gnd());
-                    cnd2add.setRdc(Rozpätie.getRetazovkaList().get(i).getElpam_Rdc());
-                    cnd2add.setAl_layers(Rozpätie.getRetazovkaList().get(i).getElpam_Al_layers());
-                    cnd2add.setAl_start(Rozpätie.getRetazovkaList().get(i).getElpam_Al_start());
-                    cnd2add.setAl_d(Rozpätie.getRetazovkaList().get(i).getElpam_Al_d());
-                    cnd2add.setGMR(Rozpätie.getRetazovkaList().get(i).getElpam_GMR());
-                    cnd2add.setRac(Rozpätie.getRetazovkaList().get(i).getElpam_Rac());
-                    cnd2add.setXi(Rozpätie.getRetazovkaList().get(i).getElpam_xi());
-                    cnd2add.setGMR_default(Rozpätie.getRetazovkaList().get(i).getElpam_GMR_default());
-                    cnd2add.setXi_default(Rozpätie.getRetazovkaList().get(i).getElpam_xi_default());
-                    cnd2add.setBundle(Rozpätie.getRetazovkaList().get(i).isBundle());
-                    cnd_list.add(i, cnd2add);
+            for (int i = 0; i < pocet_vodicov; i++) {
+                elpam_input_conductor cnd2add = new elpam_input_conductor(); //treba vzdy definovat nanovo nech neprepisuje ArrayList!!!!!!!!!!!!
+                Rozpätie.getRetazovkaList().get(i).calcGMR_Rac_xi();
+                cnd2add.setF(constants.getFrequency());
+                cnd2add.setD(Rozpätie.getRetazovkaList().get(i).getElpam_D());
+                cnd2add.setT(Rozpätie.getRetazovkaList().get(i).getElpam_T());
+                cnd2add.setRho_conductor(Rozpätie.getRetazovkaList().get(i).getElpam_rho_cnd());
+                cnd2add.setRho_ground(Rozpätie.getRetazovkaList().get(i).getElpam_rho_gnd());
+                cnd2add.setRdc(Rozpätie.getRetazovkaList().get(i).getElpam_Rdc());
+                cnd2add.setAl_layers(Rozpätie.getRetazovkaList().get(i).getElpam_Al_layers());
+                cnd2add.setAl_start(Rozpätie.getRetazovkaList().get(i).getElpam_Al_start());
+                cnd2add.setAl_d(Rozpätie.getRetazovkaList().get(i).getElpam_Al_d());
+                cnd2add.setGMR(Rozpätie.getRetazovkaList().get(i).getElpam_GMR());
+                cnd2add.setRac(Rozpätie.getRetazovkaList().get(i).getElpam_Rac());
+                cnd2add.setXi(Rozpätie.getRetazovkaList().get(i).getElpam_xi());
+                cnd2add.setGMR_default(Rozpätie.getRetazovkaList().get(i).getElpam_GMR_default());
+                cnd2add.setXi_default(Rozpätie.getRetazovkaList().get(i).getElpam_xi_default());
+                cnd2add.setBundle(Rozpätie.getRetazovkaList().get(i).isBundle());
+                cnd_list.add(i, cnd2add);
+            }
+
+            //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
+            //int element = 0; //nastavenie useku v retazovke
+            double show_on_bar = 0;
+            //false -> uvazuje klasicky prepocet cez r_zv, true -> vodice vo zvazku ako nove lana v systeme
+
+            Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385); //nutne pre stanovenie velkosti matic
+            int gw = Rozpätie.getPocet_zemnych_lan_bez_zvazkov();
+            int fv = Rozpätie.getPocet_faz();
+            int number_of_elements = Rozpätie.getRetazovkaList().get(0).getRo_vectors().size();
+
+            /**
+             * method: 1 - Carson no gnd 2 - Carson gnd 3 - Carson mod no gnd 4
+             * - Carson mod gnd 5 - Basic 6 - CDER 7 - TakuNoda
+             */
+            int method = metoda;
+            String type = "phase";
+            if (Rozpätie.getPocet_faz() % 3 == 0) {
+                type = "all";
+            }
+
+            //ArrLists for Impedance/Admittance - phase matrices, symmetrical components matrices
+            //ComplexMatrices for Impedance/Admittance - phase matrices, symmetrical components matrices
+            ArrayList<ComplexMatrix> Y_total = new ArrayList<>();
+            ArrayList<ComplexMatrix> Y_total_symm = new ArrayList<>();
+            ComplexMatrix Y_total_final = new ComplexMatrix(fv, fv);
+            ComplexMatrix Y_total_symm_final = new ComplexMatrix(fv, fv);
+            if (method == 1) {
+                ArrayList<ComplexMatrix> Z_total_Carson_no_gnd = new ArrayList<>();
+                ArrayList<ComplexMatrix> Z_total_Carson_no_gnd_symm = new ArrayList<>();
+                ComplexMatrix Z_total_Carson_no_gnd_final = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_total_Carson_no_gnd_symm_final = new ComplexMatrix(fv, fv);
+
+                //for each element in span
+                for (int element = 0; element < number_of_elements; element++) {
+                    int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                    int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+
+                    RealMatrix Dik = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
+                    double[] hx2 = new double[rows];
+
+                    //Carson & Carson Modified & Basic
+                    Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Rozpätie.calculateMatrix_opt_XX("a", "B", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Fik = Rozpätie.getPAr_Alpha_real().get(element);
+                    hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+
+                    Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
+                            hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+                    Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list,
+                            Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+
+                    //compute all parameters
+                    test_carson.calcAll(type);
+                    test_admittance.calcAll(type);
+
+                    //store to ArrayLists
+                    Z_total_Carson_no_gnd.add(test_carson.getZ_red_no_gnd());
+                    Y_total.add(test_admittance.getY());
+                    if (type.equals("all")) {
+                        Z_total_Carson_no_gnd_symm.add(test_carson.getZ_red_no_gnd_symm());
+                        Y_total_symm.add(test_admittance.getY_symm());
+                    }
+
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
+                    }
                 }
-                
 
-                
-                //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
-                //int element = 0; //nastavenie useku v retazovke
-                double show_on_bar = 0;
-                  //false -> uvazuje klasicky prepocet cez r_zv, true -> vodice vo zvazku ako nove lana v systeme
-                
-                Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385); //nutne pre stanovenie velkosti matic
-                int gw = Rozpätie.getPocet_zemnych_lan_bez_zvazkov();
-                int fv = Rozpätie.getPocet_faz();
-                int number_of_elements = Rozpätie.getRetazovkaList().get(0).getRo_vectors().size();
-                
-                /**
-                 * method:
-                 * 1 - Carson no gnd
-                 * 2 - Carson gnd
-                 * 3 - Carson mod no gnd
-                 * 4 - Carson mod gnd
-                 * 5 - Basic
-                 * 6 - CDER
-                 * 7 - TakuNoda
-                 */
-                int method = metoda;
-                String type = "phase";
-                if (Rozpätie.getPocet_faz() % 3 == 0) {
-                    type = "all";
-                } 
-                
-                //ArrLists for Impedance/Admittance - phase matrices, symmetrical components matrices
-                //ComplexMatrices for Impedance/Admittance - phase matrices, symmetrical components matrices
-                ArrayList<ComplexMatrix> Y_total = new ArrayList<>();
-                ArrayList<ComplexMatrix> Y_total_symm = new ArrayList<>();
-                ComplexMatrix Y_total_final = new ComplexMatrix(fv, fv);
-                ComplexMatrix Y_total_symm_final = new ComplexMatrix(fv, fv);
-                if (method == 1){ 
-                    ArrayList<ComplexMatrix> Z_total_Carson_no_gnd = new ArrayList<>();
-                    ArrayList<ComplexMatrix> Z_total_Carson_no_gnd_symm = new ArrayList<>();
-                    ComplexMatrix Z_total_Carson_no_gnd_final = new ComplexMatrix(fv, fv);
-                    ComplexMatrix Z_total_Carson_no_gnd_symm_final = new ComplexMatrix(fv, fv);
-                    
-                    //for each element in span
-                    for (int element = 0; element < number_of_elements ; element++) {
-                        int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
-                        int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                //make average parameters from ArrayLists
+                ComplexMatrix cSum_Carson_no_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Carson_no_gnd_symm = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
 
-
-                        RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
-                        double[] hx2 = new double[rows];
-
-                        //Carson & Carson Modified & Basic
-                        Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Fik = Rozpätie.getPAr_Alpha_real().get(element);
-                        hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
-                      
-                        Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
-                                                        hx2, cnd_list, exactGMR, exactRAC, fv, gw);
-                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
-                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
-
-                        //compute all parameters
-                        test_carson.calcAll(type);
-                        test_admittance.calcAll(type);
-                        
-        
-                        //store to ArrayLists
-                        Z_total_Carson_no_gnd.add(test_carson.getZ_red_no_gnd());
-                        Y_total.add(test_admittance.getY());
-                        if (type.equals("all")){
-                            Z_total_Carson_no_gnd_symm.add(test_carson.getZ_red_no_gnd_symm());
-                            Y_total_symm.add(test_admittance.getY_symm());
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
-                    }
-                    
-                    //make average parameters from ArrayLists
-                    ComplexMatrix cSum_Carson_no_gnd = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Carson_no_gnd_symm = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
-                    
-
-                    for (int i = 0; i < number_of_elements; i++) {
-                        cSum_Carson_no_gnd = cSum_Carson_no_gnd.plus(Z_total_Carson_no_gnd.get(i));
-                        cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        if (type.equals("all")){
-                            cSum_Carson_no_gnd_symm = cSum_Carson_no_gnd_symm.plus(Z_total_Carson_no_gnd_symm.get(i));
-                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+                for (int i = 0; i < number_of_elements; i++) {
+                    cSum_Carson_no_gnd = cSum_Carson_no_gnd.plus(Z_total_Carson_no_gnd.get(i));
+                    cSum_Y = cSum_Y.plus(Y_total.get(i));
+                    if (type.equals("all")) {
+                        cSum_Carson_no_gnd_symm = cSum_Carson_no_gnd_symm.plus(Z_total_Carson_no_gnd_symm.get(i));
+                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
                     }
 
-                    Z_total_Carson_no_gnd_final = cSum_Carson_no_gnd.times((double)1/number_of_elements);
-                    Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    if (type.equals("all")){
-                        Z_total_Carson_no_gnd_symm_final = cSum_Carson_no_gnd_symm.times((double)1/number_of_elements);
-                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
                     }
-                    updatePB(100);
-                    
-                    //write to observer
-                    output = new Observer(Z_total_Carson_no_gnd_final, Y_total_final, Z_total_Carson_no_gnd_symm_final, Y_total_symm_final, 0);
-                    
-                    //writin into file
-                    make_TXT_ELPAM_Basic(type, method, output);
-                    
-                } else if (method == 2) {
-                    ArrayList<ComplexMatrix> Z_total_Carson_gnd = new ArrayList<>();
-                    ArrayList<ComplexMatrix> Z_total_Carson_gnd_symm = new ArrayList<>();
-                    ComplexMatrix Z_total_Carson_gnd_final = new ComplexMatrix(fv, fv);
-                    ComplexMatrix Z_total_Carson_gnd_symm_final = new ComplexMatrix(fv, fv);
-                    
-                    //for each element in span
-                    for (int element = 0; element < number_of_elements ; element++) {
-                        int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
-                        int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                }
 
+                Z_total_Carson_no_gnd_final = cSum_Carson_no_gnd.times((double) 1 / number_of_elements);
+                Y_total_final = cSum_Y.times((double) 1 / number_of_elements);
+                if (type.equals("all")) {
+                    Z_total_Carson_no_gnd_symm_final = cSum_Carson_no_gnd_symm.times((double) 1 / number_of_elements);
+                    Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
+                }
+                updatePB(100);
 
-                        RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
-                        double[] hx2 = new double[rows];
-                        
-                        //Carson & Acrson Modified & Basic & Admittance
-                        Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Fik = Rozpätie.getPAr_Alpha_real().get(element);
-                        hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                //write to observer
+                output = new Observer(Z_total_Carson_no_gnd_final, Y_total_final, Z_total_Carson_no_gnd_symm_final, Y_total_symm_final, 0);
 
-                        Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
-                                                        hx2, cnd_list, exactGMR, exactRAC, fv, gw);
-                        
-                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
-                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+                //writin into file
+                make_TXT_ELPAM_Basic(type, method, output);
 
-                        //compute all parameters
-                        test_carson.calcAll(type);
-                        test_admittance.calcAll(type);
-        
-                        //store to ArrayLists
-                        Z_total_Carson_gnd.add(test_carson.getZ_red_gnd());
-                        Y_total.add(test_admittance.getY());
-                        if (type.equals("all")){
-                            Z_total_Carson_gnd_symm.add(test_carson.getZ_red_gnd_symm());
-                            Y_total_symm.add(test_admittance.getY_symm());
-                        }
-                        
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+            } else if (method == 2) {
+                ArrayList<ComplexMatrix> Z_total_Carson_gnd = new ArrayList<>();
+                ArrayList<ComplexMatrix> Z_total_Carson_gnd_symm = new ArrayList<>();
+                ComplexMatrix Z_total_Carson_gnd_final = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_total_Carson_gnd_symm_final = new ComplexMatrix(fv, fv);
+
+                //for each element in span
+                for (int element = 0; element < number_of_elements; element++) {
+                    int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                    int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+
+                    RealMatrix Dik = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
+                    double[] hx2 = new double[rows];
+
+                    //Carson & Acrson Modified & Basic & Admittance
+                    Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Rozpätie.calculateMatrix_opt_XX("a", "B", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Fik = Rozpätie.getPAr_Alpha_real().get(element);
+                    hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+
+                    Carson test_carson = new Carson(Dik, Dik_mirror_real, Fik,
+                            hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+
+                    Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list,
+                            Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+
+                    //compute all parameters
+                    test_carson.calcAll(type);
+                    test_admittance.calcAll(type);
+
+                    //store to ArrayLists
+                    Z_total_Carson_gnd.add(test_carson.getZ_red_gnd());
+                    Y_total.add(test_admittance.getY());
+                    if (type.equals("all")) {
+                        Z_total_Carson_gnd_symm.add(test_carson.getZ_red_gnd_symm());
+                        Y_total_symm.add(test_admittance.getY_symm());
                     }
 
-                    //make average parameters from ArrayLists
-                    ComplexMatrix cSum_Carson_gnd = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Carson_gnd_symm = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
+                    }
+                }
 
-                    for (int i = 0; i < number_of_elements; i++) {
-                        cSum_Carson_gnd = cSum_Carson_gnd.plus(Z_total_Carson_gnd.get(i));
-                        cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        if (type.equals("all")){
-                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
-                            cSum_Carson_gnd_symm = cSum_Carson_gnd_symm.plus(Z_total_Carson_gnd_symm.get(i));
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+                //make average parameters from ArrayLists
+                ComplexMatrix cSum_Carson_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Carson_gnd_symm = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+
+                for (int i = 0; i < number_of_elements; i++) {
+                    cSum_Carson_gnd = cSum_Carson_gnd.plus(Z_total_Carson_gnd.get(i));
+                    cSum_Y = cSum_Y.plus(Y_total.get(i));
+                    if (type.equals("all")) {
+                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                        cSum_Carson_gnd_symm = cSum_Carson_gnd_symm.plus(Z_total_Carson_gnd_symm.get(i));
                     }
 
-                    Z_total_Carson_gnd_final = cSum_Carson_gnd.times((double)1/number_of_elements);
-                    Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    if (type.equals("all")){
-                        Z_total_Carson_gnd_symm_final = cSum_Carson_gnd_symm.times((double)1/number_of_elements);
-                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
                     }
-                    updatePB(100);
-                    
-                    //write to observer
-                    output = new Observer(Z_total_Carson_gnd_final, Y_total_final, Z_total_Carson_gnd_symm_final, Y_total_symm_final, 0);
-                    
-                    //writin into file
-                    make_TXT_ELPAM_Basic(type, method, output);
-                    
-                } else if (method == 3) {
-                    ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd = new ArrayList<>();
-                    ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd_symm = new ArrayList<>();
-                    ComplexMatrix Z_total_Carson_mod_no_gnd_final = new ComplexMatrix(fv, fv);
-                    ComplexMatrix Z_total_Carson_mod_no_gnd_symm_final = new ComplexMatrix(fv, fv);
-                    
-                    //for each element in span
-                    for (int element = 0; element < number_of_elements ; element++) {
-                        int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
-                        int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                }
 
-                        RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
-                        double[] hx2 = new double[rows];
-                       
-                        //Carson & Acrson Modified & Basic
-                        Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Fik = Rozpätie.getPAr_Alpha_real().get(element);
-                        hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                Z_total_Carson_gnd_final = cSum_Carson_gnd.times((double) 1 / number_of_elements);
+                Y_total_final = cSum_Y.times((double) 1 / number_of_elements);
+                if (type.equals("all")) {
+                    Z_total_Carson_gnd_symm_final = cSum_Carson_gnd_symm.times((double) 1 / number_of_elements);
+                    Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
+                }
+                updatePB(100);
 
-                        CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
-                                                                            hx2, cnd_list, exactGMR, exactRAC, fv, gw);
-                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
-                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+                //write to observer
+                output = new Observer(Z_total_Carson_gnd_final, Y_total_final, Z_total_Carson_gnd_symm_final, Y_total_symm_final, 0);
 
-                        //compute all parameters
+                //writin into file
+                make_TXT_ELPAM_Basic(type, method, output);
+
+            } else if (method == 3) {
+                ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd = new ArrayList<>();
+                ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd_symm = new ArrayList<>();
+                ComplexMatrix Z_total_Carson_mod_no_gnd_final = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_total_Carson_mod_no_gnd_symm_final = new ComplexMatrix(fv, fv);
+
+                //for each element in span
+                for (int element = 0; element < number_of_elements; element++) {
+                    int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                    int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+
+                    RealMatrix Dik = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
+                    double[] hx2 = new double[rows];
+
+                    //Carson & Acrson Modified & Basic
+                    Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Rozpätie.calculateMatrix_opt_XX("a", "B", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Fik = Rozpätie.getPAr_Alpha_real().get(element);
+                    hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+
+                    CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
+                            hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+                    Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list,
+                            Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+
+                    //compute all parameters
 //                        System.out.println();
 //                        System.out.println("Carson modified");
-                        test_carson_mod.calcAll(type);
-                        test_admittance.calcAll(type);
-                        
-                        //store to ArrayLists
-                        Z_total_Carson_mod_no_gnd.add(element, test_carson_mod.getZ_red_no_gnd());
-                        Y_total.add(test_admittance.getY());
-                        if (type.equals("all")){
-                            Z_total_Carson_mod_no_gnd_symm.add(element, test_carson_mod.getZ_red_no_gnd_symm());
-                            Y_total_symm.add(test_admittance.getY_symm());
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
-                    }
-                    
-                    
-                    //make average parameters from ArrayLists
-                    ComplexMatrix cSum_Carson_mod_no_gnd = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Carson_mod_no_gnd_symm = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+                    test_carson_mod.calcAll(type);
+                    test_admittance.calcAll(type);
 
-                    for (int i = 0; i < number_of_elements; i++) {
-                        cSum_Carson_mod_no_gnd = cSum_Carson_mod_no_gnd.plus(Z_total_Carson_mod_no_gnd.get(i));
-                        cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        if (type.equals("all")){
-                            cSum_Carson_mod_no_gnd_symm = cSum_Carson_mod_no_gnd_symm.plus(Z_total_Carson_mod_no_gnd_symm.get(i));
-                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+                    //store to ArrayLists
+                    Z_total_Carson_mod_no_gnd.add(element, test_carson_mod.getZ_red_no_gnd());
+                    Y_total.add(test_admittance.getY());
+                    if (type.equals("all")) {
+                        Z_total_Carson_mod_no_gnd_symm.add(element, test_carson_mod.getZ_red_no_gnd_symm());
+                        Y_total_symm.add(test_admittance.getY_symm());
                     }
 
-                    Z_total_Carson_mod_no_gnd_final = cSum_Carson_mod_no_gnd.times((double)1/number_of_elements);
-                    Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    if (type.equals("all")){
-                        Z_total_Carson_mod_no_gnd_symm_final = cSum_Carson_mod_no_gnd_symm.times((double)1/number_of_elements);
-                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
                     }
-                    updatePB(100);
-                    
-                    //write to observer
-                    output = new Observer(Z_total_Carson_mod_no_gnd_final, Y_total_final, Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final, 0);
-                    
-                    //writin into file
-                    make_TXT_ELPAM_Basic(type, method, output);
-                    
-                } else if (method == 4) {
-                    ArrayList<ComplexMatrix> Z_total_Carson_mod_gnd = new ArrayList<>();
-                    ArrayList<ComplexMatrix> Z_total_Carson_mod_gnd_symm = new ArrayList<>();
-                    ComplexMatrix Z_total_Carson_mod_gnd_final = new ComplexMatrix(fv, fv);
-                    ComplexMatrix Z_total_Carson_mod_gnd_symm_final = new ComplexMatrix(fv, fv);
-                    
-                    //for each element in span
-                    for (int element = 0; element < number_of_elements ; element++) {
-                        int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
-                        int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                }
 
+                //make average parameters from ArrayLists
+                ComplexMatrix cSum_Carson_mod_no_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Carson_mod_no_gnd_symm = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
 
-                        RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
-                        double[] hx2 = new double[rows];
-
-                        //Carson & Acrson Modified & Basic
-                        Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Fik = Rozpätie.getPAr_Alpha_real().get(element);
-                        hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
-
-                        CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
-                                                                            hx2, cnd_list, exactGMR, exactRAC, fv, gw);
-                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
-                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
-
-                        //compute all parameters
-                        test_carson_mod.calcAll(type);
-                        test_admittance.calcAll(type);
-
-                        //store to ArrayLists
-                        Z_total_Carson_mod_gnd.add(test_carson_mod.getZ_red_gnd());
-                        Y_total.add(test_admittance.getY());
-                        if (type.equals("all")){
-                            Z_total_Carson_mod_gnd_symm.add(test_carson_mod.getZ_red_gnd_symm());
-                            Y_total_symm.add(test_admittance.getY_symm());
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
-                    }
-                    
-                    //make average parameters from ArrayLists
-                    ComplexMatrix cSum_Carson_mod_gnd = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Carson_mod_gnd_symm = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
-
-                    for (int i = 0; i < number_of_elements; i++) {
-                        cSum_Carson_mod_gnd = cSum_Carson_mod_gnd.plus(Z_total_Carson_mod_gnd.get(i));
-                        cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        if (type.equals("all")){
-                            cSum_Carson_mod_gnd_symm = cSum_Carson_mod_gnd_symm.plus(Z_total_Carson_mod_gnd_symm.get(i));
-                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+                for (int i = 0; i < number_of_elements; i++) {
+                    cSum_Carson_mod_no_gnd = cSum_Carson_mod_no_gnd.plus(Z_total_Carson_mod_no_gnd.get(i));
+                    cSum_Y = cSum_Y.plus(Y_total.get(i));
+                    if (type.equals("all")) {
+                        cSum_Carson_mod_no_gnd_symm = cSum_Carson_mod_no_gnd_symm.plus(Z_total_Carson_mod_no_gnd_symm.get(i));
+                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
                     }
 
-                    Z_total_Carson_mod_gnd_final = cSum_Carson_mod_gnd.times((double)1/number_of_elements);
-                    Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    if (type.equals("all")){
-                        Z_total_Carson_mod_gnd_symm_final = cSum_Carson_mod_gnd_symm.times((double)1/number_of_elements);
-                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
                     }
-                    updatePB(100);
-                    
-                    //write to observer
-                    output = new Observer(Z_total_Carson_mod_gnd_final, Y_total_final, Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final, 0);
-                    
-                    //writin into file
-                    make_TXT_ELPAM_Basic(type, method, output);
-                    
-                } else if (method == 5) {
-                    ArrayList<ComplexMatrix> Z_total_Basic = new ArrayList<>();
-                    ArrayList<ComplexMatrix> Z_total_Basic_symm = new ArrayList<>();
-                    ComplexMatrix Z_total_Basic_final = new ComplexMatrix(fv, fv);
-                    ComplexMatrix Z_total_Basic_symm_final = new ComplexMatrix(fv, fv);
-                    
-                    //for each element in span
-                    for (int element = 0; element < number_of_elements ; element++) {
-                        int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
-                        int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                }
 
-                        RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows,cols);
-                        double[] hx2;
+                Z_total_Carson_mod_no_gnd_final = cSum_Carson_mod_no_gnd.times((double) 1 / number_of_elements);
+                Y_total_final = cSum_Y.times((double) 1 / number_of_elements);
+                if (type.equals("all")) {
+                    Z_total_Carson_mod_no_gnd_symm_final = cSum_Carson_mod_no_gnd_symm.times((double) 1 / number_of_elements);
+                    Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
+                }
+                updatePB(100);
 
-                        //Carson & Acrson Modified & Basic
-                        Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,Complex.ONE,0.26244,1.12385);
-                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
-                        hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                //write to observer
+                output = new Observer(Z_total_Carson_mod_no_gnd_final, Y_total_final, Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final, 0);
 
-                        Basic test_basic = new Basic(Dik, cnd_list, exactGMR, exactRAC, fv, gw);
-                        
-                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list, 
-                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+                //writin into file
+                make_TXT_ELPAM_Basic(type, method, output);
 
-                        //compute all parameters
-                        test_basic.calcAll(type);
-                        test_admittance.calcAll(type);
- 
-                        //store to ArrayLists
-                        Z_total_Basic.add(test_basic.getZ_red());
-                        Y_total.add(test_admittance.getY());
-                        if (type.equals("all")){
-                            Z_total_Basic_symm.add(test_basic.getZ_red_symm());
-                            Y_total_symm.add(test_admittance.getY_symm());
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
-                    }
-                    
-                    //make average parameters from ArrayLists
-                    ComplexMatrix cSum_Basic = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Basic_symm = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+            } else if (method == 4) {
+                ArrayList<ComplexMatrix> Z_total_Carson_mod_gnd = new ArrayList<>();
+                ArrayList<ComplexMatrix> Z_total_Carson_mod_gnd_symm = new ArrayList<>();
+                ComplexMatrix Z_total_Carson_mod_gnd_final = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_total_Carson_mod_gnd_symm_final = new ComplexMatrix(fv, fv);
 
-                    for (int i = 0; i < number_of_elements; i++) {
-                        cSum_Basic = cSum_Basic.plus(Z_total_Basic.get(i));
-                        cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        if (type.equals("all")){
-                            cSum_Basic_symm = cSum_Basic_symm.plus(Z_total_Basic_symm.get(i));
-                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+                //for each element in span
+                for (int element = 0; element < number_of_elements; element++) {
+                    int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                    int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+
+                    RealMatrix Dik = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Fik = new Array2DRowRealMatrix(rows, cols);
+                    double[] hx2 = new double[rows];
+
+                    //Carson & Acrson Modified & Basic
+                    Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Rozpätie.calculateMatrix_opt_XX("a", "B", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Fik = Rozpätie.getPAr_Alpha_real().get(element);
+                    hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+
+                    CarsonModified test_carson_mod = new CarsonModified(Dik, Dik_mirror_real, Fik,
+                            hx2, cnd_list, exactGMR, exactRAC, fv, gw);
+                    Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list,
+                            Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+
+                    //compute all parameters
+                    test_carson_mod.calcAll(type);
+                    test_admittance.calcAll(type);
+
+                    //store to ArrayLists
+                    Z_total_Carson_mod_gnd.add(test_carson_mod.getZ_red_gnd());
+                    Y_total.add(test_admittance.getY());
+                    if (type.equals("all")) {
+                        Z_total_Carson_mod_gnd_symm.add(test_carson_mod.getZ_red_gnd_symm());
+                        Y_total_symm.add(test_admittance.getY_symm());
                     }
 
-                    Z_total_Basic_final = cSum_Basic.times((double)1/number_of_elements);
-                    Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    if (type.equals("all")){
-                        Z_total_Basic_symm_final = cSum_Basic_symm.times((double)1/number_of_elements);
-                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
                     }
-                    updatePB(100);
-                    
-                    //write to observer
-                    output = new Observer(Z_total_Basic_final, Y_total_final, Z_total_Basic_symm_final, Y_total_symm_final, 0);
-                    
-                    //writin into file
-                    make_TXT_ELPAM_Basic(type, method, output);
-                    
-                } else if (method == 6) {
-                    ArrayList<ComplexMatrix> Z_total_CDER = new ArrayList<>();
-                    ArrayList<ComplexMatrix> Z_total_CDER_symm = new ArrayList<>();
-                    ComplexMatrix Z_total_CDER_final = new ComplexMatrix(fv, fv);
-                    ComplexMatrix Z_total_CDER_symm_final = new ComplexMatrix(fv, fv);
-                    
-                    //for each element in span
-                    for (int element = 0; element < number_of_elements ; element++) {
-                        int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
-                        int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                }
 
-                        RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real_CDER = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_imag_CDER = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real;
-                        double[] hx2_real = new double[rows];
-                        double[] hx2_imag = new double[rows];
-                        double[] hx2_kap;
+                //make average parameters from ArrayLists
+                ComplexMatrix cSum_Carson_mod_gnd = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Carson_mod_gnd_symm = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
 
-                        //complex const
-                        double omega = (double)2*Math.PI*constants.getFrequency();
-                        double mu = (4e-7)*Math.PI;
-                        Complex p;
-                        p = new Complex(cnd_list.get(0).getRho_ground(),0).divide(new Complex(0,omega*mu)).sqrt();
-
-                        //CDER
-                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,p,0.26244,1.12385);
-                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
-                        hx2_kap = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
-                        Rozpätie.calculateMatrix_opt_XX("b","A",aproxx,bundle,p,0.26244,1.12385);
-                        Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Rozpätie.calculateMatrix_opt_XX("b","C",aproxx,bundle,p,0.26244,1.12385);
-                        Dik_mirror_real_CDER = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Dik_mirror_imag_CDER = Rozpätie.getPAr_Dik_Image().get(element);
-                        hx2_real = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
-                        hx2_imag = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
-
-                        CDER cder_test = new CDER(Dik, Dik_mirror_real_CDER, Dik_mirror_imag_CDER, 
-                                                    hx2_real, hx2_imag, cnd_list, exactGMR, exactRAC, fv, gw);
-                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2_kap, cnd_list, 
-                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
-                        
-
-                        //compute all parameters
-                        cder_test.calcAll(type);
-                        test_admittance.calcAll(type);
-
-                        //store to ArrayLists
-                        Z_total_CDER.add(cder_test.getZ_red());
-                        Y_total.add(test_admittance.getY());
-                        if (type.equals("all")){
-                            Z_total_CDER_symm.add(cder_test.getZ_red_symm());
-                            Y_total_symm.add(test_admittance.getY_symm());
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
-                    }
-                    
-                    //make average parameters from ArrayLists
-                    ComplexMatrix cSum_CDER = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_CDER_symm = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
-
-                    for (int i = 0; i < number_of_elements; i++) {
-                        cSum_CDER = cSum_CDER.plus(Z_total_CDER.get(i));
-                        cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        if (type.equals("all")){
-                            cSum_CDER_symm = cSum_CDER_symm.plus(Z_total_CDER_symm.get(i));
-                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+                for (int i = 0; i < number_of_elements; i++) {
+                    cSum_Carson_mod_gnd = cSum_Carson_mod_gnd.plus(Z_total_Carson_mod_gnd.get(i));
+                    cSum_Y = cSum_Y.plus(Y_total.get(i));
+                    if (type.equals("all")) {
+                        cSum_Carson_mod_gnd_symm = cSum_Carson_mod_gnd_symm.plus(Z_total_Carson_mod_gnd_symm.get(i));
+                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
                     }
 
-                    Z_total_CDER_final = cSum_CDER.times((double)1/number_of_elements);
-                    Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    if (type.equals("all")){
-                        Z_total_CDER_symm_final = cSum_CDER_symm.times((double)1/number_of_elements);
-                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
                     }
-                    updatePB(100);
-                    
-                    //write to observer
-                    output = new Observer(Z_total_CDER_final, Y_total_final, Z_total_CDER_symm_final, Y_total_symm_final, 0);
-                    
-                    //writin into file
-                    make_TXT_ELPAM_Basic(type, method, output);
-                    
-                } else if (method == 7) {
-                    ArrayList<ComplexMatrix> Z_total_TakuNoda = new ArrayList<>();
-                    ArrayList<ComplexMatrix> Z_total_TakuNoda_symm = new ArrayList<>();
-                    ComplexMatrix Z_total_TakuNoda_final = new ComplexMatrix(fv, fv);
-                    ComplexMatrix Z_total_TakuNoda_symm_final = new ComplexMatrix(fv, fv);
-                    
-                    //for each element in span
-                    for (int element = 0; element < number_of_elements ; element++) {
-                        int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
-                        int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+                }
 
-                        RealMatrix Dik = new Array2DRowRealMatrix(rows,cols);
-                        double[] hx2_real_alpha = new double[rows];
-                        double[] hx2_imag_alpha = new double[rows];
-                        double[] hx2_real_beta = new double[rows];
-                        double[] hx2_imag_beta = new double[rows];
-                        RealMatrix Dik_mirror_real_alpha = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_imag_alpha = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_real_beta = new Array2DRowRealMatrix(rows,cols);
-                        RealMatrix Dik_mirror_imag_beta = new Array2DRowRealMatrix(rows,cols);
-                        
-                        RealMatrix Dik_mirror_real;
-                        double[] hx2_kap;
+                Z_total_Carson_mod_gnd_final = cSum_Carson_mod_gnd.times((double) 1 / number_of_elements);
+                Y_total_final = cSum_Y.times((double) 1 / number_of_elements);
+                if (type.equals("all")) {
+                    Z_total_Carson_mod_gnd_symm_final = cSum_Carson_mod_gnd_symm.times((double) 1 / number_of_elements);
+                    Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
+                }
+                updatePB(100);
 
-                        //complex const
-                        double omega = (double)2*Math.PI*constants.getFrequency();
-                        double mu = (4e-7)*Math.PI;
-                        Complex p;
-                        p = new Complex(cnd_list.get(0).getRho_ground(),0).divide(new Complex(0,omega*mu)).sqrt();
+                //write to observer
+                output = new Observer(Z_total_Carson_mod_gnd_final, Y_total_final, Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final, 0);
 
-                        //Taku Noda
-                        Rozpätie.calculateMatrix_opt_XX("a","B",aproxx,bundle,p,0.26244,1.12385);
-                        Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
-                        hx2_kap = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
-                        //Dik
-                        Rozpätie.calculateMatrix_opt_XX("a","A",aproxx,bundle,p,0.26244,1.12385);
-                        Dik = Rozpätie.getPAr_Dik_REAL().get(element);
-                        //alpha
-                        Rozpätie.calculateMatrix_opt_XX("c","D",aproxx,bundle,p,0.26244,1.12385);
-                        hx2_real_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
-                        hx2_imag_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
-                        Dik_mirror_real_alpha = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Dik_mirror_imag_alpha = Rozpätie.getPAr_Dik_Image().get(element);
-                        //beta
-                        Rozpätie.calculateMatrix_opt_XX("d","E",aproxx,bundle,p,0.26244,1.12385);
-                        hx2_real_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
-                        hx2_imag_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
-                        Dik_mirror_real_beta = Rozpätie.getPAr_Dik_REAL().get(element);
-                        Dik_mirror_imag_beta = Rozpätie.getPAr_Dik_Image().get(element);
+                //writin into file
+                make_TXT_ELPAM_Basic(type, method, output);
 
-                        TakuNoda tn_test = new TakuNoda(Dik, Dik_mirror_real_alpha, Dik_mirror_imag_alpha, 
-                                                        Dik_mirror_real_beta, Dik_mirror_imag_beta,
-                                                        hx2_real_alpha, hx2_imag_alpha, 
-                                                        hx2_real_beta, hx2_imag_beta, 
-                                                        cnd_list, exactGMR, exactRAC, fv, gw);
-                        
-                        Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2_kap, cnd_list, 
-                                                                    Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+            } else if (method == 5) {
+                ArrayList<ComplexMatrix> Z_total_Basic = new ArrayList<>();
+                ArrayList<ComplexMatrix> Z_total_Basic_symm = new ArrayList<>();
+                ComplexMatrix Z_total_Basic_final = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_total_Basic_symm_final = new ComplexMatrix(fv, fv);
 
-                        //compute all parameters
-                        tn_test.calcAll(type);
-                        test_admittance.calcAll(type);
+                //for each element in span
+                for (int element = 0; element < number_of_elements; element++) {
+                    int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                    int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
 
-                        //store to ArrayLists
-                        Z_total_TakuNoda.add(tn_test.getZ_red());
-                        Y_total.add(test_admittance.getY());
-                        if (type.equals("all")){
-                            Z_total_TakuNoda_symm.add(tn_test.getZ_red_symm());
-                            Y_total_symm.add(test_admittance.getY_symm());
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
-                    }
-                    
-                    //make average parameters from ArrayLists
-                    ComplexMatrix cSum_TakuNoda = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_TakuNoda_symm = new ComplexMatrix(fv, fv);
-                    ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+                    RealMatrix Dik = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real = new Array2DRowRealMatrix(rows, cols);
+                    double[] hx2;
 
-                    for (int i = 0; i < number_of_elements; i++) {
-                        cSum_TakuNoda = cSum_TakuNoda.plus(Z_total_TakuNoda.get(i));
-                        cSum_Y = cSum_Y.plus(Y_total.get(i));
-                        if (type.equals("all")){
-                            cSum_TakuNoda_symm = cSum_TakuNoda_symm.plus(Z_total_TakuNoda_symm.get(i));
-                            cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
-                        }
-                        
-                        //vypis no progress baru
-                        show_on_bar = show_on_bar+1;
-                        if(show_on_bar % 20 == 0){
-                            double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
-                            updatePB((int) value);
-                        }
+                    //Carson & Acrson Modified & Basic
+                    Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Rozpätie.calculateMatrix_opt_XX("a", "B", aproxx, bundle, Complex.ONE, 0.26244, 1.12385);
+                    Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                    hx2 = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+
+                    Basic test_basic = new Basic(Dik, cnd_list, exactGMR, exactRAC, fv, gw);
+
+                    Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2, cnd_list,
+                            Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+
+                    //compute all parameters
+                    test_basic.calcAll(type);
+                    test_admittance.calcAll(type);
+
+                    //store to ArrayLists
+                    Z_total_Basic.add(test_basic.getZ_red());
+                    Y_total.add(test_admittance.getY());
+                    if (type.equals("all")) {
+                        Z_total_Basic_symm.add(test_basic.getZ_red_symm());
+                        Y_total_symm.add(test_admittance.getY_symm());
                     }
 
-                    Z_total_TakuNoda_final = cSum_TakuNoda.times((double)1/number_of_elements);
-                    Y_total_final = cSum_Y.times((double)1/number_of_elements);
-                    if (type.equals("all")){
-                        Z_total_TakuNoda_symm_final = cSum_TakuNoda_symm.times((double)1/number_of_elements);
-                        Y_total_symm_final = cSum_Y_symm.times((double)1/number_of_elements);
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
                     }
-                    updatePB(100);
-                    
-                    //write to observer
-                    output = new Observer(Z_total_TakuNoda_final, Y_total_final, Z_total_TakuNoda_symm_final, Y_total_symm_final, 0);
-                    
-                    //writin into file
-                    make_TXT_ELPAM_Basic(type, method, output);
-                } 
-            
+                }
+
+                //make average parameters from ArrayLists
+                ComplexMatrix cSum_Basic = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Basic_symm = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+
+                for (int i = 0; i < number_of_elements; i++) {
+                    cSum_Basic = cSum_Basic.plus(Z_total_Basic.get(i));
+                    cSum_Y = cSum_Y.plus(Y_total.get(i));
+                    if (type.equals("all")) {
+                        cSum_Basic_symm = cSum_Basic_symm.plus(Z_total_Basic_symm.get(i));
+                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                    }
+
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
+                    }
+                }
+
+                Z_total_Basic_final = cSum_Basic.times((double) 1 / number_of_elements);
+                Y_total_final = cSum_Y.times((double) 1 / number_of_elements);
+                if (type.equals("all")) {
+                    Z_total_Basic_symm_final = cSum_Basic_symm.times((double) 1 / number_of_elements);
+                    Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
+                }
+                updatePB(100);
+
+                //write to observer
+                output = new Observer(Z_total_Basic_final, Y_total_final, Z_total_Basic_symm_final, Y_total_symm_final, 0);
+
+                //writin into file
+                make_TXT_ELPAM_Basic(type, method, output);
+
+            } else if (method == 6) {
+                ArrayList<ComplexMatrix> Z_total_CDER = new ArrayList<>();
+                ArrayList<ComplexMatrix> Z_total_CDER_symm = new ArrayList<>();
+                ComplexMatrix Z_total_CDER_final = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_total_CDER_symm_final = new ComplexMatrix(fv, fv);
+
+                //for each element in span
+                for (int element = 0; element < number_of_elements; element++) {
+                    int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                    int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+
+                    RealMatrix Dik = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real_CDER = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_imag_CDER = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real;
+                    double[] hx2_real = new double[rows];
+                    double[] hx2_imag = new double[rows];
+                    double[] hx2_kap;
+
+                    //complex const
+                    double omega = (double) 2 * Math.PI * constants.getFrequency();
+                    double mu = (4e-7) * Math.PI;
+                    Complex p;
+                    p = new Complex(cnd_list.get(0).getRho_ground(), 0).divide(new Complex(0, omega * mu)).sqrt();
+
+                    //CDER
+                    Rozpätie.calculateMatrix_opt_XX("a", "B", aproxx, bundle, p, 0.26244, 1.12385);
+                    Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                    hx2_kap = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                    Rozpätie.calculateMatrix_opt_XX("b", "A", aproxx, bundle, p, 0.26244, 1.12385);
+                    Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Rozpätie.calculateMatrix_opt_XX("b", "C", aproxx, bundle, p, 0.26244, 1.12385);
+                    Dik_mirror_real_CDER = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Dik_mirror_imag_CDER = Rozpätie.getPAr_Dik_Image().get(element);
+                    hx2_real = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                    hx2_imag = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
+
+                    CDER cder_test = new CDER(Dik, Dik_mirror_real_CDER, Dik_mirror_imag_CDER,
+                            hx2_real, hx2_imag, cnd_list, exactGMR, exactRAC, fv, gw);
+                    Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2_kap, cnd_list,
+                            Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+
+                    //compute all parameters
+                    cder_test.calcAll(type);
+                    test_admittance.calcAll(type);
+
+                    //store to ArrayLists
+                    Z_total_CDER.add(cder_test.getZ_red());
+                    Y_total.add(test_admittance.getY());
+                    if (type.equals("all")) {
+                        Z_total_CDER_symm.add(cder_test.getZ_red_symm());
+                        Y_total_symm.add(test_admittance.getY_symm());
+                    }
+
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
+                    }
+                }
+
+                //make average parameters from ArrayLists
+                ComplexMatrix cSum_CDER = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_CDER_symm = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+
+                for (int i = 0; i < number_of_elements; i++) {
+                    cSum_CDER = cSum_CDER.plus(Z_total_CDER.get(i));
+                    cSum_Y = cSum_Y.plus(Y_total.get(i));
+                    if (type.equals("all")) {
+                        cSum_CDER_symm = cSum_CDER_symm.plus(Z_total_CDER_symm.get(i));
+                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                    }
+
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
+                    }
+                }
+
+                Z_total_CDER_final = cSum_CDER.times((double) 1 / number_of_elements);
+                Y_total_final = cSum_Y.times((double) 1 / number_of_elements);
+                if (type.equals("all")) {
+                    Z_total_CDER_symm_final = cSum_CDER_symm.times((double) 1 / number_of_elements);
+                    Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
+                }
+                updatePB(100);
+
+                //write to observer
+                output = new Observer(Z_total_CDER_final, Y_total_final, Z_total_CDER_symm_final, Y_total_symm_final, 0);
+
+                //writin into file
+                make_TXT_ELPAM_Basic(type, method, output);
+
+            } else if (method == 7) {
+                ArrayList<ComplexMatrix> Z_total_TakuNoda = new ArrayList<>();
+                ArrayList<ComplexMatrix> Z_total_TakuNoda_symm = new ArrayList<>();
+                ComplexMatrix Z_total_TakuNoda_final = new ComplexMatrix(fv, fv);
+                ComplexMatrix Z_total_TakuNoda_symm_final = new ComplexMatrix(fv, fv);
+
+                //for each element in span
+                for (int element = 0; element < number_of_elements; element++) {
+                    int rows = Rozpätie.getPAr_Dik_REAL().get(element).getRowDimension();
+                    int cols = Rozpätie.getPAr_Dik_REAL().get(element).getColumnDimension();
+
+                    RealMatrix Dik = new Array2DRowRealMatrix(rows, cols);
+                    double[] hx2_real_alpha = new double[rows];
+                    double[] hx2_imag_alpha = new double[rows];
+                    double[] hx2_real_beta = new double[rows];
+                    double[] hx2_imag_beta = new double[rows];
+                    RealMatrix Dik_mirror_real_alpha = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_imag_alpha = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_real_beta = new Array2DRowRealMatrix(rows, cols);
+                    RealMatrix Dik_mirror_imag_beta = new Array2DRowRealMatrix(rows, cols);
+
+                    RealMatrix Dik_mirror_real;
+                    double[] hx2_kap;
+
+                    //complex const
+                    double omega = (double) 2 * Math.PI * constants.getFrequency();
+                    double mu = (4e-7) * Math.PI;
+                    Complex p;
+                    p = new Complex(cnd_list.get(0).getRho_ground(), 0).divide(new Complex(0, omega * mu)).sqrt();
+
+                    //Taku Noda
+                    Rozpätie.calculateMatrix_opt_XX("a", "B", aproxx, bundle, p, 0.26244, 1.12385);
+                    Dik_mirror_real = Rozpätie.getPAr_Dik_REAL().get(element);
+                    hx2_kap = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                    //Dik
+                    Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, p, 0.26244, 1.12385);
+                    Dik = Rozpätie.getPAr_Dik_REAL().get(element);
+                    //alpha
+                    Rozpätie.calculateMatrix_opt_XX("c", "D", aproxx, bundle, p, 0.26244, 1.12385);
+                    hx2_real_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                    hx2_imag_alpha = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
+                    Dik_mirror_real_alpha = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Dik_mirror_imag_alpha = Rozpätie.getPAr_Dik_Image().get(element);
+                    //beta
+                    Rozpätie.calculateMatrix_opt_XX("d", "E", aproxx, bundle, p, 0.26244, 1.12385);
+                    hx2_real_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_real().get(element));
+                    hx2_imag_beta = ArrList2Arr(Rozpätie.getPAr_diagonala_image().get(element));
+                    Dik_mirror_real_beta = Rozpätie.getPAr_Dik_REAL().get(element);
+                    Dik_mirror_imag_beta = Rozpätie.getPAr_Dik_Image().get(element);
+
+                    TakuNoda tn_test = new TakuNoda(Dik, Dik_mirror_real_alpha, Dik_mirror_imag_alpha,
+                            Dik_mirror_real_beta, Dik_mirror_imag_beta,
+                            hx2_real_alpha, hx2_imag_alpha,
+                            hx2_real_beta, hx2_imag_beta,
+                            cnd_list, exactGMR, exactRAC, fv, gw);
+
+                    Admittance test_admittance = new Admittance(Dik, Dik_mirror_real, hx2_kap, cnd_list,
+                            Rozpätie.getKrok(), Rozpätie.getRetazovkaList().get(0).getBundle_over(), fv, gw);
+
+                    //compute all parameters
+                    tn_test.calcAll(type);
+                    test_admittance.calcAll(type);
+
+                    //store to ArrayLists
+                    Z_total_TakuNoda.add(tn_test.getZ_red());
+                    Y_total.add(test_admittance.getY());
+                    if (type.equals("all")) {
+                        Z_total_TakuNoda_symm.add(tn_test.getZ_red_symm());
+                        Y_total_symm.add(test_admittance.getY_symm());
+                    }
+
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
+                    }
+                }
+
+                //make average parameters from ArrayLists
+                ComplexMatrix cSum_TakuNoda = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_TakuNoda_symm = new ComplexMatrix(fv, fv);
+                ComplexMatrix cSum_Y_symm = new ComplexMatrix(fv, fv);
+
+                for (int i = 0; i < number_of_elements; i++) {
+                    cSum_TakuNoda = cSum_TakuNoda.plus(Z_total_TakuNoda.get(i));
+                    cSum_Y = cSum_Y.plus(Y_total.get(i));
+                    if (type.equals("all")) {
+                        cSum_TakuNoda_symm = cSum_TakuNoda_symm.plus(Z_total_TakuNoda_symm.get(i));
+                        cSum_Y_symm = cSum_Y_symm.plus(Y_total_symm.get(i));
+                    }
+
+                    //vypis no progress baru
+                    show_on_bar = show_on_bar + 1;
+                    if (show_on_bar % 20 == 0) {
+                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                        updatePB((int) value);
+                    }
+                }
+
+                Z_total_TakuNoda_final = cSum_TakuNoda.times((double) 1 / number_of_elements);
+                Y_total_final = cSum_Y.times((double) 1 / number_of_elements);
+                if (type.equals("all")) {
+                    Z_total_TakuNoda_symm_final = cSum_TakuNoda_symm.times((double) 1 / number_of_elements);
+                    Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
+                }
+                updatePB(100);
+
+                //write to observer
+                output = new Observer(Z_total_TakuNoda_final, Y_total_final, Z_total_TakuNoda_symm_final, Y_total_symm_final, 0);
+
+                //writin into file
+                make_TXT_ELPAM_Basic(type, method, output);
+            }
+
         } catch (DelaunayError ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    
-    return output;
+        }
+
+        return output;
     }
-    
-    
+
 //.......................................
     //kalkulacky pozorovatelov
     //.......................................
@@ -4150,6 +4150,215 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     }
 
+    /**
+     * nahodi parametre do vodiča a priprave vsetko napparametrizaciu pre dany
+     * krok poradie j pre subor conductor.txt kde su ulozene parametre
+     * setElpam_D setElpam_T; setElpam_rho_cnd; setElpam_rho_gnd; setElpam_Rdc;
+     * setElpam_Al_layers; setElpam_Al_start; setElpam_Al_d;
+     */
+    public void calculatecatenaryParameter_ELPAM_parameter(int Stlpec, double hodnota, double start) {
+
+        isListener = false;
+        boolean idemePocitat = true; // boolena ci sa ide vobec pocitat catenary
+
+        if (idemePocitat == true) {
+            // vymarat všetky ktore su vytvorene
+            InternalFrameproject.Rozpätie.erazeRetazovkaArrayList();
+            // vytvor novu arraylist retazovky
+            ArrayList<retazovka> Retazovka_zoznam = new ArrayList<>();
+
+            int rows = catenaryPanel1.Table.getRowCount();
+            for (int i = 0; i < rows - 1; i++) {
+
+                //hlavame aky vodic v databeze je tu  
+                String porovnavacka = String.valueOf(catenaryPanel1.DTMTable.getValueAt(i, 22));
+                int index = 0;
+                for (int j = 0; j < catenaryPanel1.getConductor_Name_Matrix().size(); j++) {
+
+                    if (porovnavacka.equals(catenaryPanel1.getConductor_Name_Matrix().get(j))) {
+                        index = j;
+                    }
+                }
+
+                boolean isChecked = Boolean.valueOf(String.valueOf(catenaryPanel1.Table.getValueAt(i, 20)));
+                boolean isCheckedpar = Boolean.valueOf(String.valueOf(catenaryPanel1.Table.getValueAt(i, 21)));
+
+                if (isChecked == true) { // iba ak je zasškrtnute tak vklada lana
+
+                    int val8 = (int) help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 8));
+                    double val9 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 9));
+                    double val10 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 10));
+                    double val12 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 12));
+                    double val13 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 13));
+                    double val14 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 14));
+                    double val15 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 15));
+                    double val16 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 16));
+
+                    double valF = constants.getFrequency();
+
+                    double valT = catenaryPanel1.getConductor_parameters_Matrix().get(index)[1];
+                    double valrho_cnd = catenaryPanel1.getConductor_parameters_Matrix().get(index)[2];
+                    double valrho_gnd = catenaryPanel1.getConductor_parameters_Matrix().get(index)[3];
+                    double valRdc = catenaryPanel1.getConductor_parameters_Matrix().get(index)[4];
+                    double valAl_layers = catenaryPanel1.getConductor_parameters_Matrix().get(index)[4];
+                    double valAl_start = catenaryPanel1.getConductor_parameters_Matrix().get(index)[6];
+                    double valAl_d = catenaryPanel1.getConductor_parameters_Matrix().get(index)[7];
+
+                    if (isCheckedpar == true && observerPanel1.P1D_par_A.isSelected() == true) {
+                        if (Stlpec == 8) {
+                            val8 = (int) start + (int) hodnota;
+                        }
+                        if (Stlpec == 9) {
+                            val9 = start + hodnota;
+                        }
+                        if (Stlpec == 10) {
+                            val10 = start + hodnota;
+                        }
+                        if (Stlpec == 12) {
+                            val12 = start + hodnota;
+                        }
+                        if (Stlpec == 13) {
+                            val13 = start + hodnota;
+                        }
+                        if (Stlpec == 14) {
+                            val14 = start + hodnota;
+                        }
+                        if (Stlpec == 15) {
+                            val15 = start + hodnota;
+                        }
+                        if (Stlpec == 16) {
+                            val16 = start + hodnota;
+                        }
+                        if (Stlpec == 17) {
+                            valF = start + hodnota;
+                        }
+                        if (Stlpec == 18) {
+                            valT = start + hodnota;
+                        }
+                        if (Stlpec == 19) {
+                            valrho_cnd = start + hodnota;
+                        }
+                        if (Stlpec == 20) {
+                            valrho_gnd = start + hodnota;
+                        }
+                        if (Stlpec == 21) {
+                            valRdc = start + hodnota;
+                        }
+                        if (Stlpec == 22) {
+                            valAl_layers = start + hodnota;
+                        }
+                        if (Stlpec == 23) {
+                            valAl_start = start + hodnota;
+                        }
+                        if (Stlpec == 24) {
+                            valAl_d = start + hodnota;
+                        }
+                    }
+
+                    if (isCheckedpar == true && observerPanel1.P1D_par_B.isSelected() == true) {
+                        if (Stlpec == 8) {
+                            val8 = (int) help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 8)) + (int) hodnota;
+                        }
+                        if (Stlpec == 9) {
+                            val9 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 9)) + hodnota;
+                        }
+                        if (Stlpec == 10) {
+                            val10 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 10)) + hodnota;
+                        }
+                        if (Stlpec == 12) {
+                            val12 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 12)) + hodnota;
+                        }
+                        if (Stlpec == 13) {
+                            val13 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 13)) + hodnota;
+                        }
+                        if (Stlpec == 14) {
+                            val14 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 14)) + hodnota;
+                        }
+                        if (Stlpec == 15) {
+                            val15 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 15)) + hodnota;
+                        }
+                        if (Stlpec == 16) {
+                            val16 = help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 16)) + hodnota;
+                        }
+                        if (Stlpec == 17) {
+                            valF = valF + hodnota;
+                        }
+                        if (Stlpec == 18) {
+                            valT = valT + hodnota;
+                        }
+                        if (Stlpec == 19) {
+                            valrho_cnd = valrho_cnd + hodnota;
+                        }
+                        if (Stlpec == 20) {
+                            valrho_gnd = valrho_gnd + hodnota;
+                        }
+                        if (Stlpec == 21) {
+                            valRdc = valRdc + hodnota;
+                        }
+                        if (Stlpec == 22) {
+                            valAl_layers = valAl_layers + hodnota;
+                        }
+                        if (Stlpec == 23) {
+                            valAl_start = valAl_start + hodnota;
+                        }
+                        if (Stlpec == 24) {
+                            valAl_d = valAl_d + hodnota;
+                        }
+                    }
+
+                    try {
+
+                        retazovka lano = new retazovka(
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 0)), // V1
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 1)), // V2
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 2)), // I1
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 3)), // I2
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 4)), // W1
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 5)), // W2
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 6)), // X1
+                                help.Object_To_double(catenaryPanel1.Table.getValueAt(i, 7)), // X2
+                                val8, // bundle
+                                val9, // alpha
+                                val10, // distance
+                                val12, // H/C value
+                                Boolean.valueOf(String.valueOf(catenaryPanel1.Table.getValueAt(i, 11))), // true/false
+                                val13, // polomer
+                                val14, // U
+                                val15, // I
+                                val16, // Phi
+                                InternalFrameproject.Rozpätie.getTeren(),
+                                InternalFrameproject.Rozpätie.isIsV1V2base(),
+                                InternalFrameproject.Rozpätie.getV1base(),
+                                InternalFrameproject.Rozpätie.getV2base());
+
+                        lano.setElpam_f(valF);
+                        lano.setElpam_D(val13 * 2); // priemer lana 
+                        lano.setElpam_T(valT);
+                        lano.setElpam_rho_cnd(valrho_cnd);
+                        lano.setElpam_rho_gnd(valrho_gnd);
+                        lano.setElpam_Rdc(valRdc);
+                        lano.setElpam_Al_layers((int) valAl_layers);
+                        lano.setElpam_Al_start((int) valAl_start);
+                        lano.setElpam_Al_d(valAl_d);
+
+                        Retazovka_zoznam.add(lano);
+
+                    } catch (DelaunayError ex) {
+                        isListener = true;
+                        Logger.getLogger(CatenaryPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+
+            }
+            InternalFrameproject.Rozpätie.setRetazovkaArrayList(Retazovka_zoznam);   // vlozi zoznam retazoviem s prepocitanimi parametrami do retazovky rozpatia
+
+        }
+
+        isListener = true;
+
+    }
+
     private int pocet_vodicov(rozpatie X) {
         int pocel_lan = 0;
 
@@ -4164,6 +4373,46 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
 
         return pocel_lan;
+    }
+
+    /**
+     * funkcia ktory pripravy vektory casto sa opakujuci krok
+     *
+     * @param elementh dlzka elementu
+     * @param aproxx aproxx povoleny alebo nie
+     */
+    private boolean priprava_vektorov(double elementh, boolean aproxx) {
+
+        for (int cl1 = 0; cl1 < Rozpätie.getRetazovkaList().size(); cl1++) {
+
+            try {
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllDlVectors(elementh); // priprav vsetky vektory Dl
+                Rozpätie.getRetazovkaList().get(cl1).calcul_AllRoVectors(elementh); // priprav vsetky vektory R0
+
+                //vyber metody zrkaldnia // priprav vsetky vektory R0_mirror
+                if (main_Jframe.iscalculation_Settings == false) {
+                    Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh); // priprav vsetky vektory R0_mirror
+                }
+                if (main_Jframe.iscalculation_Settings == true) {
+                    if (calculation_Settings.getEmirrorA().isSelected() == true) {
+                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro(elementh);
+                        aproxx = false;
+                    }
+                    if (calculation_Settings.getEmirrorB().isSelected() == true) {
+                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_from_Ro_aproxxplane(elementh);
+                        aproxx = true;
+                    }
+                    if (calculation_Settings.getEmirrorOff().isSelected() == true) {
+                        Rozpätie.getRetazovkaList().get(cl1).calcul_AllRo_mirrorVectors_OFF(elementh);
+                    }
+
+                }
+            } catch (DelaunayError ex) {
+                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return aproxx;
     }
 
     //draw functions
@@ -4447,11 +4696,11 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     }
 
-    private void make_TxT_elpam_noDB(rozpatie roz, String type, int method, 
-                                    RealMatrix R, RealMatrix L, RealMatrix C, 
-                                    ComplexMatrix Z, ComplexMatrix Y, 
-                                    RealMatrix Rs, RealMatrix Ls, RealMatrix Cs,
-                                    ComplexMatrix Zs, ComplexMatrix Ys) throws IOException{
+    private void make_TxT_elpam_noDB(rozpatie roz, String type, int method,
+            RealMatrix R, RealMatrix L, RealMatrix C,
+            ComplexMatrix Z, ComplexMatrix Y,
+            RealMatrix Rs, RealMatrix Ls, RealMatrix Cs,
+            ComplexMatrix Zs, ComplexMatrix Ys) throws IOException {
         DecimalFormat df5 = new DecimalFormat("0.00000");
         DecimalFormat dfE3 = new DecimalFormat("0.000E0");
         String file_recognition = "";
@@ -4464,8 +4713,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         } else if (type.equals("all")) {
             file_recognition = "_All";
         }
-        
-        switch(method){
+
+        switch (method) {
             case 1:
                 method_name = "Carson without ground";
                 break;
@@ -4491,7 +4740,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 method_name = "unknown";
                 break;
         }
-        
+
         Date todaysDate = new Date();
         DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -4511,30 +4760,30 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             fw.println("Name of the project           : " + meno_projektu);
             fw.println("Name of the span              : " + meno_rozpatia);
             fw.println("");
-            fw.println("Total number of wires      : " + (roz.getPocet_faz() + roz.getPocet_zemnych_lan_bez_zvazkov()) );
+            fw.println("Total number of wires      : " + (roz.getPocet_faz() + roz.getPocet_zemnych_lan_bez_zvazkov()));
             fw.println("Number of phase conductors : " + roz.getPocet_faz());
             fw.println("Number of ground wires     : " + roz.getPocet_zemnych_lan_bez_zvazkov());
             fw.println("----------------------------------------------");
             fw.println();
-            
+
             if (type.equals("phase")) {
                 //print all phase matrices to file
                 fw.println("--- PHASE MATRICES ---");
                 fw.println();
                 fw.println("R [Ohm/km]");
-                print2fileRealMatrix(R,fw,df5);
+                print2fileRealMatrix(R, fw, df5);
                 fw.println();
                 fw.println("L [mH/km]");
-                print2fileRealMatrix(L.scalarMultiply(1e3),fw,df5);
+                print2fileRealMatrix(L.scalarMultiply(1e3), fw, df5);
                 fw.println();
                 fw.println("C [F/km]");
-                print2fileRealMatrix(C,fw,dfE3);
+                print2fileRealMatrix(C, fw, dfE3);
                 fw.println();
                 fw.println("Z [Ohm/km]");
-                print2fileComplexMatrix(Z,fw,df5);
+                print2fileComplexMatrix(Z, fw, df5);
                 fw.println();
                 fw.println("Y [S/km]");
-                print2fileComplexMatrix(Y,fw,dfE3);
+                print2fileComplexMatrix(Y, fw, dfE3);
                 fw.println();
             } else if (type.equals("symm")) {
                 //print all symm matrices to file
@@ -4542,65 +4791,65 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 fw.println("--- SYMMETRICAL COMPONENTS ---");
                 fw.println();
                 fw.println("R [Ohm/km]");
-                print2fileSymmRealMatrix(Rs,fw,df5);
+                print2fileSymmRealMatrix(Rs, fw, df5);
                 fw.println();
                 fw.println("L [mH/km]");
-                print2fileSymmRealMatrix(Ls.scalarMultiply(1e3),fw,df5);
+                print2fileSymmRealMatrix(Ls.scalarMultiply(1e3), fw, df5);
                 fw.println();
                 fw.println("C [F/km]");
-                print2fileSymmRealMatrix(Cs,fw,dfE3);
+                print2fileSymmRealMatrix(Cs, fw, dfE3);
                 fw.println();
                 fw.println("Z [Ohm/km]");
-                print2fileSymmComplexMatrix(Zs,fw,df5);
+                print2fileSymmComplexMatrix(Zs, fw, df5);
                 fw.println();
                 fw.println("Y [S/km]");
-                print2fileSymmComplexMatrix(Ys,fw,dfE3);
+                print2fileSymmComplexMatrix(Ys, fw, dfE3);
                 fw.println();
             } else if (type.equals("all")) {
                 //print all phase matrices to file
                 fw.println("--- PHASE MATRICES ---");
                 fw.println();
                 fw.println("R [Ohm/km]");
-                print2fileRealMatrix(R,fw,df5);
+                print2fileRealMatrix(R, fw, df5);
                 fw.println();
                 fw.println("L [mH/km]");
-                print2fileRealMatrix(L.scalarMultiply(1e3),fw,df5);
+                print2fileRealMatrix(L.scalarMultiply(1e3), fw, df5);
                 fw.println();
                 fw.println("C [F/km]");
-                print2fileRealMatrix(C,fw,dfE3);
+                print2fileRealMatrix(C, fw, dfE3);
                 fw.println();
                 fw.println("Z [Ohm/km]");
-                print2fileComplexMatrix(Z,fw,df5);
+                print2fileComplexMatrix(Z, fw, df5);
                 fw.println();
                 fw.println("Y [S/km]");
-                print2fileComplexMatrix(Y,fw,dfE3);
+                print2fileComplexMatrix(Y, fw, dfE3);
                 fw.println();
-                
+
                 //print all symm matrices to file
                 fw.println();
                 fw.println("--- SYMMETRICAL COMPONENTS ---");
                 fw.println();
                 fw.println("R [Ohm/km]");
-                print2fileSymmRealMatrix(Rs,fw,df5);
+                print2fileSymmRealMatrix(Rs, fw, df5);
                 fw.println();
                 fw.println("L [mH/km]");
-                print2fileSymmRealMatrix(Ls.scalarMultiply(1e3),fw,df5);
+                print2fileSymmRealMatrix(Ls.scalarMultiply(1e3), fw, df5);
                 fw.println();
                 fw.println("C [F/km]");
-                print2fileSymmRealMatrix(Cs,fw,dfE3);
+                print2fileSymmRealMatrix(Cs, fw, dfE3);
                 fw.println();
                 fw.println("Z [Ohm/km]");
-                print2fileSymmComplexMatrix(Zs,fw,df5);
+                print2fileSymmComplexMatrix(Zs, fw, df5);
                 fw.println();
                 fw.println("Y [S/km]");
-                print2fileSymmComplexMatrix(Ys,fw,dfE3);
+                print2fileSymmComplexMatrix(Ys, fw, dfE3);
                 fw.println();
             }
- 
+
             fw.println("END OF FILE");
             fw.close();
-            
-            } catch (FileNotFoundException ex) {
+
+        } catch (FileNotFoundException ex) {
         }
         if (Desktop.isDesktopSupported()) {
             Desktop.getDesktop().edit(subor);
@@ -4608,8 +4857,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             // dunno, up to you to handle this
         }
     }
-    
-    
+
     /**
      * funkcia vytvara kratky vystup
      *
@@ -6283,29 +6531,29 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         }
     }
-    
-    private void make_TXT_ELPAM_Basic(String type, int method, ComplexMatrix Z, ComplexMatrix Y, ComplexMatrix Zs, ComplexMatrix Ys){
+
+    private void make_TXT_ELPAM_Basic(String type, int method, ComplexMatrix Z, ComplexMatrix Y, ComplexMatrix Zs, ComplexMatrix Ys) {
         //writin into file
-        double omega = (double)2*Math.PI*constants.getFrequency();
+        double omega = (double) 2 * Math.PI * constants.getFrequency();
         try {
             make_TxT_elpam_noDB(Rozpätie, type, method,
-                    Complex2RealMatrix(Z), Complex2ImagMatrix(Z).scalarMultiply(1/omega), Complex2ImagMatrix(Y).scalarMultiply(1/omega), 
-                    Z, Y, 
-                    Complex2RealMatrix(Zs), Complex2ImagMatrix(Zs).scalarMultiply(1/omega), Complex2ImagMatrix(Ys).scalarMultiply(1/omega),
+                    Complex2RealMatrix(Z), Complex2ImagMatrix(Z).scalarMultiply(1 / omega), Complex2ImagMatrix(Y).scalarMultiply(1 / omega),
+                    Z, Y,
+                    Complex2RealMatrix(Zs), Complex2ImagMatrix(Zs).scalarMultiply(1 / omega), Complex2ImagMatrix(Ys).scalarMultiply(1 / omega),
                     Zs, Ys);
         } catch (IOException ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void make_TXT_ELPAM_Basic(String type, int method, Observer obs){
+
+    private void make_TXT_ELPAM_Basic(String type, int method, Observer obs) {
         //writin into file
-        double omega = (double)2*Math.PI*constants.getFrequency();
+        double omega = (double) 2 * Math.PI * constants.getFrequency();
         try {
             make_TxT_elpam_noDB(Rozpätie, type, method,
-                    Complex2RealMatrix(obs.getZ()), Complex2ImagMatrix(obs.getZ()).scalarMultiply(1/omega), Complex2ImagMatrix(obs.getY()).scalarMultiply(1/omega), 
-                    obs.getZ(), obs.getY(), 
-                    Complex2RealMatrix(obs.getZs()), Complex2ImagMatrix(obs.getZs()).scalarMultiply(1/omega), Complex2ImagMatrix(obs.getYs()).scalarMultiply(1/omega),
+                    Complex2RealMatrix(obs.getZ()), Complex2ImagMatrix(obs.getZ()).scalarMultiply(1 / omega), Complex2ImagMatrix(obs.getY()).scalarMultiply(1 / omega),
+                    obs.getZ(), obs.getY(),
+                    Complex2RealMatrix(obs.getZs()), Complex2ImagMatrix(obs.getZs()).scalarMultiply(1 / omega), Complex2ImagMatrix(obs.getYs()).scalarMultiply(1 / omega),
                     obs.getZs(), obs.getYs());
         } catch (IOException ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
