@@ -1433,31 +1433,35 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             calculationELPAM_Settings.main(args);
             main_Jframe.iscalculationELPAM_Settings = true;
         } else //Ak parametricke riesenie 
-        if (observerPanel1.P1D_par.isSelected() == true) {
+        
+            if (observerPanel1.P1D_par.isSelected() == true) {
+            
+            databaza BEplusELPAM = new databaza();
+                        // nastavenie  parametrizacie
+                        double odVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 1));
+                        double doVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
+                        double krokVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 3));
+                        int pocetCyklovparametrov = 0;
+                        if (observerPanel1.P1D_par_A.isSelected() == true) {
+                            pocetCyklovparametrov = (int) ((doVal - odVal) / krokVal);
+                        }
+                        if (observerPanel1.P1D_par_B.isSelected() == true) {
+                            pocetCyklovparametrov = (int) help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
+                        };
 
-            double odVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 1));
-            double doVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
-            double krokVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 3));
-            int pocetCyklovparametrov = 0;
-            if (observerPanel1.P1D_par_A.isSelected() == true) {
-                pocetCyklovparametrov = (int) ((doVal - odVal) / krokVal);
-            }
-            if (observerPanel1.P1D_par_B.isSelected() == true) {
-                pocetCyklovparametrov = (int) help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
-            };
+                        int selectedIndex = observerPanel1.getjComboBox_par().getSelectedIndex();
+                        if (selectedIndex != -1) {
+                            if (selectedIndex < 3) {
+                                selectedIndex = selectedIndex + 8;
+                            } else if (selectedIndex >= 3) {
+                                selectedIndex = selectedIndex + 9;
+                            }
 
-            int selectedIndex = observerPanel1.getjComboBox_par().getSelectedIndex();
-            if (selectedIndex != -1) {
-                if (selectedIndex < 3) {
-                    selectedIndex = selectedIndex + 8;
-                } else if (selectedIndex >= 3) {
-                    selectedIndex = selectedIndex + 9;
-                }
-
-            }
+                        }
 
             //Databaza observera pre dany typ priecne mapovanie velkost ako pocet vektorov Rp
             Observer[] vektor_observerov_ELPAM = new Observer[pocetCyklovparametrov];
+            // main cyklus pre parametrizaciu
             for (int cl01 = 0; cl01 < pocetCyklovparametrov; cl01++) {
 
                 // nacitaj velkost elementu
@@ -1476,8 +1480,27 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculationELPAM_Settings.getzvazky(),
                         aproxx,
                         calculationELPAM_Settings.getEXGMR(),
-                        calculationELPAM_Settings.getEXRAC());
+                        calculationELPAM_Settings.getEXRAC(),
+                        false);
+                vektor_observerov_ELPAM[cl01].setParameter(elementh);
 
+                // vloz hodnotu parametra do observera
+                 if (observerPanel1.P1D_par_A.isSelected() == true) {
+                    vektor_observerov_ELPAM[cl01].setParameter( odVal + krokVal * cl01);
+                }
+                if (observerPanel1.P1D_par_B.isSelected() == true) {
+                   vektor_observerov_ELPAM[cl01].setParameter( krokVal * cl01);
+                }
+                
+                
+            }
+            ArrayList<Observer[]> ELPAM_parametre = new ArrayList<>();
+            ELPAM_parametre.add(vektor_observerov_ELPAM);
+            BEplusELPAM.setP1D_parameter_ELMPAM(ELPAM_parametre); // nakrnemeni databazy
+            try {
+                Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, outputPanel2.YAxisVal_ELPAM(), constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+            } catch (DelaunayError ex) {
+                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else { // ak neni zaskrtnuta parametrizacia
@@ -1504,7 +1527,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculationELPAM_Settings.getzvazky(),
                         aproxx,
                         calculationELPAM_Settings.getEXGMR(),
-                        calculationELPAM_Settings.getEXRAC());
+                        calculationELPAM_Settings.getEXRAC(),
+                        true);
 
             }
 
@@ -1539,7 +1563,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
     }
 
-    private Observer calculateELPAM(int metoda, boolean bundle, boolean aproxx, boolean exactGMR, boolean exactRAC) {
+    private Observer calculateELPAM(int metoda, boolean bundle, boolean aproxx, boolean exactGMR, boolean exactRAC, boolean makeTxt) {
         Observer output = new Observer();
 
         try {
@@ -1678,7 +1702,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 output = new Observer(Z_total_Carson_no_gnd_final, Y_total_final, Z_total_Carson_no_gnd_symm_final, Y_total_symm_final, 0);
 
                 //writin into file
-                make_TXT_ELPAM_Basic(type, method, output);
+                if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
 
             } else if (method == 2) {
                 ArrayList<ComplexMatrix> Z_total_Carson_gnd = new ArrayList<>();
@@ -1764,7 +1788,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 output = new Observer(Z_total_Carson_gnd_final, Y_total_final, Z_total_Carson_gnd_symm_final, Y_total_symm_final, 0);
 
                 //writin into file
-                make_TXT_ELPAM_Basic(type, method, output);
+                if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
 
             } else if (method == 3) {
                 ArrayList<ComplexMatrix> Z_total_Carson_mod_no_gnd = new ArrayList<>();
@@ -1851,7 +1875,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 output = new Observer(Z_total_Carson_mod_no_gnd_final, Y_total_final, Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final, 0);
 
                 //writin into file
-                make_TXT_ELPAM_Basic(type, method, output);
+                if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
 
             } else if (method == 4) {
                 ArrayList<ComplexMatrix> Z_total_Carson_mod_gnd = new ArrayList<>();
@@ -1936,7 +1960,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 output = new Observer(Z_total_Carson_mod_gnd_final, Y_total_final, Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final, 0);
 
                 //writin into file
-                make_TXT_ELPAM_Basic(type, method, output);
+                if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
 
             } else if (method == 5) {
                 ArrayList<ComplexMatrix> Z_total_Basic = new ArrayList<>();
@@ -2019,7 +2043,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 output = new Observer(Z_total_Basic_final, Y_total_final, Z_total_Basic_symm_final, Y_total_symm_final, 0);
 
                 //writin into file
-                make_TXT_ELPAM_Basic(type, method, output);
+                if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
 
             } else if (method == 6) {
                 ArrayList<ComplexMatrix> Z_total_CDER = new ArrayList<>();
@@ -2117,7 +2141,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 output = new Observer(Z_total_CDER_final, Y_total_final, Z_total_CDER_symm_final, Y_total_symm_final, 0);
 
                 //writin into file
-                make_TXT_ELPAM_Basic(type, method, output);
+                if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
 
             } else if (method == 7) {
                 ArrayList<ComplexMatrix> Z_total_TakuNoda = new ArrayList<>();
@@ -2232,7 +2256,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 output = new Observer(Z_total_TakuNoda_final, Y_total_final, Z_total_TakuNoda_symm_final, Y_total_symm_final, 0);
 
                 //writin into file
-                make_TXT_ELPAM_Basic(type, method, output);
+                if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
             }
 
         } catch (DelaunayError ex) {
@@ -4536,7 +4560,108 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         if (typ == "parametricke") {
 
-            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
+            if(BorE == "B" || BorE == "E" || BorE == "I" || BorE == "Emod"  ){
+                        plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
+                     if (BorE == "B") {
+                         graf2.setunits(outputPanel2.BscaleFactor());
+                     }
+                     if (BorE == "E") {
+                         graf2.setunits(outputPanel2.EscaleFactor());
+                     }
+                     if (BorE == "I") {
+                         graf2.setunits(outputPanel2.IscaleFactor());
+                     }
+                     if (BorE == "Emod") {
+                         graf2.setunits(1);
+                     }
+                     graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+                     if (BorE == "B") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+                     }
+                     if (BorE == "E") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+                     }
+                     if (BorE == "I") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+                     }
+                     if (BorE == "Emod") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+                     }
+                     Date todaysDate = new Date();
+                     DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+                     graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                     graf2.draw_1D_yn();
+            
+            }else{
+                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, "0", BE.getP1D_parameter_ELMPAM()), constants.getDislin_Label_Z(), label, ROW1, ROW2);
+                   Date todaysDate = new Date();
+                   DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+                   graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                   graf2.draw_1D_yn();
+            
+            
+            }
+             
+            
+          
+        }
+
+    }
+
+    // o iste co vrchna funkci ale konkretuzujeme databazu z ktorej cerpat
+     private void Draw_1D_graph(databaza BE, String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix) throws DelaunayError {
+        String label = "kokotik";
+        if (BorE == "B") {
+            label = constants.getDislin_Label_B();
+        }
+        if (BorE == "E") {
+            label = constants.getDislin_Label_E();
+        }
+        if (BorE == "Emod") {
+            label = constants.getDislin_Label_Emod();
+        }
+        if (BorE == "I") {
+            label = constants.getDislin_Label_I();
+        }
+
+        if (typ == "priecne") {
+
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_priecne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_priecne(), Rozpätie.getPole()));
+            if (BorE == "B") {
+                graf2.setunits(outputPanel2.BscaleFactor());
+            }
+            if (BorE == "E") {
+                graf2.setunits(outputPanel2.EscaleFactor());
+            }
+            if (BorE == "I") {
+                graf2.setunits(outputPanel2.IscaleFactor());
+            }
+            if (BorE == "Emod") {
+                graf2.setunits(1);
+            }
+
+            graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+            if (BorE == "B") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+            }
+            if (BorE == "E") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+            }
+            if (BorE == "I") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+            }
+            if (BorE == "Emod") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+            }
+            Date todaysDate = new Date();
+            DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+            graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+            graf2.draw_1D_yn();
+        }
+
+        if (typ == "pozdlzne") {
+
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_pozdlzne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_pozdlzne(), Rozpätie.getPole()));
             if (BorE == "B") {
                 graf2.setunits(outputPanel2.BscaleFactor());
             }
@@ -4568,8 +4693,91 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             graf2.draw_1D_yn();
         }
 
+        if (typ == "neurcite") {
+
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_neurcite()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_neurcite(), Rozpätie.getPole()));
+            if (BorE == "B") {
+                graf2.setunits(outputPanel2.BscaleFactor());
+            }
+            if (BorE == "E") {
+                graf2.setunits(outputPanel2.EscaleFactor());
+            }
+            if (BorE == "I") {
+                graf2.setunits(outputPanel2.IscaleFactor());
+            }
+            if (BorE == "Emod") {
+                graf2.setunits(1);
+            }
+            graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+            if (BorE == "B") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+            }
+            if (BorE == "E") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+            }
+            if (BorE == "I") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+            }
+            if (BorE == "Emod") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+            }
+            Date todaysDate = new Date();
+            DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+            graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+            graf2.draw_1D_yn();
+        }
+
+        if (typ == "parametricke") {
+
+            if(BorE == "B" || BorE == "E" || BorE == "I" || BorE == "Emod"  ){
+                        plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
+                     if (BorE == "B") {
+                         graf2.setunits(outputPanel2.BscaleFactor());
+                     }
+                     if (BorE == "E") {
+                         graf2.setunits(outputPanel2.EscaleFactor());
+                     }
+                     if (BorE == "I") {
+                         graf2.setunits(outputPanel2.IscaleFactor());
+                     }
+                     if (BorE == "Emod") {
+                         graf2.setunits(1);
+                     }
+                     graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+                     if (BorE == "B") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+                     }
+                     if (BorE == "E") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+                     }
+                     if (BorE == "I") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+                     }
+                     if (BorE == "Emod") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+                     }
+                     Date todaysDate = new Date();
+                     DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+                     graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                     graf2.draw_1D_yn();
+            
+            }else{
+                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, "1", BE.getP1D_parameter_ELMPAM()), constants.getDislin_Label_Z(), label, ROW1, ROW2);
+                   Date todaysDate = new Date();
+                   DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+                   graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                   graf2.draw_1D_yn();
+            
+            
+            }
+             
+            
+          
+        }
+
     }
 
+    
     /**
      * kresnenie koturoveho grafu
      *

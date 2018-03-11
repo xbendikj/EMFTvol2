@@ -54,8 +54,16 @@ public class outputPanel extends javax.swing.JPanel {
         JComboBox_Yvar.addItem(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 25));
         JComboBox_Yvar.addItem(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 26));
     
-    
-       
+         JComboBox_Yvar_ELPAM.removeAllItems(); // odstran vsetko z combo boxu
+         JComboBox_Yvar_ELPAM.addItem("R0");
+         JComboBox_Yvar_ELPAM.addItem("R1");
+         JComboBox_Yvar_ELPAM.addItem("R2");
+         JComboBox_Yvar_ELPAM.addItem("L0");
+         JComboBox_Yvar_ELPAM.addItem("L1");
+         JComboBox_Yvar_ELPAM.addItem("L2");
+         JComboBox_Yvar_ELPAM.addItem("C0");
+         JComboBox_Yvar_ELPAM.addItem("C1");
+         JComboBox_Yvar_ELPAM.addItem("C2");
     
     }
 
@@ -85,6 +93,7 @@ public class outputPanel extends javax.swing.JPanel {
         fill = new javax.swing.JRadioButton();
         equal_sides = new javax.swing.JCheckBox();
         limit = new javax.swing.JCheckBox();
+        JComboBox_Yvar_ELPAM = new javax.swing.JComboBox<>();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 4)
             , javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP));
@@ -186,6 +195,13 @@ public class outputPanel extends javax.swing.JPanel {
     limit.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 31));
     limit.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 32));
 
+    JComboBox_Yvar_ELPAM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+    JComboBox_Yvar_ELPAM.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            JComboBox_Yvar_ELPAMActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
@@ -217,17 +233,19 @@ public class outputPanel extends javax.swing.JPanel {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(Save_to_memory))
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(SI_unit)
-                        .addComponent(conturry))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(JComboBox_Yvar_ELPAM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(conturry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(fill)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(equal_sides))
-                        .addComponent(update_Unit))))
-            .addContainerGap(37, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(SI_unit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(update_Unit))))))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +266,8 @@ public class outputPanel extends javax.swing.JPanel {
                 .addComponent(Graph_file)
                 .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(SI_unit)
-                .addComponent(update_Unit))
+                .addComponent(update_Unit)
+                .addComponent(JComboBox_Yvar_ELPAM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,6 +280,14 @@ public class outputPanel extends javax.swing.JPanel {
     private void Graph_screenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Graph_screenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Graph_screenActionPerformed
+
+    public JComboBox<String> getJComboBox_Yvar_ELPAM() {
+        return JComboBox_Yvar_ELPAM;
+    }
+
+    public void setJComboBox_Yvar_ELPAM(JComboBox<String> JComboBox_Yvar_ELPAM) {
+        this.JComboBox_Yvar_ELPAM = JComboBox_Yvar_ELPAM;
+    }
 
     public JCheckBox getGraph_file() {
         return Graph_file;
@@ -414,6 +441,10 @@ public class outputPanel extends javax.swing.JPanel {
     private void fillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fillActionPerformed
+
+    private void JComboBox_Yvar_ELPAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboBox_Yvar_ELPAMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JComboBox_Yvar_ELPAMActionPerformed
     /**
      * vrat scale faktor pre B
      * @param scaleUnit nie Tesla Ano mu Tesla
@@ -503,11 +534,27 @@ public class outputPanel extends javax.swing.JPanel {
         return val;
     }
 
-
+    public String YAxisVal_ELPAM(){
+        String val ="";
+        int poradie = JComboBox_Yvar_ELPAM.getSelectedIndex();
+        
+        if (poradie==0) val  = "R0";
+        if (poradie==1) val  = "R1";
+        if (poradie==2) val  = "R2";
+        if (poradie==3) val  = "L0"; 
+        if (poradie==4) val  = "L1";
+        if (poradie==5) val  = "L2";
+        if (poradie==6) val  = "C0";
+        if (poradie==7) val  = "C1";
+        if (poradie==8) val  = "C2";
+        return val;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox Graph_file;
     private javax.swing.JCheckBox Graph_screen;
     private javax.swing.JComboBox<String> JComboBox_Yvar;
+    private javax.swing.JComboBox<String> JComboBox_Yvar_ELPAM;
     private javax.swing.JRadioButton SI_unit;
     private javax.swing.JButton Save_to_memory;
     private javax.swing.JCheckBox TxT_long;
