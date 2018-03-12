@@ -87,6 +87,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     public databaza BE = new databaza();
     public databaza BEplus = new databaza();
     public boolean BEpluspovolene = false;
+    
+    //parametricky vypocet - premenna na update percent v progress bare
+    private int progress_bar_cycles;
+    private int progress_bar_value;
 
     /**
      * Creates new form New
@@ -1444,9 +1448,11 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         int pocetCyklovparametrov = 0;
                         if (observerPanel1.P1D_par_A.isSelected() == true) {
                             pocetCyklovparametrov = (int) ((doVal - odVal) / krokVal);
+                            this.progress_bar_cycles = pocetCyklovparametrov;
                         }
                         if (observerPanel1.P1D_par_B.isSelected() == true) {
                             pocetCyklovparametrov = (int) help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 2));
+                            this.progress_bar_cycles = pocetCyklovparametrov;
                         };
 
                         int selectedIndex = observerPanel1.getjComboBox_par().getSelectedIndex();
@@ -1504,7 +1510,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
 
         } else { // ak neni zaskrtnuta parametrizacia
-
+            this.progress_bar_cycles = 1;       // nie je parametrizacia - progress bar nebude delit vyslednu hodnotu este poctom cyklov    
             catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
             // nacitaj velkost elementu
             double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
@@ -1595,7 +1601,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
             //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
             //int element = 0; //nastavenie useku v retazovke
-            double show_on_bar = 0;
+            this.progress_bar_value = 0;
             //false -> uvazuje klasicky prepocet cez r_zv, true -> vodice vo zvazku ako nove lana v systeme
 
             Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385); //nutne pre stanovenie velkosti matic
@@ -1661,9 +1667,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -1683,9 +1689,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -1747,9 +1753,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -1769,9 +1775,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -1834,9 +1840,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -1856,9 +1862,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -1919,9 +1925,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -1941,9 +1947,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -2002,9 +2008,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -2024,9 +2030,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -2100,9 +2106,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -2122,9 +2128,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -2215,9 +2221,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }
@@ -2237,9 +2243,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    show_on_bar = show_on_bar + 1;
-                    if (show_on_bar % 20 == 0) {
-                        double value = ((show_on_bar) * 100 / number_of_elements); //2 iteratory no n.o.e
+                    progress_bar_value = progress_bar_value + 1;
+                    if (progress_bar_value % 20 == 0) {
+                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
                         updatePB((int) value);
                     }
                 }

@@ -207,82 +207,127 @@ public class Observer {
     }
     
     public double[] getR0_ELPAM(){
-        this.R0 = new double[this.Zs.getNrow()];
-        for (int i = 0; i < this.Zs.getNrow(); i++) {
-                R0[i] = Complex2RealMatrix(this.Zs).getEntry(i*3, i*3); // napr 0*3 = 0 -> pozicia 0,0 -> R0
+        if (checkSizeX3(this.Zs)){
+            this.R0 = new double[this.Zs.getNrow()/3];
+            for (int i = 0; i < this.Zs.getNrow()/3; i++) {
+                    R0[i] = Complex2RealMatrix(this.Zs).getEntry(i*3, i*3); // napr 0*3 = 0 -> pozicia 0,0 -> R0
+            }
+            return this.R0;
+        } else {
+            return null;
         }
-        return R0;
     }
     
     public double[] getR1_ELPAM(){
-        this.R1 = new double[this.Zs.getNrow()];
-        for (int i = 0; i < this.Zs.getNrow(); i++) {
-                R1[i] = Complex2RealMatrix(this.Zs).getEntry(i*3+1, i*3+1); // napr 0*3+1 = 1 -> pozicia 1,1 -> R1
+        if (checkSizeX3(this.Zs)){
+            this.R1 = new double[this.Zs.getNrow()/3];
+            for (int i = 0; i < this.Zs.getNrow()/3; i++) {
+                    R1[i] = Complex2RealMatrix(this.Zs).getEntry(i*3+1, i*3+1); // napr 0*3+1 = 1 -> pozicia 1,1 -> R1
+            }
+            return R1;
+        } else {
+            return null;
         }
-        return R1;
     }
     
     public double[] getR2_ELPAM(){
-        this.R2 = new double[this.Zs.getNrow()];
-        for (int i = 0; i < this.Zs.getNrow(); i++) {
-                R2[i] = Complex2RealMatrix(this.Zs).getEntry(i*3+2, i*3+2); // napr 0*3+2 = 2 -> pozicia 2,2 -> R2
+        if (checkSizeX3(this.Zs)){
+            this.R2 = new double[this.Zs.getNrow()/3];
+            for (int i = 0; i < this.Zs.getNrow()/3; i++) {
+                    R2[i] = Complex2RealMatrix(this.Zs).getEntry(i*3+2, i*3+2); // napr 0*3+2 = 2 -> pozicia 2,2 -> R2
+            }
+            return R2;
+        } else {
+            return null;
         }
-        return R2;
     }
     
     public double[] getL0_ELPAM(){
-        double omega = (double)2*Math.PI*constants.getFrequency();
-        this.L0 = new double[this.Zs.getNrow()];
-        for (int i = 0; i < this.Zs.getNrow(); i++) {
-                L0[i] = Complex2ImagMatrix(this.Zs).getEntry(i*3, i*3)/omega; // napr 0*3 = 0 -> pozicia 0,0 -> L0
+        if (checkSizeX3(this.Zs)){
+            double omega = (double)2*Math.PI*constants.getFrequency();
+            this.L0 = new double[this.Zs.getNrow()/3];
+            for (int i = 0; i < this.Zs.getNrow()/3; i++) {
+                    L0[i] = Complex2ImagMatrix(this.Zs).getEntry(i*3, i*3)/omega; // napr 0*3 = 0 -> pozicia 0,0 -> L0
+            }
+            return L0;
+        } else {
+            return null;
         }
-        return L0;
     }
     
     public double[] getL1_ELPAM(){
-        double omega = (double)2*Math.PI*constants.getFrequency();
-        this.L1 = new double[this.Zs.getNrow()];
-        for (int i = 0; i < this.Zs.getNrow(); i++) {
-                L1[i] = Complex2ImagMatrix(this.Zs).getEntry(i*3+1, i*3+1)/omega; // napr 0*3+1 = 1 -> pozicia 1,1 -> L1
+        if (checkSizeX3(this.Zs)){
+            double omega = (double)2*Math.PI*constants.getFrequency();
+            this.L1 = new double[this.Zs.getNrow()/3];
+            for (int i = 0; i < this.Zs.getNrow()/3; i++) {
+                    L1[i] = Complex2ImagMatrix(this.Zs).getEntry(i*3+1, i*3+1)/omega; // napr 0*3+1 = 1 -> pozicia 1,1 -> L1
+            }
+            return L1;
+        } else {
+            return null;
         }
-        return L1;
     }
     
     public double[] getL2_ELPAM(){
-        double omega = (double)2*Math.PI*constants.getFrequency();
-        this.L2 = new double[this.Zs.getNrow()];
-        for (int i = 0; i < this.Zs.getNrow(); i++) {
-                L2[i] = Complex2ImagMatrix(this.Zs).getEntry(i*3+2, i*3+2)/omega; // napr 0*3+2 = 2 -> pozicia 2,2 -> L2
+        if (checkSizeX3(this.Zs)){
+            double omega = (double)2*Math.PI*constants.getFrequency();
+            this.L2 = new double[this.Zs.getNrow()/3];
+            for (int i = 0; i < this.Zs.getNrow()/3; i++) {
+                    L2[i] = Complex2ImagMatrix(this.Zs).getEntry(i*3+2, i*3+2)/omega; // napr 0*3+2 = 2 -> pozicia 2,2 -> L2
+            }
+            return L2;
+        } else {
+            return null;
         }
-        return L2;
     } 
       
     public double[] getC0_ELPAM(){
-        double omega = (double)2*Math.PI*constants.getFrequency();
-        this.C0 = new double[this.Ys.getNrow()];
-        for (int i = 0; i < this.Ys.getNrow(); i++) {
-                C0[i] = Complex2ImagMatrix(this.Ys).getEntry(i*3, i*3)/omega; // napr 0*3 = 0 -> pozicia 0,0 -> C0
+        if (checkSizeX3(this.Ys)){
+            double omega = (double)2*Math.PI*constants.getFrequency();
+            this.C0 = new double[this.Ys.getNrow()/3];
+            for (int i = 0; i < this.Ys.getNrow()/3; i++) {
+                    C0[i] = Complex2ImagMatrix(this.Ys).getEntry(i*3, i*3)/omega; // napr 0*3 = 0 -> pozicia 0,0 -> C0
+            }
+            return C0;
+        } else {
+            return null;
         }
-        return C0;
     }
     
     public double[] getC1_ELPAM(){
-        double omega = (double)2*Math.PI*constants.getFrequency();
-        this.C1 = new double[this.Ys.getNrow()];
-        for (int i = 0; i < this.Ys.getNrow(); i++) {
-                C1[i] = Complex2ImagMatrix(this.Ys).getEntry(i*3+1, i*3+1)/omega; // napr 0*3+1 = 1 -> pozicia 1,1 -> C1
+        if (checkSizeX3(this.Ys)){
+            double omega = (double)2*Math.PI*constants.getFrequency();
+            this.C1 = new double[this.Ys.getNrow()/3];
+            for (int i = 0; i < this.Ys.getNrow()/3; i++) {
+                    C1[i] = Complex2ImagMatrix(this.Ys).getEntry(i*3+1, i*3+1)/omega; // napr 0*3+1 = 1 -> pozicia 1,1 -> C1
+            }
+            return C1;
+        } else {
+            return null;
         }
-        return C1;
     }
     
     public double[] getC2_ELPAM(){
-        double omega = (double)2*Math.PI*constants.getFrequency();
-        this.C2 = new double[this.Ys.getNrow()];
-        for (int i = 0; i < this.Ys.getNrow(); i++) {
-                C2[i] = Complex2ImagMatrix(this.Ys).getEntry(i*3+2, i*3+2)/omega; // napr 0*3+2 = 2 -> pozicia 2,2 -> C2
+        if (checkSizeX3(this.Ys)){
+            double omega = (double)2*Math.PI*constants.getFrequency();
+            this.C2 = new double[this.Ys.getNrow()/3];
+            for (int i = 0; i < this.Ys.getNrow()/3; i++) {
+                    C2[i] = Complex2ImagMatrix(this.Ys).getEntry(i*3+2, i*3+2)/omega; // napr 0*3+2 = 2 -> pozicia 2,2 -> C2
+            }
+            return C2;
+        } else {
+            return null;
         }
-        return C2;
     }  
+    
+    private boolean checkSizeX3(ComplexMatrix source){
+        if (source.getNrow() % 3 == 0 && source.getNcol()% 3 == 0){
+            return true;
+        } else {
+            System.out.println("Destination Matrix" + source + "is not a square matrix of three phase pattern!");
+            return false;
+        }
+    }
     
      /**
       * sppricitaj observera ku observerovi
