@@ -523,31 +523,31 @@ public class databaza {
 
             }
             if (BE == "R0") {
-                yray[cl1] = X[cl1].getR0_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getR0_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "R1") {
-                yray[cl1] = X[cl1].getR1_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getR1_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "R2") {
-                yray[cl1] = X[cl1].getR2_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getR2_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "L0") {
-                yray[cl1] = X[cl1].getL0_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getL0_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "L1") {
-                yray[cl1] = X[cl1].getL1_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getL1_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "L2") {
-                yray[cl1] = X[cl1].getL2_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getL2_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "C0") {
-                yray[cl1] = X[cl1].getC0_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getC0_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "C1") {
-                yray[cl1] = X[cl1].getC1_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getC1_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
             if (BE == "C2") {
-                yray[cl1] = X[cl1].getC2_ELPAM()[Integer.parseInt(rozmer) + 1];
+                yray[cl1] = X[cl1].getC2_ELPAM()[Integer.parseInt(rozmer) - 1];
             }
 
         }

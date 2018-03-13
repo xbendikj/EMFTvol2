@@ -1702,7 +1702,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Z_total_Carson_no_gnd_symm_final = cSum_Carson_no_gnd_symm.times((double) 1 / number_of_elements);
                     Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
                 }
-                updatePB(100);
 
                 //write to observer
                 output = new Observer(Z_total_Carson_no_gnd_final, Y_total_final, Z_total_Carson_no_gnd_symm_final, Y_total_symm_final, 0);
@@ -1788,7 +1787,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Z_total_Carson_gnd_symm_final = cSum_Carson_gnd_symm.times((double) 1 / number_of_elements);
                     Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
                 }
-                updatePB(100);
 
                 //write to observer
                 output = new Observer(Z_total_Carson_gnd_final, Y_total_final, Z_total_Carson_gnd_symm_final, Y_total_symm_final, 0);
@@ -1875,7 +1873,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Z_total_Carson_mod_no_gnd_symm_final = cSum_Carson_mod_no_gnd_symm.times((double) 1 / number_of_elements);
                     Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
                 }
-                updatePB(100);
 
                 //write to observer
                 output = new Observer(Z_total_Carson_mod_no_gnd_final, Y_total_final, Z_total_Carson_mod_no_gnd_symm_final, Y_total_symm_final, 0);
@@ -1960,7 +1957,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Z_total_Carson_mod_gnd_symm_final = cSum_Carson_mod_gnd_symm.times((double) 1 / number_of_elements);
                     Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
                 }
-                updatePB(100);
 
                 //write to observer
                 output = new Observer(Z_total_Carson_mod_gnd_final, Y_total_final, Z_total_Carson_mod_gnd_symm_final, Y_total_symm_final, 0);
@@ -2043,7 +2039,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Z_total_Basic_symm_final = cSum_Basic_symm.times((double) 1 / number_of_elements);
                     Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
                 }
-                updatePB(100);
 
                 //write to observer
                 output = new Observer(Z_total_Basic_final, Y_total_final, Z_total_Basic_symm_final, Y_total_symm_final, 0);
@@ -2141,7 +2136,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Z_total_CDER_symm_final = cSum_CDER_symm.times((double) 1 / number_of_elements);
                     Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
                 }
-                updatePB(100);
 
                 //write to observer
                 output = new Observer(Z_total_CDER_final, Y_total_final, Z_total_CDER_symm_final, Y_total_symm_final, 0);
@@ -2256,7 +2250,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     Z_total_TakuNoda_symm_final = cSum_TakuNoda_symm.times((double) 1 / number_of_elements);
                     Y_total_symm_final = cSum_Y_symm.times((double) 1 / number_of_elements);
                 }
-                updatePB(100);
+                
 
                 //write to observer
                 output = new Observer(Z_total_TakuNoda_final, Y_total_final, Z_total_TakuNoda_symm_final, Y_total_symm_final, 0);
@@ -2264,6 +2258,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 //writin into file
                 if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
             }
+            updatePB(100);
 
         } catch (DelaunayError ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
