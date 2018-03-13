@@ -1538,7 +1538,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
             }
 
+            
         }
+        updatePB(100);
 
     }//GEN-LAST:event_calc_MATRIXActionPerformed
 
@@ -2258,7 +2260,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 //writin into file
                 if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
             }
-            updatePB(100);
+            
 
         } catch (DelaunayError ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
