@@ -59,8 +59,6 @@ import tools.help;
 import static tools.help.ArrList2Arr;
 import static tools.help.Complex2ImagMatrix;
 import static tools.help.Complex2RealMatrix;
-import static tools.help.makeComplexMatrix;
-import static tools.help.phase2symm;
 import static tools.help.print2fileComplexMatrix;
 import static tools.help.print2fileRealMatrix;
 import static tools.help.print2fileSymmComplexMatrix;
@@ -91,6 +89,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     //parametricky vypocet - premenna na update percent v progress bare
     private int progress_bar_cycles;
     private int progress_bar_value;
+    private int progress_bar_current_cycle;
 
     /**
      * Creates new form New
@@ -1468,6 +1467,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             //Databaza observera pre dany typ priecne mapovanie velkost ako pocet vektorov Rp
             Observer[] vektor_observerov_ELPAM = new Observer[pocetCyklovparametrov];
             // main cyklus pre parametrizaciu
+            this.progress_bar_current_cycle = 1;
             for (int cl01 = 0; cl01 < pocetCyklovparametrov; cl01++) {
 
                 // nacitaj velkost elementu
@@ -1478,7 +1478,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (Rozpätie.getRetazovkaList().size() == 0) {
                     sulana = false;
                 }
-
+                
                 calculatecatenaryParameter_ELPAM_parameter(selectedIndex, krokVal * cl01, odVal); // neupravuje hodnoty elpam
                 aproxx = priprava_vektorov(elementh, aproxx);
 
@@ -1487,7 +1487,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         aproxx,
                         calculationELPAM_Settings.getEXGMR(),
                         calculationELPAM_Settings.getEXRAC(),
-                        false);
+                        false, true);
                 vektor_observerov_ELPAM[cl01].setParameter(elementh);
 
                 // vloz hodnotu parametra do observera
@@ -1497,7 +1497,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if (observerPanel1.P1D_par_B.isSelected() == true) {
                    vektor_observerov_ELPAM[cl01].setParameter( krokVal * cl01);
                 }
-                
+                this.progress_bar_current_cycle++;
                 
             }
             ArrayList<Observer[]> ELPAM_parametre = new ArrayList<>();
@@ -1508,8 +1508,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             } catch (DelaunayError ex) {
                 Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
             }
+            this.progress_bar_current_cycle = 1;
 
         } else { // ak neni zaskrtnuta parametrizacia
+            this.progress_bar_current_cycle = 1;
             this.progress_bar_cycles = 1;       // nie je parametrizacia - progress bar nebude delit vyslednu hodnotu este poctom cyklov    
             catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
             // nacitaj velkost elementu
@@ -1534,14 +1536,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         aproxx,
                         calculationELPAM_Settings.getEXGMR(),
                         calculationELPAM_Settings.getEXRAC(),
-                        true);
-
+                        true, false);
             }
-
-            
         }
-        updatePB(100);
-
     }//GEN-LAST:event_calc_MATRIXActionPerformed
 
     private void calc_MATRIX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX1ActionPerformed
@@ -1571,7 +1568,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
     }
 
-    private Observer calculateELPAM(int metoda, boolean bundle, boolean aproxx, boolean exactGMR, boolean exactRAC, boolean makeTxt) {
+    private Observer calculateELPAM(int metoda, boolean bundle, boolean aproxx, boolean exactGMR, boolean exactRAC, boolean makeTxt, boolean parametrical) {
         Observer output = new Observer();
 
         try {
@@ -1603,7 +1600,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
             //definovanie realmatrix premennych - zistovanie ich velkosti - .get(xyz) hovori o elementoch v rozpati
             //int element = 0; //nastavenie useku v retazovke
-            this.progress_bar_value = 0;
+            if (progress_bar_current_cycle == 1){
+                this.progress_bar_value = 0;
+            }
             //false -> uvazuje klasicky prepocet cez r_zv, true -> vodice vo zvazku ako nove lana v systeme
 
             Rozpätie.calculateMatrix_opt_XX("a", "A", aproxx, bundle, Complex.ONE, 0.26244, 1.12385); //nutne pre stanovenie velkosti matic
@@ -1669,9 +1668,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -1691,9 +1690,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -1754,9 +1753,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -1776,9 +1775,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -1840,9 +1839,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -1862,9 +1861,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -1924,9 +1923,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -1946,9 +1945,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -2006,9 +2005,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -2028,9 +2027,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -2103,9 +2102,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -2125,9 +2124,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -2217,9 +2216,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -2239,9 +2238,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                     //vypis no progress baru
-                    progress_bar_value = progress_bar_value + 1;
-                    if (progress_bar_value % 20 == 0) {
-                        double value = (((progress_bar_value) * 100 / number_of_elements) / progress_bar_cycles); //2 iteratory no n.o.e
+                    progress_bar_value++;
+                    double value = (( (double) progress_bar_value) / ((double) 2 * (double) number_of_elements * (double) progress_bar_cycles)) * 100; //2 iteratory no n.o.e
+                    if (value % 5 == 0) {
                         updatePB((int) value);
                     }
                 }
@@ -2261,6 +2260,13 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 if ( makeTxt) make_TXT_ELPAM_Basic(type, method, output);
             }
             
+            if(parametrical){
+                if (progress_bar_current_cycle == progress_bar_cycles){
+                    updatePB(100);
+                }
+            } else {
+                updatePB(100);
+            }
 
         } catch (DelaunayError ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
