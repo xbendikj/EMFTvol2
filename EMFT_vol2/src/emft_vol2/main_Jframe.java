@@ -706,6 +706,12 @@ static void constructor(){
  /*93*/  SK.add("vypocitat presne striedavy odpor vodica a zaklade zadanych udajov v conductors.txt");  
          CZ.add("urcit presne stridavy odpor vodice na zaklade zadanych hodnot v conductors.txt"); 
          EN.add("calculate the exact AC resistance of conductor based on conductors.txt data");
+ /*94*/  SK.add("spodny limit Y ");  
+         CZ.add("pocitat RAC"); 
+         EN.add("calc. RAC");
+ /*95*/  SK.add("AK zaskrtnute spodny limit osi Y nebude 0 vhode pre parametricke grafy");  
+         CZ.add("urcit presne stridavy odpor vodice na zaklade zadanych hodnot v conductors.txt"); 
+         EN.add("calculate the exact AC resistance of conductor based on conductors.txt data");        
  // language_main_frame.LangLabel(constants.getLanguage_option(),0)      
  inicializovane = true;
 }

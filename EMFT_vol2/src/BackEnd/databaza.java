@@ -910,7 +910,7 @@ public class databaza {
 
         for (int cl1 = 0; cl1 < pocet_systemov; cl1++) {
 
-            yray1DList.add(getYray1D(BE, String.valueOf(pocet_systemov+1), X.get(cl1)));
+            yray1DList.add(getYray1D(BE, String.valueOf(cl1+1), X.get(0)));
 
         }
 
