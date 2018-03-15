@@ -711,7 +711,7 @@ public class help {
                 T_total.setSubMatrix(i*3, i*3, T);
                 T1_total.setSubMatrix(i*3, i*3, T1);
             }
-            ComplexMatrix symm = T1_total.times(phase).times(T);
+            ComplexMatrix symm = T1_total.times(phase).times(T_total);
             return symm;
         } else {
             System.out.println("Zly vstupny format do vypoctu zloziek");
@@ -735,7 +735,7 @@ public class help {
                 T_total.setSubMatrix(i*3, i*3, T);
                 T1_total.setSubMatrix(i*3, i*3, T1);
             }
-            ComplexMatrix phase = T1_total.times(symm).times(T);
+            ComplexMatrix phase = T1_total.times(symm).times(T_total);
             return phase;
         } else {
             System.out.println("Zly vstupny format do vypoctu zloziek");
