@@ -904,6 +904,20 @@ public class databaza {
 
     }
 
+     public ArrayList<double[]> getYray1DList_systemovy(String BE, ArrayList<Observer[]> X,int pocet_systemov) {
+
+        ArrayList<double[]> yray1DList = new ArrayList<>();
+
+        for (int cl1 = 0; cl1 < pocet_systemov; cl1++) {
+
+            yray1DList.add(getYray1D(BE, String.valueOf(pocet_systemov+1), X.get(cl1)));
+
+        }
+
+        return yray1DList;
+
+    }
+    
     /**
      * deli arraylist Y pozor rozmer arraylistov musi byt rovnaky
      *

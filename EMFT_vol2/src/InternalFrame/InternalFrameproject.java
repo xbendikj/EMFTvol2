@@ -4771,7 +4771,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                      graf2.draw_1D_yn();
             
             }else{
-                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, "1", BE.getP1D_parameter_ELMPAM()), constants.getDislin_Label_Z(), label, ROW1, ROW2);
+                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList_systemovy(BorE, BE.getP1D_parameter_ELMPAM(),BE.getP1D_parameter_ELMPAM().get(0)[0].getC0_ELPAM().length ), constants.getDislin_Label_X_par(), label, ROW1, ROW2);
                    Date todaysDate = new Date();
                    DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
                    graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
