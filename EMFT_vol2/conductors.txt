@@ -1,33 +1,23 @@
 EMFT2 conductor file - made for MATIICKY
-10
+9
 AlFe 38/32
-0.01080 0.00720 2.65e-8 100 0.72376 1 15 0.00180
+0.01080 0.00180 2.65e-8 100 0.72376 1 15 0.00180
 AlFe 42/25
-0.01060 0.00636 2.65e-8 100 0.65217 1 12 0.00212
+0.01060 0.00212 2.65e-8 100 0.65217 1 12 0.00212
 AlFe 85/83
-0.01670 0.00118 2.65e-8 100 0.30713 1 18 0.00245
+0.01670 0.00245 2.65e-8 100 0.30713 1 18 0.00245
 AlFe 180/59
-0.02039 0.01039 2.65e-8 100 0.15930 2 15 0.00250
+0.02039 0.00500 2.65e-8 100 0.15930 2 15 0.00250
 AlFe 185/31
-0.01908 0.00708 2.65e-8 100 0.15620 2 10 0.00300
+0.01908 0.00600 2.65e-8 100 0.15620 2 10 0.00300
 AlFe 240/39
-0.02175 0.00795 2.65e-8 100 0.11810 2 10 0.00345
+0.02175 0.00690 2.65e-8 100 0.11810 2 10 0.00345
 AlFe 350/59
-0.02639 0.01039 2.65e-8 100 0.08160 2 11 0.00400
+0.02639 0.00800 2.65e-8 100 0.08160 2 11 0.00400
 AlFe 450/52
-0.02931 0.00981 2.65e-8 100 0.06460 3 12 0.00325
+0.02931 0.00975 2.65e-8 100 0.06460 3 12 0.00325
 AlFe 680/83
-0.03580 0.01180 2.65e-8 100 0.04250 3 12 0.00400
+0.03580 0.01200 2.65e-8 100 0.04250 3 12 0.00400
 END of FILE
- D  / D1  / rho_cnd / rho_gnd / Rdc / Al_layers / Al_start / Al_d
-[m] / [m] / [Ohm.m] / [Ohm.m] /[Ohm]/    [-]    /   [-]    / [m]
-
-D - priemer celeho vodica
-D1 - vnutorny priemer vodica (oceloveho jadra)
-rho_cnd - rezistivita vodivej vrstvy vodica
-rho_gnd - rezistivita zeme
-Rdc - jednosmerny odpor vodica
-Al_layers - pocet hlinikovych vrstiev AlFe lana
-Al_start - pocet prutov (drotov) v prvej vrstve vodiveho plasta vodica (zvnutra)
-Al_d - priemer jedneho hlinikoveho prutu (drotu)
-
+ D / T / rho_cnd / rho_gnd / Rdc / Al_layers / Al_start / Al_d
+[m]/[m]/ [Ohm.m] / [Ohm.m] /[Ohm]/    [-]    /   [-]    / [m]

@@ -20,7 +20,7 @@ public class Rac_calculation {
     
     double rho;     //rezistivita vodivej casti vodica - vacsinou Al [Ohm.m]
     double D;       //priemer vodica [m]
-    double D1;      //vnutorny priemer oceloveho jadra vodica [m]
+    double D1;      //hrubka plasta vodica [m] (inak D1==T, z toho aj pomer T/D)
     double f;       //frekvencia [Hz]
     double Rdc;     //jednosmerny odpor vodica [Ohm/km]
     double Rac;     //vysledny striedavy odpor [Ohm.km] Rac = Rdc*k_sk
@@ -38,7 +38,7 @@ public class Rac_calculation {
      * valid constructor
      * @param rho rezistivita vodivej casti vodica - vacsinou Al [Ohm.m]
      * @param D priemer vodica [m]
-     * @param D1 vnutorny priemer oceloveho jadra vodica [m]
+     * @param D1 hrubka plasta vodica [m]
      * @param f frekvencia [Hz]
      * @param Rdc jednosmerny odpor vodica [Ohm/km]
      */
