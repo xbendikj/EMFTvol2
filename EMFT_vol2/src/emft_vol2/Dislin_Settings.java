@@ -57,7 +57,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
         
         grid.setSelected(constants.isDislin_grid());
         grid1.setSelected(constants.isDislin_graph_bgcol());
-      
+       noZA.setSelected(constants.isDislin_nozeroYA());
         jTextField_pockon.setText(String.valueOf(constants.getDislin_pocet_kontur()));
         jTextField_pocdes.setText(String.valueOf(constants.getDislin_pocet_des_miest()));
         ROW1.setText( language_main_frame.LangLabel(constants.getLanguage_option(), 0));
@@ -139,6 +139,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
         ROW2 = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
+        noZA = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -514,6 +515,14 @@ public class Dislin_Settings extends javax.swing.JFrame {
 
         jLabel23.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 68));
 
+        noZA.setText(language_main_frame.LangLabel(constants.getLanguage_option(), 94));
+        noZA.setToolTipText(language_main_frame.LangLabel(constants.getLanguage_option(), 95));
+        noZA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noZAActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -531,9 +540,16 @@ public class Dislin_Settings extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel21))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton2)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(noZA, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jTextField_popisX, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -564,12 +580,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jTextField_pocdes, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2))))
+                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -590,6 +601,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -628,8 +640,10 @@ public class Dislin_Settings extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(grid)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(grid1)))
-                .addGap(18, 18, 18)
+                        .addComponent(grid1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(noZA)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ROW1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -637,7 +651,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ROW2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         pack();
@@ -789,6 +803,10 @@ public class Dislin_Settings extends javax.swing.JFrame {
        constants.setROW2(ROW2.getText());
     }//GEN-LAST:event_ROW2KeyReleased
 
+    private void noZAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noZAActionPerformed
+        constants.setDislin_nozeroYA(noZA.isSelected());
+    }//GEN-LAST:event_noZAActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -883,6 +901,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_stepX;
     private javax.swing.JTextField jTextField_stepY;
     private javax.swing.JTextField jTextField_stepZ;
+    private static javax.swing.JCheckBox noZA;
     // End of variables declaration//GEN-END:variables
     public static boolean about_JframeIsOpen;
 

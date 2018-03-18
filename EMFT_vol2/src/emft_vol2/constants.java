@@ -69,6 +69,7 @@ public class constants {
     private static boolean dislin_graph_bgcol = true;     // true sive pozadie - false biele pozadie
     private static int dislin_pocet_kontur = 9;
     private static int Dislin_pocet_des_miest=2;
+    private static boolean dislin_nozeroYA = false;     // true sive pozadie - false biele pozadie
     private static String ROW1 =  language_main_frame.LangLabel(constants.getLanguage_option(), 0);
     private static String ROW2 = "";
     
@@ -82,6 +83,14 @@ public class constants {
 
     public static String getROW2() {
         return ROW2;
+    }
+
+    public static boolean isDislin_nozeroYA() {
+        return dislin_nozeroYA;
+    }
+
+    public static void setDislin_nozeroYA(boolean dislin_nozeroYA) {
+        constants.dislin_nozeroYA = dislin_nozeroYA;
     }
 
     public static void setROW2(String ROW2) {

@@ -4450,7 +4450,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     //draw functions
     private void Draw_1D_graph(String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix) throws DelaunayError {
-        String label = "kokotik";
+        String label = outputPanel2.getJComboBox_Yvar_ELPAM().getSelectedItem().toString();
         if (BorE == "B") {
             label = constants.getDislin_Label_B();
         }
@@ -4496,6 +4496,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             Date todaysDate = new Date();
             DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+             graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
             graf2.draw_1D_yn();
         }
 
@@ -4530,6 +4531,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             Date todaysDate = new Date();
             DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+             graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
             graf2.draw_1D_yn();
         }
 
@@ -4564,13 +4566,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             Date todaysDate = new Date();
             DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+             graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
             graf2.draw_1D_yn();
         }
 
         if (typ == "parametricke") {
 
             if(BorE == "B" || BorE == "E" || BorE == "I" || BorE == "Emod"  ){
-                        plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
+                        plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), observerPanel1.getNazov(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
                      if (BorE == "B") {
                          graf2.setunits(outputPanel2.BscaleFactor());
                      }
@@ -4599,13 +4602,17 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                      Date todaysDate = new Date();
                      DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
                      graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                      graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
                      graf2.draw_1D_yn();
             
             }else{
-                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, "0", BE.getP1D_parameter_ELMPAM()), constants.getDislin_Label_Z(), label, ROW1, ROW2);
+                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)),
+                                               BE.getYray1DList(BorE, "0", BE.getP1D_parameter_ELMPAM()),
+                                               observerPanel1.getNazov(), label, ROW1, ROW2);
                    Date todaysDate = new Date();
                    DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
                    graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                   graf2.noZeroYA_limit(true);
                    graf2.draw_1D_yn();
             
             
@@ -4619,7 +4626,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     // o iste co vrchna funkci ale konkretuzujeme databazu z ktorej cerpat
      private void Draw_1D_graph(databaza BE, String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix) throws DelaunayError {
-        String label = "kokotik";
+        String label = outputPanel2.getJComboBox_Yvar_ELPAM().getSelectedItem().toString();
         if (BorE == "B") {
             label = constants.getDislin_Label_B();
         }
@@ -4665,6 +4672,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             Date todaysDate = new Date();
             DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+            graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
             graf2.draw_1D_yn();
         }
 
@@ -4699,6 +4707,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             Date todaysDate = new Date();
             DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+             graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
             graf2.draw_1D_yn();
         }
 
@@ -4733,13 +4742,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             Date todaysDate = new Date();
             DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
             graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+            graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
             graf2.draw_1D_yn();
         }
 
         if (typ == "parametricke") {
 
             if(BorE == "B" || BorE == "E" || BorE == "I" || BorE == "Emod"  ){
-                        plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
+                        plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), observerPanel1.getNazov(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
                      if (BorE == "B") {
                          graf2.setunits(outputPanel2.BscaleFactor());
                      }
@@ -4768,13 +4778,15 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                      Date todaysDate = new Date();
                      DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
                      graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                     graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
                      graf2.draw_1D_yn();
             
             }else{
-                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, "1", BE.getP1D_parameter_ELMPAM()), constants.getDislin_Label_Z(), label, ROW1, ROW2);
+                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList_systemovy(BorE, BE.getP1D_parameter_ELMPAM(),BE.getP1D_parameter_ELMPAM().get(0)[0].getC0_ELPAM().length ), observerPanel1.getNazov(), label, ROW1, ROW2);
                    Date todaysDate = new Date();
                    DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
                    graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                   graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
                    graf2.draw_1D_yn();
             
             

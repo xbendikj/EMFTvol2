@@ -26,6 +26,7 @@ public class plot_1D {
     double smallunits=1;
     boolean screen = true;
     boolean file = false;
+    boolean noZEROYA_limit = false;
     String xname;
     String y1name;
     String Path;
@@ -104,6 +105,9 @@ public class plot_1D {
         this.limit = value*smallunits;
     }
    
+    public void noZeroYA_limit(boolean nozenolimit){
+       noZEROYA_limit =  nozenolimit;
+    }
  
     private void run1D_yn() {
 
@@ -123,6 +127,11 @@ public class plot_1D {
     
      //sorter na osi aby sa tam zmestilo vždy všetko
      for(int cl1=0;cl1<y2ray.size();cl1++){
+         
+         if( cl1 == 0 && noZEROYA_limit == true){
+             YA = (float) minVal(y2ray.get(cl1));
+         }
+         
          float YAd= (float) minVal(y2ray.get(cl1));
          float YEd= (float) maxVal(y2ray.get(cl1)); 
          if(YAd<YA) YA=YAd;
@@ -131,7 +140,7 @@ public class plot_1D {
       
                    YE=YE * constants.getDislin_graph_nasobok_z_vrchu()*legend_offset; // uprava aby graf nebol nacapeny ulne hore userom nastavitelne
      if ( YA < 0 ) YA=YA * constants.getDislin_graph_nasobok_z_spodu();
-    
+     if ( YA > 0 && noZEROYA_limit == true ) YA=YA-YA/10; 
       if (limits==true) if (YE< limit) YE =(float) limit* constants.getDislin_graph_nasobok_zo_stran()*legend_offset;
      
      
@@ -173,9 +182,9 @@ public class plot_1D {
                 XA = 0;
             }
             if (YA > 0) {
-                YA = 0;
+            if(noZEROYA_limit==false) YA = 0;
             }
-            Dislin.axstyp("cross");
+            if(noZEROYA_limit==false) Dislin.axstyp("cross");
         }
         if (constants.isDislin_graph_bgcol() == true) {
             int ic = Dislin.intrgb(0.95f, 0.95f, 0.95f);
