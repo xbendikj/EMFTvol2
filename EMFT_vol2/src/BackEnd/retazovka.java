@@ -8,13 +8,12 @@
 package BackEnd;
 
 import InternalFrame.InternalFrameproject;
-import static InternalFrame.InternalFrameproject.Rozpätie;
 import electrical_parameters.GMR_calculation;
 import electrical_parameters.Rac_calculation;
 import electrical_parameters.elpam_input_conductor;
 import emft_vol2.constants;
+import flanagan.complex.ComplexMatrix;
 import java.util.ArrayList;
-import java.util.Set;
 import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import org.jdelaunay.delaunay.geometries.DTriangle;
@@ -90,6 +89,8 @@ public class retazovka {
     private double elpam_xi_default;
     private boolean bundle;
     private double krok;
+    
+    
     
     //constructor
     /**
@@ -1035,4 +1036,7 @@ public class retazovka {
     public void setBundle(boolean bundle) {
         this.bundle = bundle;
     }
+
+    
+    
 }
