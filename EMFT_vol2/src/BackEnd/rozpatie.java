@@ -1343,12 +1343,14 @@ public class rozpatie {
                     }
                 }
                 
-                if (MM.getNrow() > 1) {
-                    Ib = MM.times((double)-1).inverse();
+            if (MM.getNrow() > 1) {
+                    MM = MM.times((double)-1).inverse();
                 } else {
-                    Ib = MM.times((double)-1);
+                    flanagan.complex.Complex aux = new flanagan.complex.Complex(MM.getElementCopy(0, 0).getReal(),
+                                                                                MM.getElementCopy(0, 0).getImag());
+                    MM = new ComplexMatrix(1, 1, aux.inverse().times((double)-1));
                 }
-                Ib = Ib.times(MN).times(Ia);
+                Ib = MM.times(MN).times(Ia);
                 I_total.add(Ib);
             }
             ComplexMatrix I_final = new ComplexMatrix(I_total.get(0).getNrow(), I_total.get(0).getNcol());

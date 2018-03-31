@@ -469,6 +469,14 @@ public class CatenaryPanel extends javax.swing.JPanel {
        
     }//GEN-LAST:event_deleteActionPerformed
 
+    public static boolean isIsListener() {
+        return isListener;
+    }
+
+    public static void setIsListener(boolean isListener) {
+        CatenaryPanel.isListener = isListener;
+    }
+
     private void calculatecatenaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculatecatenaryActionPerformed
        isListener = false;
         boolean idemePocitat = false; // boolena ci sa ide vobec pocitat catenary

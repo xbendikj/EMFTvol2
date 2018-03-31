@@ -224,7 +224,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         });
 
         calc_MATRIX1.setBackground(new java.awt.Color(255, 51, 51));
-        calc_MATRIX1.setText("ELPAM + B&E");
+        calc_MATRIX1.setText("coupling B");
         calc_MATRIX1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calc_MATRIX1ActionPerformed(evt);
@@ -255,7 +255,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calc_MATRIX1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(calc_MATRIX1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -1532,12 +1532,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 //nacitanie z mainframeu do retazovky
                 catenaryPanel1.add_parametre_to_conductor();
                 
-                //test indukovanych prudov
-                calculateELPAM_induced(calculationELPAM_Settings.getmetoda(),true,true,true);
-                ComplexMatrix induced = new ComplexMatrix(Rozpätie.getPocet_zemnych_lan(), Rozpätie.getPocet_zemnych_lan());
-                induced.setSubMatrix(0, 0, Rozpätie.GW_Current());
-                System.out.println("Indukovane prudy na zemnych lanach");
-                printComplexMatrix(induced);
+              
 
                 calculateELPAM(calculationELPAM_Settings.getmetoda(),
                         calculationELPAM_Settings.getzvazky(),
@@ -1550,8 +1545,69 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_calc_MATRIXActionPerformed
 
     private void calc_MATRIX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX1ActionPerformed
-        // POCITA AJ POLIA AJ PARAMATRE VYStUP DVA TZPY Podielovy alebo jednotkovy 
-        // ak parametre tak sa pocita aj arraylist a graf 
+        if (main_Jframe.iscalculationELPAM_Settings == false) {
+            String[] args = null;
+            calculationELPAM_Settings.main(args);
+            main_Jframe.iscalculationELPAM_Settings = true;
+        } else {
+            catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+            boolean stop = false;
+            for (int i = 0; i < Rozpätie.getRetazovkaList().size(); i++) {
+                
+                if ( Rozpätie.getRetazovkaList().get(i).getU_over() == 0 && Rozpätie.getRetazovkaList().get(i).getBundle_over() >1) stop = true ;
+                
+            }
+            
+            if ( stop == false){
+                
+            
+            
+            this.progress_bar_current_cycle = 1;
+            this.progress_bar_cycles = 1;       // nie je parametrizacia - progress bar nebude delit vyslednu hodnotu este poctom cyklov    
+           
+            // nacitaj velkost elementu
+            double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
+            // ochrana či je vobec co pocitat
+            boolean sulana = true;
+            boolean aproxx = true;
+            if (Rozpätie.getRetazovkaList().size() == 0) {
+                sulana = false;
+            }
+
+            // Priprava vektorov 
+            aproxx = priprava_vektorov(elementh, aproxx);
+
+            if (sulana == true) {
+                //nacitanie z mainframeu do retazovky
+                catenaryPanel1.add_parametre_to_conductor();
+
+                int metoda = calculationELPAM_Settings.getmetoda();
+                boolean gmr = calculationELPAM_Settings.getEXGMR();
+                boolean rac = calculationELPAM_Settings.getEXRAC();
+                calculateELPAM_induced(metoda, true, gmr, rac);
+                ComplexMatrix induced = new ComplexMatrix(Rozpätie.getPocet_zemnych_lan(), Rozpätie.getPocet_zemnych_lan());
+                induced.setSubMatrix(0, 0, Rozpätie.GW_Current());
+                System.out.println("Indukovane prudy na zemnych lanach");
+                printComplexMatrix(induced);
+
+               
+                    int i = 0;
+                    for (int j = Rozpätie.getPocet_zemnych_lan(); j > 0; j--) {
+                           CatenaryPanel.setIsListener(false);
+                        catenaryPanel1.DTMTable.setValueAt(induced.getElementCopy(i, 0).abs(), Rozpätie.getRetazovkaList().size() - j, 15);
+                        catenaryPanel1.DTMTable.setValueAt(induced.getElementCopy(i, 0).argDeg(), Rozpätie.getRetazovkaList().size() - j, 16);
+                        i++;
+                        CatenaryPanel.setIsListener(true);
+                    }
+
+                
+            }
+
+        }else{
+                help.warning1row("Bundle ground wire error");
+            }
+        } 
+
     }//GEN-LAST:event_calc_MATRIX1ActionPerformed
 
     //prepocitaj auto polohy pozorovatela
@@ -6732,7 +6788,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         fw.println("----------------------------------------------");
         fw.println("CATENARY INFORMTIONS");
         fw.println("");
-        fw.println("Catenary" + " " + "   c[m] " + " " + "h_rel[m]" + " " + "  h_0[m]" + " " + " Amod[m]" + " " + "   A1[m]");
+        fw.println("Catenary" + " " + "   c[m] " + " " + "h_rel[m]" + " " + "  h_0[m]" + " " + " Amod[m]" + " " + "   A1[m]"+ "   U [V]"+ "   I [A]"+ " Phi[deg]");
 
         for (int i = 0; i < Rozpätie.getRetazovkaList().size(); i++) {
             fw.println(String.format(cF, (double) i) + " "
@@ -6741,6 +6797,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     + String.format(cF, Rozpätie.getRetazovkaList().get(i).getH_over()) + " "
                     + String.format(cF, Rozpätie.getRetazovkaList().get(i).getAmod_over()) + " "
                     + String.format(cF, Rozpätie.getRetazovkaList().get(i).getA1_over()) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getU_over()) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getI_over()) + " "
+                    + String.format(cF, Rozpätie.getRetazovkaList().get(i).getPhi_over()) + " "        
             );
 
         }
