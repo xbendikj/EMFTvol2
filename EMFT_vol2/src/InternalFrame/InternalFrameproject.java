@@ -126,6 +126,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         jProgressBar = new javax.swing.JProgressBar();
         calc_MATRIX = new javax.swing.JButton();
         calc_MATRIX1 = new javax.swing.JButton();
+        calc_MATRIX3 = new javax.swing.JButton();
         outputPanel2 = new InternalFrame.outputPanel();
         elpam_method_panel = new javax.swing.JPanel();
 
@@ -224,10 +225,18 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         });
 
         calc_MATRIX1.setBackground(new java.awt.Color(255, 51, 51));
-        calc_MATRIX1.setText("coupling B");
+        calc_MATRIX1.setText("I zl");
         calc_MATRIX1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calc_MATRIX1ActionPerformed(evt);
+            }
+        });
+
+        calc_MATRIX3.setBackground(new java.awt.Color(255, 51, 51));
+        calc_MATRIX3.setText("U zl");
+        calc_MATRIX3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calc_MATRIX3ActionPerformed(evt);
             }
         });
 
@@ -255,6 +264,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(calc_MATRIX3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calc_MATRIX1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -272,7 +283,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(calcBaE, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(calc_MATRIX1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(calc_MATRIX1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(calc_MATRIX3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -1610,7 +1622,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_calc_MATRIX1ActionPerformed
 
-    private void calc_MATRIX2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void calc_MATRIX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX3ActionPerformed
         if (main_Jframe.iscalculationELPAM_Settings == false) {
             String[] args = null;
             calculationELPAM_Settings.main(args);
@@ -1673,9 +1685,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 help.warning1row("Bundle ground wire error");
             }
         } 
+    }//GEN-LAST:event_calc_MATRIX3ActionPerformed
 
-    }  
-    
+  
     //prepocitaj auto polohy pozorovatela
     private void changeValueAtObserverPanelXp() {
         try {
@@ -7425,6 +7437,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     public static javax.swing.JButton calcE_OLD_plus;
     private javax.swing.JButton calc_MATRIX;
     private javax.swing.JButton calc_MATRIX1;
+    private javax.swing.JButton calc_MATRIX3;
     private InternalFrame.CatenaryPanel catenaryPanel1;
     private javax.swing.JPanel elpam_method_panel;
     private javax.swing.JMenuItem jMenuItem1;

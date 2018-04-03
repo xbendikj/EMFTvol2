@@ -132,6 +132,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="calc_MATRIX" min="-2" pref="101" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="calc_MATRIX3" min="-2" pref="50" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="calc_MATRIX1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -152,6 +154,7 @@
                           <Component id="calcBaE" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="calc_MATRIX" alignment="3" pref="0" max="32767" attributes="0"/>
                           <Component id="calc_MATRIX1" alignment="3" pref="0" max="32767" attributes="0"/>
+                          <Component id="calc_MATRIX3" alignment="3" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jProgressBar" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -269,10 +272,21 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="coupling B"/>
+            <Property name="text" type="java.lang.String" value="I zl"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calc_MATRIX1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="calc_MATRIX3">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="U zl"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calc_MATRIX3ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
