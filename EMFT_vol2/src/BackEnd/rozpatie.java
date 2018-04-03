@@ -1367,6 +1367,84 @@ public class rozpatie {
             return result;
         }
     }
+    
+    //nutne pregenerovat calc_opt_matrix so zapnutymi zvazkami -> nasladne aj vypocitat parametre pre tento stav?
+    public flanagan.complex.Complex[][] GW_Voltage(){
+        flanagan.complex.Complex[][] result = flanagan.complex.Complex.twoDarray(getPocet_zemnych_lan(), getPocet_zemnych_lan());
+        ArrayList<retazovka> source = new ArrayList<>();
+        source = this.Retazovka;
+        ArrayList<ComplexMatrix> I_total = new ArrayList<>();
+        if (getPocet_zemnych_lan() == 0){
+            System.out.println("No ground wires -> no induced currents [function GW_Current in rozpatie class]");
+            return flanagan.complex.Complex.twoDarray(0, 0); //matica velkosti [1,1] s hodnotou 0+0i
+        } else {
+            for (int i = 0; i < Z_induced.size(); i++) {
+                int rows_total = Z_induced.get(i).getNrow();
+                int cols_total = Z_induced.get(i).getNcol();
+                int nn_rows = rows_total - getPocet_zemnych_lan();
+                int nn_cols = cols_total - getPocet_zemnych_lan();
+                int nm_rows = rows_total - getPocet_zemnych_lan();
+                int nm_cols = getPocet_zemnych_lan();
+                int mn_rows = getPocet_zemnych_lan();
+                int mn_cols = cols_total - getPocet_zemnych_lan();
+                int mm_rows = getPocet_zemnych_lan();
+                int mm_cols = getPocet_zemnych_lan();
+                
+                ComplexMatrix NN = new ComplexMatrix(nn_rows, nn_cols);
+                ComplexMatrix MN = new ComplexMatrix(mn_rows, mn_cols);
+                ComplexMatrix NM = new ComplexMatrix(nm_rows, nm_cols);
+                ComplexMatrix MM = new ComplexMatrix(mm_rows, mm_cols);
+                
+                ComplexMatrix Ib = new ComplexMatrix(nm_rows,nm_cols);
+                ComplexMatrix Ia = new ComplexMatrix(nm_rows, 1);
+                
+                double[] real_part = new double[getPocet_lan()];
+                double[] imag_part = new double[getPocet_lan()];
+                
+                int bundle = 0;
+                for (int j = 0; j < source.size(); j++) {
+                    for (int k = 0; k < source.get(j).getBundle_over(); k++) {
+                        real_part[bundle] = source.get(j).getI_over()*Math.cos(source.get(j).getPhi_over() * Math.PI / 180);
+                        imag_part[bundle] = source.get(j).getI_over()*Math.sin(source.get(j).getPhi_over() * Math.PI / 180);
+                        bundle++;
+                    }
+                }
+                
+                //setting up the matrices
+                for (int j = 0; j < nm_rows; j++) {
+                    Ia.setElement(j, 0, real_part[j], imag_part[j]);
+                }
+                for (int a = 0; a < Z_induced.get(i).getNrow(); a++) {
+                    for (int b = 0; b < Z_induced.get(i).getNcol(); b++) {
+                        if (a < nn_rows && b < nn_cols) {
+                            NN.setElement(a, b, Z_induced.get(i).getElementCopy(a, b));
+                        } else if (a >= nn_rows && b < nn_cols) {
+                            MN.setElement(a-nn_rows, b, Z_induced.get(i).getElementCopy(a, b));
+                        } else if (a < nn_rows && b >= nn_cols) {
+                            NM.setElement(a, b-nn_cols, Z_induced.get(i).getElementCopy(a, b));
+                        } else if (a >= nn_rows && b >= nn_cols) {
+                            MM.setElement(a-nn_rows, b-nn_cols, Z_induced.get(i).getElementCopy(a, b));
+                        }
+                    }
+                }
+                
+                Ib = MN.times(Ia);
+                I_total.add(Ib);
+            }
+            ComplexMatrix I_final = new ComplexMatrix(I_total.get(0).getNrow(), I_total.get(0).getNcol());
+            for (int i = 0; i < I_total.size(); i++) {
+                I_final = I_final.plus(I_total.get(i));
+            }
+            I_final = I_final.times((double)1/I_total.size());
+            
+            for (int i = 0; i < I_final.getNrow(); i++) {
+                for (int j = 0; j < I_final.getNcol(); j++) {
+                    result[i][j] = I_final.getElementCopy(i, j);
+                }
+            }
+            return result;
+        }
+    }
 
     public ArrayList<ComplexMatrix> getZ_induced() {
         return Z_induced;

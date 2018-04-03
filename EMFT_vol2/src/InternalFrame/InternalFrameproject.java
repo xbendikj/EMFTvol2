@@ -1610,6 +1610,72 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_calc_MATRIX1ActionPerformed
 
+    private void calc_MATRIX2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        if (main_Jframe.iscalculationELPAM_Settings == false) {
+            String[] args = null;
+            calculationELPAM_Settings.main(args);
+            main_Jframe.iscalculationELPAM_Settings = true;
+        } else {
+            catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
+            boolean stop = false;
+            for (int i = 0; i < Rozpätie.getRetazovkaList().size(); i++) {
+                
+                if ( Rozpätie.getRetazovkaList().get(i).getU_over() == 0 && Rozpätie.getRetazovkaList().get(i).getBundle_over() >1) stop = true ;
+                
+            }
+            
+            if ( stop == false){
+                
+            
+            
+            this.progress_bar_current_cycle = 1;
+            this.progress_bar_cycles = 1;       // nie je parametrizacia - progress bar nebude delit vyslednu hodnotu este poctom cyklov    
+           
+            // nacitaj velkost elementu
+            double elementh = Rozpätie.getKrok(); //help.ReadCheckIntErrorSign(basicSettingsPanel.jTextField_krok, 1000, language_internal_frame.LangLabel(constants.getLanguage_option(), 5));
+            // ochrana či je vobec co pocitat
+            boolean sulana = true;
+            boolean aproxx = true;
+            if (Rozpätie.getRetazovkaList().size() == 0) {
+                sulana = false;
+            }
+
+            // Priprava vektorov 
+            aproxx = priprava_vektorov(elementh, aproxx);
+
+            if (sulana == true) {
+                //nacitanie z mainframeu do retazovky
+                catenaryPanel1.add_parametre_to_conductor();
+
+                int metoda = calculationELPAM_Settings.getmetoda();
+                boolean gmr = calculationELPAM_Settings.getEXGMR();
+                boolean rac = calculationELPAM_Settings.getEXRAC();
+                calculateELPAM_induced(metoda, true, gmr, rac);
+                ComplexMatrix induced_voltage = new ComplexMatrix(Rozpätie.getPocet_zemnych_lan(), 1);
+                induced_voltage.setSubMatrix(0, 0, Rozpätie.GW_Voltage());
+                System.out.println("Indukovane napatia na zemnych lanach");
+                printComplexMatrix(induced_voltage);
+
+               
+                    int i = 0;
+                    for (int j = Rozpätie.getPocet_zemnych_lan(); j > 0; j--) {
+                           CatenaryPanel.setIsListener(false);
+                        catenaryPanel1.DTMTable.setValueAt(induced_voltage.getElementCopy(i, 0).abs(), Rozpätie.getRetazovkaList().size() - j, 14);
+                        catenaryPanel1.DTMTable.setValueAt(induced_voltage.getElementCopy(i, 0).argDeg(), Rozpätie.getRetazovkaList().size() - j, 16);
+                        i++;
+                        CatenaryPanel.setIsListener(true);
+                    }
+
+                
+            }
+
+        }else{
+                help.warning1row("Bundle ground wire error");
+            }
+        } 
+
+    }  
+    
     //prepocitaj auto polohy pozorovatela
     private void changeValueAtObserverPanelXp() {
         try {
