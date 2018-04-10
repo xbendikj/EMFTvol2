@@ -1513,6 +1513,14 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 this.progress_bar_current_cycle++;
                 
             }
+            
+            try {
+                //print to file
+                make_TXT_ELPAM_Parametrical(calculationELPAM_Settings.getmetoda(), vektor_observerov_ELPAM);
+            } catch (IOException ex) {
+                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             ArrayList<Observer[]> ELPAM_parametre = new ArrayList<>();
             ELPAM_parametre.add(vektor_observerov_ELPAM);
             BEplusELPAM.setP1D_parameter_ELMPAM(ELPAM_parametre); // nakrnemeni databazy
@@ -5227,7 +5235,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             // dunno, up to you to handle this
         }
     }
-
+    
     /**
      * funkcia vytvara kratky vystup
      *
@@ -6930,6 +6938,84 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     obs.getZs(), obs.getYs());
         } catch (IOException ex) {
             Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void make_TXT_ELPAM_Parametrical(int method, Observer[] obs) throws IOException {
+        DecimalFormat df5 = new DecimalFormat("0.0000000");
+        DecimalFormat dfE5 = new DecimalFormat("0.00000E0");
+        String method_name = "";
+
+        switch (method) {
+            case 1:
+                method_name = "Carson without ground";
+                break;
+            case 2:
+                method_name = "Carson with ground";
+                break;
+            case 3:
+                method_name = "Carson modified without ground";
+                break;
+            case 4:
+                method_name = "Carson modified with ground";
+                break;
+            case 5:
+                method_name = "Basic approximated";
+                break;
+            case 6:
+                method_name = "CDER";
+                break;
+            case 7:
+                method_name = "Taku Noda";
+                break;
+            default:
+                method_name = "unknown";
+                break;
+        }
+
+        Date todaysDate = new Date();
+        DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+        DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        File subor = new File(df2.format(todaysDate) + "_" + meno_projektu + "_" + "ELPAM_parametrical" + ".txt");
+        try {
+            PrintWriter fw = new PrintWriter(subor);
+            fw.println("--- FULL PARAMETRICAL OUTPUT ---");
+            fw.println("----------------------------------------------");
+            fw.println("Time of the calculation       : " + df3.format(todaysDate));
+            fw.println("Type of the calculation       : " + method_name);
+            fw.println("Name of the project           : " + meno_projektu);
+            fw.println("Name of the span              : " + meno_rozpatia);
+            fw.println("");
+            fw.println("Total number of wires         : " + (Rozpätie.getPocet_faz() + Rozpätie.getPocet_zemnych_lan_bez_zvazkov()));
+            fw.println("Number of phase conductors    : " + Rozpätie.getPocet_faz());
+            fw.println("Number of ground wires        : " + Rozpätie.getPocet_zemnych_lan_bez_zvazkov());
+            fw.println("Number of parametrical steps  : " + obs.length);
+            fw.println("----------------------------------------------");
+            fw.println();
+            fw.println("parameter - R012[fv] - L012[fv] - C012[fv]");
+            for (int elem = 0; elem < obs.length; elem++) {
+                fw.print(obs[elem].getParameter() + " ");
+                for (int fv = 0; fv < obs[elem].getR0_ELPAM().length; fv++) {
+                    fw.print(df5.format(obs[elem].getR0_ELPAM()[fv]) + " " + df5.format(obs[elem].getR1_ELPAM()[fv]) + " " + df5.format(obs[elem].getR2_ELPAM()[fv]) + " ");
+                }
+                for (int fv = 0; fv < obs[elem].getL0_ELPAM().length; fv++) {
+                    fw.print(df5.format(obs[elem].getL0_ELPAM()[fv]) + " " + df5.format(obs[elem].getL1_ELPAM()[fv]) + " " + df5.format(obs[elem].getL2_ELPAM()[fv]) + " ");
+                }
+                for (int fv = 0; fv < obs[elem].getC0_ELPAM().length; fv++) {
+                    fw.print(dfE5.format(obs[elem].getC0_ELPAM()[fv]) + " " + dfE5.format(obs[elem].getC1_ELPAM()[fv]) + " " + dfE5.format(obs[elem].getC2_ELPAM()[fv]) + " ");
+                }
+                fw.println();
+            }
+
+            fw.println("END OF FILE");
+            fw.close();
+
+        } catch (FileNotFoundException ex) {
+        }
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().edit(subor);
+        } else {
+            // dunno, up to you to handle this
         }
     }
     
