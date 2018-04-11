@@ -180,6 +180,11 @@ public class CatenaryPanel extends javax.swing.JPanel {
         
                 }
     
+        if(e.getColumn()==22){        
+            
+            
+        }
+    
     }
 
     }});
@@ -211,6 +216,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         T2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        delete1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 0)
@@ -317,7 +323,6 @@ public class CatenaryPanel extends javax.swing.JPanel {
         Table.getColumnModel().getColumn(22).setResizable(false);
         Table.getColumnModel().getColumn(22).setPreferredWidth(200);
         Table.getColumnModel().getColumn(22).setHeaderValue(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 57));
-        Table.getColumnModel().getColumn(22).setCellEditor(null);
     }
 
     deffX.setText(language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 43));
@@ -375,6 +380,13 @@ public class CatenaryPanel extends javax.swing.JPanel {
 
     jLabel4.setText("m");
 
+    delete1.setText("con D to r");
+    delete1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            delete1ActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
@@ -382,13 +394,17 @@ public class CatenaryPanel extends javax.swing.JPanel {
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1098, Short.MAX_VALUE)
+                    .addContainerGap())
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(deffX, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(delete1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(calculatecatenary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(base, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -403,8 +419,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
                     .addComponent(T2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jLabel4)
-                    .addGap(0, 251, Short.MAX_VALUE)))
-            .addContainerGap())
+                    .addGap(57, 57, 57))))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,13 +427,14 @@ public class CatenaryPanel extends javax.swing.JPanel {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(base, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(base)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(deffX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
-                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(deffX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(delete1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(calculatecatenary, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGap(0, 0, Short.MAX_VALUE))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -590,12 +606,14 @@ public class CatenaryPanel extends javax.swing.JPanel {
         InternalFrameproject.Rozpätie.setV2base(help.ReadCheckDouble(T2, 0));
     }//GEN-LAST:event_T2KeyReleased
 
-     
+    private void delete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete1ActionPerformed
+        add_priemery_to_polomery();
+    }//GEN-LAST:event_delete1ActionPerformed
 
     void calculatecatenary() {
         calculatecatenary.doClick();
     }
-
+    
     /**
      * nacita datazabu lan predtzm premaže staru
      */
@@ -679,6 +697,33 @@ public class CatenaryPanel extends javax.swing.JPanel {
         
     }
 
+       public void add_priemery_to_polomery(){
+        
+        int rows = Table.getRowCount();
+        for(int i=0;i<rows-1;i++){ 
+        
+        //hlavame aky vodic v databeze je tu  
+        String porovnavacka = String.valueOf(DTMTable.getValueAt(i, 22));
+        int index = 0;
+            for (int j = 0; j < conductor_Name_Matrix.size(); j++) {
+                
+                if(porovnavacka.equals(conductor_Name_Matrix.get(j))) index = j;
+            }
+            
+            
+        
+        
+    
+               
+            
+        
+         DTMTable.setValueAt(conductor_parameters_Matrix.get(index)[0]/2, i, 13);          //je
+         
+                
+               
+        }
+        
+    }
   
 //diferent tool tip for every calumn https://coderanch.com/t/336281/java/Adding-Tooltip-JTable-header
     class ColumnHeaderToolTips extends MouseMotionAdapter {
@@ -851,6 +896,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
     public javax.swing.JButton calculatecatenary;
     public javax.swing.JButton deffX;
     public javax.swing.JButton delete;
+    public javax.swing.JButton delete1;
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel3;
@@ -860,6 +906,8 @@ public class CatenaryPanel extends javax.swing.JPanel {
  DefaultTableModel DTMTable ;
   static boolean isListener = true;
   static boolean isCatenarydatachanged = false;
+  private double Upsun=0;
+  private double Ipsun=0;
   private ArrayList<String> conductor_Name_Matrix = new ArrayList<String>();
   
 

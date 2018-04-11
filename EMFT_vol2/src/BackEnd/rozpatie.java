@@ -805,6 +805,173 @@ public class rozpatie {
      
     }
     
+      /**
+      * pocita Toue
+      * @param aproxx true aproximovana rovina , false perpendicular projektic vypočet vyška vodiča nad terenom
+      * @throws DelaunayError 
+      */
+     public void calculateTau_OLD(boolean aproxx,double Uphi) throws DelaunayError{
+        
+        // docasne testovacie
+        
+        
+        //int myint = 1;
+        //prv arraylist , vo vnorenom, lano druhy vektor
+        ArrayList<ArrayList<DPoint>> ListOfR0 = new ArrayList<ArrayList<DPoint>>();
+        ArrayList<ArrayList<DPoint>> ListOfR0_mirror = new ArrayList<ArrayList<DPoint>>();
+        
+        ArrayList<RealMatrix> Tau_real_mat = new ArrayList<RealMatrix>();
+        ArrayList<RealMatrix> Tau_image_mat = new ArrayList<RealMatrix>();
+       
+        
+        ArrayList<Double> U_real_list = new ArrayList<Double>();
+        ArrayList<Double> U_image_list = new ArrayList<Double>();
+        ArrayList<Integer> polohy_lan  = new ArrayList<Integer>();
+        ArrayList<Double> polomery_lan  = new ArrayList<Double>();
+        ArrayList<Double> beta  = new ArrayList<Double>();
+        
+        //iteratory
+        int iterator_lan = 0;
+        int elementarny_iterator=0;
+        //basic priprava vektorov pre okienka matice
+        for (int cl1 = 0; cl1 < getRetazovkaList().size(); cl1++) {
+
+                    //cyklus bundle   
+                    for (int cl2 = 0; cl2 < getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
+
+                              ArrayList<DPoint> R0_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_vectors()); // nacitam jedno lano a upravim ho podla bundle konstant
+                              ArrayList<DPoint> R0_mirror_vectors_per_lano = new ArrayList<DPoint>(getRetazovka(cl1).getRo_mirror_vectors());
+                              polohy_lan.add(elementarny_iterator);
+                             // cyklus 
+                             for ( int cl3=0;cl3<getRetazovka(cl1).getRo_vectors().size();cl3++){
+
+                                   //  bundle korektura pre jeden druhy SMER  a korekcia
+                                   double Y = (double) R0_vectors_per_lano.get(cl3).getY() + (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                   double Z = (double) R0_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   double X = (double) R0_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   DPoint R0 = new DPoint(X, Y, Z);
+                                   R0_vectors_per_lano.set(cl3, R0);
+                                   
+                                   //mirrorovanie len jedneho rozmeru pozor
+                                   double Ym = (double) R0_mirror_vectors_per_lano.get(cl3).getY() - (double)getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2];
+                                   double Zm = (double) R0_mirror_vectors_per_lano.get(cl3).getZ() + (double)Math.cos(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   double Xm = (double) R0_mirror_vectors_per_lano.get(cl3).getX() + (double)Math.sin(getRetazovkaList().get(cl1).getBeta_over())*getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2];
+                                   DPoint R0m = new DPoint(Xm, Ym, Zm);
+                                   R0_mirror_vectors_per_lano.set(cl3, R0m); 
+                                   
+                                  
+                                 
+                                  elementarny_iterator = elementarny_iterator + 1; 
+                               }
+                                  ListOfR0.add( new ArrayList<DPoint>(R0_vectors_per_lano)); 
+                                  ListOfR0_mirror.add(new ArrayList<DPoint>(R0_mirror_vectors_per_lano));
+                                  U_real_list.add(get_real(getRetazovkaList().get(cl1).getU_over(), getRetazovkaList().get(cl1).getPhi_over()+ Uphi )/Math.sqrt(3));
+                                  U_image_list.add(get_image(getRetazovkaList().get(cl1).getU_over(), getRetazovkaList().get(cl1).getPhi_over() + Uphi )/Math.sqrt(3)); 
+                                  polomery_lan.add(getRetazovkaList().get(cl1).getR_over() ); 
+                                  beta.add(getRetazovkaList().get(cl1).getBeta_over());
+                                  
+                        iterator_lan = iterator_lan + 1;
+                    }
+         
+                }
+             polohy_lan.add(elementarny_iterator); // posledna hodnota 
+       
+        //inicializacia matic
+        RealMatrix  P_koef = new Array2DRowRealMatrix(new double[iterator_lan][iterator_lan]);//matica Pkoeficientov vsetkych ROW COLUMN
+        RealMatrix  U_real = new Array2DRowRealMatrix(new double[iterator_lan][1]); // matica realnych hodnot napatia
+        RealMatrix U_image = new Array2DRowRealMatrix(new double[iterator_lan][1]); // matica imaginarnch hodnot napatia
+        RealMatrix  Tau_real = new Array2DRowRealMatrix(new double[iterator_lan][1]); // matica ireal hodnot Tau
+        RealMatrix  Tau_image = new Array2DRowRealMatrix(new double[iterator_lan][1]); // matica imaginarnych hodnot Tau
+        
+      
+        
+        //naplnenie matic
+        
+        U_real.setColumn(0, help.Double_Arraylist_to_DoubleArray(U_real_list));
+        U_image.setColumn(0, help.Double_Arraylist_to_DoubleArray(U_image_list));
+        
+        System.out.println("pocet lan" + iterator_lan);
+        //System.out.println("pocet elementov" + elementarny_iterator);
+        
+
+        //algoritmus generovania matice
+        //*****************************
+        double K = 1/(2*Math.PI*constants.getEpsi0()*constants.getEpsi1()); // konštanta
+        // /* TEST HORAK */ K = 1;
+         for (int element_iterator = 0; element_iterator < getRetazovka(0).getRo_vectors().size(); element_iterator++) {
+             // pocitanie potenialovej matice matice
+             for (int k = 0; k < P_koef.getRowDimension(); k++) {
+
+                 for (int j = 0; j < P_koef.getRowDimension(); j++) {
+                     double koeficient = 0;
+                     if (k == j) {
+                         
+                       double vyska_vod_nad = 0;
+                       
+                        if (aproxx==false) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator) ,pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)));
+                       if (aproxx==true) vyska_vod_nad = get_distance(ListOfR0.get(j).get(element_iterator), pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1));
+                      
+                       // stary koncept asi zly
+                      // if (aproxx==false) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjection(ListOfR0.get(j).get(element_iterator)).getY();
+                      // if (aproxx==true) vyska_vod_nad = ListOfR0.get(j).get(element_iterator).getY() -pole.getPerpendicularProjectionOnApproxxPlane(ListOfR0.get(j).get(element_iterator),beta.get(k),1).getY();
+                        
+                       koeficient = get_Pkk(K, vyska_vod_nad, polomery_lan.get(k));
+                     } else { // PKJ   
+
+                         koeficient = get_Pkj(K, get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0_mirror.get(j).get(element_iterator)), get_distance(ListOfR0.get(k).get(element_iterator), ListOfR0.get(j).get(element_iterator))); //inverzna matica funguje
+                         
+                     }
+                     P_koef.addToEntry(k, j, koeficient);
+                 }
+
+             }
+             
+       
+             
+             P_koef = P_koef.inverse();
+             
+//             System.out.println("BackEnd.rozpatie.calculateTau() OLD INERSE");
+//        for (int i = 0; i < P_koef.getRowDimension(); i++) {
+//            for (int j = 0; j < P_koef.getRowDimension(); j++) {
+//                System.out.print(P_koef.getData()[i][j] + " ");
+//            }
+//
+//            System.out.println();
+//
+//        }
+             
+             Tau_real = P_koef.multiply(U_real);
+             Tau_image = P_koef.multiply(U_image);
+             Tau_real_mat.add(Tau_real);
+             Tau_image_mat.add(Tau_image);
+
+//                   System.out.println("BackEnd.rozpatie.calculateTau() real posledne" );
+//            for (int i = 0; i < Tau_real.getRowDimension(); i++) {
+//            for (int j = 0; j < Tau_real.getColumnDimension(); j++) {
+//                System.out.print(Tau_real.getData()[i][j] + " ");
+//            }
+//
+//            System.out.println();
+//
+//        }
+//                    System.out.println("BackEnd.rozpatie.calculateTau() Image posledne" );
+//            for (int i = 0; i < Tau_image.getRowDimension(); i++) {
+//            for (int j = 0; j < Tau_image.getColumnDimension(); j++) {
+//                System.out.print(Tau_real.getData()[i][j] + " ");
+//            }
+//            System.out.println();
+//
+//        }
+             
+             
+             this.Tau_real_mat=Tau_real_mat;
+             this.Tau_image_mat=Tau_image_mat;
+         }
+
+        
+     
+    }
+     
      /**
       * Univerzalna funkcia na vypocet vvsetkyh veci na tom papiry
       * @param diagonala  tzp diagonaly  "a" "b" "c" "d"

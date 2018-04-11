@@ -124,7 +124,7 @@ public class help {
     public static String getDateDF2(){
         String date ;
         Date todaysDate = new Date();
-          DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+          DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss.SSSZ");
          
           return date = df2.format(todaysDate);
     }

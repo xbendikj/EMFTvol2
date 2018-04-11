@@ -237,7 +237,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="calcBaE" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="calcBaE1" max="32767" attributes="0"/>
+                          <Component id="calcBaE_poyting" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -265,7 +265,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="calcBaE" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="calcBaE1" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="calcBaE_poyting" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
               </Group>
@@ -321,7 +321,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcBaEActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="calcBaE1">
+        <Component class="javax.swing.JButton" name="calcBaE_poyting">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="ff" type="rgb"/>
@@ -329,7 +329,7 @@
             <Property name="text" type="java.lang.String" value="Poyting"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcBaE1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calcBaE_poytingActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="calc_MATRIX">
