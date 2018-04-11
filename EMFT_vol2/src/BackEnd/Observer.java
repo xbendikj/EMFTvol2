@@ -10,6 +10,7 @@ import flanagan.complex.ComplexMatrix;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.jdelaunay.delaunay.error.DelaunayError;
 import org.jdelaunay.delaunay.geometries.DPoint;
 import static tools.help.Complex2ImagMatrix;
 import static tools.help.Complex2RealMatrix;
@@ -400,5 +401,72 @@ public class Observer {
         Emod = new FazorVektor( new Complex( E1XR+ E2XR,0), new Complex(E1YR+ E2YR,0), new Complex(E1ZR+ E2ZR,0));
         
     }
+    
+    public void calculatePoyting() throws DelaunayError{
+        
+       DPoint E_real = new DPoint(E.getX_Real(), E.getY_Real(), E.getZ_Real());
+       DPoint E_image = new DPoint(E.getX_Imaginary(), E.getY_Imaginary(), E.getZ_Imaginary());
+       DPoint B_real = new DPoint(B.getX_Real(), B.getY_Real(), B.getZ_Real());
+       DPoint B_image = new DPoint(B.getX_Imaginary(), B.getY_Imaginary(), B.getZ_Imaginary());
+      
+       DPoint Preal = vektor_sucet( vektor_sucin(E_real, B_real)  , vektor_sucin(E_image, B_image));
+       DPoint Pimage = vektor_rozdiel(vektor_sucin(E_image, B_real)  , vektor_sucin(E_real, B_image));
+        
+       E.setX(new Complex(Preal.getX(), Pimage.getX()));
+       E.setY(new Complex(Preal.getY(), Pimage.getY()));
+       E.setY(new Complex(Preal.getZ(), Pimage.getZ()));
+       
+    }
+    
+     /**
+     * A×B
+     * @param A
+     * @param B
+     * @return vekktor C ako vektory sučin vektorov
+     */
+    private DPoint vektor_sucin ( DPoint A, DPoint B) throws DelaunayError{    
+        DPoint C = new DPoint(0, 0, 0);
+        
+        C.setX( A.getY() * B.getZ() - A.getZ() * B.getY()  );
+        C.setY( A.getZ() * B.getX() - A.getX() * B.getZ()  );
+        C.setZ( A.getX() * B.getY() - A.getY() * B.getX()  );
+        
+        
+        return C;
+    }
+    /**
+     * A+B
+     * @param A
+     * @param B
+     * @return
+     * @throws DelaunayError 
+     */
+     private DPoint vektor_sucet ( DPoint A, DPoint B) throws DelaunayError{    
+        DPoint C = new DPoint(0, 0, 0);
+        
+        C.setX( A.getX() + B.getX()  );
+        C.setY( A.getY() + B.getY()  );
+        C.setZ( A.getZ() + B.getZ()  );
+        
+        
+        return C;
+    }
+    /**
+     * A-B
+     * @param A
+     * @param B
+     * @return
+     * @throws DelaunayError 
+     */ 
+    private DPoint vektor_rozdiel ( DPoint A, DPoint B) throws DelaunayError{    
+        DPoint C = new DPoint(0, 0, 0);
+        
+        C.setX( A.getX() - B.getX()  );
+        C.setY( A.getY() - B.getY()  );
+        C.setZ( A.getZ() - B.getZ()  );
+        
+        
+        return C;
+    } 
     
 }

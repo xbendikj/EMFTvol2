@@ -1499,8 +1499,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             main_Jframe.iscalculationELPAM_Settings = true;
         } else //Ak parametricke riesenie 
 
-            if (observerPanel1.P1D_par.isSelected() == true) {
             
+            if (observerPanel1.P1D_par.isSelected() == true) {
+            catenaryPanel1.calculatecatenary(); // vytvor retazovku a generuj teren ak neni
             databaza BEplusELPAM = new databaza();
                         // nastavenie  parametrizacie
                         double odVal = help.Object_To_double(observerPanel1.DTMTable_par.getValueAt(0, 1));
@@ -1884,7 +1885,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         calculate_E_OLD_plus_2D_hor(BEplus, cl0);
                     }
                     if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true) {
-                        calculate_E_OLD_plus_2D_ver(BEplus, Integer.valueOf(basicSettingsPanel.jTextField_H.getText()));
+                        calculate_E_OLD_plus_2D_ver(BEplus, (int)Rozpätie.getH() );
                     }
                     if (observerPanel1.P1D_par.isSelected() == true) {
                         calculate_E_old_parameter(BEplus, cl0);
@@ -1901,71 +1902,37 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
 
                 }
-                if (CalcI == false && CalcEmod == false) {
-                    BE.scitanie(BEplus);
-                } else {
-                    BE.scitanieAndCalcIEmod(BEplus, CalcI, CalcEmod,
-                            constants.getKE_I(),
-                            constants.getKB_I(),
-                            constants.getKE_Emod(),
-                            constants.getKB_Emod(),
-                            constants.getEpsi0(),
-                            constants.getEpsi1(),
-                            constants.getSigma(),
-                            constants.getFrequency());
-                }
+                
+                
+                    BE.scitanieAndCalcPoyting(BEplus);
+                
 
                 if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
-                    Draw_1D_graph("priecne", "Z", 0, "B", constants.getROW1(), constants.getROW2(), "POKUS");
+                  
                     Draw_1D_graph("priecne", "Z", 0, "E", constants.getROW1(), constants.getROW2(), "POKUS");
-                    if (CalcI == true) {
-                        Draw_1D_graph("priecne", "Z", 0, "I", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
-                    if (CalcEmod == true) {
-                        Draw_1D_graph("priecne", "Z", 0, "Emod", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
+                   
 
                 }
 
                 if (observerPanel1.P1Dpozdlzne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
-                    Draw_1D_graph("pozdlzne", "X", 1, "B", constants.getROW1(), constants.getROW2(), "POKUS");
+                   
                     Draw_1D_graph("pozdlzne", "X", 1, "E", constants.getROW1(), constants.getROW2(), "POKUS");
-                    if (CalcI == true) {
-                        Draw_1D_graph("pozdlzne", "X", 1, "I", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
-                    if (CalcEmod == true) {
-                        Draw_1D_graph("pozdlzne", "X", 1, "Emod", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
+                    
                 }
                 if (observerPanel1.P1D.isSelected() == true && observerPanel1.P1D_free.isSelected() == true) {  // ZOBRAZOVANIE TU TREBA UROBIT KOREKCIE PRE OS X STLACA GRAF DOKOPY
-                    Draw_1D_graph("neurcite", "X", 2, "B", constants.getROW1(), constants.getROW2(), "POKUS");
+                  
                     Draw_1D_graph("neurcite", "X", 2, "E", constants.getROW1(), constants.getROW2(), "POKUS");
-                    if (CalcI == true) {
-                        Draw_1D_graph("neurcite", "X", 2, "I", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
-                    if (CalcEmod == true) {
-                        Draw_1D_graph("neurcite", "X", 2, "Emod", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
+                    
                 }
 
                 if (observerPanel1.P1D_par.isSelected() == true) {  // ZOBRAZOVANIE TU TREBA UROBIT KOREKCIE PRE OS X STLACA GRAF DOKOPY
-                    Draw_1D_graph("parametricke", "P", 3, "B", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+                  
                     Draw_1D_graph("parametricke", "P", 3, "E", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
-                    if (CalcI == true) {
-                        Draw_1D_graph("parametrickee", "P", 3, "I", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
-                    }
-                    if (CalcEmod == true) {
-                        Draw_1D_graph("parametricke", "P", 3, "Emod" + observerPanel1.getNazov(), constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
+                   
                 }
 
                 if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dh.isSelected() == true) {
-                    if (outputPanel2.getConturry().isSelected() == true) {
-                        Draw_2D_graph_kontury("hor", "B", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
-                    if (outputPanel2.getFill().isSelected() == true) {
-                        Draw_2D_graph_fill("hor", "B", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
+                   
                     if (outputPanel2.getConturry().isSelected() == true) {
                         Draw_2D_graph_kontury("hor", "E", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
@@ -1973,36 +1940,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Draw_2D_graph_fill("hor", "E", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
 
-                    if (outputPanel2.getConturry().isSelected() == true) {
-                        if (CalcI == true) {
-                            Draw_2D_graph_kontury("hor", "I", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
-                    if (outputPanel2.getFill().isSelected() == true) {
-                        if (CalcI == true) {
-                            Draw_2D_graph_fill("hor", "I", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
-                    if (outputPanel2.getConturry().isSelected() == true) {
-                        if (CalcEmod == true) {
-                            Draw_2D_graph_kontury("hor", "Emod", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
-                    if (outputPanel2.getFill().isSelected() == true) {
-                        if (CalcEmod == true) {
-                            Draw_2D_graph_fill("hor", "Emod", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
+                    
 
                 }
 
                 if (observerPanel1.P2D.isSelected() == true && observerPanel1.P2Dv.isSelected() == true) {
-                    if (outputPanel2.getConturry().isSelected() == true) {
-                        Draw_2D_graph_kontury("vert", "B", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
-                    if (outputPanel2.getFill().isSelected() == true) {
-                        Draw_2D_graph_fill("vert", "B", constants.getROW1(), constants.getROW2(), "POKUS");
-                    }
+                    
                     if (outputPanel2.getConturry().isSelected() == true) {
                         Draw_2D_graph_kontury("vert", "E", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
@@ -2010,26 +1953,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Draw_2D_graph_fill("vert", "E", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
 
-                    if (outputPanel2.getConturry().isSelected() == true) {
-                        if (CalcI == true) {
-                            Draw_2D_graph_kontury("vert", "I", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
-                    if (outputPanel2.getFill().isSelected() == true) {
-                        if (CalcI == true) {
-                            Draw_2D_graph_fill("vert", "I", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
-                    if (outputPanel2.getConturry().isSelected() == true) {
-                        if (CalcEmod == true) {
-                            Draw_2D_graph_kontury("vert", "Emod", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
-                    if (outputPanel2.getFill().isSelected() == true) {
-                        if (CalcEmod == true) {
-                            Draw_2D_graph_fill("vert", "Emod", constants.getROW1(), constants.getROW2(), "POKUS");
-                        }
-                    }
+                    
 
                 }
 
@@ -2049,50 +1973,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                     }
                 }
 
-                if (outputPanel2.getTxT_short().isSelected() == true) {
-                    if (CalcI == true) {
-                        if (CalcEmod == false) {
-                            make_TxT(Rozpätie, 3, BE, "POKUS", true);
-                        }
-                    }
-                }
-                if (outputPanel2.getTxT_long().isSelected() == true) {
-                    if (CalcI == true) {
-                        if (CalcEmod == false) {
-                            make_TxT(Rozpätie, 3, BE, "POKUS", false);
-                        }
-                    }
-                }
 
-                if (outputPanel2.getTxT_short().isSelected() == true) {
-                    if (CalcI == false) {
-                        if (CalcEmod == true) {
-                            make_TxT(Rozpätie, 4, BE, "POKUS", true);
-                        }
-                    }
-                }
-                if (outputPanel2.getTxT_long().isSelected() == true) {
-                    if (CalcI == false) {
-                        if (CalcEmod == true) {
-                            make_TxT(Rozpätie, 4, BE, "POKUS", false);
-                        }
-                    }
-                }
-
-                if (outputPanel2.getTxT_short().isSelected() == true) {
-                    if (CalcI == true) {
-                        if (CalcEmod == true) {
-                            make_TxT(Rozpätie, 5, BE, "POKUS", true);
-                        }
-                    }
-                }
-                if (outputPanel2.getTxT_long().isSelected() == true) {
-                    if (CalcI == true) {
-                        if (CalcEmod == true) {
-                            make_TxT(Rozpätie, 5, BE, "POKUS", false);
-                        }
-                    }
-                }
+                
 
             }
 

@@ -230,6 +230,63 @@ public class databaza {
 
     }
 
+     public void scitanieAndCalcPoyting(databaza X) throws DelaunayError {
+
+        for (int cl1 = 0; cl1 < P1D_priecne.size(); cl1++) {
+            for (int cl2 = 0; cl2 < P1D_priecne.get(cl1).length; cl2++) {
+
+                P1D_priecne.get(cl1)[cl2].merge(X.getP1D_priecne().get(cl1)[cl2]);
+                P1D_priecne.get(cl1)[cl2].calculatePoyting();
+            }
+        }
+
+        for (int cl1 = 0; cl1 < P1D_pozdlzne.size(); cl1++) {
+            for (int cl2 = 0; cl2 < P1D_pozdlzne.get(cl1).length; cl2++) {
+
+                P1D_pozdlzne.get(cl1)[cl2].merge(X.getP1D_pozdlzne().get(cl1)[cl2]);
+                P1D_pozdlzne.get(cl1)[cl2].calculatePoyting();
+            }
+        }
+
+        for (int cl1 = 0; cl1 < P1D_neurcite.size(); cl1++) {
+            for (int cl2 = 0; cl2 < P1D_neurcite.get(cl1).length; cl2++) {
+
+                P1D_neurcite.get(cl1)[cl2].merge(X.getP1D_neurcite().get(cl1)[cl2]);
+                P1D_neurcite.get(cl1)[cl2].calculatePoyting();
+
+            }
+        }
+
+        for (int cl1 = 0; cl1 < P1D_parameter.size(); cl1++) {
+            for (int cl2 = 0; cl2 < P1D_parameter.get(cl1).length; cl2++) {
+
+                P1D_parameter.get(cl1)[cl2].merge(X.getP1D_parameter().get(cl1)[cl2]);
+                P1D_parameter.get(cl1)[cl2].calculatePoyting();
+
+            }
+        }
+
+        for (int cl1 = 0; cl1 < P2D_hor.size(); cl1++) {
+            for (int cl2 = 0; cl2 < P2D_hor.get(cl1).length; cl2++) {
+
+                P2D_hor.get(cl1)[cl2].merge(X.getP2D_hor().get(cl1)[cl2]);
+                P2D_hor.get(cl1)[cl2].calculatePoyting();
+
+            }
+        }
+
+        for (int cl1 = 0; cl1 < P2D_vert.size(); cl1++) {
+            for (int cl2 = 0; cl2 < P2D_vert.get(cl1).length; cl2++) {
+
+                P2D_vert.get(cl1)[cl2].merge(X.getP2D_vert().get(cl1)[cl2]);
+                P2D_vert.get(cl1)[cl2].calculatePoyting();
+
+            }
+        }
+
+    }
+
+    
     public ArrayList<Observer[]> getP2D_vert() {
         return P2D_vert;
     }
