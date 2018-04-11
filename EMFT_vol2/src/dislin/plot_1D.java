@@ -7,7 +7,11 @@ package dislin;
 
 import de.dislin.Dislin;
 import emft_vol2.constants;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import tools.help;
 
 /**
  *
@@ -91,7 +95,7 @@ public class plot_1D {
         this.Path = Path;
     }
     
-    public void draw_1D_yn(){
+    public void draw_1D_yn() throws IOException{
         run1D_yn();
     }
 
@@ -109,7 +113,7 @@ public class plot_1D {
        noZEROYA_limit =  nozenolimit;
     }
  
-    private void run1D_yn() {
+    private void run1D_yn() throws IOException {
 
      
     int pageX =constants.getDislin_velkost_strany_X();
@@ -150,7 +154,7 @@ public class plot_1D {
      float XSTEP = (XE-XA)/constants.getDislin_Step_between_the_labels_X();//(Math.abs(XA)-Math.abs(XE))/((float)draw_constants.STEPdivider); // step between labels
      float YSTEP = (YE-YA)/constants.getDislin_Step_between_the_labels_Z();//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
       
-     if(screen==true) Dislin.metafl ("xwin"); // SCREEN OUTPUT
+     if(screen==true) {Dislin.metafl ("VIRT"); }// SCREEN OUTPUT
      if(screen==false) Dislin.metafl ("VIRT");
     
      Dislin.page(pageX, pageY); // size of window
@@ -248,6 +252,10 @@ public class plot_1D {
      }
      
      if(file==true) Dislin.rpng(Path); // SCREEN OUTPUT
+     if (screen == true) {
+         String userhome = System.getProperty(constants.getProgrampath());
+         String temp_path  = userhome+ "\\" + "temp"+"\\" + "temp"+ help.getDateDF2()+ ".png" ;
+          Dislin.rpng(temp_path);  Desktop.getDesktop().open( new File(temp_path)); }
      Dislin.disfin ();
   }
 

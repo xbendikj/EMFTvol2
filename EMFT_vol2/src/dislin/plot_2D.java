@@ -7,7 +7,11 @@ package dislin;
 
 import de.dislin.Dislin;
 import emft_vol2.constants;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import tools.help;
 
 /**
  *
@@ -152,7 +156,7 @@ public class plot_2D {
      
     
      
-     public void draw_2D_yn(){
+     public void draw_2D_yn() throws IOException{
         run2D();
     }
 
@@ -181,7 +185,7 @@ public class plot_2D {
     }
     
       
-  private void run2D () {
+  private void run2D () throws IOException {
      
       int pageX =constants.getDislin_velkost_strany_X();
     int pageY =constants.getDislin_velkost_strany_Y();
@@ -240,7 +244,7 @@ public class plot_2D {
      float YSTEP = (YE-YA)/constants.getDislin_Step_between_the_labels_Y();//(Math.abs(YA)-Math.abs(YE))/((float)draw_constants.STEPdivider);
      float ZSTEP = (ZE-ZA)/constants.getDislin_Step_between_the_labels_Z();
      
-    if(screen==true) Dislin.metafl ("xwin"); // SCREEN OUTPUT
+  if(screen==true) {Dislin.metafl ("VIRT"); } // SCREEN OUTPUT
      if(screen==false) Dislin.metafl ("VIRT");
      
      if(isequalSides==true) { // ak s strany rovnako velke
@@ -350,6 +354,10 @@ public class plot_2D {
     }
     
       if(file==true) Dislin.rpng(Path); // SCREEN OUTPUT
+      if (screen == true) {
+         String userhome = System.getProperty(constants.getProgrampath());
+         String temp_path  = userhome+ "\\" + "temp"+"\\" + "temp"+ help.getDateDF2()+ ".png" ;
+          Dislin.rpng(temp_path);  Desktop.getDesktop().open( new File(temp_path)); }
      Dislin.disfin ();
   }
      /**

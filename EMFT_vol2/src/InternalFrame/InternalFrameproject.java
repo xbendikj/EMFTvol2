@@ -116,19 +116,21 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         catenaryPanel1 = new InternalFrame.CatenaryPanel();
         observerPanel1 = new InternalFrame.ObserverPanel();
         jPanel1 = new javax.swing.JPanel();
+        load = new javax.swing.JButton();
+        save = new javax.swing.JButton();
+        save1 = new javax.swing.JButton();
+        jProgressBar = new javax.swing.JProgressBar();
+        outputPanel2 = new InternalFrame.outputPanel();
+        elpam_method_panel = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         calcB = new javax.swing.JButton();
         calcE_OLD = new javax.swing.JButton();
         calcE_OLD_plus = new javax.swing.JButton();
-        load = new javax.swing.JButton();
-        save = new javax.swing.JButton();
         calcBaE = new javax.swing.JButton();
-        save1 = new javax.swing.JButton();
-        jProgressBar = new javax.swing.JProgressBar();
+        calcBaE1 = new javax.swing.JButton();
         calc_MATRIX = new javax.swing.JButton();
-        calc_MATRIX1 = new javax.swing.JButton();
         calc_MATRIX3 = new javax.swing.JButton();
-        outputPanel2 = new InternalFrame.outputPanel();
-        elpam_method_panel = new javax.swing.JPanel();
+        calc_MATRIX1 = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -157,6 +159,73 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(52, 152, 219));
 
+        load.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/if_Open_1493293 (1).png"))); // NOI18N
+        load.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 6));
+        load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadActionPerformed(evt);
+            }
+        });
+
+        save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/Save-24.png"))); // NOI18N
+        save.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 8));
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
+
+        save1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/Calculator-24.png"))); // NOI18N
+        save.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 8));
+        save1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save1ActionPerformed(evt);
+            }
+        });
+
+        jProgressBar.setStringPainted(true);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(load, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(load, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout elpam_method_panelLayout = new javax.swing.GroupLayout(elpam_method_panel);
+        elpam_method_panel.setLayout(elpam_method_panelLayout);
+        elpam_method_panelLayout.setHorizontalGroup(
+            elpam_method_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        elpam_method_panelLayout.setVerticalGroup(
+            elpam_method_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel2.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         calcB.setBackground(new java.awt.Color(255, 51, 51));
         calcB.setText("B");
         calcB.addActionListener(new java.awt.event.ActionListener() {
@@ -182,22 +251,6 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         });
 
-        load.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/if_Open_1493293 (1).png"))); // NOI18N
-        load.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 6));
-        load.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadActionPerformed(evt);
-            }
-        });
-
-        save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/Save-24.png"))); // NOI18N
-        save.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 8));
-        save.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveActionPerformed(evt);
-            }
-        });
-
         calcBaE.setBackground(new java.awt.Color(255, 51, 51));
         calcBaE.setText("B & E");
         calcBaE.addActionListener(new java.awt.event.ActionListener() {
@@ -206,29 +259,19 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         });
 
-        save1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/Calculator-24.png"))); // NOI18N
-        save.setToolTipText(language_internal_frame.LangLabel(constants.getLanguage_option(), 8));
-        save1.addActionListener(new java.awt.event.ActionListener() {
+        calcBaE1.setBackground(new java.awt.Color(255, 51, 51));
+        calcBaE1.setText("Poyting");
+        calcBaE1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                save1ActionPerformed(evt);
+                calcBaE1ActionPerformed(evt);
             }
         });
-
-        jProgressBar.setStringPainted(true);
 
         calc_MATRIX.setBackground(new java.awt.Color(255, 51, 51));
         calc_MATRIX.setText("ELPAM");
         calc_MATRIX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calc_MATRIXActionPerformed(evt);
-            }
-        });
-
-        calc_MATRIX1.setBackground(new java.awt.Color(255, 51, 51));
-        calc_MATRIX1.setText("I zl");
-        calc_MATRIX1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                calc_MATRIX1ActionPerformed(evt);
             }
         });
 
@@ -240,64 +283,55 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        calc_MATRIX1.setBackground(new java.awt.Color(255, 51, 51));
+        calc_MATRIX1.setText("I zl");
+        calc_MATRIX1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calc_MATRIX1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(load, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calcB)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calcE_OLD)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calcBaE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(calcB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(calcE_OLD)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(calcBaE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(calcBaE1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calc_MATRIX3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(calc_MATRIX1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(load, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(calcE_OLD, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(calcBaE, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(calc_MATRIX1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(calc_MATRIX3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        javax.swing.GroupLayout elpam_method_panelLayout = new javax.swing.GroupLayout(elpam_method_panel);
-        elpam_method_panel.setLayout(elpam_method_panelLayout);
-        elpam_method_panelLayout.setHorizontalGroup(
-            elpam_method_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        elpam_method_panelLayout.setVerticalGroup(
-            elpam_method_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(calcE_OLD, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(calc_MATRIX3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(calc_MATRIX1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(calcBaE, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(calcBaE1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(62, 62, 62))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -308,17 +342,20 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(catenaryPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(catenaryPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(outputPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(basicInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(basicSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(outputPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                                .addComponent(observerPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(elpam_method_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -328,19 +365,20 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(basicInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(basicSettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(basicSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(observerPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(outputPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(outputPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(elpam_method_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100)))
+                        .addGap(100, 100, 100))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(catenaryPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -408,6 +446,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     private void calcBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBActionPerformed
 
+        readvalues_fromBasicSettingspanel();
+        
         try {
             changeValueAtObserverPanelXp();
             changeValueAtObserverPanelZp();
@@ -516,7 +556,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      *
      * @param evt
      */
-    private void calcE(java.awt.event.ActionEvent evt) {
+    private void calcE(java.awt.event.ActionEvent evt) throws IOException {
         try {
             //kontrolaci je vobwec nem
             //jake lano
@@ -581,6 +621,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     private void calcE_OLDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcE_OLDActionPerformed
 
+        readvalues_fromBasicSettingspanel();
+        
         try {
             changeValueAtObserverPanelXp();
             changeValueAtObserverPanelZp();
@@ -704,6 +746,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     private void calcE_OLD_plusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcE_OLD_plusActionPerformed
 
+        readvalues_fromBasicSettingspanel();
+        
         try {
             changeValueAtObserverPanelXp();
             changeValueAtObserverPanelZp();
@@ -824,7 +868,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_calcE_OLD_plusActionPerformed
 
-    private void calcE() {
+    private void calcE() throws IOException {
         try {
             changeValueAtObserverPanelXp();
             changeValueAtObserverPanelZp();
@@ -1085,6 +1129,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_saveActionPerformed
 
     private void calcBaEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBaEActionPerformed
+        
+        readvalues_fromBasicSettingspanel();
+        
         try {
             changeValueAtObserverPanelXp();
             changeValueAtObserverPanelZp();
@@ -1444,6 +1491,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
     private void calc_MATRIXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIXActionPerformed
 
+        readvalues_fromBasicSettingspanel();
+        
         if (main_Jframe.iscalculationELPAM_Settings == false) {
             String[] args = null;
             calculationELPAM_Settings.main(args);
@@ -1528,6 +1577,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, outputPanel2.YAxisVal_ELPAM(), constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
             } catch (DelaunayError ex) {
                 Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.progress_bar_current_cycle = 1;
 
@@ -1565,6 +1616,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_calc_MATRIXActionPerformed
 
     private void calc_MATRIX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX1ActionPerformed
+       
+        readvalues_fromBasicSettingspanel();
+        
         if (main_Jframe.iscalculationELPAM_Settings == false) {
             String[] args = null;
             calculationELPAM_Settings.main(args);
@@ -1631,6 +1685,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_calc_MATRIX1ActionPerformed
 
     private void calc_MATRIX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX3ActionPerformed
+     
+        readvalues_fromBasicSettingspanel();
+        
         if (main_Jframe.iscalculationELPAM_Settings == false) {
             String[] args = null;
             calculationELPAM_Settings.main(args);
@@ -1694,6 +1751,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         } 
     }//GEN-LAST:event_calc_MATRIX3ActionPerformed
+
+    private void calcBaE1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBaE1ActionPerformed
+
+        readvalues_fromBasicSettingspanel();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_calcBaE1ActionPerformed
 
   
     //prepocitaj auto polohy pozorovatela
@@ -4598,7 +4661,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }
 
     //draw functions
-    private void Draw_1D_graph(String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix) throws DelaunayError {
+    private void Draw_1D_graph(String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix) throws DelaunayError, IOException {
         String label = outputPanel2.getJComboBox_Yvar_ELPAM().getSelectedItem().toString();
         if (BorE == "B") {
             label = constants.getDislin_Label_B();
@@ -4774,7 +4837,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     }
 
     // o iste co vrchna funkci ale konkretuzujeme databazu z ktorej cerpat
-     private void Draw_1D_graph(databaza BE, String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix) throws DelaunayError {
+     private void Draw_1D_graph(databaza BE, String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix) throws DelaunayError, IOException {
         String label = outputPanel2.getJComboBox_Yvar_ELPAM().getSelectedItem().toString();
         if (BorE == "B") {
             label = constants.getDislin_Label_B();
@@ -4957,7 +5020,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      * @param ROW2 napis na rov 2
      * @param Sufix sufix pre file n vystup
      */
-    private void Draw_2D_graph_kontury(String HORvert, String BorE, String ROW1, String ROW2, String Sufix) {
+    private void Draw_2D_graph_kontury(String HORvert, String BorE, String ROW1, String ROW2, String Sufix) throws IOException {
 
         if (HORvert == "hor") {
             plot_2D graf3 = new plot_2D(BE.getXray2D("X", BE.getP2D_hor()), BE.getYray2D("Z", BE.getP2D_hor()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_hor()), constants.getDislin_Label_X(), constants.getDislin_Label_Z(), ROW1, ROW2, true);
@@ -5014,7 +5077,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
      * @param ROW2 napis na rov 2
      * @param Sufix sufix pre file n vystup
      */
-    private void Draw_2D_graph_fill(String HORvert, String BorE, String ROW1, String ROW2, String Sufix) {
+    private void Draw_2D_graph_fill(String HORvert, String BorE, String ROW1, String ROW2, String Sufix) throws IOException {
         String label = "kokotik";
         if (BorE == "B") {
             label = constants.getDislin_Label_B();
@@ -7019,6 +7082,20 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
     }
     
+    /**
+     * funkcia nacita hodnota z basic setting do rozpatia
+     */
+    public void readvalues_fromBasicSettingspanel(){
+        
+        Rozpätie.setA(Double.parseDouble(BasicSettingsPanel.getjTextField_A().getText()));
+        Rozpätie.setH(Double.parseDouble(BasicSettingsPanel.getjTextField_H().getText()));
+        Rozpätie.setKrok(Double.parseDouble(BasicSettingsPanel.getjTextField_krok().getText()));
+        Rozpätie.setKrok_pozorovatela(Double.parseDouble(BasicSettingsPanel.getjTextField_krok_pozorovatela().getText()));
+       Rozpätie.setZ(Double.parseDouble(BasicSettingsPanel.getjTextField_Z().getText()));
+     
+        
+    }
+    
     //pre indukovane prudy - zvazky su uvazovane ako samostatne vodice!
     private void calculateELPAM_induced(int metoda, boolean aproxx, boolean exactGMR, boolean exactRAC) {
         try {
@@ -7519,6 +7596,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton calcB;
     private javax.swing.JButton calcBaE;
+    private javax.swing.JButton calcBaE1;
     private javax.swing.JButton calcE_OLD;
     public static javax.swing.JButton calcE_OLD_plus;
     private javax.swing.JButton calc_MATRIX;
@@ -7528,6 +7606,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     private javax.swing.JPanel elpam_method_panel;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar;
     private javax.swing.JButton load;
     private InternalFrame.ObserverPanel observerPanel1;

@@ -11,10 +11,13 @@ import dislin.plot_2D;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBox;
 import tools.help;
 
@@ -736,7 +739,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_pockonKeyReleased
 
     private void jTextField_pocdesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_pocdesKeyReleased
-         constants.setDislin_pocet_des_miest((int) help.ReadCheckDouble(jTextField_pockon , 2));
+         constants.setDislin_pocet_des_miest((int) help.ReadCheckDouble(jTextField_pocdes , 2));
     }//GEN-LAST:event_jTextField_pocdesKeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -755,7 +758,11 @@ public class Dislin_Settings extends javax.swing.JFrame {
      graf2.setScreen(true);
      
      graf2.setFile(false,"");
-     graf2.draw_1D_yn();
+        try {
+            graf2.draw_1D_yn();
+        } catch (IOException ex) {
+            Logger.getLogger(Dislin_Settings.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }//GEN-LAST:event_jButton2ActionPerformed

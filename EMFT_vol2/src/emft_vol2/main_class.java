@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import java.util.Scanner;
+import tools.help;
 
 
 /**
@@ -18,6 +19,10 @@ import java.util.Scanner;
  */
 public class main_class {
 public static String memory_path="none";
+
+
+
+
     /**
      * @param args the command line arguments
      */
@@ -39,6 +44,20 @@ public static String memory_path="none";
         
              String userhome = System.getProperty("user.dir");
              File subor = new File(userhome  + "\\memory.txt");
+             
+             
+             String temp_path  = userhome+ "\\" + "temp"+"\\"  ;
+             
+             File file = new File(  temp_path);      
+   String[] myFiles;    
+       if(file.isDirectory()){
+           myFiles = file.list();
+           for (int i=0; i<myFiles.length; i++) {
+               File myFile = new File(file, myFiles[i]); 
+               myFile.delete();
+           }
+        }
+             
       try {
          Scanner input = new Scanner(subor);
          String EmptyLine;

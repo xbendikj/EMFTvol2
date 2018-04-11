@@ -485,18 +485,18 @@ public class CatenaryPanel extends javax.swing.JPanel {
         //kontrola či je vygenerovany teren ak ano ideme dalej
         if (InternalFrameproject.Rozpätie.isCreatedTerrain() == true) {
             idemePocitat = true;
-            
+            BasicSettingsPanel.generuj_teren_bez_ukazky(); // aj tak ho pregeneruj
             
 
         } else {
 
-            int hodnotaYN = JOptionPane.showConfirmDialog(CatenaryPanel.this, language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 49), language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 48), 2);//showMessageDialog(table, "Column header #" + column + " is clicked");
+           // int hodnotaYN = JOptionPane.showConfirmDialog(CatenaryPanel.this, language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 49), language_internal_frame_catenary_Panel.LangLabel(constants.getLanguage_option(), 48), 2);//showMessageDialog(table, "Column header #" + column + " is clicked");
 
-            if (hodnotaYN == JOptionPane.YES_OPTION) {
+           // if (hodnotaYN == JOptionPane.YES_OPTION) {
                 BasicSettingsPanel.generuj_teren_bez_ukazky();
                 idemePocitat = true;
 
-            }
+          //  }
 
         }
 

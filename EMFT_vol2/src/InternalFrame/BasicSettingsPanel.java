@@ -28,6 +28,8 @@ import tools.help;
  */
 public class BasicSettingsPanel extends javax.swing.JPanel {
 
+ 
+
     
     
     public BasicSettingsPanel() {
@@ -97,6 +99,18 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     jLabel_A.setText("m");
 
     help.DisplayDouble(jTextField_A, InternalFrameproject.Rozpätie.getA(), 3);
+    jTextField_A.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            jTextField_AFocusLost(evt);
+        }
+    });
+    jTextField_A.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            jTextField_AInputMethodTextChanged(evt);
+        }
+    });
     jTextField_A.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField_AActionPerformed(evt);
@@ -112,6 +126,13 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     jLabel_Z.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 4));
 
     help.DisplayDouble(jTextField_Z, InternalFrameproject.Rozpätie.getZ(), 1);
+    jTextField_Z.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            jTextField_ZInputMethodTextChanged(evt);
+        }
+    });
     jTextField_Z.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField_ZActionPerformed(evt);
@@ -134,6 +155,13 @@ public class BasicSettingsPanel extends javax.swing.JPanel {
     jLabel_krok.setToolTipText(language_internal_frame_BasicSettingsPanel.LangLabel(constants.getLanguage_option(), 6));
 
     help.DisplayDouble(jTextField_krok, InternalFrameproject.Rozpätie.getKrok()*1000, 0); // zobrazenie kroku ale prevod na mm
+    jTextField_krok.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            jTextField_krokInputMethodTextChanged(evt);
+        }
+    });
     jTextField_krok.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField_krokActionPerformed(evt);
@@ -396,7 +424,6 @@ jRadioButton_points.addActionListener(new java.awt.event.ActionListener() {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTextField_Z2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel_A7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_model_terren, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -413,6 +440,13 @@ jRadioButton_points.addActionListener(new java.awt.event.ActionListener() {
     );
 
     help.DisplayDouble(jTextField_krok, InternalFrameproject.Rozpätie.getKrok()*1000, 0); // zobrazenie kroku ale prevod na mm
+    jTextField_krok_pozorovatela.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            jTextField_krok_pozorovatelaInputMethodTextChanged(evt);
+        }
+    });
     jTextField_krok_pozorovatela.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField_krok_pozorovatelaActionPerformed(evt);
@@ -434,6 +468,13 @@ jRadioButton_points.addActionListener(new java.awt.event.ActionListener() {
 
     help.DisplayDouble(jTextField_Z, InternalFrameproject.Rozpätie.getZ(), 1);
     jTextField_H.setEnabled(false);
+    jTextField_H.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            jTextField_HInputMethodTextChanged(evt);
+        }
+    });
     jTextField_H.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField_HActionPerformed(evt);
@@ -748,6 +789,78 @@ jRadioButton_points.addActionListener(new java.awt.event.ActionListener() {
     private void jTextField_X2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_X2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_X2ActionPerformed
+
+    private void jTextField_AFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_AFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_AFocusLost
+
+    private void jTextField_AInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField_AInputMethodTextChanged
+       InternalFrameproject.Rozpätie.setA(kontrolor.set(0, help.ReadCheckDouble(jTextField_A, -1)));
+     
+      InternalFrameproject.calcE_OLD_plus.setEnabled(false);
+    }//GEN-LAST:event_jTextField_AInputMethodTextChanged
+
+    private void jTextField_ZInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField_ZInputMethodTextChanged
+       InternalFrameproject.Rozpätie.setZ( kontrolor.set(1, help.ReadCheckDouble(jTextField_Z, -1)));
+      InternalFrameproject.calcE_OLD_plus.setEnabled(false);
+    }//GEN-LAST:event_jTextField_ZInputMethodTextChanged
+
+    private void jTextField_HInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField_HInputMethodTextChanged
+       // jTextField_H.setText( String.valueOf(help.ReadCheckIntErrorSign(jTextField_H, 40,"Error value")) );
+         InternalFrameproject.Rozpätie.setH(help.ReadCheckDouble(jTextField_H, 40));
+       //  InternalFrameproject.Rozpätie.setA(kontrolor.set(0, help.ReadCheckDouble(jTextField_A, -1)));
+     
+         
+    }//GEN-LAST:event_jTextField_HInputMethodTextChanged
+
+    private void jTextField_krokInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField_krokInputMethodTextChanged
+          InternalFrameproject.Rozpätie.setKrok( kontrolor.set(1, help.ReadCheckDouble(jTextField_krok, -1)));
+    }//GEN-LAST:event_jTextField_krokInputMethodTextChanged
+
+    private void jTextField_krok_pozorovatelaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField_krok_pozorovatelaInputMethodTextChanged
+       InternalFrameproject.Rozpätie.setKrok_pozorovatela( help.ReadCheckDouble(jTextField_krok_pozorovatela, 1));
+       InternalFrameproject.calcE_OLD_plus.setEnabled(false);
+    }//GEN-LAST:event_jTextField_krok_pozorovatelaInputMethodTextChanged
+
+    public static JTextField getjTextField_A() {
+        return jTextField_A;
+    }
+
+    public static void setjTextField_A(JTextField jTextField_A) {
+        BasicSettingsPanel.jTextField_A = jTextField_A;
+    }
+
+    public static JTextField getjTextField_L1() {
+        return jTextField_L1;
+    }
+
+    public static void setjTextField_L1(JTextField jTextField_L1) {
+        BasicSettingsPanel.jTextField_L1 = jTextField_L1;
+    }
+
+    public static JTextField getjTextField_Z() {
+        return jTextField_Z;
+    }
+
+    public static void setjTextField_Z(JTextField jTextField_Z) {
+        BasicSettingsPanel.jTextField_Z = jTextField_Z;
+    }
+
+    public static JTextField getjTextField_krok() {
+        return jTextField_krok;
+    }
+
+    public static void setjTextField_krok(JTextField jTextField_krok) {
+        BasicSettingsPanel.jTextField_krok = jTextField_krok;
+    }
+
+    public static JTextField getjTextField_krok_pozorovatela() {
+        return jTextField_krok_pozorovatela;
+    }
+
+    public static void setjTextField_krok_pozorovatela(JTextField jTextField_krok_pozorovatela) {
+        BasicSettingsPanel.jTextField_krok_pozorovatela = jTextField_krok_pozorovatela;
+    }
 
     
     
