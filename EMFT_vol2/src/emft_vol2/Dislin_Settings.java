@@ -779,12 +779,20 @@ public class Dislin_Settings extends javax.swing.JFrame {
       plot_2D graf3 = new plot_2D(xray,xray,xray,constants.getDislin_Label_X(),constants.getDislin_Label_Z(),"Testing", "2D graph contour",true, true,false,true);
         graf3.setScreen(true);          
         graf3.setFile(false,"" );
-        graf3.draw_2D_yn(); // TODO add your handling code here:
+        try {
+            graf3.draw_2D_yn(); // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(Dislin_Settings.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
          graf3 = new plot_2D(xray,xray,xray,constants.getDislin_Label_X(),constants.getDislin_Label_Z(),"Testing", "2D graph full",true, true,true,false);
         graf3.setScreen(true);          
         graf3.setFile(false,"" );
-        graf3.draw_2D_yn(); // TODO add your handling code here:
+        try {
+            graf3.draw_2D_yn(); // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(Dislin_Settings.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
