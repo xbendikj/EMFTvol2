@@ -1,0 +1,35 @@
+--- PHASE PARAMETRICAL OUTPUT ---
+----------------------------------------------
+Time of the calculation       : 12-04-2018 09:56:34
+Type of the calculation       : Basic approximated
+Name of the project           : Nový projekt
+Name of the span              : Nové rozpätie
+
+Total number of wires      : 2
+Number of phase conductors : 2
+Number of ground wires     : 0
+----------------------------------------------
+
+--- PHASE MATRICES ---
+
+R [Ohm/km]
+0.16864 0.04935 
+0.04935 0.16864 
+
+L [mH/km]
+2.31255 1.11096 
+1.11096 2.31255 
+
+C [F/km]
+7.774E-9 -1.728E-9 
+-1.728E-9 8.012E-9 
+
+Z [Ohm/km]
+0.16864 0.72651i   0.04935 0.34902i   
+0.04935 0.34902i   0.16864 0.72651i   
+
+Y [S/km]
+0.000E0 2.442E-6i   0.000E0 -5.428E-7i   
+0.000E0 -5.428E-7i   0.000E0 2.517E-6i   
+
+END OF FILE

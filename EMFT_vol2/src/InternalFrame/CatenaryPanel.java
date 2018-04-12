@@ -467,6 +467,7 @@ public class CatenaryPanel extends javax.swing.JPanel {
         for (int c = 0; c < Table.getRowCount()-1; c++) {
         
             Table.setValueAt(0, c, 6);
+            InternalFrameproject.readvalues_fromBasicSettingspanel();
             Table.setValueAt(InternalFrameproject.Rozpätie.getA(), c, 7);
         
         }

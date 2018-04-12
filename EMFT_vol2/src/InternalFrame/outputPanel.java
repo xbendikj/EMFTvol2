@@ -94,6 +94,7 @@ public class outputPanel extends javax.swing.JPanel {
         equal_sides = new javax.swing.JCheckBox();
         limit = new javax.swing.JCheckBox();
         JComboBox_Yvar_ELPAM = new javax.swing.JComboBox<>();
+        jCheckBoxRLC = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 4)
             , javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP));
@@ -202,13 +203,21 @@ public class outputPanel extends javax.swing.JPanel {
         }
     });
 
+    jCheckBoxRLC.setSelected(true);
+    jCheckBoxRLC.setText("RLC [ 1,0 ]");
+    jCheckBoxRLC.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jCheckBoxRLCActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(TxT_short, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -224,56 +233,66 @@ public class outputPanel extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(Graph_file, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addComponent(jTextField1))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(show)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(Save_to_memory))
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(JComboBox_Yvar_ELPAM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(conturry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(fill)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(equal_sides))
+                            .addComponent(JComboBox_Yvar_ELPAM, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jCheckBoxRLC, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                            .addComponent(SI_unit))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(SI_unit)
+                            .addComponent(conturry)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(update_Unit))))))
+                            .addComponent(fill)
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(equal_sides)
+                        .addComponent(update_Unit)))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jTextField1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(show)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(Save_to_memory)))
+            .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(conturry)
-                    .addComponent(fill)
-                    .addComponent(equal_sides)
-                    .addComponent(limit))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxT_short)
-                    .addComponent(Graph_screen)
-                    .addComponent(jLabel1)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGap(5, 5, 5)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(limit)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(equal_sides)
+                                .addComponent(fill)
+                                .addComponent(conturry)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TxT_short)
+                            .addComponent(Graph_screen)
+                            .addComponent(jLabel1)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TxT_long)
+                        .addComponent(Graph_file)
+                        .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JComboBox_Yvar_ELPAM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(SI_unit)
+                        .addComponent(update_Unit)
+                        .addComponent(jCheckBoxRLC))
+                    .addGap(1, 1, 1)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(TxT_long)
-                .addComponent(Graph_file)
-                .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(SI_unit)
-                .addComponent(update_Unit)
-                .addComponent(JComboBox_Yvar_ELPAM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addComponent(Save_to_memory, javax.swing.GroupLayout.PREFERRED_SIZE, 28, Short.MAX_VALUE))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(Save_to_memory, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap())
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -445,6 +464,18 @@ public class outputPanel extends javax.swing.JPanel {
     private void JComboBox_Yvar_ELPAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboBox_Yvar_ELPAMActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JComboBox_Yvar_ELPAMActionPerformed
+
+    public JCheckBox getjCheckBoxRLC() {
+        return jCheckBoxRLC;
+    }
+
+    public void setjCheckBoxRLC(JCheckBox jCheckBoxRLC) {
+        this.jCheckBoxRLC = jCheckBoxRLC;
+    }
+
+    private void jCheckBoxRLCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxRLCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxRLCActionPerformed
     /**
      * vrat scale faktor pre B
      * @param scaleUnit nie Tesla Ano mu Tesla
@@ -564,6 +595,7 @@ public class outputPanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton conturry;
     private javax.swing.JCheckBox equal_sides;
     private javax.swing.JRadioButton fill;
+    private javax.swing.JCheckBox jCheckBoxRLC;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JCheckBox limit;

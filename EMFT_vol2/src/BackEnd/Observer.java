@@ -402,15 +402,15 @@ public class Observer {
         
     }
     
-    public void calculatePoyting() throws DelaunayError{
+    public void calculatePoyting(double mu0, double mur) throws DelaunayError{
         
        DPoint E_real = new DPoint(E.getX_Real(), E.getY_Real(), E.getZ_Real());
        DPoint E_image = new DPoint(E.getX_Imaginary(), E.getY_Imaginary(), E.getZ_Imaginary());
-       DPoint B_real = new DPoint(B.getX_Real(), B.getY_Real(), B.getZ_Real());
-       DPoint B_image = new DPoint(B.getX_Imaginary(), B.getY_Imaginary(), B.getZ_Imaginary());
+       DPoint B_real = new DPoint(B.getX_Real()/(mu0*mur), B.getY_Real()/(mu0*mur), B.getZ_Real()/(mu0*mur));
+       DPoint B_image = new DPoint(B.getX_Imaginary()/(mu0*mur), B.getY_Imaginary()/(mu0*mur), B.getZ_Imaginary()/(mu0*mur));
       
-       DPoint Preal = vektor_sucet( vektor_sucin(E_real, B_real)  , vektor_sucin(E_image, B_image));
-       DPoint Pimage = vektor_rozdiel(vektor_sucin(E_image, B_real)  , vektor_sucin(E_real, B_image));
+       DPoint Preal = vektor_sucet( new DPoint( vektor_sucin(new DPoint (E_real),new DPoint( B_real )))  ,new DPoint( vektor_sucin(new DPoint(E_image), new DPoint(B_image))));
+       DPoint Pimage = vektor_rozdiel(new DPoint(vektor_sucin(new DPoint(E_image), new DPoint(B_real)) ) ,new DPoint( vektor_sucin(new DPoint(E_real), new DPoint(B_image))));
         
        E.setX(new Complex(Preal.getX(), Pimage.getX()));
        E.setY(new Complex(Preal.getY(), Pimage.getY()));

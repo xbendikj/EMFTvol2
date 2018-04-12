@@ -129,8 +129,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         calcBaE = new javax.swing.JButton();
         calcBaE_poyting = new javax.swing.JButton();
         calc_MATRIX = new javax.swing.JButton();
-        calc_MATRIX3 = new javax.swing.JButton();
-        calc_MATRIX1 = new javax.swing.JButton();
+        calc_voltage = new javax.swing.JButton();
+        calc_current = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -197,7 +197,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
-                .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 978, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -245,6 +245,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         calcE_OLD_plus.setBackground(new java.awt.Color(255, 51, 51));
         calcE_OLD_plus.setText("E +");
         calcE_OLD_plus.setEnabled(false);
+        calcE_OLD_plus.setMaximumSize(new java.awt.Dimension(47, 27));
+        calcE_OLD_plus.setMinimumSize(new java.awt.Dimension(47, 27));
+        calcE_OLD_plus.setPreferredSize(new java.awt.Dimension(47, 27));
         calcE_OLD_plus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calcE_OLD_plusActionPerformed(evt);
@@ -253,6 +256,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
         calcBaE.setBackground(new java.awt.Color(255, 51, 51));
         calcBaE.setText("B & E");
+        calcBaE.setPreferredSize(new java.awt.Dimension(60, 27));
         calcBaE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calcBaEActionPerformed(evt);
@@ -275,19 +279,19 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         });
 
-        calc_MATRIX3.setBackground(new java.awt.Color(255, 51, 51));
-        calc_MATRIX3.setText("U zl");
-        calc_MATRIX3.addActionListener(new java.awt.event.ActionListener() {
+        calc_voltage.setBackground(new java.awt.Color(255, 51, 51));
+        calc_voltage.setText("U zl");
+        calc_voltage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                calc_MATRIX3ActionPerformed(evt);
+                calc_voltageActionPerformed(evt);
             }
         });
 
-        calc_MATRIX1.setBackground(new java.awt.Color(255, 51, 51));
-        calc_MATRIX1.setText("I zl");
-        calc_MATRIX1.addActionListener(new java.awt.event.ActionListener() {
+        calc_current.setBackground(new java.awt.Color(255, 51, 51));
+        calc_current.setText("I zl");
+        calc_current.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                calc_MATRIX1ActionPerformed(evt);
+                calc_currentActionPerformed(evt);
             }
         });
 
@@ -297,67 +301,71 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(calcB)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(calcBaE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(calcE_OLD)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(calcE_OLD, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(calcBaE)
+                        .addComponent(calc_current, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(calcBaE_poyting, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(calc_voltage, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calc_MATRIX3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(calc_MATRIX1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(calcBaE_poyting, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(calc_MATRIX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(calcB, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(calcE_OLD, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(calc_MATRIX, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(calc_MATRIX3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(calc_MATRIX1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(calcBaE, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(calcB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(calcE_OLD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(calcE_OLD_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(calcBaE, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(calc_MATRIX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(calc_current, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(calc_voltage, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(calcBaE_poyting, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62))
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(catenaryPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(catenaryPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(outputPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(basicInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(basicSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(observerPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(outputPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(elpam_method_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(basicInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(basicSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(observerPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(elpam_method_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1574,13 +1582,37 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             ArrayList<Observer[]> ELPAM_parametre = new ArrayList<>();
             ELPAM_parametre.add(vektor_observerov_ELPAM);
             BEplusELPAM.setP1D_parameter_ELMPAM(ELPAM_parametre); // nakrnemeni databazy
-            try {
+            
+            if (outputPanel2.getjCheckBoxRLC().isSelected() == false){
+              try {
                 Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, outputPanel2.YAxisVal_ELPAM(), constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
             } catch (DelaunayError ex) {
                 Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+            }else{
+               
+                 try {
+                Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, "R0", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+                 Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, "R1", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+                  Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, "L0", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+                   Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, "L1", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+                    Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, "C0", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+                     Draw_1D_graph(BEplusELPAM,"parametricke", "P", 4, "C1", constants.getROW1() + observerPanel1.getNazov(), constants.getROW2(), "POKUS");
+            } catch (DelaunayError ex) {
+                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(InternalFrameproject.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+                
+                
             }
+            
+            
+            
+            
+            
             this.progress_bar_current_cycle = 1;
 
         } else { // ak neni zaskrtnuta parametrizacia
@@ -1616,7 +1648,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_calc_MATRIXActionPerformed
 
-    private void calc_MATRIX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX1ActionPerformed
+    private void calc_currentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_currentActionPerformed
        
         readvalues_fromBasicSettingspanel();
         
@@ -1683,9 +1715,9 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             }
         } 
 
-    }//GEN-LAST:event_calc_MATRIX1ActionPerformed
+    }//GEN-LAST:event_calc_currentActionPerformed
 
-    private void calc_MATRIX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_MATRIX3ActionPerformed
+    private void calc_voltageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calc_voltageActionPerformed
      
         readvalues_fromBasicSettingspanel();
         
@@ -1751,7 +1783,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                 help.warning1row("Bundle ground wire error");
             }
         } 
-    }//GEN-LAST:event_calc_MATRIX3ActionPerformed
+    }//GEN-LAST:event_calc_voltageActionPerformed
 
     private void calcBaE_poytingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBaE_poytingActionPerformed
 
@@ -1893,18 +1925,10 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
 
                 }
 
-                if (main_Jframe.iscalculation_Settings == true) {
-                    if (calculation_Settings.getI().isSelected() == true) {
-                        CalcI = true;
-                    }
-                    if (calculation_Settings.getEmod().isSelected() == true) {
-                        CalcEmod = true;
-                    }
-
-                }
                 
                 
-                    BE.scitanieAndCalcPoyting(BEplus);
+                
+                    BE.scitanieAndCalcPoyting(BEplus,constants.getMu0(),constants.getMu1());
                 
 
                 if (observerPanel1.P1Dpriecne.isSelected() == true && observerPanel1.P1D.isSelected() == true) {
@@ -5224,6 +5248,212 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                      graf2.draw_1D_yn();
             
             }else{
+                  
+                 if (BorE == "R0") {
+                 label = "$R_0$ [$\\Omega / km $]";
+                 }
+                 if (BorE == "R1") {
+                 label = "$R_1$ [$\\Omega / km $]";
+                 }
+                 if (BorE == "R2") {
+                 label = "$R_2$ [$\\Omega / km $]";
+                 }
+                 
+                  if (BorE == "C0") {
+                 label = "$C_0$ [$F / km $]";
+                 }
+                 if (BorE == "C1") {
+                 label = "$C_1$ [$F / km $]";
+                 }
+                 if (BorE == "C2") {
+                 label = "$C_2$ [$F / km $]";
+                 }
+                 
+                  if (BorE == "L0") {
+                 label = "$L_0$ [$H/ km $]";
+                 }
+                 if (BorE == "L1") {
+                 label = "$L_1$ [$H/ km $]";
+                 }
+                 if (BorE == "L2") {
+                 label = "$L_2$ [$H / km $]";
+                 }
+                
+                
+                   plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList_systemovy(BorE, BE.getP1D_parameter_ELMPAM(),BE.getP1D_parameter_ELMPAM().get(0)[0].getC0_ELPAM().length ), observerPanel1.getNazov(), label, ROW1, ROW2);
+                   Date todaysDate = new Date();
+                   DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+                   graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                   graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
+                   graf2.draw_1D_yn();
+            
+            
+            }
+             
+            
+          
+        }
+
+    }
+
+      // o iste co vrchna funkci ale konkretuzujeme databazu z ktorej cerpat
+     private void Draw_1D_graphLabel(databaza BE, String typ, String Xos, int poloha_v_dat, String BorE, String ROW1, String ROW2, String Sufix,String label) throws DelaunayError, IOException {
+       
+        if (BorE == "B") {
+            label = constants.getDislin_Label_B();
+        }
+        if (BorE == "E") {
+            label = constants.getDislin_Label_E();
+        }
+        if (BorE == "Emod") {
+            label = constants.getDislin_Label_Emod();
+        }
+        if (BorE == "I") {
+            label = constants.getDislin_Label_I();
+        }
+
+        if (typ == "priecne") {
+
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_priecne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_priecne(), Rozpätie.getPole()));
+            if (BorE == "B") {
+                graf2.setunits(outputPanel2.BscaleFactor());
+            }
+            if (BorE == "E") {
+                graf2.setunits(outputPanel2.EscaleFactor());
+            }
+            if (BorE == "I") {
+                graf2.setunits(outputPanel2.IscaleFactor());
+            }
+            if (BorE == "Emod") {
+                graf2.setunits(1);
+            }
+
+            graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+            if (BorE == "B") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+            }
+            if (BorE == "E") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+            }
+            if (BorE == "I") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+            }
+            if (BorE == "Emod") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+            }
+            Date todaysDate = new Date();
+            DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+            graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+            graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
+            graf2.draw_1D_yn();
+        }
+
+        if (typ == "pozdlzne") {
+
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_pozdlzne()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_pozdlzne(), Rozpätie.getPole()));
+            if (BorE == "B") {
+                graf2.setunits(outputPanel2.BscaleFactor());
+            }
+            if (BorE == "E") {
+                graf2.setunits(outputPanel2.EscaleFactor());
+            }
+            if (BorE == "I") {
+                graf2.setunits(outputPanel2.IscaleFactor());
+            }
+            if (BorE == "Emod") {
+                graf2.setunits(1);
+            }
+            graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+            if (BorE == "B") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+            }
+            if (BorE == "E") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+            }
+            if (BorE == "I") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+            }
+            if (BorE == "Emod") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+            }
+            Date todaysDate = new Date();
+            DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+            graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+             graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
+            graf2.draw_1D_yn();
+        }
+
+        if (typ == "neurcite") {
+
+            plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_neurcite()), constants.getDislin_Label_Z(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_neurcite(), Rozpätie.getPole()));
+            if (BorE == "B") {
+                graf2.setunits(outputPanel2.BscaleFactor());
+            }
+            if (BorE == "E") {
+                graf2.setunits(outputPanel2.EscaleFactor());
+            }
+            if (BorE == "I") {
+                graf2.setunits(outputPanel2.IscaleFactor());
+            }
+            if (BorE == "Emod") {
+                graf2.setunits(1);
+            }
+            graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+            if (BorE == "B") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+            }
+            if (BorE == "E") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+            }
+            if (BorE == "I") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+            }
+            if (BorE == "Emod") {
+                graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+            }
+            Date todaysDate = new Date();
+            DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+            graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+            graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
+            graf2.draw_1D_yn();
+        }
+
+        if (typ == "parametricke") {
+
+            if(BorE == "B" || BorE == "E" || BorE == "I" || BorE == "Emod"  ){
+                        plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList(BorE, outputPanel2.YAxisVal(BorE), BE.getP1D_parameter()), observerPanel1.getNazov(), label, ROW1, ROW2, BE.getYray_height_name(BE.getP1D_parameter(), Rozpätie.getPole()));
+                     if (BorE == "B") {
+                         graf2.setunits(outputPanel2.BscaleFactor());
+                     }
+                     if (BorE == "E") {
+                         graf2.setunits(outputPanel2.EscaleFactor());
+                     }
+                     if (BorE == "I") {
+                         graf2.setunits(outputPanel2.IscaleFactor());
+                     }
+                     if (BorE == "Emod") {
+                         graf2.setunits(1);
+                     }
+                     graf2.setScreen(outputPanel2.getGraph_screen().isSelected());
+                     if (BorE == "B") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneB());
+                     }
+                     if (BorE == "E") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneE());
+                     }
+                     if (BorE == "I") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneI());
+                     }
+                     if (BorE == "Emod") {
+                         graf2.setLimits(outputPanel2.getLimit().isSelected(), constants.getAkcneEmod());
+                     }
+                     Date todaysDate = new Date();
+                     DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+                     graf2.setFile(outputPanel2.getGraph_file().isSelected(), outputPanel2.getjTextField1().getText() + "/" + df2.format(todaysDate) + "_" + meno_projektu + "_" + Sufix + ".png");
+                     graf2.noZeroYA_limit(constants.isDislin_nozeroYA());
+                     graf2.draw_1D_yn();
+            
+            }else{
                    plot_1D graf2 = new plot_1D(BE.getXray1D(Xos, BE.getFromList1D(0, poloha_v_dat)), BE.getYray1DList_systemovy(BorE, BE.getP1D_parameter_ELMPAM(),BE.getP1D_parameter_ELMPAM().get(0)[0].getC0_ELPAM().length ), observerPanel1.getNazov(), label, ROW1, ROW2);
                    Date todaysDate = new Date();
                    DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -7315,7 +7545,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     /**
      * funkcia nacita hodnota z basic setting do rozpatia
      */
-    public void readvalues_fromBasicSettingspanel(){
+    static public void readvalues_fromBasicSettingspanel(){
         
         Rozpätie.setA(Double.parseDouble(BasicSettingsPanel.getjTextField_A().getText()));
         Rozpätie.setH(Double.parseDouble(BasicSettingsPanel.getjTextField_H().getText()));
@@ -7830,8 +8060,8 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
     private javax.swing.JButton calcE_OLD;
     public static javax.swing.JButton calcE_OLD_plus;
     private javax.swing.JButton calc_MATRIX;
-    private javax.swing.JButton calc_MATRIX1;
-    private javax.swing.JButton calc_MATRIX3;
+    private javax.swing.JButton calc_current;
+    private javax.swing.JButton calc_voltage;
     private InternalFrame.CatenaryPanel catenaryPanel1;
     private javax.swing.JPanel elpam_method_panel;
     private javax.swing.JMenuItem jMenuItem1;
