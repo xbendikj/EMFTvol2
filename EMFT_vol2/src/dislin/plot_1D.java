@@ -6,6 +6,7 @@
 package dislin;
 
 import de.dislin.Dislin;
+import emft_vol2.Dislin_Settings;
 import emft_vol2.constants;
 import java.awt.Desktop;
 import java.io.File;
@@ -222,6 +223,32 @@ public class plot_1D {
      
     
           Dislin.title  ();
+          if(Dislin_Settings.getRAIN().isSelected() == true){
+     Dislin.setvlt("RAIN");
+}
+if(Dislin_Settings.getCOL2().isSelected() == true){
+      int ncoltcb = 254;
+       float[] XR = new float[ncoltcb+1];
+       float[] XG = new float[ncoltcb+1];
+       float[] XB = new float[ncoltcb+1];
+        XR[0]=1;
+           XG[0]=1;
+            XB[0]=1 ;
+        for (int i = 1; i < ncoltcb+1; i++) {
+           XR[i]=(float)i/(ncoltcb+1) ;
+           XG[i]=(float)(ncoltcb+1-i)/(ncoltcb+1);
+           XB[i]= ( XR[i] +  XG[i]  )/2 ;
+        }
+  
+        Dislin.colran(1,ncoltcb-1);    //     ! works correctly only if 1 is subtracted
+        Dislin.myvlt(XR,XG,XB,ncoltcb); 
+}
+if(Dislin_Settings.getTEMP().isSelected() == true){
+     Dislin.setvlt("TEMP");
+}
+if(Dislin_Settings.getBW().isSelected() == true){
+     Dislin.setvlt("GREY");
+}
      //legenda
           String cbuf="  ";
           Dislin.legini(cbuf, y2ray.size(), 10);

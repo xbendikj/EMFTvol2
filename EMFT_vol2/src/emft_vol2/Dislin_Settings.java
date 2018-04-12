@@ -5,20 +5,17 @@
  */
 package emft_vol2;
 
-import InternalFrame.InternalFrameproject;
 import dislin.plot_1D;
 import dislin.plot_2D;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 import tools.help;
 
 /**
@@ -93,6 +90,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         grid = new javax.swing.JCheckBox();
@@ -143,6 +141,16 @@ public class Dislin_Settings extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         noZA = new javax.swing.JCheckBox();
+        RAIN = new javax.swing.JCheckBox();
+        TEMP = new javax.swing.JCheckBox();
+        BW = new javax.swing.JCheckBox();
+        COL2 = new javax.swing.JCheckBox();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        ZcaleMax = new javax.swing.JTextField();
+        ZscaleMin = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -526,6 +534,46 @@ public class Dislin_Settings extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup2.add(RAIN);
+        RAIN.setSelected(true);
+        RAIN.setText("RAIN");
+
+        buttonGroup2.add(TEMP);
+        TEMP.setText("TEMP");
+        TEMP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TEMPActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(BW);
+        BW.setText("BW");
+        BW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BWActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(COL2);
+        COL2.setText("COL2");
+
+        jLabel24.setText("farebna schéma");
+
+        jLabel25.setText("Zscale limit");
+
+        ZcaleMax.setText("5000");
+        ZcaleMax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ZcaleMaxActionPerformed(evt);
+            }
+        });
+
+        ZscaleMin.setText("-5000");
+
+        jLabel26.setText("Max");
+
+        jLabel27.setText("Min");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -586,13 +634,40 @@ public class Dislin_Settings extends javax.swing.JFrame {
                                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ROW2, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                            .addComponent(ROW1)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(ROW1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(ROW2)
+                                        .addContainerGap())))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel25)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(RAIN)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TEMP)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BW)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(COL2))
+                                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(ZcaleMax, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel26)
+                                        .addGap(7, 7, 7)
+                                        .addComponent(ZscaleMin, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel27)))
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -644,7 +719,7 @@ public class Dislin_Settings extends javax.swing.JFrame {
                         .addComponent(grid)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(grid1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(noZA)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -654,7 +729,23 @@ public class Dislin_Settings extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ROW2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RAIN)
+                    .addComponent(TEMP)
+                    .addComponent(BW)
+                    .addComponent(COL2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel25)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ZcaleMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ZscaleMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel27))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -822,6 +913,66 @@ public class Dislin_Settings extends javax.swing.JFrame {
         constants.setDislin_nozeroYA(noZA.isSelected());
     }//GEN-LAST:event_noZAActionPerformed
 
+    static public JCheckBox getBW() {
+        return BW;
+    }
+
+    public void setBW(JCheckBox BW) {
+        this.BW = BW;
+    }
+
+    static public JCheckBox getCOL2() {
+        return COL2;
+    }
+
+    public void setCOL2(JCheckBox COL2) {
+        this.COL2 = COL2;
+    }
+
+   static  public JCheckBox getRAIN() {
+        return RAIN;
+    }
+
+    public void setRAIN(JCheckBox RAIN) {
+        this.RAIN = RAIN;
+    }
+
+   static public JCheckBox getTEMP() {
+        return TEMP;
+    }
+
+    public void setTEMP(JCheckBox TEMP) {
+        this.TEMP = TEMP;
+    }
+
+    static public JTextField getZcaleMax() {
+        return ZcaleMax;
+    }
+
+    public void setZcaleMax(JTextField ZcaleMax) {
+        this.ZcaleMax = ZcaleMax;
+    }
+
+    static public JTextField getZscaleMin() {
+        return ZscaleMin;
+    }
+
+    public void setZscaleMin(JTextField ZscaleMin) {
+        this.ZscaleMin = ZscaleMin;
+    }
+
+    private void TEMPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TEMPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TEMPActionPerformed
+
+    private void BWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BWActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BWActionPerformed
+
+    private void ZcaleMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZcaleMaxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ZcaleMaxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -866,9 +1017,16 @@ public class Dislin_Settings extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private static javax.swing.JCheckBox BW;
+    private static javax.swing.JCheckBox COL2;
+    private static javax.swing.JCheckBox RAIN;
     private javax.swing.JTextField ROW1;
     private javax.swing.JTextField ROW2;
+    private static javax.swing.JCheckBox TEMP;
+    private static javax.swing.JTextField ZcaleMax;
+    private static javax.swing.JTextField ZscaleMin;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private static javax.swing.JCheckBox grid;
     private static javax.swing.JCheckBox grid1;
     private javax.swing.JButton jButton1;
@@ -889,6 +1047,10 @@ public class Dislin_Settings extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

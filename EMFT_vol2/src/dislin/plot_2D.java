@@ -6,6 +6,7 @@
 package dislin;
 
 import de.dislin.Dislin;
+import emft_vol2.Dislin_Settings;
 import emft_vol2.constants;
 import java.awt.Desktop;
 import java.io.File;
@@ -227,6 +228,9 @@ public class plot_2D {
      this.xray=xray;
      this.yray=yray;
      }
+     
+    
+      
       
      float XA = (float) minVal(xray) ; // spodny limit X
      float YA = (float) minVal(yray);
@@ -327,19 +331,50 @@ public class plot_2D {
  Dislin.linwid(constants.getDislin_hrubka_ciar_za_grafom());      // spolocna grafika grafov
     
  Dislin.title  ();
-
+if(Dislin_Settings.getRAIN().isSelected() == true){
+     Dislin.setvlt("RAIN");
+}
+if(Dislin_Settings.getCOL2().isSelected() == true){
+      int ncoltcb = 253;
+       float[] XR = new float[ncoltcb+1];
+       float[] XG = new float[ncoltcb+1];
+       float[] XB = new float[ncoltcb+1];
+        XR[0]=1;
+           XG[0]=1;
+            XB[0]=1 ;
+        for (int i = 1; i < ncoltcb+1; i++) {
+           XR[i]=(float)i/(ncoltcb+1) ;
+           XG[i]=(float)(ncoltcb+1-i)/(ncoltcb+1);
+           XB[i]= ( XR[i] +  XG[i]  )/2 ;
+        }
+  
+        Dislin.colran(1,ncoltcb-1);    //     ! works correctly only if 1 is subtracted
+        Dislin.myvlt(XR,XG,XB,ncoltcb); 
+}
+if(Dislin_Settings.getTEMP().isSelected() == true){
+     Dislin.setvlt("TEMP");
+}
+if(Dislin_Settings.getBW().isSelected() == true){
+     Dislin.setvlt("GREY");
+}
+  
+      
+ 
     if(this.contury==true){
       Dislin.height (30);
      
      for (int i = 0; i < constants.getDislin_pocet_kontur(); i++) {
-       zlev = maxVal(zmat)/(constants.getDislin_pocet_kontur()) +(i)*maxVal(zmat)/(constants.getDislin_pocet_kontur());    // MAXB/(NLV - 10)+(M - 1) * MAXB/(NLV - 10)
-       if (i == 4) {
+       zlev = minVal(zmat) +(i)*(maxVal(zmat) - minVal(zmat))/constants.getDislin_pocet_kontur();    // MAXB/(NLV - 10)+(M - 1) * MAXB/(NLV - 10)
+      //      zlev = minVal(zmat) +(i)*maxVal(zmat)/(constants.getDislin_pocet_kontur());    // MAXB/(NLV - 10)+(M - 1) * MAXB/(NLV - 10)
+ 
+     
+     if (i == 4) {
          Dislin.labels ("none", "contur");
        }
        else {
          Dislin.labels ("float", "contur");
        }
-       Dislin.setclr ((i+1) * 28);
+       Dislin.setclr ((i+1) * (int) 256/constants.getDislin_pocet_kontur());
        Dislin.contur (xray, xray.length, yray, yray.length, zmat, (float) zlev);
      }
      
@@ -348,8 +383,13 @@ public class plot_2D {
     if(this.fill==true){
         
        for (int i = 0; i < constants.getDislin_pocet_kontur(); i++) {
-       zlev2[constants.getDislin_pocet_kontur()-1-i] = maxVal(zmat)/constants.getDislin_pocet_kontur() + i * maxVal(zmat)/constants.getDislin_pocet_kontur();  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
-     }
+      // zlev2[constants.getDislin_pocet_kontur()-1-i] = maxVal(zmat)/constants.getDislin_pocet_kontur() + i * maxVal(zmat)/constants.getDislin_pocet_kontur();  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
+        zlev2[constants.getDislin_pocet_kontur()-1-i] = (minVal(zmat)) + i * (maxVal(zmat) - minVal(zmat))/constants.getDislin_pocet_kontur();  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
+    
+       
+       }
+      
+       
      Dislin.conshd (xray, xray.length, yray, yray.length, zmat, zlev2, constants.getDislin_pocet_kontur());
     }
     
@@ -373,6 +413,25 @@ public class plot_2D {
                     if (zmat[cl1] >= limitValue){
                         zmat[cl1] = limitValue * units;
                     }else{
+                        zmat[cl1] = zmat[cl1] * units;
+                    }
+                }
+        }
+        this.smallunits = units;
+    }
+    
+        public void setunits(double units,boolean limits,double limitValueUp, double limitValueDown) {
+         for (int cl1 = 0; cl1 < zmat.length; cl1++) {
+           
+                if(limits==false) zmat[cl1] = zmat[cl1] * units;
+                if(limits==true){
+                    if (zmat[cl1] >= limitValueUp){
+                        zmat[cl1] = limitValueUp * units;
+                    }if(zmat[cl1] < limitValueDown){
+                        zmat[cl1] = limitValueDown * units;
+                    }
+                    
+                    else{
                         zmat[cl1] = zmat[cl1] * units;
                     }
                 }

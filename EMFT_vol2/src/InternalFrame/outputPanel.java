@@ -5,6 +5,7 @@
  */
 package InternalFrame;
 
+import emft_vol2.Dislin_Settings;
 import emft_vol2.TxT_JFrame;
 import emft_vol2.constants;
 import emft_vol2.main_class;
@@ -78,6 +79,7 @@ public class outputPanel extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         TxT_short = new javax.swing.JCheckBox();
         TxT_long = new javax.swing.JCheckBox();
         Graph_screen = new javax.swing.JCheckBox();
@@ -95,6 +97,8 @@ public class outputPanel extends javax.swing.JPanel {
         limit = new javax.swing.JCheckBox();
         JComboBox_Yvar_ELPAM = new javax.swing.JComboBox<>();
         jCheckBoxRLC = new javax.swing.JCheckBox();
+        limitD = new javax.swing.JCheckBox();
+        lomitNo = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 4)
             , javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP));
@@ -192,9 +196,15 @@ public class outputPanel extends javax.swing.JPanel {
     equal_sides.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 29));
     equal_sides.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 30));
 
+    buttonGroup3.add(limit);
     limit.setSelected(true);
     limit.setText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 31));
     limit.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 32));
+    limit.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            limitActionPerformed(evt);
+        }
+    });
 
     JComboBox_Yvar_ELPAM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
     JComboBox_Yvar_ELPAM.addActionListener(new java.awt.event.ActionListener() {
@@ -211,6 +221,19 @@ public class outputPanel extends javax.swing.JPanel {
         }
     });
 
+    buttonGroup3.add(limitD);
+    limitD.setText("Limit D");
+    limit.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 32));
+    limitD.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            limitDActionPerformed(evt);
+        }
+    });
+
+    buttonGroup3.add(lomitNo);
+    lomitNo.setText("no Limit");
+    limit.setToolTipText(language_internal_frame_output_Panel.LangLabel(constants.getLanguage_option(), 32));
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
@@ -223,71 +246,76 @@ public class outputPanel extends javax.swing.JPanel {
                         .addComponent(TxT_short, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(TxT_long, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(Graph_screen, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(limit))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(Graph_file, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(JComboBox_Yvar_ELPAM, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jCheckBoxRLC, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                            .addComponent(SI_unit))
+                            .addGap(6, 6, 6)
+                            .addComponent(SI_unit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(update_Unit))
                         .addGroup(layout.createSequentialGroup()
+                            .addComponent(Graph_screen, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(limit, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(limitD)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lomitNo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(conturry)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(fill)
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(equal_sides)
-                        .addComponent(update_Unit)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(equal_sides))))
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jTextField1)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(show)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(Save_to_memory)))
-            .addContainerGap())
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addGap(5, 5, 5)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(limit)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(equal_sides)
-                                .addComponent(fill)
-                                .addComponent(conturry)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(TxT_short)
-                            .addComponent(Graph_screen)
-                            .addComponent(jLabel1)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGap(5, 5, 5)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TxT_long)
-                        .addComponent(Graph_file)
-                        .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(JComboBox_Yvar_ELPAM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createSequentialGroup()
+                        .addComponent(TxT_short)
+                        .addComponent(Graph_screen)
+                        .addComponent(jLabel1)
+                        .addComponent(limit)
+                        .addComponent(limitD)
+                        .addComponent(lomitNo))
+                    .addGap(10, 10, 10))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(equal_sides)
+                        .addComponent(fill)
+                        .addComponent(conturry))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxT_long)
+                    .addComponent(Graph_file)
+                    .addComponent(JComboBox_Yvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JComboBox_Yvar_ELPAM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBoxRLC)
                         .addComponent(SI_unit)
-                        .addComponent(update_Unit)
-                        .addComponent(jCheckBoxRLC))
-                    .addGap(1, 1, 1)))
+                        .addComponent(update_Unit))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(Save_to_memory, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -461,6 +489,22 @@ public class outputPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_fillActionPerformed
 
+    public JCheckBox getLimitD() {
+        return limitD;
+    }
+
+    public void setLimitD(JCheckBox limitD) {
+        this.limitD = limitD;
+    }
+
+    public JCheckBox getLomitNo() {
+        return lomitNo;
+    }
+
+    public void setLomitNo(JCheckBox lomitNo) {
+        this.lomitNo = lomitNo;
+    }
+
     private void JComboBox_Yvar_ELPAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboBox_Yvar_ELPAMActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JComboBox_Yvar_ELPAMActionPerformed
@@ -476,6 +520,18 @@ public class outputPanel extends javax.swing.JPanel {
     private void jCheckBoxRLCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxRLCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxRLCActionPerformed
+
+    private void limitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_limitActionPerformed
+
+    private void limitDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limitDActionPerformed
+      if (Dislin_Settings.about_JframeIsOpen == false) {
+
+            String[] args = null;
+            Dislin_Settings.main(args);
+        }
+    }//GEN-LAST:event_limitDActionPerformed
     /**
      * vrat scale faktor pre B
      * @param scaleUnit nie Tesla Ano mu Tesla
@@ -592,6 +648,7 @@ public class outputPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox TxT_short;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JRadioButton conturry;
     private javax.swing.JCheckBox equal_sides;
     private javax.swing.JRadioButton fill;
@@ -599,6 +656,8 @@ public class outputPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JCheckBox limit;
+    private javax.swing.JCheckBox limitD;
+    private javax.swing.JCheckBox lomitNo;
     private javax.swing.JButton show;
     private javax.swing.JRadioButton update_Unit;
     // End of variables declaration//GEN-END:variables

@@ -608,7 +608,11 @@ public class CatenaryPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_T2KeyReleased
 
     private void delete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete1ActionPerformed
+         isListener = false;
+
         add_priemery_to_polomery();
+        
+         isListener = true;
     }//GEN-LAST:event_delete1ActionPerformed
 
     void calculatecatenary() {

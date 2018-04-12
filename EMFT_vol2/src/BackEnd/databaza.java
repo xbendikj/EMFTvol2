@@ -230,7 +230,7 @@ public class databaza {
 
     }
 
-     public void scitanieAndCalcPoyting(databaza X,double mu0,double mur) throws DelaunayError {
+    public void scitanieAndCalcPoyting(databaza X,double mu0,double mur) throws DelaunayError {
 
         for (int cl1 = 0; cl1 < P1D_priecne.size(); cl1++) {
             for (int cl2 = 0; cl2 < P1D_priecne.get(cl1).length; cl2++) {
@@ -286,7 +286,6 @@ public class databaza {
 
     }
 
-    
     public ArrayList<Observer[]> getP2D_vert() {
         return P2D_vert;
     }
