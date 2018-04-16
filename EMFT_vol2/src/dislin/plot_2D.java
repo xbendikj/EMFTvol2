@@ -5,9 +5,12 @@
  */
 package dislin;
 
+import InternalFrame.outputPanel;
 import de.dislin.Dislin;
 import emft_vol2.Dislin_Settings;
 import emft_vol2.constants;
+import static emft_vol2.constants.getDislin_pocet_kontur;
+import emft_vol2.main_Jframe;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +30,7 @@ public class plot_2D {
     boolean fakemodel=false;
     boolean contury=false;
     boolean fill=false;
+    boolean limitD=false;
     double smallunits=1;
     String xname;
     String yname;
@@ -40,6 +44,8 @@ public class plot_2D {
     boolean levels=false;
     double level;
   
+    double upperZ;
+    double lowerZ;
     // CONSTRUCTORS
      /**
       * 
@@ -186,6 +192,14 @@ public class plot_2D {
     }
     
       
+    public void setlimitD(boolean limitD,double upperZ, double lowerZ){
+        
+        this.limitD=limitD;
+        this.upperZ=upperZ;
+        this.lowerZ=lowerZ;
+        
+    }
+    
   private void run2D () throws IOException {
      
       int pageX =constants.getDislin_velkost_strany_X();
@@ -193,7 +207,15 @@ public class plot_2D {
       
      // this.fakemodel = true; //TOTOTOTOTOT OREEEEEEEEEC
       double zlev; // contour
-      double zlev2[] = new double [constants.getDislin_pocet_kontur()]; // fill countour
+      
+      
+      double zlev2[] = null ; // fill countour
+       if(Dislin_Settings.getCOL2().isSelected() == true){
+           zlev2 = new double[constants.getDislin_pocet_kontur()];
+       }else{
+           zlev2 = new double[constants.getDislin_pocet_kontur()+1]; 
+       }
+      
       if (this.fakemodel == true){
      int n = 50, m = 50, i, j;
     
@@ -239,6 +261,12 @@ public class plot_2D {
      float XE = (float) maxVal(xray);  // horny limit X
      float YE =(float) maxVal(yray);
      float ZE =(float) maxVal(zmat);
+     
+     if (main_Jframe.iscalculation_Settings == true && limitD ==true) {
+          
+      ZA = (float) lowerZ;
+      ZE = (float) upperZ;
+    }
      
      float XOR = XA;  
      float YOR = YA;
@@ -308,7 +336,12 @@ public class plot_2D {
  Dislin.linwid(constants.getDislin_hrubka_ciar_pred_grafom());    // spolocna grafika grafov
  Dislin.hname(constants.getDislin_velkost_textu_pred_grafom());
   Dislin.labels(constants.getDislin_Dislin_Float_orEXP(), "Z");
-    if (contury==true){
+   
+  
+      
+        
+      
+      if (contury==true){
      Dislin.graf   (XA, XE, XOR, XSTEP,
                     YA, YE, YOR, YSTEP);
     }
@@ -317,7 +350,11 @@ public class plot_2D {
      Dislin.graf3 ( XA, XE, XOR, XSTEP,
                     YA, YE, YOR, YSTEP,
                     ZA, ZE, ZOR, ZSTEP  );
-    }
+    
+      
+  }
+  
+    
     
         // zapiname vypiname grid
         if (constants.isDislin_grid() == true) {
@@ -331,6 +368,11 @@ public class plot_2D {
  Dislin.linwid(constants.getDislin_hrubka_ciar_za_grafom());      // spolocna grafika grafov
     
  Dislin.title  ();
+ 
+ if (main_Jframe.iscalculation_Settings == false) {
+          Dislin.setvlt("RAIN");  
+        }else {
+ 
 if(Dislin_Settings.getRAIN().isSelected() == true){
      Dislin.setvlt("RAIN");
 }
@@ -356,7 +398,7 @@ if(Dislin_Settings.getTEMP().isSelected() == true){
 }
 if(Dislin_Settings.getBW().isSelected() == true){
      Dislin.setvlt("GREY");
-}
+}}
   
       
  
@@ -364,33 +406,52 @@ if(Dislin_Settings.getBW().isSelected() == true){
       Dislin.height (30);
      
      for (int i = 0; i < constants.getDislin_pocet_kontur(); i++) {
-       zlev = minVal(zmat) +(i)*(maxVal(zmat) - minVal(zmat))/constants.getDislin_pocet_kontur();    // MAXB/(NLV - 10)+(M - 1) * MAXB/(NLV - 10)
+       zlev = ZA +(i)*(Math.abs(ZE)+ Math.abs(ZA))/constants.getDislin_pocet_kontur();    // MAXB/(NLV - 10)+(M - 1) * MAXB/(NLV - 10)
       //      zlev = minVal(zmat) +(i)*maxVal(zmat)/(constants.getDislin_pocet_kontur());    // MAXB/(NLV - 10)+(M - 1) * MAXB/(NLV - 10)
  
      
-     if (i == 4) {
+     if (i == 5) {
          Dislin.labels ("none", "contur");
        }
        else {
          Dislin.labels ("float", "contur");
        }
-       Dislin.setclr ((i+1) * (int) 256/constants.getDislin_pocet_kontur());
+       Dislin.setclr ((i+1) * (int) 254/constants.getDislin_pocet_kontur());
        Dislin.contur (xray, xray.length, yray, yray.length, zmat, (float) zlev);
      }
      
     }
     
     if(this.fill==true){
-        
-       for (int i = 0; i < constants.getDislin_pocet_kontur(); i++) {
+     if(Dislin_Settings.getCOL2().isSelected() == true){
+         for (int i = 0; i < zlev2.length; i++) {
       // zlev2[constants.getDislin_pocet_kontur()-1-i] = maxVal(zmat)/constants.getDislin_pocet_kontur() + i * maxVal(zmat)/constants.getDislin_pocet_kontur();  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
-        zlev2[constants.getDislin_pocet_kontur()-1-i] = (minVal(zmat)) + i * (maxVal(zmat) - minVal(zmat))/constants.getDislin_pocet_kontur();  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
-    
+        
+        if(i ==0){
+           zlev2[i] =  (ZA) +(-1) * (Math.abs(ZE)+ Math.abs(ZA))/zlev2.length;  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
+      
+        }else{
+           zlev2[i] = (ZA) + (i-1) * (Math.abs(ZE)+ Math.abs(ZA))/zlev2.length;  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
+      
+        }
        
-       }
+       
+        
+       } 
+     } else{
+         for (int i = 0; i < zlev2.length; i++) {
+      // zlev2[constants.getDislin_pocet_kontur()-1-i] = maxVal(zmat)/constants.getDislin_pocet_kontur() + i * maxVal(zmat)/constants.getDislin_pocet_kontur();  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
+        
+        
+           zlev2[i] = (ZA) + (i) * (Math.abs(ZE)+ Math.abs(ZA))/zlev2.length;  // pobodny KOD MAXB/NLV + (M - 1) * MAXB/NLV
+      
+        
+     }      }  
+ 
+      
       
        
-     Dislin.conshd (xray, xray.length, yray, yray.length, zmat, zlev2, constants.getDislin_pocet_kontur());
+     Dislin.conshd (xray, xray.length, yray, yray.length, zmat, zlev2, zlev2.length);
     }
     
       if(file==true) Dislin.rpng(Path); // SCREEN OUTPUT
@@ -427,7 +488,7 @@ if(Dislin_Settings.getBW().isSelected() == true){
                 if(limits==true){
                     if (zmat[cl1] >= limitValueUp){
                         zmat[cl1] = limitValueUp * units;
-                    }if(zmat[cl1] < limitValueDown){
+                    }if(zmat[cl1] <= limitValueDown){
                         zmat[cl1] = limitValueDown * units;
                     }
                     

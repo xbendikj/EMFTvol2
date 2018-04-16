@@ -7,7 +7,9 @@ package dislin;
 
 import de.dislin.Dislin;
 import emft_vol2.Dislin_Settings;
+import emft_vol2.calculation_Settings;
 import emft_vol2.constants;
+import emft_vol2.main_Jframe;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -222,7 +224,13 @@ public class plot_1D {
     
      
     
-          Dislin.title  ();
+     Dislin.title  ();
+     
+     if (main_Jframe.iscalculation_Settings == false) {
+          Dislin.setvlt("RAIN");  
+        }else {
+     
+     
           if(Dislin_Settings.getRAIN().isSelected() == true){
      Dislin.setvlt("RAIN");
 }
@@ -248,7 +256,7 @@ if(Dislin_Settings.getTEMP().isSelected() == true){
 }
 if(Dislin_Settings.getBW().isSelected() == true){
      Dislin.setvlt("GREY");
-}
+}}
      //legenda
           String cbuf="  ";
           Dislin.legini(cbuf, y2ray.size(), 10);

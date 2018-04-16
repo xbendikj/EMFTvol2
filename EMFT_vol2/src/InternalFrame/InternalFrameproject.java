@@ -5557,25 +5557,39 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             if (BorE == "B") {
                 
                 if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneB());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneB()));
+                if(outputPanel2.getLimitD().isSelected()) { graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneB()));
+                                                            graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    }
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneB());
             
             }
             if (BorE == "E") {
                 if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneE());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneE()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneE()));
+                if(outputPanel2.getLimitD().isSelected()) {
+                    graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneE()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneE()));
+                graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    
+                }
+               
+                
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneE());
             
             }
             if (BorE == "I") {
                  if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneI());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneI()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneI()));
+                if(outputPanel2.getLimitD().isSelected()){
+                    graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneI()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneI()));
+                graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    
+                
+                }
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneI());
             
             }
             if (BorE == "Emod") {
                 if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneEmod());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneEmod()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneEmod()));
+                if(outputPanel2.getLimitD().isSelected()){
+                    graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneEmod()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneEmod()));
+                
+                graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    
+                }
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneEmod());
             
             }
@@ -5588,28 +5602,42 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
         }
         if (HORvert == "vert") {
             plot_2D graf3 = new plot_2D(BE.getXray2D("Z", BE.getP2D_vert()), BE.getYray2D("Y", BE.getP2D_vert()), BE.getZMAT2D(BorE, outputPanel2.YAxisVal(BorE), BE.getP2D_vert()), constants.getDislin_Label_X(), constants.getDislin_Label_Y(), ROW1, ROW2, true, label);
-            if (BorE == "B") {
+           if (BorE == "B") {
                 
                 if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneB());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneB()));
+                if(outputPanel2.getLimitD().isSelected()) { graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneB()));
+                                                            graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    }
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneB());
             
             }
             if (BorE == "E") {
                 if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneE());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneE()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneE()));
+                if(outputPanel2.getLimitD().isSelected()) {
+                    graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneE()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneE()));
+                graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    
+                }
+               
+                
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneE());
             
             }
             if (BorE == "I") {
                  if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneI());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneI()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneI()));
+                if(outputPanel2.getLimitD().isSelected()){
+                    graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneI()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneI()));
+                graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    
+                
+                }
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneI());
             
             }
             if (BorE == "Emod") {
                 if(outputPanel2.getLimit().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true, constants.getAkcneEmod());
-                if(outputPanel2.getLimitD().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneEmod()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneEmod()));
+                if(outputPanel2.getLimitD().isSelected()){
+                    graf3.setunits(outputPanel2.BscaleFactor(),true,help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneEmod()),help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), -constants.getAkcneEmod()));
+                
+                graf3.setlimitD(true, help.ReadCheckDouble(Dislin_Settings.getZcaleMax(), constants.getAkcneB()), help.ReadCheckDouble(Dislin_Settings.getZscaleMin(), constants.getAkcneB()));    
+                }
                 if(outputPanel2.getLomitNo().isSelected()) graf3.setunits(outputPanel2.BscaleFactor(),false, constants.getAkcneEmod());
             
             }
