@@ -369,7 +369,7 @@ public class plot_2D {
     
  Dislin.title  ();
  
- if (main_Jframe.iscalculation_Settings == false) {
+ if (main_Jframe.isDislinn_Settings == false) {
           Dislin.setvlt("RAIN");  
         }else {
  

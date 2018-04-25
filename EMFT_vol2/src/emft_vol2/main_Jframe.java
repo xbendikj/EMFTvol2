@@ -304,7 +304,7 @@ public class main_Jframe extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         if( Dislin_Settings.about_JframeIsOpen == false){
-          
+          isDislinn_Settings=true;
             String[] args = null;
             Dislin_Settings.main(args);
         }
@@ -374,6 +374,10 @@ public class main_Jframe extends javax.swing.JFrame {
     public static boolean isIscalculation_Settings() {
         return iscalculation_Settings;
     }
+    
+    public static boolean isIsDislin_Settings() {
+        return isDislinn_Settings;
+    }
 
     public static void setIscalculation_Settings(boolean iscalculation_Settings) {
         main_Jframe.iscalculation_Settings = iscalculation_Settings;
@@ -406,6 +410,7 @@ public class main_Jframe extends javax.swing.JFrame {
     public static ArrayList<InternalFrameproject> Okna = new ArrayList<InternalFrameproject>();
      private int pocetOkien = 0;
      public static boolean iscalculation_Settings;
+     public static boolean isDislinn_Settings = false;
      public static boolean iscalculationELPAM_Settings;
 }
 

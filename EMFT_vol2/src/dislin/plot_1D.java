@@ -131,12 +131,15 @@ public class plot_1D {
      float XE = (float) maxVal(xray) * constants.getDislin_graph_nasobok_zo_stran()*legend_offset;  // horny limit X
      float YE =0;//= (float) maxVal(y1ray);
      
+     
+     
     
      //sorter na osi aby sa tam zmestilo vždy všetko
      for(int cl1=0;cl1<y2ray.size();cl1++){
          
          if( cl1 == 0 && noZEROYA_limit == true){
              YA = (float) minVal(y2ray.get(cl1));
+               
          }
          
          float YAd= (float) minVal(y2ray.get(cl1));
@@ -188,6 +191,11 @@ public class plot_1D {
             if (XA > 0) {
                 XA = 0;
             }
+            if(  noZEROYA_limit == true ){
+            XA = (float) minVal(xray);
+            }
+            
+            
             if (YA > 0) {
             if(noZEROYA_limit==false) YA = 0;
             }
@@ -197,6 +205,13 @@ public class plot_1D {
             int ic = Dislin.intrgb(0.95f, 0.95f, 0.95f);
             Dislin.axsbgd(ic);
         }
+        
+        if (main_Jframe.isDislinn_Settings == true) {
+          if (Dislin_Settings.getAXtype().isSelected() == true ){
+              Dislin.axstyp("RECT");
+          };  
+        }
+        
      
         Dislin.titlin (name_row1, 1);
         Dislin.titlin (name_row2, 3);  
@@ -226,7 +241,7 @@ public class plot_1D {
     
      Dislin.title  ();
      
-     if (main_Jframe.iscalculation_Settings == false) {
+     if (main_Jframe.isDislinn_Settings == false) {
           Dislin.setvlt("RAIN");  
         }else {
      
@@ -273,7 +288,7 @@ if(Dislin_Settings.getBW().isSelected() == true){
           Dislin.myline(new int[]{10,40}, 2);
           Dislin.color("RED");
           Dislin.linwid(constants.getDislin_hrubka_ciar_za_grafom()*2);
-          double[] xray = new double[]{0+XA/4, 0+XE/4 };
+          double[] xray = new double[]{XA, XE };
           double[] yray = new double[]{limit, limit};
           Dislin.curve(xray, yray, 2);
           Dislin.linwid(constants.getDislin_hrubka_ciar_za_grafom()); 
