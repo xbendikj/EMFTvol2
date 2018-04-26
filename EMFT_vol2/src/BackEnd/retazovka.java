@@ -126,7 +126,7 @@ public class retazovka {
         V1_over = V1;
         V2_over = V2;
         I1_over = I1;
-        I2_over = I1;
+        I2_over = I2;
         W1_over = W1;
         W2_over = W2;
         bundle_over = bundle;
@@ -178,7 +178,7 @@ public class retazovka {
     ) throws DelaunayError {
 
         I1_over = I1;
-        I2_over = I1;
+        I2_over = I2;
         bundle_over = bundle;
         alpha_over = alpha;
         if (bundle_over == 0) distance_over = distance/(2*Math.sin((Math.PI/1)));
@@ -271,8 +271,8 @@ public class retazovka {
         P2_over = BOD.getYaboveTer(P2_over);
         }
         if(isV1V2setted==true){
-        P1_over = new DPoint(P1_over.getX(), P1_over.getY() + V1_tower_zaklad, P1_over.getZ());       // najdy vysku zavesneho bodu na terene above teren vzdialenost od nuly vyskovej
-        P2_over = new DPoint(P2_over.getX(), P2_over.getY() + V2_tower_zaklad, P2_over.getZ());
+        P1_over = new DPoint(P1_over.getX(), P1_over.getY() + V1_tower_zaklad , P1_over.getZ());       // najdy vysku zavesneho bodu na terene above teren vzdialenost od nuly vyskovej
+        P2_over = new DPoint(P2_over.getX(), P2_over.getY() + V2_tower_zaklad , P2_over.getZ());
         }
             
         P1_over.setY(P1_over.getY() - I1_over); // zniž zavesny bod a vyšku izolatora
