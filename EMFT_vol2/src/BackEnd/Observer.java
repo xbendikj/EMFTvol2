@@ -409,12 +409,12 @@ public class Observer {
        DPoint B_real = new DPoint(B.getX_Real()/(mu0*mur), B.getY_Real()/(mu0*mur), B.getZ_Real()/(mu0*mur));
        DPoint B_image = new DPoint(B.getX_Imaginary()/(mu0*mur), B.getY_Imaginary()/(mu0*mur), B.getZ_Imaginary()/(mu0*mur));
       
-       DPoint Preal = vektor_sucet( new DPoint( vektor_sucin(new DPoint (E_real),new DPoint( B_real )))  ,new DPoint( vektor_sucin(new DPoint(E_image), new DPoint(B_image))));
+       DPoint Preal =  vektor_sucet( new DPoint( vektor_sucin(new DPoint (E_real),new DPoint( B_real )))  ,new DPoint( vektor_sucin(new DPoint(E_image), new DPoint(B_image))));
        DPoint Pimage = vektor_rozdiel(new DPoint(vektor_sucin(new DPoint(E_image), new DPoint(B_real)) ) ,new DPoint( vektor_sucin(new DPoint(E_real), new DPoint(B_image))));
         
-       E.setX(new Complex(Preal.getX(), Pimage.getX()));
-       E.setY(new Complex(Preal.getY(), Pimage.getY()));
-       E.setY(new Complex(Preal.getZ(), Pimage.getZ()));
+       E.setX(new Complex(50*Preal.getX(), 50*Pimage.getX()));
+       E.setY(new Complex(50*Preal.getY(), 50*Pimage.getY()));
+       E.setY(new Complex(50*Preal.getZ(), 50*Pimage.getZ()));
        
     }
     

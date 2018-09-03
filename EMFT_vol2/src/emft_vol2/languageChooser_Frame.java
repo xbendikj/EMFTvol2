@@ -23,6 +23,7 @@ public class languageChooser_Frame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); //center of window position
         seticon();
+        
     }
 
     /**
@@ -48,6 +49,7 @@ public class languageChooser_Frame extends javax.swing.JFrame {
         });
 
         CZButtom.setText("Čeština");
+        CZButtom.setPreferredSize(new java.awt.Dimension(0, 0));
         CZButtom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CZButtomActionPerformed(evt);
@@ -55,6 +57,7 @@ public class languageChooser_Frame extends javax.swing.JFrame {
         });
 
         SKButtom.setText("Slovenčina");
+        SKButtom.setPreferredSize(new java.awt.Dimension(0, 0));
         SKButtom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SKButtomActionPerformed(evt);
@@ -62,6 +65,7 @@ public class languageChooser_Frame extends javax.swing.JFrame {
         });
 
         ENButtom.setText("English");
+        ENButtom.setPreferredSize(new java.awt.Dimension(0, 0));
         ENButtom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ENButtomActionPerformed(evt);
@@ -89,13 +93,12 @@ public class languageChooser_Frame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SKButtom)
-                    .addComponent(CZButtom)
-                    .addComponent(ENButtom))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SKButtom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CZButtom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ENButtom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -109,6 +112,7 @@ public class languageChooser_Frame extends javax.swing.JFrame {
 
     private void SKButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SKButtomActionPerformed
         constants.setLanguage_option(1);
+        
         setVisible(false);
         Clicked = true;
     }//GEN-LAST:event_SKButtomActionPerformed
@@ -126,6 +130,10 @@ public class languageChooser_Frame extends javax.swing.JFrame {
     
     public static Boolean getStatus() {
         return Clicked;
+    }
+    
+    public static void Run(){
+        SKButtom.doClick();
     }
     
     private void seticon() {
@@ -172,7 +180,7 @@ public class languageChooser_Frame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CZButtom;
     private javax.swing.JButton ENButtom;
-    private javax.swing.JButton SKButtom;
+    private static javax.swing.JButton SKButtom;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 

@@ -31,10 +31,11 @@ public static String memory_path="none";
          languageChooser_Frame.main(args);
         while (true) { //wait for information that user has choosen a language
             try {
-                Thread.sleep(100);                 //1000 milliseconds is one second. wait to not get overcycled
+                Thread.sleep(2000);                 //1000 milliseconds is one second. wait to not get overcycled
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
+            languageChooser_Frame.Run();
             Boolean status = languageChooser_Frame.getStatus();
             if (status.equals(true)) {             //has user choosen the language in language Chooser frame ?
                 break;

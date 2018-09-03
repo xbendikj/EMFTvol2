@@ -29,7 +29,8 @@ public class main_Jframe extends javax.swing.JFrame {
         initComponents();
         seticon();
         iscalculation_Settings=false;
-       iscalculationELPAM_Settings=false;
+        iscalculationELPAM_Settings=false;
+        isDislinn_Settings = false;
     }
 
     /**
@@ -410,7 +411,7 @@ public class main_Jframe extends javax.swing.JFrame {
     public static ArrayList<InternalFrameproject> Okna = new ArrayList<InternalFrameproject>();
      private int pocetOkien = 0;
      public static boolean iscalculation_Settings;
-     public static boolean isDislinn_Settings = false;
+     public static boolean isDislinn_Settings ;
      public static boolean iscalculationELPAM_Settings;
 }
 

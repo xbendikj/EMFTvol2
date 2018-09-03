@@ -1961,7 +1961,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Draw_2D_graph_kontury("hor", "E", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
                     if (outputPanel2.getFill().isSelected() == true) {
-                        Draw_2D_graph_fill("hor", "E", constants.getROW1(), constants.getROW2(), "POKUS");
+                        Draw_2D_graph_fill("hor", "P", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
 
                     
@@ -1974,7 +1974,7 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         Draw_2D_graph_kontury("vert", "E", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
                     if (outputPanel2.getFill().isSelected() == true) {
-                        Draw_2D_graph_fill("vert", "E", constants.getROW1(), constants.getROW2(), "POKUS");
+                        Draw_2D_graph_fill("vert", "P", constants.getROW1(), constants.getROW2(), "POKUS");
                     }
 
                     
@@ -4142,19 +4142,25 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                         //cyklus bundle   
                         for (int cl2 = 0; cl2 < Rozpätie.getRetazovkaList().get(cl1).getBundle_over(); cl2++) {
 
-                            //deklaruj main B
+                            double nasobic=0;
+                            double uhol = 0;
+                            if( observerPanel1.P1D_par_B.isSelected() ){
+                            if(cl1 == 0) uhol=150;
+                            if(cl1 == 1) uhol=-60;
+                            if(cl1 == 2) uhol=90;
+                              
                             B_calculation Main_B_cal_single_wire = new B_calculation(constants.getMu0(),
                                     constants.getMu1(),
                                     Rozpätie.getRetazovkaList().get(cl1).getI_over(),
-                                    Rozpätie.getRetazovkaList().get(cl1).getPhi_over()+ IplusPhi,
+                                    //Rozpätie.getRetazovkaList().get(cl1).getPhi_over()+ IplusPhi*nasobic,
+                                    Rozpätie.getRetazovkaList().get(cl1).getPhi_over()*nasobic +uhol,
                                     Rp_vectors.get(cl01),
                                     Rozpätie.getRetazovkaList().get(cl1).getRo_vectors(),
                                     Rozpätie.getRetazovkaList().get(cl1).getDl_vectors(),
                                     Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2],
                                     Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2],
                                     Rozpätie.getRetazovkaList().get(cl1).getBeta_over());
-
-                            // vyrataj main B
+                              // vyrataj main B
                             Main_B_cal_single_wire.run();
                             // priraduj B od kazdeho vodica
                             B.AddToFazorVektor(Main_B_cal_single_wire.getB());
@@ -4163,7 +4169,37 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
                             geometrickaMaticaB[1][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[1];
                             geometrickaMaticaB[2][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[2];
                             // celkovy pocet vyp vodicov
-                            iterator_lan = iterator_lan + 1;
+                           
+                            
+                            }else{
+                               B_calculation Main_B_cal_single_wire = new B_calculation(constants.getMu0(),
+                                    constants.getMu1(),
+                                    Rozpätie.getRetazovkaList().get(cl1).getI_over(),
+                                    Rozpätie.getRetazovkaList().get(cl1).getPhi_over()+ IplusPhi,
+                                    //Rozpätie.getRetazovkaList().get(cl1).getPhi_over()*nasobic +uhol,
+                                    Rp_vectors.get(cl01),
+                                    Rozpätie.getRetazovkaList().get(cl1).getRo_vectors(),
+                                    Rozpätie.getRetazovkaList().get(cl1).getDl_vectors(),
+                                    Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[0][cl2],
+                                    Rozpätie.getRetazovkaList().get(cl1).getZY_cor_Bundle()[1][cl2],
+                                    Rozpätie.getRetazovkaList().get(cl1).getBeta_over()); 
+                                 // vyrataj main B
+                            Main_B_cal_single_wire.run();
+                            // priraduj B od kazdeho vodica
+                            B.AddToFazorVektor(Main_B_cal_single_wire.getB());
+                            // priraduj gaometricke konstanty od kazeho lana
+                            geometrickaMaticaB[0][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[0];
+                            geometrickaMaticaB[1][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[1];
+                            geometrickaMaticaB[2][iterator_lan] = Main_B_cal_single_wire.getGeoVektor()[2];
+                            // celkovy pocet vyp vodicov
+                           
+                            }   
+                            
+                          
+                            //deklaruj main B
+                            
+
+                           iterator_lan = iterator_lan + 1;
                         }
 
                     }
@@ -5543,7 +5579,12 @@ public class InternalFrameproject extends javax.swing.JInternalFrame {
             label = constants.getDislin_Label_B();
         }
         if (BorE == "E") {
-            label = constants.getDislin_Label_E();
+             label = constants.getDislin_Label_E();
+            
+        }
+        if (BorE == "P") {
+             label = "$S$" + " " + "$[W/m^2]$";
+            BorE = "E";
         }
         if (BorE == "Emod") {
             label = constants.getDislin_Label_Emod();
